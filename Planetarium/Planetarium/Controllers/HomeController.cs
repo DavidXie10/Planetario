@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Planetarium.Models;
 
 namespace Planetarium.Controllers
 {
@@ -23,6 +24,27 @@ namespace Planetarium.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult Mission()
+        {
+            ViewBag.Message = "Our mission.";
+
+            return View();
+        }
+
+        public ActionResult Vision()
+        {
+            ViewBag.Message = "Our vision.";
+
+            return View();
+        }
+
+        public ActionResult ActivitiesDescription()
+        {
+            ViewBag.Message = "Our activities.";
 
             return View();
         }
