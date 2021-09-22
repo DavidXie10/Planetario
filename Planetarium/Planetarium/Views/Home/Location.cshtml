@@ -15,9 +15,10 @@
         .column {
             flex: 50%;
             padding: 10px;
-            height: 300px; 
+            height: 300px;
         }
     </style>
+    
 </head>
 <body>
 
@@ -27,11 +28,11 @@
             <h2>Parqueo</h2>
             <p>@ViewBag.Parking</p>
             <h2> Medios de transporte</h2>
-            <p>@ViewBag.Transport</p>
+            <p>@Html.Raw(@ViewBag.Transport)</p>
         </div>
         <div class="column">
             <h2>Horarios</h2>
-            <p>@ViewBag.Schedule</p>
+            <p>@Html.Raw(@ViewBag.Schedule)</p>
         </div>
     </div>
     

@@ -27,7 +27,11 @@ namespace Planetarium.Models {
             try {
                 var content = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + this.fileName));
                 foreach(string line in content) {
-                    this.contentExtracted += line + "\n";
+                    if (isStringEmpty(line)) {
+                        this.contentExtracted += "<br/>";
+                    } else {
+                        this.contentExtracted += line + "\n";
+                    }
                 }
             } catch (Exception e) {
                 Console.WriteLine("File not found\n" +  e.ToString());
@@ -35,6 +39,12 @@ namespace Planetarium.Models {
             }
             return this.contentExtracted;
         }
+
+        private bool isStringEmpty(String line) {
+            if (line == "")
+                return true;
+            return false;
+        }     
 
     }
 }
