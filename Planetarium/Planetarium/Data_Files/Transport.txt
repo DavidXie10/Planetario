@@ -1,0 +1,3 @@
+﻿Bus interno
+Bicicleta
+Caminar

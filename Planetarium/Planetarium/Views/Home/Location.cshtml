@@ -1,0 +1,39 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 50%;
+            padding: 10px;
+            height: 300px; 
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Encuéntranos</h1>
+    <div class="row">
+        <div class="column">
+            <h2>Parqueo</h2>
+            <p>@ViewBag.Parking</p>
+            <h2> Medios de transporte</h2>
+            <p>@ViewBag.Transport</p>
+        </div>
+        <div class="column">
+            <h2>Horarios</h2>
+            <p>@ViewBag.Schedule</p>
+        </div>
+    </div>
+    
+</body>
+</html>

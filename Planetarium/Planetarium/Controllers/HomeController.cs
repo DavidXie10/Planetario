@@ -49,5 +49,19 @@ namespace Planetarium.Controllers
 
             return View();
         }
+
+        public  ActionResult Location()
+        {
+            ContentParser contentParser = new ContentParser("Parking.txt");
+            ViewBag.Parking = contentParser.getContentFromFile();
+
+            contentParser.fileName = "Transport.txt";
+            ViewBag.Transport = contentParser.getContentFromFile();
+
+            contentParser.fileName = "Schedule.txt";
+            ViewBag.Schedule = contentParser.getContentFromFile();
+           
+            return View();
+        }
     }
 }

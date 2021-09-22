@@ -8,12 +8,22 @@ namespace Planetarium.Models {
     public class ContentParser {
 
         string contentExtracted { get; set; }
-        string fileName { get; set; }
+
+        private string _fileName;
+        public string fileName {
+            get {
+                return _fileName;
+            }
+            set {
+                _fileName = value;
+            }
+        }
         public ContentParser(string fileName) {
             this.fileName = fileName;
         }
 
         public string getContentFromFile() {
+            this.contentExtracted = "";
             try {
                 var content = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + this.fileName));
                 foreach(string line in content) {
