@@ -30,14 +30,15 @@ namespace Planetarium.Controllers
 
         public ActionResult Mission()
         {
-            ViewBag.Message = "Our mission.";
-
+            ContentParser contentParser = new ContentParser("Mision.txt");
+            ViewBag.Message = contentParser.getContentFromFile();
             return View();
         }
 
         public ActionResult Vision()
         {
-            ViewBag.Message = "Our vision.";
+            ContentParser contentParser = new ContentParser("Vision.txt");
+            ViewBag.Message = contentParser.getContentFromFile();
 
             return View();
         }
