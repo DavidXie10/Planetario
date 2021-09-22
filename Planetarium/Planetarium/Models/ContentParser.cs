@@ -7,19 +7,14 @@ using System.IO;
 namespace Planetarium.Models {
     public class ContentParser {
 
-        /*string contentExtracted { get; set; }*/
-
-        private string fileName { get; set; }
-
         public ContentParser() {
-            this.fileName = "";
         }
 
         public string GetContentFromFile(string fileName) {
             string contentExtracted = "";
             try {
-                var content = extractRawContent();
-                contentExtracted = parseContent(content);
+                var content = ExtractRawContent(fileName);
+                contentExtracted = ParseContent(content);
             } catch (Exception e) {
                 Console.WriteLine("File not found\n" +  e.ToString());
                 contentExtracted += "File not found";
@@ -27,8 +22,8 @@ namespace Planetarium.Models {
             return contentExtracted;
         }
 
-        private string[] ExtractRawContent() {
-            return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + this.fileName));
+        private string[] ExtractRawContent(string fileName) {
+            return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName));
         }
 
         private string ParseContent(string[] content) {

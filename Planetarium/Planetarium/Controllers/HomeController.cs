@@ -30,15 +30,15 @@ namespace Planetarium.Controllers
 
         public ActionResult Mission()
         {
-            ContentParser contentParser = new ContentParser("Mision.txt");
-            ViewBag.Message = contentParser.getContentFromFile();
+            ContentParser contentParser = new ContentParser();
+            ViewBag.Message = contentParser.GetContentFromFile("Mision.txt");
             return View();
         }
 
         public ActionResult Vision()
         {
-            ContentParser contentParser = new ContentParser("Vision.txt");
-            ViewBag.Message = contentParser.getContentFromFile();
+            ContentParser contentParser = new ContentParser();
+            ViewBag.Message = contentParser.GetContentFromFile("Vision.txt");
 
             return View();
         }
@@ -53,11 +53,11 @@ namespace Planetarium.Controllers
         public  ActionResult Location()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.Parking = contentParser.getContentFromFile("Parking.txt");
+            ViewBag.Parking = contentParser.GetContentFromFile("Parking.txt");
 
-            ViewBag.Transport = contentParser.getContentFromFile("Transport.txt");
+            ViewBag.Transport = contentParser.GetContentFromFile("Transport.txt");
 
-            ViewBag.Schedule = contentParser.getContentFromFile("Schedule.txt");
+            ViewBag.Schedule = contentParser.GetContentFromFile("Schedule.txt");
            
             return View();
         }
