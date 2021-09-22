@@ -52,14 +52,12 @@ namespace Planetarium.Controllers
 
         public  ActionResult Location()
         {
-            ContentParser contentParser = new ContentParser("Parking.txt");
-            ViewBag.Parking = contentParser.getContentFromFile();
+            ContentParser contentParser = new ContentParser();
+            ViewBag.Parking = contentParser.getContentFromFile("Parking.txt");
 
-            contentParser.fileName = "Transport.txt";
-            ViewBag.Transport = contentParser.getContentFromFile();
+            ViewBag.Transport = contentParser.getContentFromFile("Transport.txt");
 
-            contentParser.fileName = "Schedule.txt";
-            ViewBag.Schedule = contentParser.getContentFromFile();
+            ViewBag.Schedule = contentParser.getContentFromFile("Schedule.txt");
            
             return View();
         }

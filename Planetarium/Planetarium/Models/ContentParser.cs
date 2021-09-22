@@ -7,44 +7,44 @@ using System.IO;
 namespace Planetarium.Models {
     public class ContentParser {
 
-        string contentExtracted { get; set; }
+        /*string contentExtracted { get; set; }*/
 
-        private string _fileName;
-        public string fileName {
-            get {
-                return _fileName;
-            }
-            set {
-                _fileName = value;
-            }
-        }
-        public ContentParser(string fileName) {
-            this.fileName = fileName;
+        private string fileName { get; set; }
+
+        public ContentParser() {
+            this.fileName = "";
         }
 
-        public string getContentFromFile() {
-            this.contentExtracted = "";
+        public string GetContentFromFile(string fileName) {
+            string contentExtracted = "";
             try {
-                var content = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + this.fileName));
-                foreach(string line in content) {
-                    if (isStringEmpty(line)) {
-                        this.contentExtracted += "<br/>";
-                    } else {
-                        this.contentExtracted += line + "\n";
-                    }
-                }
+                var content = extractRawContent();
+                contentExtracted = parseContent(content);
             } catch (Exception e) {
                 Console.WriteLine("File not found\n" +  e.ToString());
-                this.contentExtracted += "File not found";
+                contentExtracted += "File not found";
             }
-            return this.contentExtracted;
+            return contentExtracted;
         }
 
-        private bool isStringEmpty(String line) {
-            if (line == "")
-                return true;
-            return false;
-        }     
+        private string[] ExtractRawContent() {
+            return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + this.fileName));
+        }
+
+        private string ParseContent(string[] content) {
+            string contentExtracted = "";
+            foreach (string line in content) {
+                if (IsStringEmpty(line)) {
+                    contentExtracted += "<br/>";
+                } else {
+                    contentExtracted += line + "\n";
+                }
+            }
+            return contentExtracted;
+        }
+        private bool IsStringEmpty(String line) {
+            return line == "" ? true : false;
+        }
 
     }
 }
