@@ -36,11 +36,10 @@ namespace Planetarium.Handlers {
             foreach (DataRow column in resultingTable.Rows) {
                 activities.Add(
                     new ActivityModel {
-                        title = Convert.ToString(column["titulo"]),
-                        body = Convert.ToString(column["cuerpo"]),
-                        id = Convert.ToInt32(column["id"]),
-                        img = Convert.ToInt32(column["img"]),
-                        date = Convert.ToString(column['date'])
+                        Title = Convert.ToString(column["titulo"]),
+                        Body = Convert.ToString(column["cuerpo"]),
+                        Id = Convert.ToInt32(column["id"]),
+                        Date = Convert.ToString(column["date"])
                     }
                 );
             }

@@ -1,4 +1,6 @@
-﻿body {
+﻿
+body {
+    font-family: Calibri, Cochin, Georgia, Times, Times New Roman, serif;
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -21,4 +23,14 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.logo {
+    float: left;
+    width: 100px;
+    height: 60px;
+}
+
+.navbar-inverse {
+    background-color: #4D6470;
 }
