@@ -140,6 +140,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Data_Files\Vision.txt" />
     <Content Include="images\earth.jpg" />
+    <Content Include="images\firma-ucr-ico.png" />
     <Content Include="images\hurricane.jpg" />
     <Content Include="images\logo.jpg" />
     <Content Include="images\logo.svg" />
