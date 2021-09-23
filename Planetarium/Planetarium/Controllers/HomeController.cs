@@ -13,18 +13,8 @@ namespace Planetarium.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
+        
+        public ActionResult FindUs() {
             return View();
         }
 
@@ -41,6 +31,14 @@ namespace Planetarium.Controllers
         {
             ViewBag.Message = "Our activities.";
 
+            return View();
+        }
+
+        public ActionResult FAQ() {
+            return View();
+        }
+
+        public ActionResult Educative() {
             return View();
         }
     }
