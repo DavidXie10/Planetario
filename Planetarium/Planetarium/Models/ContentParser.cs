@@ -9,13 +9,13 @@ namespace Planetarium.Models {
 
         string contentExtracted { get; set; }
         string fileName { get; set; }
-        public ContentParser(string fileName) {
-            this.fileName = fileName;
+        public ContentParser() {
+            this.fileName = "";
         }
 
-        public string getContentFromFile() {
+        public string getContentFromFile(string fileName) {
             try {
-                var content = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + this.fileName));
+                var content = File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName));
                 foreach(string line in content) {
                     this.contentExtracted += line + "\n";
                 }

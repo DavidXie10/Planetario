@@ -28,17 +28,11 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public ActionResult Mission()
+        public ActionResult WhoWeAre()
         {
-            ContentParser contentParser = new ContentParser("Mision.txt");
-            ViewBag.Message = contentParser.getContentFromFile();
-            return View();
-        }
-
-        public ActionResult Vision()
-        {
-            ContentParser contentParser = new ContentParser("Vision.txt");
-            ViewBag.Message = contentParser.getContentFromFile();
+            ContentParser contentParser = new ContentParser();
+            ViewBag.MissionMessage = contentParser.getContentFromFile("Mision.txt");
+            ViewBag.VisionMessage = contentParser.getContentFromFile("Vision.txt");
 
             return View();
         }
