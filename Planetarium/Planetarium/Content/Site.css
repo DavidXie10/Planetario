@@ -13,6 +13,63 @@
     margin-bottom: 0;
 }
 
-.navbar{
+
+.navbar {
     padding: 0 30px 0 50px !important;
 }
+
+.passaport-Img {
+    margin-top:25px;
+    margin-right:35px;
+    float: left;
+    width: 164px;
+    height: 208px;
+    left: 80px;
+    top: 96px;
+    padding: 10px;   
+}
+
+div.employees-left {
+    text-align: left;
+}
+
+
+div.employees-right {
+    text-align: right;
+}
+
+div.employee-data .phrase {
+    margin-bottom: 0;
+    position: center;
+    font-style: italic;
+    padding-left: 200px;
+    width: 800px;
+}
+
+.employee-data.name {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+div.employees-right .passaport-Img {
+    margin-top: 25px;
+    margin-left: 35px;
+    float: right;
+    width: 164px;
+    height: 208px;
+    right: 80px;
+    top: 96px;
+    padding: 10px;
+}
+
+div.employees-left .passaport-Img {
+    margin-top: 25px;
+    margin-right: 35px;
+    float: left;
+    width: 164px;
+    height: 208px;
+    right: 80px;
+    top: 96px;
+    padding: 10px;
+}
+

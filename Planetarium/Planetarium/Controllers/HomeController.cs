@@ -24,6 +24,11 @@ namespace Planetarium.Controllers
             ViewBag.MissionMessage = contentParser.getContentFromFile("Mision.txt");
             ViewBag.VisionMessage = contentParser.getContentFromFile("Vision.txt");
 
+            ViewBag.Name = "Mauricio Rojas Segnini";
+            ViewBag.AcademicDegree = "Bach.Computación";
+            ViewBag.Occupation = "Ingeniero Software";
+            ViewBag.Mail = "mauricio.rojassegnini@ucr.ac.cr";
+            ViewBag.Phrase = "Todo lo puedo en Carlos que me fortalece ~(Mauricio,2021)";
             return View();
         }
 

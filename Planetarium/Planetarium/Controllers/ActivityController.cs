@@ -12,7 +12,7 @@ namespace Planetarium.Controllers
     {
         public ActionResult ListActivities() {
             ActivityHandler dataAccess = new ActivityHandler();
-            ViewBag.activities = dataAccess.GetAllActivities();
+            ViewBag.employees = dataAccess.GetAllActivities();
             return View();
         }
     }

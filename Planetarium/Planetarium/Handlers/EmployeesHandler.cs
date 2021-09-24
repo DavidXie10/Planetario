@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Web;
 using Planetarium.Models;
 
-namespace Planetarium.Handlers {
-
-    public class ActivityHandler {
+namespace Planetarium.Handlers
+{
+    public class EmployeesHandler
+    {
 
         private SqlConnection connection;
         private string connectionRoute;
 
-        public ActivityHandler() {
+        public EmployeesHandler()
+        {
             connectionRoute = ConfigurationManager.ConnectionStrings["AGREGAR EN WEB.CONF"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 
-        private DataTable CreateTableFromQuery(string query) {
+        private DataTable CreateTableFromQuery(string query)
+        {
             SqlCommand queryCommand = new SqlCommand(query, connection);
             SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
             DataTable queryTable = new DataTable();
@@ -29,25 +33,30 @@ namespace Planetarium.Handlers {
             return queryTable;
         }
 
-        public List<ActivityModel> GetAllActivities() {
-            List<ActivityModel> activities = new List<ActivityModel>();
-            string query = "SELECT * FROM Activity ";
+        public List<EmployeesModel> GetAllEmployees()
+        {
+            List<EmployeesModel> employees = new List<EmployeesModel>();
+            string query = "SELECT * FROM Employees ";
             DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow column in resultingTable.Rows) {
-                activities.Add(
-                    new ActivityModel {
-                        Title = Convert.ToString(column["title"]),
-                        Body = Convert.ToString(column["body"]),
-                        Id = Convert.ToInt32(column["id"]),
-                        Date = Convert.ToString(column["date"])
+            foreach (DataRow column in resultingTable.Rows)
+            {
+                employees.Add(
+                    new EmployeesModel
+                    {
+                        Name = Convert.ToString(column["Name"]),
+                        AcademicDegree = Convert.ToString(column["AcademicDegree"]),
+                        Occupation = Convert.ToString(column["Occupation"]),
+                        Mail = Convert.ToString(column["Mail"]),
+                        Phrase = Convert.ToString(column["Phrase"]),
                     }
                 );
             }
 
-            return activities;
+            return employees;
         }
 
-        private byte[] GetFileBytes(HttpPostedFileBase file) {
+        private byte[] GetFileBytes(HttpPostedFileBase file)
+        {
             byte[] bytes;
             BinaryReader reader = new BinaryReader(file.InputStream);
             bytes = reader.ReadBytes(file.ContentLength);

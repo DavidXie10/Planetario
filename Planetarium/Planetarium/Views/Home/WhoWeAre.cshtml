@@ -48,6 +48,38 @@
 
         </div>
     </div>
+
+    <div class="container">
+        <h4 class="text-md-left" style="margin: 5px;">Conozca nuestros funcionarios</h4>
+        <br>
+            <div class="container">
+                @{ 
+                string alignInfo="";
+                for (int i=0;i<3;i++) {
+                    if (i % 2 == 0)
+                    {
+                        alignInfo = "employees-left";
+                    }
+                    else {
+                        alignInfo = "employees-right";
+                    }
+                <div class="card col-md">
+                    <div class=@alignInfo>
+                        <img src="~/images/mauImg.png" alt="an employee photo " class="passaport-Img" />
+                        <div class="employee-data">
+                            <h5 class="employee-name"> @ViewBag.Name</h5>
+                            <p> @ViewBag.AcademicDegree </p> 
+                            <p> @ViewBag.Occupation </p>
+                            <p> @ViewBag.Mail </p>
+                            <p class="phrase">@ViewBag.Phrase</p>
+                        </div>
+                        <br>
+                </div>
+                </div>
+                }
+                }
+            </div>
+    </div>
     
 </body>
 </html>
