@@ -142,6 +142,7 @@
     <Content Include="images\earth.jpg" />
     <Content Include="images\firma-ucr-ico.png" />
     <Content Include="images\hurricane.jpg" />
+    <Content Include="images\iss.jpg" />
     <Content Include="images\logo.jpg" />
     <Content Include="images\logo.svg" />
     <Content Include="Data_Files\Mision.txt" />
@@ -149,6 +150,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\satellite.jpg" />
+    <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
