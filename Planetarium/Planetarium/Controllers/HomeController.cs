@@ -41,5 +41,9 @@ namespace Planetarium.Controllers
         public ActionResult Educative() {
             return View();
         }
+
+        public ActionResult News() {
+            return View();
+        }
     }
 }
