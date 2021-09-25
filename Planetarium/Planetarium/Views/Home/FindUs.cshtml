@@ -1,1 +1,51 @@
 ﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/Content/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin="" />
+    <link rel="stylesheet" href="~/Content/styles.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+</head>
+<body>
+    <h1>Encuéntranos</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card w-100 border-info mb-3">
+                <div class="card-header">Parqueo</div>
+                <div class="card-body">
+                    <p class="card-text">@Html.Raw(@ViewBag.Parking).</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card w-100 border-info mb-3">
+                <div class="card-header">Horarios</div>
+                <div class="card-body">
+                    <p class="card-text">@Html.Raw(@ViewBag.Schedule)</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card w-100 border-info mb-3">
+                <div class="card-header">Medios de transporte</div>
+                <div class="card-body">
+                    <p class="card-text">@Html.Raw(@ViewBag.Transport)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <div id="mapid"></div>
+    <div>
+        <a href="https://www.google.com/search?tbs=lf:1,lf_ui:4&tbm=lcl&sxsrf=AOaemvK-VwqyLQaufAG-R6_qcN71axUC8g:1632586553979&q=planetario+UCR&rflfq=1&num=10&ved=2ahUKEwiamfXswprzAhXKZzABHfg9ClMQtgN6BAgVEAQ#rlfi=hd:;si:6509775643863284678,l,Cg5wbGFuZXRhcmlvIFVDUiIDiAEBWhAiDnBsYW5ldGFyaW8gdWNykgEScmVzZWFyY2hfaW5zdGl0dXRl;mv:[[9.9372215,-84.0448404],[9.9369111,-84.05120509999999" target="_blank" class="btn btn-success mt-3">¿Cómo llegar?</a>
+    </div>
+    <script type="text/javascript" src="~/Scripts/main.js"></script>
+</body>
+</html>

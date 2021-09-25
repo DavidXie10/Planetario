@@ -1,5 +1,14 @@
-﻿Bus interno
+﻿<h5>Buses</h5>
 
-Bicicleta
+Bus interno hasta primera parada de la Ciudad de la Investigación.
 
-Caminar
+Bus escalante LARED.
+
+Bus periférica.
+
+
+<h5>Tren</h5>
+
+Tren Incofer Ruta San José - Cartago.
+
+Tren Incofer Ruta San José - Heredia - Alajuela.

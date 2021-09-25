@@ -15,14 +15,20 @@ namespace Planetarium.Controllers
         }
         
         public ActionResult FindUs() {
+            ContentParser contentParser = new ContentParser();
+            ViewBag.Parking = contentParser.GetContentFromFile("Parking.txt");
+
+            ViewBag.Transport = contentParser.GetContentFromFile("Transport.txt");
+
+            ViewBag.Schedule = contentParser.GetContentFromFile("Schedule.txt");
             return View();
         }
 
         public ActionResult WhoWeAre()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.MissionMessage = contentParser.getContentFromFile("Mision.txt");
-            ViewBag.VisionMessage = contentParser.getContentFromFile("Vision.txt");
+            ViewBag.MissionMessage = contentParser.GetContentFromFile("Mision.txt");
+            ViewBag.VisionMessage = contentParser.GetContentFromFile("Vision.txt");
 
             return View();
         }
