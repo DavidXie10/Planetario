@@ -40,10 +40,7 @@ div.employees-right {
 
 div.employee-data .phrase {
     margin-bottom: 0;
-    position: center;
     font-style: italic;
-    padding-left: 200px;
-    width: 800px;
 }
 
 .employee-data.name {
