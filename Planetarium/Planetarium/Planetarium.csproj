@@ -121,13 +121,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\ActivityHandler.cs" />
+    <Compile Include="Handlers\EmployeesHandler.cs" />
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\ContentParser.cs" />
+    <Compile Include="Models\EmployeesModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +143,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="Data_Files\Vision.txt" />
     <Content Include="images\earth.jpg" />
+    <Content Include="images\EmployeesProfilePhotos\employee1.jpg" />
+    <Content Include="images\EmployeesProfilePhotos\employee2.jpg" />
+    <Content Include="images\EmployeesProfilePhotos\employee3.jpg" />
+    <Content Include="images\EmployeesProfilePhotos\mauImg.png" />
     <Content Include="images\firma-ucr-ico.png" />
     <Content Include="images\hurricane.jpg" />
     <Content Include="images\logo.jpg" />

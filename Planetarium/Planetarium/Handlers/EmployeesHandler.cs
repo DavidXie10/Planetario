@@ -43,11 +43,13 @@ namespace Planetarium.Handlers
                 employees.Add(
                     new EmployeesModel
                     {
-                        Name = Convert.ToString(column["Name"]),
-                        AcademicDegree = Convert.ToString(column["AcademicDegree"]),
-                        Occupation = Convert.ToString(column["Occupation"]),
-                        Mail = Convert.ToString(column["Mail"]),
-                        Phrase = Convert.ToString(column["Phrase"]),
+                        IdPhoto = Convert.ToString(column["foto"]),
+                        Name = Convert.ToString(column["nombre"]),
+                        LastName = Convert.ToString(column["apellido"]),
+                        AcademicDegree = Convert.ToString(column["titulosAcademicos"]),
+                        Occupation = Convert.ToString(column["ocupacion"]),
+                        Mail = Convert.ToString(column["correo"]),
+                        Phrase = Convert.ToString(column["frase"]),
                     }
                 );
             }
