@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Planetarium.Models;
 
 namespace Planetarium.Controllers
 {
@@ -12,18 +13,48 @@ namespace Planetarium.Controllers
         {
             return View();
         }
+        
+        public ActionResult FindUs() {
+            ContentParser contentParser = new ContentParser();
+            ViewBag.Parking = contentParser.GetContentFromFile("Parking.txt");
 
-        public ActionResult About()
+            ViewBag.Transport = contentParser.GetContentFromFile("Transport.txt");
+
+            ViewBag.Schedule = contentParser.GetContentFromFile("Schedule.txt");
+            return View();
+        }
+
+        public ActionResult WhoWeAre()
         {
-            ViewBag.Message = "Your application description page.";
+            ContentParser contentParser = new ContentParser();
+            ViewBag.MissionMessage = contentParser.GetContentFromFile("Mision.txt");
+            ViewBag.VisionMessage = contentParser.GetContentFromFile("Vision.txt");
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult ActivitiesDescription()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Our activities.";
 
+            return View();
+        }
+
+
+
+        public ActionResult Educative() {
+            return View();
+        }
+
+        public  ActionResult Location()
+        {
+            ContentParser contentParser = new ContentParser();
+            ViewBag.Parking = contentParser.GetContentFromFile("Parking.txt");
+
+            ViewBag.Transport = contentParser.GetContentFromFile("Transport.txt");
+
+            ViewBag.Schedule = contentParser.GetContentFromFile("Schedule.txt");
+           
             return View();
         }
     }

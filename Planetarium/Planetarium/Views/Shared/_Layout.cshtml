@@ -3,40 +3,129 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <title>@ViewBag.Title</title>
+
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">
+            <img src="~/images/logo.svg" width="60" height="56" alt="">
+            Planetario UCR
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Home/Index">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/FindUs">Encuéntrenos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/WhoWeAre">¿Quienes Somos?</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Eventos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/Home/ActivitiesDescription">Actividades</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/FAQ" tabindex="-1" aria-disabled="true">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/Educative" tabindex="-1" aria-disabled="true">Educativo</a>
+                </li>
+            </ul>
         </div>
-    </div>
+    </nav>
+
+
+
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
     </div>
 
+    <hr />
+    <footer>
+        <div class="card-footer" style="padding:40px;">
+            <div class="d-flex align-items-center" href="/">
+                <img src="~/images/logo.svg" width="90" height="100" class="d-inline-block" alt="" style="margin-right: 10px;">
+                <p class="d-inline-block">
+                    Planetario de San Jose, <br />
+                    Universidad de Costa Rica
+                </p>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card-body">
+                        <p class="card-title">
+                            <strong>Teléfono</strong> <br />
+                        </p>
+                        <p class="card-text">
+                            8793-0495 <br />
+                            2233-9485 <br />
+                            8493-3022 <br />
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card-body">
+                        <p class="card-title">
+                            <strong>Dirección</strong> <br />
+                        </p>
+                        <p class="card-text">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card-body">
+                        <p class="card-title">
+                            <strong>Horarios</strong> <br />
+                        </p>
+                        <p class="card-text">
+                            L - V: 9:00am - 8:00pm <br />
+                            S y D: 9:00am - 4:00pm
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card-body">
+                        <a class="nav-link" href="/Home/WhoWeAre">
+                            <strong>Nosotros</strong> <br />
+                        </a>
+
+                        <a class="nav-link" href="#">
+                            <strong>Nuestros colaboradores</strong> <br />
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="dropdown-divider" />
+            <div class="d-flex justify-content-center">
+                <img src="~/images/firma-ucr-ico.png" width="150" height="75" alt="Alternate Text" />
+            </div>
+           
+        </div>
+</footer>
+
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
