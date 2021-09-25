@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 
 namespace Planetarium.Models {
-
     public class ActivityModel {
         public int Id { get; set; }
         public string Title { get; set; }

@@ -13,32 +13,16 @@ namespace Planetarium.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
+        
+        public ActionResult FindUs() {
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult Mission()
+        public ActionResult WhoWeAre()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.Message = contentParser.GetContentFromFile("Mision.txt");
-            return View();
-        }
-
-        public ActionResult Vision()
-        {
-            ContentParser contentParser = new ContentParser();
-            ViewBag.Message = contentParser.GetContentFromFile("Vision.txt");
+            ViewBag.MissionMessage = contentParser.getContentFromFile("Mision.txt");
+            ViewBag.VisionMessage = contentParser.getContentFromFile("Vision.txt");
 
             return View();
         }
@@ -47,6 +31,12 @@ namespace Planetarium.Controllers
         {
             ViewBag.Message = "Our activities.";
 
+            return View();
+        }
+
+
+
+        public ActionResult Educative() {
             return View();
         }
 
