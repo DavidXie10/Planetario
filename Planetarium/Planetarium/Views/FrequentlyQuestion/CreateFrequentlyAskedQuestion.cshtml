@@ -1,0 +1,68 @@
+﻿
+@model Planetarium.Models.FrequentlyQuestionModel
+@{
+    ViewBag.Title = "Crear Pregunta";
+    List<SelectListItem> CategoryTypes = new List<SelectListItem>() { new
+    SelectListItem { Text = "Rocoso" }, new SelectListItem { Text = "Gaseoso" }, new
+    SelectListItem { Text = "Enano" } };
+    List<SelectListItem> TopicTypes = new List<SelectListItem>() { new
+    SelectListItem { Text = "Rocoso" }, new SelectListItem { Text = "Gaseoso" }, new
+    SelectListItem { Text = "Enano" } };
+}
+<html>
+<head>
+</head>
+<body>
+    @if (ViewBag.Message != null){
+        if (ViewBag.ExitoAlCrear){
+            <div class="alert-success">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+        else{
+            <div class="alert-danger">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+    }
+    @using (Html.BeginForm("CreateFrequentlyAskedQuestion", "FrequentlyQuestion", FormMethod.Post, new{ enctype = "multipart/form-data" })){
+    @Html.AntiForgeryToken()
+        <h1>Formulario para agregar preguntas</h1>
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Category)
+                <!-- TODO: Make categoryTypes list for Categories -->
+                <br />
+                @Html.DropDownListFor(model => model.Category, CategoryTypes, "- Sin selección - ", new { @class = "form - control" })
+                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Topic)
+                <br />
+                <!-- TODO: Make topicsTypes list for Topics -->
+                @Html.DropDownListFor(model => model.Topic, TopicTypes, "-Sin selección - ", new { @class = "form - control" })
+                @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Question)
+                @Html.TextAreaFor(model => model.Question, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+            </div>
+
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Answer)
+                @Html.TextAreaFor(model => model.Answer, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <input type="submit" class="btn btn-success" value="Crear" />
+        </div>
+        }
+</body>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>
