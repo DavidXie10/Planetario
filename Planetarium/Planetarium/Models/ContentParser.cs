@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Text;
 
 namespace Planetarium.Models {
     public class ContentParser {
@@ -37,9 +40,32 @@ namespace Planetarium.Models {
             }
             return contentExtracted;
         }
+
+        public string ParseRawJson(string[] content) {
+            string contentExtracted = "";
+            foreach(string line in content) {
+                contentExtracted += line + "\n";
+            }
+            return contentExtracted;
+        }
+
         private bool IsStringEmpty(String line) {
             return line == "" ? true : false;
         }
 
+
+        public dynamic ParseFromJSON(string fileName) {
+            dynamic parsedContent = "";
+            Debug.WriteLine("Entra al parser de Json " + fileName);
+            try {
+                string[] rawData = ExtractRawContent(fileName);
+                string contentReadyToParse = ParseRawJson(rawData);
+                parsedContent = JsonConvert.DeserializeObject(contentReadyToParse);
+            } catch (Exception e) {
+                string error = "Error while parsing JSON raw data \n" + e.ToString();
+                Debug.WriteLine(error);
+            }
+            return parsedContent;
+        }
     }
 }

@@ -16,20 +16,29 @@ namespace Planetarium.Controllers
         
         public ActionResult FindUs() {
             ContentParser contentParser = new ContentParser();
-            ViewBag.Parking = contentParser.GetContentFromFile("Parking.txt");
+            dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
+            string[] schedule = jsonContent.Horarios;
+            string[] transportBuses = jsonContent.Buses;
+            string[] transportTrains = jsonContent.Trenes;
+            string[] parking = jsonContent.Parqueos;
 
-            ViewBag.Transport = contentParser.GetContentFromFile("Transport.txt");
-
-            ViewBag.Schedule = contentParser.GetContentFromFile("Schedule.txt");
+            ViewBag.Parking = parking;
+            ViewBag.TransportBuses = transportBuses;
+            ViewBag.TransportTrains = transportTrains;
+            ViewBag.Schedule = schedule;
             return View();
         }
 
         public ActionResult WhoWeAre()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.MissionMessage = contentParser.GetContentFromFile("Mision.txt");
-            ViewBag.VisionMessage = contentParser.GetContentFromFile("Vision.txt");
 
+            dynamic jsonContent = contentParser.ParseFromJSON("Planetario.json");
+            string mision = jsonContent.Mision;
+            string vision = jsonContent.Vision;
+
+            ViewBag.MissionMessage = mision;
+            ViewBag.VisionMessage = vision;
             return View();
         }
 
@@ -41,7 +50,6 @@ namespace Planetarium.Controllers
         }
 
 
-
         public ActionResult Educative() {
             return View();
         }
@@ -49,11 +57,16 @@ namespace Planetarium.Controllers
         public  ActionResult Location()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.Parking = contentParser.GetContentFromFile("Parking.txt");
+            dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
+            string[] schedule = jsonContent.Horarios;
+            string[] transportBuses = jsonContent.Buses;
+            string[] transportTrains = jsonContent.Trenes;
+            string[] parking = jsonContent.Parqueos;
 
-            ViewBag.Transport = contentParser.GetContentFromFile("Transport.txt");
-
-            ViewBag.Schedule = contentParser.GetContentFromFile("Schedule.txt");
+            ViewBag.Parking = parking;
+            ViewBag.TransportBuses = transportBuses;
+            ViewBag.TransportTrains = transportTrains;
+            ViewBag.Schedule = schedule;
            
             return View();
         }
