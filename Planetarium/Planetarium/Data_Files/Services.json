@@ -1,0 +1,6 @@
+{
+  "Horarios": [ "Lunes a Viernes de 9:00 am a 8:00 pm", "Sábado y Domingo de 9:00 am a 4:00 pm" ],
+  "Buses": [ "Bus interno hasta primera parada de la Ciudad de la Investigación.", "Bus escalante LARED.", "Bus periférica." ],
+  "Trenes": [ "Tren Incofer Ruta San José - Cartago.", "Tren Incofer Ruta San José - Heredia - Alajuela." ],
+  "Parqueos": [ "Torre de Parqueos frente al edificio de Ciencias Sociales, Ciudad de la Investigación, UCR Sede Rodrigo Facio", "Torre de Parqueos al costado de Nutrición, Ciudad de la Investigación, UCR Sede Rodrigo Facio", "50 espacios abiertos en horario de funcionamiento de planetario" ]
+}
