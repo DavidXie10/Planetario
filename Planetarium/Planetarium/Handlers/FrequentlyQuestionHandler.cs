@@ -15,19 +15,17 @@ namespace Planetarium.Handlers {
         private string connectionRoute;
 
         public FrequentlyQuestionHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["AGREGAR EN WEB.CONF"].ToString();
+            connectionRoute = ConfigurationManager.ConnectionStrings["PiConnection"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 
         public bool CreateFrequentlyAskedQuestion(FrequentlyQuestionModel question) {
-            string query = "INSERT INTO PreguntaFrecuente (pregunta, respuesta, topico, categoria) " +
-                           "VALUES (@pregunta,@respuesta,@topico,@categoria";
+            string query = "INSERT INTO PreguntaFrecuente (pregunta, respuesta) " +
+                           "VALUES (@pregunta,@respuesta";
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
             queryCommand.Parameters.AddWithValue("@pregunta", question.Question);
             queryCommand.Parameters.AddWithValue("@respuesta", question.Answer);
-            queryCommand.Parameters.AddWithValue("@topico", question.Topic);
-            queryCommand.Parameters.AddWithValue("@categoria", question.Category);
 
             connection.Open();
             bool success = queryCommand.ExecuteNonQuery() >= 1;

@@ -1,47 +1,39 @@
 ﻿
 @model Planetarium.Models.FrequentlyQuestionModel
-@{
+@{          
     ViewBag.Title = "Crear Pregunta";
-    List<SelectListItem> CategoryTypes = new List<SelectListItem>() { new
-    SelectListItem { Text = "Rocoso" }, new SelectListItem { Text = "Gaseoso" }, new
-    SelectListItem { Text = "Enano" } };
-    List<SelectListItem> TopicTypes = new List<SelectListItem>() { new
-    SelectListItem { Text = "Rocoso" }, new SelectListItem { Text = "Gaseoso" }, new
-    SelectListItem { Text = "Enano" } };
 }
 <html>
 <head>
 </head>
 <body>
-    @if (ViewBag.Message != null){
-        if (ViewBag.ExitoAlCrear){
+    @if (ViewBag.Message != null) {
+        if (ViewBag.ExitoAlCrear) {
             <div class="alert-success">
                 <h3> @ViewBag.Message </h3>
             </div>
-        }
-        else{
+        } else {
             <div class="alert-danger">
                 <h3> @ViewBag.Message </h3>
             </div>
         }
     }
-    @using (Html.BeginForm("CreateFrequentlyAskedQuestion", "FrequentlyQuestion", FormMethod.Post, new{ enctype = "multipart/form-data" })){
-    @Html.AntiForgeryToken()
+    @using (Html.BeginForm("CreateFrequentlyAskedQuestion", "FrequentlyQuestion", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        @Html.AntiForgeryToken()
         <h1>Formulario para agregar preguntas</h1>
         <div class="form-horizontal">
             <div class="form-group">
                 @Html.LabelFor(model => model.Category)
                 <!-- TODO: Make categoryTypes list for Categories -->
                 <br />
-                @Html.DropDownListFor(model => model.Category, CategoryTypes, "- Sin selección - ", new { @class = "form - control" })
+                @Html.DropDownList("CategoryType", null, "- Seleccione una categoría - ", new { @class = "form - control" })
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Topic)
                 <br />
-                <!-- TODO: Make topicsTypes list for Topics -->
-                @Html.DropDownListFor(model => model.Topic, TopicTypes, "-Sin selección - ", new { @class = "form - control" })
+                @Html.DropDownList("SubCategory", new SelectList(string.Empty, "Value", "Text"), "Please select a Category first", new { style = "width:250px" })
                 @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
             </div>
             <br />
@@ -60,9 +52,36 @@
             <br />
             <input type="submit" class="btn btn-success" value="Crear" />
         </div>
-        }
+    }
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#CategoryType").change(function () {
+            $("#SubCategory").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetTopics")',
+                dataType: 'json',
+                data: { id: $("#CategoryType").val() },
+                success: function (subcategories) {
+                    $.each(subcategories, function (i, subcategory) {
+                        $("#SubCategory").append('<option value="'
+                            + subcategory.Value + '">' +
+                            subcategory.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve Sub Categories : ' + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
 </body>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
 </html>
