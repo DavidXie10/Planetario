@@ -38,7 +38,7 @@ namespace Planetarium.Controllers {
                 ++value;
             }
 
-            ViewBag.CategoryType = CategoryTypes;
+            ViewBag.Category = CategoryTypes;
 
             return View();
         }
@@ -86,6 +86,28 @@ namespace Planetarium.Controllers {
 
         [HttpPost]
         public ActionResult CreateFrequentlyAskedQuestion(FrequentlyQuestionModel question) {
+            string[] categories = JsonContent.Categories.ToObject<string[]>();
+            string[] cuerposDelSistemaSolar = JsonContent.CuerposDelSistemaSolar.ToObject<string[]>();
+            string[] objetosDeCieloProfundo = JsonContent.ObjetosDeCieloProfundo.ToObject<string[]>();
+            string[] astronomía = JsonContent.Astronomía.ToObject<string[]>();
+            string[] general = JsonContent.General.ToObject<string[]>();
+
+            ViewBag.Categories = categories;
+            ViewBag.CuerposDelSistemaSolar = cuerposDelSistemaSolar;
+            ViewBag.ObjetosDeCieloProfundo = objetosDeCieloProfundo;
+            ViewBag.Astronomía = astronomía;
+            ViewBag.General = general;
+
+            List<SelectListItem> CategoryTypes = new List<SelectListItem>();
+            CategoryTypes.Add(new SelectListItem { Text = "Select Category", Value = "0", Selected = true });
+            int value = 1;
+
+            foreach (string categorie in categories) {
+                CategoryTypes.Add(new SelectListItem { Text = categorie, Value = value.ToString() });
+                ++value;
+            }
+
+            ViewBag.Category = CategoryTypes;
             ViewBag.SuccessOnCreation = false;
             try {
                 if (ModelState.IsValid) {

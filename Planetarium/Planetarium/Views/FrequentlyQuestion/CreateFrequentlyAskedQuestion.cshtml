@@ -2,6 +2,7 @@
 @model Planetarium.Models.FrequentlyQuestionModel
 @{          
     ViewBag.Title = "Crear Pregunta";
+
 }
 <html>
 <head>
@@ -24,9 +25,8 @@
         <div class="form-horizontal">
             <div class="form-group">
                 @Html.LabelFor(model => model.Category)
-                <!-- TODO: Make categoryTypes list for Categories -->
                 <br />
-                @Html.DropDownList("CategoryType", null, "- Seleccione una categoría - ", new { @class = "form - control" })
+                @Html.DropDownList("Category", null, "- Seleccione una categoría - ", new { @class = "form - control" })
                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
             </div>
             <br />
@@ -39,14 +39,14 @@
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Question)
-                @Html.TextAreaFor(model => model.Question, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
+                @Html.TextBoxFor(model => model.Question, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
             </div>
 
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Answer)
-                @Html.TextAreaFor(model => model.Answer, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
+                @Html.TextBoxFor(model => model.Answer, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
             </div>
             <br />
@@ -57,13 +57,13 @@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
-        $("#CategoryType").change(function () {
+        $("#Category").change(function () {
             $("#SubCategory").empty();
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetTopics")',
                 dataType: 'json',
-                data: { id: $("#CategoryType").val() },
+                data: { id: $("#Category").val() },
                 success: function (subcategories) {
                     $.each(subcategories, function (i, subcategory) {
                         $("#SubCategory").append('<option value="'
