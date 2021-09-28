@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Funcionarios</title>
+</head>
+<body>
+    <div class="container">
+        <h4 class="text-md-left" style="margin: 5px;">Conozca nuestros funcionarios</h4>
+        <br>
+        <div class="container">
+            
+            @{ 
+            int i=0;
+            foreach (var employees in ViewBag.employees)
+            {
+                string alignInfo = "";
+                    if (i % 2 == 0)
+                    {
+                        alignInfo = "employees-left";
+                    }
+                    else
+                    {
+                        alignInfo = "employees-right";
+                    }
+                <div class="card col-md">
+                    <div class=@alignInfo>
+                        <img src="~/images/EmployeesProfilePhotos/@employees.IdPhoto" alt="an employee photo " class="passaport-Img" />
+                        <div class="employee-data">
+                            <h5 class="employee-name"> @employees.Name @employees.LastName</h5>
+                            <p> @employees.AcademicDegree </p>
+                            <p> @employees.Occupation </p>
+                            <p> @employees.Mail </p>
+                            <p class="phrase">@employees.Phrase</p>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                i++;
+            }
+            }
+
+        </div>
+    </div>
+</body>
+</html>

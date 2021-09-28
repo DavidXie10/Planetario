@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Configuration;
 using System.Data;
@@ -18,7 +17,7 @@ namespace Planetarium.Handlers
 
         public EmployeesHandler()
         {
-            connectionRoute = ConfigurationManager.ConnectionStrings["AGREGAR EN WEB.CONF"].ToString();
+            connectionRoute = ConfigurationManager.ConnectionStrings["EmployeeConnection"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 
@@ -36,7 +35,7 @@ namespace Planetarium.Handlers
         public List<EmployeesModel> GetAllEmployees()
         {
             List<EmployeesModel> employees = new List<EmployeesModel>();
-            string query = "SELECT * FROM Employees ";
+            string query = "SELECT * FROM Funcionario ";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows)
             {
