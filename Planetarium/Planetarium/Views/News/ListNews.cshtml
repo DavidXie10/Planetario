@@ -1,0 +1,22 @@
+﻿<div class="container">
+    <h1 style="margin:10px 0 20px 0;">Noticias Planetario</h1>
+
+    @foreach (var news in ViewBag.news)
+    {
+        <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
+            <div class="card-body">
+                <h2 class="text-start">@news.title </h2>
+                <h9>@news.date</h9>
+                <span>
+                    <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @news.category</a></h5>
+                    <h5>Tópico: <a class=" btn btn-group-sm btn-success"> @news.topic</a></h5>
+                </span>
+                <p class="card-text" style="margin-top: 15px;">
+                    @news.description
+                </p>
+                <a href="#" class="btn btn-primary">Seguir leyendo</a>
+            </div>
+        </div>
+    }
+
+</div>

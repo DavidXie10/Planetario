@@ -1,0 +1,37 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Noticia</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1></h1>
+        <h3>@ViewBag.news.title</h3>
+
+        <div class="border-white">
+            <h10>@ViewBag.news.date</h10>
+        </div>
+        <h6> Categoría: </h6>
+        <a class=" btn btn-group-sm btn-success">   @ViewBag.news.category  </a>
+        <h6> Tópico: </h6>
+        <a class="btn btn-group-sm btn-success">@ViewBag.news.topic</a>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="card col-md">
+                <div class="card-body">
+                    @ViewBag.news.description
+                </div>
+                <div class="carousel-item active">
+                    <img src="~/images/eclipse.jpg" class="d-block w-100 carousel-Img" alt="...">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
