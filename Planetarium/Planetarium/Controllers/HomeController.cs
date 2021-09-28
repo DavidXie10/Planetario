@@ -17,10 +17,10 @@ namespace Planetarium.Controllers
         public ActionResult FindUs() {
             ContentParser contentParser = new ContentParser();
             dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
-            string[] schedule = jsonContent.Horarios;
-            string[] transportBuses = jsonContent.Buses;
-            string[] transportTrains = jsonContent.Trenes;
-            string[] parking = jsonContent.Parqueos;
+            string[] schedule = jsonContent.Horarios.ToObject<string[]>();
+            string[] transportBuses = jsonContent.Buses.ToObject<string[]>();
+            string[] transportTrains = jsonContent.Trenes.ToObject<string[]>();
+            string[] parking = jsonContent.Parqueos.ToObject<string[]>();
 
             ViewBag.Parking = parking;
             ViewBag.TransportBuses = transportBuses;
@@ -54,21 +54,5 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public  ActionResult Location()
-        {
-            ContentParser contentParser = new ContentParser();
-            dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
-            string[] schedule = jsonContent.Horarios;
-            string[] transportBuses = jsonContent.Buses;
-            string[] transportTrains = jsonContent.Trenes;
-            string[] parking = jsonContent.Parqueos;
-
-            ViewBag.Parking = parking;
-            ViewBag.TransportBuses = transportBuses;
-            ViewBag.TransportTrains = transportTrains;
-            ViewBag.Schedule = schedule;
-           
-            return View();
-        }
     }
 }

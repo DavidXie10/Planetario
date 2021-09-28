@@ -41,22 +41,22 @@ namespace Planetarium.Models {
             return contentExtracted;
         }
 
-        public string ParseRawJson(string[] content) {
-            string contentExtracted = "";
-            foreach(string line in content) {
-                contentExtracted += line + "\n";
-            }
-            return contentExtracted;
-        }
+        
 
         private bool IsStringEmpty(String line) {
             return line == "" ? true : false;
         }
 
+        public string ParseRawJson(string[] content) {
+            string contentExtracted = "";
+            foreach (string line in content) {
+                contentExtracted += line + "\n";
+            }
+            return contentExtracted;
+        }
 
         public dynamic ParseFromJSON(string fileName) {
             dynamic parsedContent = "";
-            Debug.WriteLine("Entra al parser de Json " + fileName);
             try {
                 string[] rawData = ExtractRawContent(fileName);
                 string contentReadyToParse = ParseRawJson(rawData);

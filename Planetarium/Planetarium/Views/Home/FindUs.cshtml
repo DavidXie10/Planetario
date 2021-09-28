@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +18,18 @@
             <div class="card w-100 border-info mb-3">
                 <div class="card-header">Parqueo</div>
                 <div class="card-body">
-                    <p class="card-text">@Html.Raw(@ViewBag.Parking).</p>
+                    <p class="card-text">
+                        <ul>
+                            
+                        
+                            @foreach (string parking in @ViewBag.Parking) {
+
+                                <li>@parking</li>
+
+                            }
+
+                        </ul>
+                    </p>
                 </div>
             </div>
         </div>
@@ -27,15 +37,49 @@
             <div class="card w-100 border-info mb-3">
                 <div class="card-header">Horarios</div>
                 <div class="card-body">
-                    <p class="card-text">@Html.Raw(@ViewBag.Schedule)</p>
+                    <p class="card-text">
+                        <ul>
+
+
+                            @foreach (string schedule in @ViewBag.Schedule) {
+
+                                <li>@schedule</li>
+
+                            }
+
+                        </ul>
+                    </p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="card w-100 border-info mb-3">
-                <div class="card-header">Medios de transporte</div>
+                <div class="card-header">Medio de Transporte</div>
                 <div class="card-body">
-                    <p class="card-text">@Html.Raw(@ViewBag.Transport)</p>
+                    <p class="card-text">
+                        Buses <br />
+                        <ul>
+
+                            @foreach (string buses in @ViewBag.TransportBuses) {
+
+                                <li>@buses</li>
+
+                            }
+
+                        </ul>
+
+                        Trenes <br />
+                        <ul>
+
+                            @foreach (string trenes in @ViewBag.TransportTrains) {
+
+                                <li>@trenes</li>
+
+                            }
+
+                        </ul>
+
+                    </p>
                 </div>
             </div>
         </div>
