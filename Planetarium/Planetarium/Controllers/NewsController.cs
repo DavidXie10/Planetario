@@ -10,7 +10,6 @@ namespace Planetarium.Controllers
 {
     public class NewsController : Controller
     {
-
         public ActionResult ListNews()
         {
             NewsHandler dataAccess = new NewsHandler();
@@ -22,11 +21,11 @@ namespace Planetarium.Controllers
         {
             NewsModel news = new NewsModel
             {
-                title = "Eclipse total de Sol este 2021",
-                category = "Cuerpos celestes",
-                topic = "Estrellas",
-                date = "01 / 12 / 2021",
-                description = "Consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt." +
+                Title = "Eclipse total de Sol este 2021",
+                Category = "Cuerpos celestes",
+                Topic = "Estrellas",
+                Date = "01 / 12 / 2021",
+                Description = "Consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt." +
                 "Neque porro quisquam est,qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit," +
                 "sed quia non numquam.Consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.Neque" +
                 " porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam. " +

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Web;
 using Planetarium.Models;
 
 namespace Planetarium.Handlers
 {
     public class NewsHandler
     {
+
         private SqlConnection connection;
         private string connectionRoute;
 
@@ -41,17 +42,24 @@ namespace Planetarium.Handlers
                 news.Add(
                     new NewsModel
                     {
-                        title = Convert.ToString(column["titulo"]),
-                        category = Convert.ToString(column["categoria"]),
-                        topic = Convert.ToString(column["topico"]),
-                        date = Convert.ToString(column["fechaDePublicacion"]),
-                        description = Convert.ToString(column["resumen"]),
-
+                        Title = Convert.ToString(column["titulo"]),
+                        Category = Convert.ToString(column["categoria"]),
+                        Topic = Convert.ToString(column["topico"]),
+                        Date = Convert.ToString(column["fechaDePublicacion"]),
+                        Description = Convert.ToString(column["resumen"])
                     }
                 );
             }
 
             return news;
+        }
+
+        private byte[] GetFileBytes(HttpPostedFileBase file)
+        {
+            byte[] bytes;
+            BinaryReader reader = new BinaryReader(file.InputStream);
+            bytes = reader.ReadBytes(file.ContentLength);
+            return bytes;
         }
     }
 }
