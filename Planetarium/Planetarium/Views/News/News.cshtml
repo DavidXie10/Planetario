@@ -9,16 +9,16 @@
     <div class="container">
         <div class="card-body">
             <p class="card-text">
-                <h2>@ViewBag.news.Title</h2>
+                <h2>@ViewBag.News.Title</h2>
             </p>
-            <p class="card-text"> @ViewBag.news.Date </p>
-            <p class="card-text">Categoría: @ViewBag.news.Category </p>
-            <p class="card-text">Tópicos: @ViewBag.news.Topic </p>
+            <p class="card-text"> @ViewBag.News.Date </p>
+            <!--<p class="card-text">Categoría: ViewBag.News.Category </p>-->
+            <p class="card-text">Tópicos: ViewBag.News.Topic </p>
         </div>
     
         <div class="card col-md">
             <div class="card-body">
-                <p class="card-text">@ViewBag.news.Description</p>
+                <p class="card-text">@ViewBag.News.Content</p>
             </div>
             <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel" style="margin: 20px 5px 20px 5px">
                 <div class="carousel-inner">

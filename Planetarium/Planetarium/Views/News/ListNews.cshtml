@@ -1,20 +1,20 @@
 ﻿<div class="container">
     <h1 style="margin:10px 0 20px 0;">Noticias Planetario</h1>
 
-    @foreach (var news in ViewBag.news)
+    @foreach (var newsInstance in @ViewBag.News)
     {
         <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
             <div class="card-body">
-                <h2 class="text-start">@news.Title </h2>
-                <h9>@news.Date</h9>
+                <h2 class="text-start">@newsInstance.Title </h2>
+                <h9>@newsInstance.Date</h9>
                 <span>
-                    <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @news.Category</a></h5>
-                    <h5>Tópico: <a class=" btn btn-group-sm btn-success"> @news.Topic</a></h5>
+                    <!--<h5>Categoría: <a class=" btn btn-group-sm btn-success"> newsInstance.Category</a></h5>-->
+                    <h5>Tópico: <a class=" btn btn-group-sm btn-success"> newsInstance.Topic</a></h5>
                 </span>
                 <p class="card-text" style="margin-top: 15px;">
-                    @news.Description
+                    @newsInstance.Description
                 </p>
-                <a href="#" class="btn btn-primary">Seguir leyendo</a>
+                <a href="News" class="btn btn-primary">Seguir leyendo</a>
             </div>
         </div>
     }

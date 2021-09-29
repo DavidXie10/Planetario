@@ -17,7 +17,7 @@ namespace Planetarium.Handlers
 
         public NewsHandler()
         {
-            connectionRoute = ConfigurationManager.ConnectionStrings["AGREGAR EN WEB.CONF"].ToString();
+            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 
@@ -35,21 +35,35 @@ namespace Planetarium.Handlers
         public List<NewsModel> GetAllNews()
         {
             List<NewsModel> news = new List<NewsModel>();
-            string query = "SELECT * FROM Noticia ORDER BY fechaDePublicacion DESC";
+            string query = "SELECT * FROM Noticia " +
+                           "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
+                           "INNER JOIN Topico ON NoticiaPerteneceATopico.nombreTopicoPKFK = Topico.nombrePK " +
+                           "ORDER BY fechaPublicacion DESC ";
             DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow column in resultingTable.Rows)
-            {
+            foreach (DataRow column in resultingTable.Rows) {
                 news.Add(
-                    new NewsModel
-                    {
-                        Title = Convert.ToString(column["titulo"]),
-                        Category = Convert.ToString(column["categoria"]),
-                        Topic = Convert.ToString(column["topico"]),
-                        Date = Convert.ToString(column["fechaDePublicacion"]),
-                        Description = Convert.ToString(column["resumen"])
-                    }
-                );
+                    new NewsModel { 
+                        Title = Convert.ToString(column["tituloPK"]), 
+                        Date = Convert.ToDateTime(column["fechaPublicacion"]),
+                        Content = Convert.ToString(column["contenido"]),
+                        AuthorId = Convert.ToString(column["cedulaFK"]),
+                        Description = Convert.ToString(column["resumen"]),
+                        
+                        
+                    });
             }
+
+            foreach (NewsModel newsInstance in news) {
+                query = "SELECT * FROM Noticia " +
+                        "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
+                        "WHERE tituloPK = " + newsInstance.Title +
+                        " ORDER BY fechaPublicacion DESC ";
+                resultingTable = CreateTableFromQuery(query);
+                foreach (DataRow column in resultingTable.Rows) {
+                }
+
+            }
+
 
             return news;
         }
