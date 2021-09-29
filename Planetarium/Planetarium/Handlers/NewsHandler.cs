@@ -36,8 +36,6 @@ namespace Planetarium.Handlers
         {
             List<NewsModel> news = new List<NewsModel>();
             string query = "SELECT * FROM Noticia " +
-                           "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
-                           "INNER JOIN Topico ON NoticiaPerteneceATopico.nombreTopicoPKFK = Topico.nombrePK " +
                            "ORDER BY fechaPublicacion DESC ";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
@@ -49,6 +47,30 @@ namespace Planetarium.Handlers
                         AuthorId = Convert.ToString(column["cedulaFK"]),
                         Description = Convert.ToString(column["resumen"]),
                });
+            }
+
+            foreach (NewsModel newsInstance in news) {
+                query = "SELECT * FROM Noticia " +
+                        "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
+                        "WHERE tituloPK = '" + newsInstance.Title + "' " +
+                        "ORDER BY fechaPublicacion DESC";
+                resultingTable = CreateTableFromQuery(query);
+                newsInstance.Topics = new List<string>();
+                foreach (DataRow column in resultingTable.Rows) {
+                    var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
+                    newsInstance.Topics.Add(tempTopic);
+                }
+            }
+
+            foreach (NewsModel newsInstance in news) {
+                query = "SELECT * FROM NoticiaPerteneceATopico " +
+                        "INNER JOIN Topico ON Topico.nombrePK = NoticiaPerteneceATopico.nombreTopicoPKFK  " +
+                        "WHERE Topico.nombrePK = '" + newsInstance.Topics[0] + "'";
+                resultingTable = CreateTableFromQuery(query);
+
+                foreach (DataRow column in resultingTable.Rows) {
+                    newsInstance.Category = Convert.ToString(column["categoria"]);
+                }
             }
 
             return news;
