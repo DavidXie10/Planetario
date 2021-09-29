@@ -12,7 +12,7 @@ namespace Planetarium.Models {
 
         [Required(ErrorMessage = "Es necesario que seleccione un tópico")]
         [Display(Name = "Seleccione el tópico")]
-        public string Topic { get; set; }
+        public List<string> Topics { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese el texto de la pregunta")]
         [Display(Name = "Ingrese la pregunta")]
@@ -21,6 +21,8 @@ namespace Planetarium.Models {
         [Required(ErrorMessage = "Es necesario que ingrese el texto de la respuesta")]
         [Display(Name = "Ingrese la respuesta")]
         public string Answer { get; set; }
+
+        public string QuestionId { get; set; }
 
         //TO-DO: public var cedulaFK de la persona que escribe
     }

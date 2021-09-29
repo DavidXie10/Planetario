@@ -10,10 +10,13 @@ using System.Diagnostics;
 namespace Planetarium.Controllers {
     public class FrequentlyQuestionController : Controller {
         dynamic JsonContent { get; set; }
+        public FrequentlyQuestionHandler dataAccess {  get; set;  }
 
         public FrequentlyQuestionController() {
+            dataAccess = new FrequentlyQuestionHandler();
             ContentParser contentParser = new ContentParser();
             this.JsonContent = contentParser.ParseFromJSON("CategoriesAndTopics.json");
+
         }
 
         
@@ -81,15 +84,14 @@ namespace Planetarium.Controllers {
 
             FrequentlyQuestionModel faq = new FrequentlyQuestionModel();
             faq.Category = Request.Form["category"].Replace(" ", "_");
-            faq.Topic = Request.Form["topic"];
+            //faq.Topics = Request.Form["topic"];
             faq.Question = Request.Form["question"];
             faq.Answer = Request.Form["Answer"];
 
             ViewBag.SuccessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
-                    FrequentlyQuestionHandler dataAccess = new FrequentlyQuestionHandler();
-                    ViewBag.SuccessOnCreation = dataAccess.CreateFrequentlyAskedQuestion(faq);
+                    ViewBag.SuccessOnCreation = this.dataAccess.CreateFrequentlyAskedQuestion(faq);
                     if (ViewBag.SuccessOnCreation) {
                         ViewBag.Message = "La pregunta " + "\"" + faq.Question + " \" fue creada con éxito";
                         ModelState.Clear();
@@ -101,5 +103,14 @@ namespace Planetarium.Controllers {
                 return View("/Home/Index"); 
             }
         }
+
+        public ActionResult FrequentlyAskQuestions() {
+            //List<FrequentlyQuestionModel> questions =  this.dataAccess.GetAllQuestions();
+            //List<string> categories = this.dataAccess.GetAllCategories();
+            //ViewBag.Questions = questions;
+            //ViewBag.Categories = categories;
+            return View();
+        }
+
     }
 }
