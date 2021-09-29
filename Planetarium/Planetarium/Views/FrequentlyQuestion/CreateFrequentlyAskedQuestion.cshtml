@@ -2,6 +2,7 @@
 @model Planetarium.Models.FrequentlyQuestionModel
 @{          
     ViewBag.Title = "Crear Pregunta";
+    
 }
 <html>
 <head>
@@ -18,6 +19,7 @@
             </div>
         }
     }
+   
     @using (Html.BeginForm("CreateFrequentlyAskedQuestion", "FrequentlyQuestion", FormMethod.Post, new { enctype = "multipart/form-data" })) {
         @Html.AntiForgeryToken()
         <h1>Formulario para agregar preguntas</h1>
@@ -25,58 +27,76 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Category)
                 <br />
-                @Html.DropDownList("Category", null, "- Seleccione una categoría - ", new { @class = "form - control" })
-                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                <select id="categorySelector" name="category">
+                    <option value="value">------</option>
+                    @foreach (string category in ViewBag.categories) {
+
+                        <option value="@category">@category</option>
+                    }
+                </select>
             </div>
-            <br />
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Topic)
                 <br />
-                @Html.DropDownList( "Topic", new SelectList(string.Empty, "Value", "Text"), "Please select a Category first", new { style = "width:250px" })
-                @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
+                <select id="topicSelector" name="topic">
+                    <option value="value">------</option>
+                    @foreach (string topic in ViewBag.topics[1]) {
+                        <option value="@topic">@topic</option>
+                    }
+                </select>
             </div>
-            <br />
+
             <div class="form-group">
                 @Html.LabelFor(model => model.Question)
-                @Html.TextAreaFor(model => model.Question, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
-                @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+                <br />
+                <textarea rows="5" name="question"></textarea>
             </div>
-            <br />
+
             <div class="form-group">
-                @Html.LabelFor(model => model.Answer)
-                @Html.TextAreaFor(model => model.Answer, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
-                @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.Question)
+                <br />
+                <textarea rows="5" name="answer"></textarea>
             </div>
-            <br />
+
             <input type="submit" class="btn btn-success" value="Crear" />
+
         </div>
+
+
     }
 
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function () {
-        $("#Category").change(function () {
-            $("#Topic").empty();
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetTopics")',
-                dataType: 'json',
-                data: { id: $("#Category").val() },
-                success: function (subcategories) {
-                    $.each(subcategories, function (i, subcategory) {
-                        $("#Topic").append('<option value="'
-                            + subcategory.Value + '">' +
-                            subcategory.Text + '</option>');
-                    });
-                },
-                error: function (ex) {
-                    alert('Failed to retrieve Sub Categories : ' + ex);
-                }
-            });
-            return false;
+<script>
+
+        let categorySelector = document.querySelector("#categorySelector");
+        let topicSelector = document.querySelector("#topicSelector");
+
+        let categories = @Html.Raw(Json.Encode(ViewBag.categories));
+        let topics = @Html.Raw(Json.Encode(ViewBag.topics));
+
+        categorySelector.addEventListener('change', (event) => {
+        topicSelector.innerHTML = "";
+        let selectedIndex = categorySelector.selectedIndex - 1;
+        let option = document.createElement("option");
+        let textNode = document.createTextNode("----");
+        option.appendChild(textNode);
+        option.value = "----";
+        topicSelector.append(option);
+        for (i = 0; i < topics[selectedIndex].length; i++) {
+            let option = document.createElement("option");
+            let textNode = document.createTextNode(topics[selectedIndex][i]);
+            option.appendChild(textNode);
+            option.value = topics[selectedIndex][i];
+            topicSelector.append(option);
+        }
         })
-    });
-    </script>
+
+
+        //Crear el option menu desde javascript
+
+
+</script>
+
 </body>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

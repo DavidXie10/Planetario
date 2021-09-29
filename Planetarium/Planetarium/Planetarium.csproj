@@ -121,13 +121,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\FrequentlyQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\ActivityHandler.cs" />
+    <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\ContentParser.cs" />
+    <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -148,12 +151,14 @@
     <Content Include="Global.asax" />
     <Content Include="Data_Files\Planetario.json" />
     <Content Include="Data_Files\Services.json" />
+    <Content Include="Data_Files\CategoriesAndTopics.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\FAQ.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -182,6 +187,7 @@
     <Content Include="Views\Home\Educative.cshtml" />
     <Content Include="Views\Home\FindUs.cshtml" />
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
+    <Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

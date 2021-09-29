@@ -5,6 +5,7 @@ using System.Web;
 using Planetarium.Models;
 using Planetarium.Handlers;
 using System.Web.Mvc;
+using System.Diagnostics;
 
 namespace Planetarium.Controllers {
     public class FrequentlyQuestionController : Controller {
@@ -17,28 +18,19 @@ namespace Planetarium.Controllers {
 
         
         public ActionResult CreateFrequentlyAskedQuestion() {
-            string[] categories = JsonContent.Categories.ToObject<string[]>();
-            string[] cuerposDelSistemaSolar = JsonContent.CuerposDelSistemaSolar.ToObject<string[]>();
-            string[] objetosDeCieloProfundo = JsonContent.ObjetosDeCieloProfundo.ToObject<string[]>();
-            string[] astronomía = JsonContent.Astronomía.ToObject<string[]>();
-            string[] general = JsonContent.General.ToObject<string[]>();
-            
-            ViewBag.Categories = categories;
-            ViewBag.CuerposDelSistemaSolar = cuerposDelSistemaSolar;
-            ViewBag.ObjetosDeCieloProfundo = objetosDeCieloProfundo;
-            ViewBag.Astronomía = astronomía;
-            ViewBag.General = general;
-            
-            List<SelectListItem> CategoryTypes = new List<SelectListItem>();
-            CategoryTypes.Add(new SelectListItem { Text = "Select Category", Value = "0", Selected = true });
-            int value = 1;
 
-            foreach (string categorie in categories) {
-                CategoryTypes.Add(new SelectListItem { Text = categorie, Value = value.ToString() });
-                ++value;
+            List<string> keysJson = new List<string>();
+            List<string[]> valuesJson = new List<string[]>();
+
+            foreach (var keys in this.JsonContent) {
+                string keyFromJason = keys.Key;
+                keyFromJason = keyFromJason.Replace("_", " ");
+                keysJson.Add(keyFromJason);
+                valuesJson.Add(keys.Value);
             }
 
-            ViewBag.Category = CategoryTypes;
+            ViewBag.Categories = keysJson;
+            ViewBag.Topics = valuesJson;
 
             return View();
         }
@@ -86,42 +78,27 @@ namespace Planetarium.Controllers {
 
         [HttpPost]
         public ActionResult CreateFrequentlyAskedQuestion(FrequentlyQuestionModel faqQuestion) {
-            string[] categories = JsonContent.Categories.ToObject<string[]>();
-            string[] cuerposDelSistemaSolar = JsonContent.CuerposDelSistemaSolar.ToObject<string[]>();
-            string[] objetosDeCieloProfundo = JsonContent.ObjetosDeCieloProfundo.ToObject<string[]>();
-            string[] astronomía = JsonContent.Astronomía.ToObject<string[]>();
-            string[] general = JsonContent.General.ToObject<string[]>();
 
-            ViewBag.Categories = categories;
-            ViewBag.CuerposDelSistemaSolar = cuerposDelSistemaSolar;
-            ViewBag.ObjetosDeCieloProfundo = objetosDeCieloProfundo;
-            ViewBag.Astronomía = astronomía;
-            ViewBag.General = general;
+            FrequentlyQuestionModel faq = new FrequentlyQuestionModel();
+            faq.Category = Request.Form["category"].Replace(" ", "_");
+            faq.Topic = Request.Form["topic"];
+            faq.Question = Request.Form["question"];
+            faq.Answer = Request.Form["Answer"];
 
-            List<SelectListItem> CategoryTypes = new List<SelectListItem>();
-            CategoryTypes.Add(new SelectListItem { Text = "Select Category", Value = "0", Selected = true });
-            int value = 1;
-
-            foreach (string categorie in categories) {
-                CategoryTypes.Add(new SelectListItem { Text = categorie, Value = value.ToString() });
-                ++value;
-            }
-
-            ViewBag.Category = CategoryTypes;
             ViewBag.SuccessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
                     FrequentlyQuestionHandler dataAccess = new FrequentlyQuestionHandler();
-                    ViewBag.SuccessOnCreation = dataAccess.CreateFrequentlyAskedQuestion(faqQuestion);
+                    ViewBag.SuccessOnCreation = dataAccess.CreateFrequentlyAskedQuestion(faq);
                     if (ViewBag.SuccessOnCreation) {
-                        ViewBag.Message = "La pregunta " + "\"" + faqQuestion.Question + " \" fue creada con éxito";
+                        ViewBag.Message = "La pregunta " + "\"" + faq.Question + " \" fue creada con éxito";
                         ModelState.Clear();
                     }
                 }
-                return View();
+                return View("/Home/Index");
             } catch {
                 ViewBag.Message = "Algo salió mal y no fue posible crear la pregunta";
-                return View(); 
+                return View("/Home/Index"); 
             }
         }
     }
