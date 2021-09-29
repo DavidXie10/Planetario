@@ -85,7 +85,7 @@ namespace Planetarium.Controllers {
         }
 
         [HttpPost]
-        public ActionResult CreateFrequentlyAskedQuestion(FrequentlyQuestionModel question) {
+        public ActionResult CreateFrequentlyAskedQuestion(FrequentlyQuestionModel faqQuestion) {
             string[] categories = JsonContent.Categories.ToObject<string[]>();
             string[] cuerposDelSistemaSolar = JsonContent.CuerposDelSistemaSolar.ToObject<string[]>();
             string[] objetosDeCieloProfundo = JsonContent.ObjetosDeCieloProfundo.ToObject<string[]>();
@@ -112,9 +112,9 @@ namespace Planetarium.Controllers {
             try {
                 if (ModelState.IsValid) {
                     FrequentlyQuestionHandler dataAccess = new FrequentlyQuestionHandler();
-                    ViewBag.SuccessOnCreation = dataAccess.CreateFrequentlyAskedQuestion(question);
-                    if (ViewBag.ExitoAlCrear) {
-                        ViewBag.Message = "La pregunta " + "\"" + question.Question + " \" fue creada con éxito";
+                    ViewBag.SuccessOnCreation = dataAccess.CreateFrequentlyAskedQuestion(faqQuestion);
+                    if (ViewBag.SuccessOnCreation) {
+                        ViewBag.Message = "La pregunta " + "\"" + faqQuestion.Question + " \" fue creada con éxito";
                         ModelState.Clear();
                     }
                 }

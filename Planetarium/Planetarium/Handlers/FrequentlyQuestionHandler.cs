@@ -19,13 +19,13 @@ namespace Planetarium.Handlers {
             connection = new SqlConnection(connectionRoute);
         }
 
-        public bool CreateFrequentlyAskedQuestion(FrequentlyQuestionModel question) {
+        public bool CreateFrequentlyAskedQuestion(FrequentlyQuestionModel faqQuestion) {
             string query = "INSERT INTO PreguntaFrecuente (pregunta, respuesta, cedulaFK) " +
                            "VALUES (@pregunta, @respuesta, 103230738)";
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
-            queryCommand.Parameters.AddWithValue("@pregunta", question.Question);
-            queryCommand.Parameters.AddWithValue("@respuesta", question.Answer);
+            queryCommand.Parameters.AddWithValue("@pregunta", faqQuestion.Question);
+            queryCommand.Parameters.AddWithValue("@respuesta", faqQuestion.Answer);
 
             connection.Open();
             bool success = queryCommand.ExecuteNonQuery() >= 1;

@@ -2,14 +2,13 @@
 @model Planetarium.Models.FrequentlyQuestionModel
 @{          
     ViewBag.Title = "Crear Pregunta";
-
 }
 <html>
 <head>
 </head>
 <body>
     @if (ViewBag.Message != null) {
-        if (ViewBag.ExitoAlCrear) {
+        if (ViewBag.SuccessOnCreation) {
             <div class="alert-success">
                 <h3> @ViewBag.Message </h3>
             </div>
@@ -33,20 +32,19 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Topic)
                 <br />
-                @Html.DropDownList("SubCategory", new SelectList(string.Empty, "Value", "Text"), "Please select a Category first", new { style = "width:250px" })
+                @Html.DropDownList( "Topic", new SelectList(string.Empty, "Value", "Text"), "Please select a Category first", new { style = "width:250px" })
                 @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
             </div>
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Question)
-                @Html.TextBoxFor(model => model.Question, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Question, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
                 @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
             </div>
-
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Answer)
-                @Html.TextBoxFor(model => model.Answer, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Answer, new { style = "width: vw; height: auto;", @class = "form-control", @rows = "5" })
                 @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
             </div>
             <br />
@@ -58,7 +56,7 @@
     <script type="text/javascript">
     $(document).ready(function () {
         $("#Category").change(function () {
-            $("#SubCategory").empty();
+            $("#Topic").empty();
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetTopics")',
@@ -66,7 +64,7 @@
                 data: { id: $("#Category").val() },
                 success: function (subcategories) {
                     $.each(subcategories, function (i, subcategory) {
-                        $("#SubCategory").append('<option value="'
+                        $("#Topic").append('<option value="'
                             + subcategory.Value + '">' +
                             subcategory.Text + '</option>');
                     });
