@@ -44,9 +44,10 @@ namespace Planetarium.Handlers
                         Title = Convert.ToString(column["tituloPK"]), 
                         Date = Convert.ToDateTime(column["fechaPublicacion"]),
                         Content = Convert.ToString(column["contenido"]),
-                        AuthorId = Convert.ToString(column["cedulaFK"]),
+                        PublisherId = Convert.ToString(column["cedulaFK"]),
                         Description = Convert.ToString(column["resumen"]),
-               });
+                        Author = Convert.ToString(column["autor"])
+                    });
             }
 
             foreach (NewsModel newsInstance in news) {

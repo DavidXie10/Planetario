@@ -7,8 +7,6 @@ namespace Planetarium.Models
 {
     public class NewsModel
     {
-
-
         public string Title { get; set; }
     
         public DateTime Date { get; set; }
@@ -17,7 +15,9 @@ namespace Planetarium.Models
 
         public string Content { get; set; }
 
-        public string AuthorId { get; set; }
+        public string PublisherId { get; set; }
+
+        public string Author { get; set; }
 
         public string Category { get; set; }
 

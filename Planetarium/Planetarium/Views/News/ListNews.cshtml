@@ -6,6 +6,8 @@
         <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
             <div class="card-body">
                 <h2 class="text-start">@newsInstance.Title </h2>
+                <h4>@newsInstance.Author</h4>
+                <br/>
                 <h9>@newsInstance.Date</h9>
                 <span>
                     <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @newsInstance.Category</a></h5>
@@ -15,11 +17,11 @@
                             <a class=" btn btn-group-sm btn-success"> @topic</a>
                         }
                     </h5>
-                    </span>
+                </span>
                 <p class="card-text" style="margin-top: 15px;">
                     @newsInstance.Description
                 </p>
-               @Html.ActionLink("Seguir leyendo","News", new { title = newsInstance.Title }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Seguir leyendo", "News", new { title = newsInstance.Title }, new { @class = "btn btn-primary" })
 
             </div>
         </div>

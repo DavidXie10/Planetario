@@ -11,10 +11,11 @@
             <p class="card-text">
                 <h2>@ViewBag.News.Title</h2>
             </p>
+            <h4> @ViewBag.News.Author </h4>
             <p class="card-text"> @ViewBag.News.Date </p>
             <p class="card-text">Categoría: @ViewBag.News.Category </p>
             <p class="card-text">
-                Tópicos:  
+                Tópicos:
                 @foreach (var topic in @ViewBag.News.Topics) {
                     <a> @topic </a>
                 }
