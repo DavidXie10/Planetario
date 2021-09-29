@@ -13,7 +13,12 @@
             </p>
             <p class="card-text"> @ViewBag.News.Date </p>
             <p class="card-text">Categoría: @ViewBag.News.Category </p>
-            <p class="card-text">Tópicos: ViewBag.News.Topic </p>
+            <p class="card-text">
+                Tópicos:  
+                @foreach (var topic in @ViewBag.News.Topics) {
+                    <a> @topic </a>
+                }
+            </p>
         </div>
 
             <div class="card col-md">
