@@ -42,7 +42,7 @@ namespace Planetarium.Handlers
                 employees.Add(
                     new EmployeesModel
                     {
-                        IdPhoto = Convert.ToString(column["foto"]),
+                        IdPhoto = Convert.ToString(column["fotoPerfil"]),
                         Name = Convert.ToString(column["nombre"]),
                         LastName = Convert.ToString(column["apellido"]),
                         AcademicDegree = Convert.ToString(column["titulosAcademicos"]),

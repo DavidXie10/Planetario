@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <title>Funcionarios</title>
@@ -8,37 +9,32 @@
         <h4 class="text-md-left" style="margin: 5px;">Conozca nuestros funcionarios</h4>
         <br>
         <div class="container">
-            
-            @{ 
-            int i=0;
-            foreach (var employees in ViewBag.employees)
-            {
-                string alignInfo = "";
-                    if (i % 2 == 0)
-                    {
-                        alignInfo = "employees-left";
-                    }
-                    else
-                    {
-                        alignInfo = "employees-right";
-                    }
-                <div class="card col-md">
-                    <div class=@alignInfo>
-                        <img src="~/images/EmployeesProfilePhotos/@employees.IdPhoto" alt="an employee photo " class="passaport-Img" />
-                        <div class="employee-data">
-                            <h5 class="employee-name"> @employees.Name @employees.LastName</h5>
-                            <p> @employees.AcademicDegree </p>
-                            <p> @employees.Occupation </p>
-                            <p> @employees.Mail </p>
-                            <p class="phrase">@employees.Phrase</p>
+            @{foreach (var employees in ViewBag.employees)
+                {
+                    string perfilPhoto = employees.IdPhoto+".png";
+                    <div class="card mb-3" >
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <img class="passaport-Img" width="215" height="300" src="~/images/EmployeesProfilePhotos/@perfilPhoto" alt="an employee profile photo">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Nombre: @employees.Name @employees.LastName</h5>
+                                    <p class="card-text">Título académico: @employees.AcademicDegree</p>
+                                    <p class="card-text"> Ocupación: @employees.Occupation </p>
+                                    <p class="card-text"> Correo: @employees.Mail  </p>                             
+                                    <div class="card-body">
+                                        <blockquote class="blockquote mb-0">
+                                            <p>"@employees.Phrase"</p>
+                                            <footer class="blockquote-footer">@employees.LastName  @employees.Name</footer>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <br>
-                    </div>
-                </div>
-                i++;
+                    </div>                  
+                }
             }
-            }
-
         </div>
     </div>
 </body>
