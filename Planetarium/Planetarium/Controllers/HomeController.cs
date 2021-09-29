@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Planetarium.Handlers;
 using Planetarium.Models;
 
 namespace Planetarium.Controllers
@@ -11,6 +12,9 @@ namespace Planetarium.Controllers
     {
         public ActionResult Index()
         {
+            NewsHandler dataAccess = new NewsHandler();
+            ViewBag.News = dataAccess.GetAllNews();
+            ViewBag.length = 3;
             return View();
         }
         
@@ -39,10 +43,6 @@ namespace Planetarium.Controllers
         }
 
         public ActionResult Educative() {
-            return View();
-        }
-
-        public ActionResult News() {
             return View();
         }
     }

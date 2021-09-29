@@ -48,22 +48,8 @@ namespace Planetarium.Handlers
                         Content = Convert.ToString(column["contenido"]),
                         AuthorId = Convert.ToString(column["cedulaFK"]),
                         Description = Convert.ToString(column["resumen"]),
-                        
-                        
-                    });
+               });
             }
-
-            foreach (NewsModel newsInstance in news) {
-                query = "SELECT * FROM Noticia " +
-                        "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
-                        "WHERE tituloPK = " + newsInstance.Title +
-                        " ORDER BY fechaPublicacion DESC ";
-                resultingTable = CreateTableFromQuery(query);
-                foreach (DataRow column in resultingTable.Rows) {
-                }
-
-            }
-
 
             return news;
         }

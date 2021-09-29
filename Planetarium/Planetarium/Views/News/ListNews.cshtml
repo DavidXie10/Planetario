@@ -9,12 +9,13 @@
                 <h9>@newsInstance.Date</h9>
                 <span>
                     <!--<h5>Categoría: <a class=" btn btn-group-sm btn-success"> newsInstance.Category</a></h5>-->
-                    <h5>Tópico: <a class=" btn btn-group-sm btn-success"> newsInstance.Topic</a></h5>
+                    <!--<h5>Tópico: <a class=" btn btn-group-sm btn-success"> newsInstance.Topic</a></h5>-->
                 </span>
                 <p class="card-text" style="margin-top: 15px;">
                     @newsInstance.Description
                 </p>
-                <a href="News" class="btn btn-primary">Seguir leyendo</a>
+               @Html.ActionLink("Seguir leyendo","News", new { title = newsInstance.Title }, new { @class = "btn btn-primary" })
+
             </div>
         </div>
     }
