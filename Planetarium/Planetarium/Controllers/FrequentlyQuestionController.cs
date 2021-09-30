@@ -80,13 +80,15 @@ namespace Planetarium.Controllers {
         }
 
         [HttpPost]
-        public ActionResult CreateFrequentlyAskedQuestion(FrequentlyQuestionModel faqQuestion) {
+        public ActionResult CreateFrequentlyAskedQuestionRawHTML() {
 
             FrequentlyQuestionModel faq = new FrequentlyQuestionModel();
             faq.Category = Request.Form["category"].Replace(" ", "_");
-            //faq.Topics = Request.Form["topic"];
+            faq.Topics = new List<string>();
+            faq.Topics.Add(Request.Form["topic"]);
             faq.Question = Request.Form["question"];
             faq.Answer = Request.Form["Answer"];
+            faq.QuestionId = -1;
 
             ViewBag.SuccessOnCreation = false;
             try {
@@ -97,18 +99,18 @@ namespace Planetarium.Controllers {
                         ModelState.Clear();
                     }
                 }
-                return View("/Home/Index");
+                return View("/FrequentlyQuestion/FrequentlyAskQuestions");
             } catch {
                 ViewBag.Message = "Algo salió mal y no fue posible crear la pregunta";
-                return View("/Home/Index"); 
+                return View("/FrequentlyQuestion/FrequentlyAskQuestions"); 
             }
         }
 
         public ActionResult FrequentlyAskQuestions() {
-            //List<FrequentlyQuestionModel> questions =  this.dataAccess.GetAllQuestions();
-            //List<string> categories = this.dataAccess.GetAllCategories();
-            //ViewBag.Questions = questions;
-            //ViewBag.Categories = categories;
+            List<FrequentlyQuestionModel> questions = this.dataAccess.GetAllQuestions();
+            List<string> categories = this.dataAccess.GetAllCategories();
+            ViewBag.Questions = questions;
+            ViewBag.Categories = categories;
             return View();
         }
 

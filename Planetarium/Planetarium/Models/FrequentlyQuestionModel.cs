@@ -22,7 +22,7 @@ namespace Planetarium.Models {
         [Display(Name = "Ingrese la respuesta")]
         public string Answer { get; set; }
 
-        public string QuestionId { get; set; }
+        public int QuestionId { get; set; }
 
         //TO-DO: public var cedulaFK de la persona que escribe
     }

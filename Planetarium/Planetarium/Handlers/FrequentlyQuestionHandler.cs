@@ -27,16 +27,23 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@pregunta", faqQuestion.Question);
             queryCommand.Parameters.AddWithValue("@respuesta", faqQuestion.Answer);
 
-            //Insertar la pregunta
-            //idPregunta = Select [last].id
-            //for(topico en topicos){
-            //  Insertar en PreguntaFrecuentePerteneceATopico(idPregunta, topico)
-            //}
-
             connection.Open();
             bool success = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close(); 
+            connection.Close();
 
+            query = "SELECT IDENT_CURRENT('PreguntaFrecuente') ";
+            DataTable resultingTable = CreateTableFromQuery(query);
+
+            int questionId = Convert.ToInt32(resultingTable.Rows[0][0]);
+
+            foreach (string topic in faqQuestion.Topics) {
+                query = "INSERT INTO PreguntaFrecuentePerteneceATopico " +
+                        "VALUES (" + questionId + ",'" + topic + "')";
+                queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
             return success;
         }
 
@@ -59,7 +66,7 @@ namespace Planetarium.Handlers {
                     new FrequentlyQuestionModel {
                         Question = Convert.ToString(column["pregunta"]),
                         Answer = Convert.ToString(column["respuesta"]),
-                        QuestionId = Convert.ToString(column["idPreguntaFrecuentePKFK"])
+                        QuestionId = Convert.ToInt32(column["idPreguntaPK"])
                     }
                 );
             }

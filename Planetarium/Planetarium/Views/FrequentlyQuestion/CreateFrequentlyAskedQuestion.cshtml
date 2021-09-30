@@ -20,7 +20,7 @@
         }
     }
    
-    @using (Html.BeginForm("CreateFrequentlyAskedQuestion", "FrequentlyQuestion", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @using (Html.BeginForm("CreateFrequentlyAskedQuestionRawHTML", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
         @Html.AntiForgeryToken()
         <h1>Formulario para agregar preguntas</h1>
         <div class="form-horizontal">
@@ -39,14 +39,12 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Topics)
                 <br />
-                <select class="mdb-select colorful-select dropdown-primary md-form" multiple searchable="Search here.." id="topicSelector" name="topic">
+                <select class="se" id="topicSelector" name="topic">
                     <option value="value">------</option>
                     @foreach (string topic in ViewBag.topics[1]) {
                         <option value="@topic">@topic</option>
                     }
                 </select>
-                <label class="mdb-main-label">Label example</label>
-                <button class="btn-save btn btn-primary btn-sm">Save</button>
             </div>
 
             <div class="form-group">
