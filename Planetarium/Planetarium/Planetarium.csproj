@@ -153,6 +153,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\news\anillosDeEinstein.jpg" />
+    <Content Include="images\news\eclipse.jpg" />
+    <Content Include="images\news\perseverance.jpg" />
+    <Content Include="images\news\stringTheory.jpg" />
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
@@ -189,10 +193,11 @@
     <Content Include="Views\Home\FindUs.cshtml" />
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
+    <Content Include="Views\News\ListNews.cshtml" />
+    <Content Include="Views\News\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\News\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

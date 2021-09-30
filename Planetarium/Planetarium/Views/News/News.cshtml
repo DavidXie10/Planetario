@@ -17,7 +17,7 @@
             <p class="card-text">
                 Tópicos:
                 @foreach (var topic in @ViewBag.News.Topics) {
-                    <a class="badge rounded-pill bg-info"> @topic </a>
+                <a class="badge rounded-pill bg-info"> @topic </a>
                 }
             </p>
         </div>
@@ -30,8 +30,8 @@
 
             @{ string ImageRefWithExtension = @ViewBag.News.ImageRef+".jpg"; }
             <img src="~/images/news/@ImageRefWithExtension" class="d-block w-100 carousel-Img" alt="A news relevant to image">
-
         </div>
+        <a class="btn btn-primary" href="/News/ListNews" role="button">Atrás</a>
     </div>
 
 </body>
