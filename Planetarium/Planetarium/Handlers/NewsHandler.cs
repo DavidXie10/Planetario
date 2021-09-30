@@ -46,7 +46,8 @@ namespace Planetarium.Handlers
                         Content = Convert.ToString(column["contenido"]),
                         PublisherId = Convert.ToString(column["cedulaFK"]),
                         Description = Convert.ToString(column["resumen"]),
-                        Author = Convert.ToString(column["autor"])
+                        Author = Convert.ToString(column["autor"]),
+                        ImageRef = Convert.ToString(column["fotoNoticia"]).Trim()
                     });
             }
 

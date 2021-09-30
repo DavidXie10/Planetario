@@ -22,5 +22,7 @@ namespace Planetarium.Models
         public string Category { get; set; }
 
         public List<string> Topics { get; set; }
+
+        public string ImageRef { get; set; }
     }
 }
