@@ -37,9 +37,9 @@ namespace Planetarium.Controllers
                     }
                 }
                 return view;
-            }catch (Exception exception)
+            } catch (Exception)
             {
-                ViewBag.Message = exception.ToString();
+                ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
                 return View(); 
             }
         }
