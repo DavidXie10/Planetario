@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
-    @Scripts.Render("~bundles/jquery")
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -66,7 +65,7 @@
                     Universidad de Costa Rica
                 </p>
             </div>
-            
+
             <div class="row">
                 <div class="col-sm">
                     <div class="card-body">
@@ -121,11 +120,13 @@
             <div class="d-flex justify-content-center">
                 <img src="~/images/firma-ucr-ico.png" width="150" height="75" alt="Alternate Text" />
             </div>
-           
-        </div>
-</footer>
 
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    
+    @RenderSection("scripts", required: false)
+
 </body>
 </html>

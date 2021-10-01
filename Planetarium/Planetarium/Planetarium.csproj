@@ -188,6 +188,7 @@
     <Content Include="Views\Home\FindUs.cshtml" />
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
     <Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
+    <Content Include="Views\FrequentlyQuestion\FrequentlyAskQuestions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
