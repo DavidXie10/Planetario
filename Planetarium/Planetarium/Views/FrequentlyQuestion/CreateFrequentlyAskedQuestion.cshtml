@@ -1,50 +1,37 @@
-﻿
-@model Planetarium.Models.FrequentlyQuestionModel
-@{          
-    ViewBag.Title = "Crear Pregunta";
-    
+﻿@model Planetarium.Models.FrequentlyQuestionModel
+@{
+    ViewBag.Title = "Agregar Pregunta";
 }
-<html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <title>@ViewBag.Title</title>
 </head>
 <body>
-    @if (ViewBag.Message != null) {
-        if (ViewBag.SuccessOnCreation) {
-            <div class="alert-success">
-                <h3> @ViewBag.Message </h3>
-            </div>
-        } else {
-            <div class="alert-danger">
-                <h3> @ViewBag.Message </h3>
-            </div>
-        }
-    }
-   
-    @using (Html.BeginForm("CreateFrequentlyAskedQuestionRawHTML", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "FrequentlyQuestion")"></div>
+    @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-        <h1>Formulario para agregar preguntas</h1>
+
+        <h1>Agregar una pregunta</h1>
+
         <div class="form-horizontal">
             <div class="form-group">
                 @Html.LabelFor(model => model.Category)
                 <br />
-                <select id="categorySelector" name="category">
-                    <option value="value">------</option>
-                    @foreach (string category in ViewBag.categories) {
-
-                        <option value="@category">@category</option>
-                    }
-                </select>
+                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "--Sin selección--", new { @class = "form-control" })
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Topics)
                 <br />
-                <select class="se" id="topicSelector" name="topic">
-                    <option value="value">------</option>
-                    @foreach (string topic in ViewBag.topics[1]) {
-                        <option value="@topic">@topic</option>
-                    }
-                </select>
+                @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+            </div>
+
+            <div class="card-header" style="margin: 10px 0 10px 0;">
+                <h4>Topicos seleccionados</h4>
+                <div class="card-body" id="selectedTopics">
+
+                </div>
             </div>
 
             <div class="form-group">
@@ -62,44 +49,9 @@
             <input type="submit" class="btn btn-success" value="Crear" />
 
         </div>
-
-
     }
 
-<script>
-
-        let categorySelector = document.querySelector("#categorySelector");
-        let topicSelector = document.querySelector("#topicSelector");
-
-        let categories = @Html.Raw(Json.Encode(ViewBag.categories));
-        let topics = @Html.Raw(Json.Encode(ViewBag.topics));
-
-        categorySelector.addEventListener('change', (event) => {
-        topicSelector.innerHTML = "";
-        let selectedIndex = categorySelector.selectedIndex - 1;
-        let option = document.createElement("option");
-        let textNode = document.createTextNode("----");
-        option.appendChild(textNode);
-        option.value = "----";
-        topicSelector.append(option);
-        for (i = 0; i < topics[selectedIndex].length; i++) {
-            let option = document.createElement("option");
-            let textNode = document.createTextNode(topics[selectedIndex][i]);
-            option.appendChild(textNode);
-            option.value = topics[selectedIndex][i];
-            topicSelector.append(option);
-        }
-        })
-
-
-        //Crear el option menu desde javascript
-
-
-</script>
-
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="~/Scripts/FrequentlyAskedQuestions.js"></script>
 </body>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
 </html>

@@ -9,74 +9,39 @@ using System.Diagnostics;
 
 namespace Planetarium.Controllers {
     public class FrequentlyQuestionController : Controller {
-        dynamic JsonContent { get; set; }
         public FrequentlyQuestionHandler dataAccess {  get; set;  }
 
         public FrequentlyQuestionController() {
             dataAccess = new FrequentlyQuestionHandler();
-            ContentParser contentParser = new ContentParser();
-            this.JsonContent = contentParser.ParseFromJSON("CategoriesAndTopics.json");
 
         }
 
-        
+
         public ActionResult CreateFrequentlyAskedQuestion() {
 
-            List<string> keysJson = new List<string>();
-            List<string[]> valuesJson = new List<string[]>();
+            List<string> categories = dataAccess.GetAllCategories();
 
-            foreach (var keys in this.JsonContent) {
-                string keyFromJason = keys.Key;
-                keyFromJason = keyFromJason.Replace("_", " ");
-                keysJson.Add(keyFromJason);
-                valuesJson.Add(keys.Value);
+            List<SelectListItem> liCategories = new List<SelectListItem>();
+            foreach(string category in categories) {
+                liCategories.Add(new SelectListItem { Text = category, Value = category });
             }
 
-            ViewBag.Categories = keysJson;
-            ViewBag.Topics = valuesJson;
+            ViewData["category"] = liCategories;
+
 
             return View();
         }
 
-        public JsonResult GetTopics(string id) {
-            List<SelectListItem> subCat = new List<SelectListItem>();
+        public JsonResult GetTopicsList(string category) {
+            List<SelectListItem> topicsList = new List<SelectListItem>();
 
-            subCat.Add(new SelectListItem { Text = "Select", Value = "0" });
-            string[] cuerposDelSistemaSolar = JsonContent.CuerposDelSistemaSolar.ToObject<string[]>();
-            string[] objetosDeCieloProfundo = JsonContent.ObjetosDeCieloProfundo.ToObject<string[]>();
-            string[] astronomía = JsonContent.Astronomía.ToObject<string[]>();
-            string[] general = JsonContent.General.ToObject<string[]>();
-            int value = 1;
-            switch (id) {
-                case "1":
-                    foreach (string topic in cuerposDelSistemaSolar) {
-                        subCat.Add(new SelectListItem { Text = topic, Value = value.ToString() });
-                        ++value;
-                    }
-                    break;
-                case "2":
-                    foreach (string topic in objetosDeCieloProfundo) {
-                        subCat.Add(new SelectListItem { Text = topic, Value = value.ToString() });
-                        ++value;
-                    }
-                    break;
-                case "3":
-                    foreach (string topic in astronomía) {
-                        subCat.Add(new SelectListItem { Text = topic, Value = value.ToString() });
-                        ++value;
-                    }
-                    break;
-                case "4":
-                    foreach (string topic in general) {
-                        subCat.Add(new SelectListItem { Text = topic, Value = value.ToString() });
-                        ++value;
-                    }
-                    break;
-                default:
-                    break;
+            List<string> topicsFromCategory = dataAccess.GetTopicsByCategory(category);
+
+            foreach(string topic in topicsFromCategory) {
+                topicsList.Add(new SelectListItem { Text = topic, Value = topic });
             }
 
-            return Json(new SelectList(subCat, "Value", "Text"));
+            return Json(new SelectList(topicsList, "Value", "Text"));
         }
 
         [HttpPost]

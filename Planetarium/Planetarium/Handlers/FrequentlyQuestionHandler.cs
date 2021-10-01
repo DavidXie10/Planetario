@@ -98,15 +98,36 @@ namespace Planetarium.Handlers {
         }
 
         public List<string> GetAllCategories() {
+            
             List<string> categories = new List<string>();
 
-            string query = "SELECT DISTINCT nombreTopicoPKFK FROM PreguntaFrecuentePerteneceATopico ";
+            string query = "SELECT DISTINCT categoria " +
+                            "FROM Topico;";
+
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
-                categories.Add(Convert.ToString(column["nombreTopicoPKFK"]));
+                categories.Add(Convert.ToString(column["categoria"]));
             }
 
             return categories;
+        }
+
+        public List<string> GetTopicsByCategory(string category) {
+
+            List<string> topics = new List<string>();
+
+            string query = "SELECT nombrePK " +
+                            "FROM Topico T " +
+                            "WHERE T.categoria LIKE '%" + category + "%';";
+            
+            DataTable topicsDataTable = CreateTableFromQuery(query);
+
+            foreach(DataRow column in topicsDataTable.Rows) {
+                topics.Add(Convert.ToString(column["nombrePK"]));
+            }
+
+            return topics;
+
         }
     }
 }

@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
+    @Scripts.Render("~bundles/jquery")
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -124,8 +125,7 @@
         </div>
 </footer>
 
-    @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-    @RenderSection("scripts", required: false)
+    
 </body>
 </html>
