@@ -20,25 +20,26 @@ namespace Planetarium.Controllers
 
         public ActionResult CreateEmployee() 
         {
-            return View();
+            return View(new EmployeeModel());
         }
 
         [HttpPost]
-        public ActionResult CreateEmployee(EmployeesModel employee) {
+        public ActionResult CreateEmployee(EmployeeModel employee) {
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
                     EmployeesHandler dataAcess = new EmployeesHandler();
                     ViewBag.SucessOnCreation = dataAcess.CreateEmployee(employee);
                 if (ViewBag.SucessOnCreation) {
-                        ViewBag.Message = "El funcionario" + " " + employee.Name + " " + employee.LastName  + " fue creado con éxito :)" ;
+                        ViewBag.Message = "El funcionario" + " " + employee.FirstName + " " + employee.LastName  + " fue creado con éxito :)" ;
                         ModelState.Clear();
                     }
                 }
                 // TODO: Cambiar a que redireccione a otra vista
                 return View();
-            } catch {
-                ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario :(";
+            } catch (Exception e){
+                ViewBag.Message = e.Message;
+               // "Algo salió mal y no fue posible crear el funcionario :(";
                 // TODO: Cambiar a que redireccione a otra vista
                 return View(); 
             }
