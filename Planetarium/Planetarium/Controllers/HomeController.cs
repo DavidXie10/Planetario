@@ -19,15 +19,30 @@ namespace Planetarium.Controllers
         }
         
         public ActionResult FindUs() {
+            ContentParser contentParser = new ContentParser();
+            dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
+            string[] schedule = jsonContent.Horarios.ToObject<string[]>();
+            string[] transportBuses = jsonContent.Buses.ToObject<string[]>();
+            string[] transportTrains = jsonContent.Trenes.ToObject<string[]>();
+            string[] parking = jsonContent.Parqueos.ToObject<string[]>();
+
+            ViewBag.Parking = parking;
+            ViewBag.TransportBuses = transportBuses;
+            ViewBag.TransportTrains = transportTrains;
+            ViewBag.Schedule = schedule;
             return View();
         }
 
         public ActionResult WhoWeAre()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.MissionMessage = contentParser.getContentFromFile("Mision.txt");
-            ViewBag.VisionMessage = contentParser.getContentFromFile("Vision.txt");
 
+            dynamic jsonContent = contentParser.ParseFromJSON("Planetario.json");
+            string mision = jsonContent.Mision;
+            string vision = jsonContent.Vision;
+
+            ViewBag.MissionMessage = mision;
+            ViewBag.VisionMessage = vision;
             return View();
         }
 
@@ -38,12 +53,10 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public ActionResult FAQ() {
-            return View();
-        }
 
         public ActionResult Educative() {
             return View();
         }
+
     }
 }

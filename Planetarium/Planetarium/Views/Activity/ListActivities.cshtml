@@ -9,13 +9,13 @@
     <div class="seccion_1" id="s1">
         @foreach (var activitie in ViewBag.activities)
         {
-            <hr />
+            <hr />            
             <h2><strong>Actividad: </strong>@activitie.Id</h2>
             <p>
                 Título: @activitie.Title <br />
                 Contenido: @activitie.Body <br />
                 <-->TODO: Poner imagen</-->
-            </p>
+            </p>        
             <hr />
         }
     </div>
