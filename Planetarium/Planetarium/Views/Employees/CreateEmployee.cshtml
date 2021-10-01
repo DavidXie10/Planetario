@@ -2,9 +2,6 @@
 @model Planetarium.Models.EmployeeModel
 @{
     ViewBag.Title = "Crear Funcionario";
-    List<SelectListItem> genders = new List<SelectListItem>() { new
-    SelectListItem { Text = "M" }, new SelectListItem { Text = "F" }, new
-    SelectListItem { Text = "Otro" } };
 }
 <html>
 <head>
@@ -40,10 +37,20 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.PhotoFile)
                 <br />
-                @Html.TextBoxFor(model => model.PhotoFile, new { type = "file",
-               @class = "btn btn alert-info" })
+                @Html.TextBoxFor(model => model.PhotoFile, new {
+                    type = "file",
+               @class = "btn btn alert-info"
+                })
                 @Html.ValidationMessageFor(model => model.PhotoFile, "", new {
-               @class = "text-danger" })
+               @class = "text-danger"
+                })
+            </div>
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateOfBirth)
+                <br />
+                @Html.EditorFor(model => model.DateOfBirth, new { @type = "date" })
+                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
             </div>
             <br />
             <div>

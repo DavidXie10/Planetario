@@ -4,10 +4,8 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace Planetarium.Models
-{
-    public class EmployeeModel
-    {        
+namespace Planetarium.Models {
+    public class EmployeeModel {
         [Required(ErrorMessage = "Es necesario que ingrese su nombre")]
         [Display(Name = "Nombre")]
         public string FirstName { get; set; }
@@ -48,5 +46,12 @@ namespace Planetarium.Models
         public HttpPostedFileBase PhotoFile { get; set; }
 
         public string PhotoFileType { get; set; }
+
+        [Required(ErrorMessage = "Debe ingresar fecha de nacimiento")]
+        [Display(Name = "Fecha de nacimiento")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime DateOfBirth { get; set; }
+
     }
 }
