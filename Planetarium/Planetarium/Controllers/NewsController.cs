@@ -6,12 +6,9 @@ using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
 
-namespace Planetarium.Controllers
-{
-    public class NewsController : Controller
-    {
-        public ActionResult ListNews()
-        {
+namespace Planetarium.Controllers {
+    public class NewsController : Controller {
+        public ActionResult ListNews() {
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
             return View();
@@ -22,8 +19,7 @@ namespace Planetarium.Controllers
         }
 
         [HttpGet]
-        public ActionResult News(string title)
-        {
+        public ActionResult News(string title) {
             ActionResult view;
             try {
                 NewsHandler dataAccess = new NewsHandler();
@@ -39,6 +35,5 @@ namespace Planetarium.Controllers
             }
             return view;
         }
-
     }
 }

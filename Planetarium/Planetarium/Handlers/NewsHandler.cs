@@ -7,22 +7,18 @@ using System.Data.SqlClient;
 using System.IO;
 using Planetarium.Models;
 
-namespace Planetarium.Handlers
-{
-    public class NewsHandler
-    {
+namespace Planetarium.Handlers {
+    public class NewsHandler {
 
         private SqlConnection connection;
         private string connectionRoute;
 
-        public NewsHandler()
-        {
+        public NewsHandler() {
             connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 
-        private DataTable CreateTableFromQuery(string query)
-        {
+        private DataTable CreateTableFromQuery(string query) {
             SqlCommand queryCommand = new SqlCommand(query, connection);
             SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
             DataTable queryTable = new DataTable();
@@ -32,54 +28,80 @@ namespace Planetarium.Handlers
             return queryTable;
         }
 
-        public List<NewsModel> GetAllNews()
-        {
-            List<NewsModel> news = new List<NewsModel>();
+        public List<NewsModel> GetAllNews() {
             string query = "SELECT * FROM Noticia " +
                            "ORDER BY fechaPublicacion DESC ";
-            DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow column in resultingTable.Rows) {
-                news.Add(
-                    new NewsModel { 
-                        Title = Convert.ToString(column["tituloPK"]), 
-                        Date = Convert.ToDateTime(column["fechaPublicacion"]),
-                        Content = Convert.ToString(column["contenido"]),
-                        PublisherId = Convert.ToString(column["cedulaFK"]),
-                        Description = Convert.ToString(column["resumen"]),
-                        Author = Convert.ToString(column["autor"]),
-                        ImageRef = Convert.ToString(column["fotoNoticia"]).Trim()
-                    });
-            }
-
-            foreach (NewsModel newsInstance in news) {
-                query = "SELECT * FROM Noticia " +
-                        "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
-                        "WHERE tituloPK = '" + newsInstance.Title + "' " +
-                        "ORDER BY fechaPublicacion DESC";
-                resultingTable = CreateTableFromQuery(query);
-                newsInstance.Topics = new List<string>();
-                foreach (DataRow column in resultingTable.Rows) {
-                    var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
-                    newsInstance.Topics.Add(tempTopic);
-                }
-            }
-
-            foreach (NewsModel newsInstance in news) {
-                query = "SELECT * FROM NoticiaPerteneceATopico " +
-                        "INNER JOIN Topico ON Topico.nombrePK = NoticiaPerteneceATopico.nombreTopicoPKFK  " +
-                        "WHERE Topico.nombrePK = '" + newsInstance.Topics[0] + "'";
-                resultingTable = CreateTableFromQuery(query);
-
-                foreach (DataRow column in resultingTable.Rows) {
-                    newsInstance.Category = Convert.ToString(column["categoria"]);
-                }
-            }
-
+            DataTable resultingNewsTable = CreateTableFromQuery(query);
+            List<NewsModel> news = CreateNewsFromDataTable(resultingNewsTable);
+            LinkAllNewsWithTopics(news);
+            LinkAllNewsWithCategory(news);
             return news;
         }
 
-        private byte[] GetFileBytes(HttpPostedFileBase file)
-        {
+        private List<NewsModel> CreateNewsFromDataTable(DataTable resultingNewsTable) {
+            List<NewsModel> news = new List<NewsModel>();
+            foreach (DataRow scoopRawInfo in resultingNewsTable.Rows) {
+                news.Add(CreateScoop(scoopRawInfo));
+            }
+            return news;
+        }
+
+        private NewsModel CreateScoop(DataRow scoopRawInfo) {
+            return new NewsModel {
+                Title = Convert.ToString(scoopRawInfo["tituloPK"]),
+                Date = Convert.ToDateTime(scoopRawInfo["fechaPublicacion"]),
+                Content = Convert.ToString(scoopRawInfo["contenido"]),
+                PublisherId = Convert.ToString(scoopRawInfo["cedulaFK"]),
+                Description = Convert.ToString(scoopRawInfo["resumen"]),
+                Author = Convert.ToString(scoopRawInfo["autor"]),
+                ImageRef = Convert.ToString(scoopRawInfo["fotoNoticia"]).Trim()
+            };
+        }
+
+        private void LinkAllNewsWithTopics(List<NewsModel> news) {
+            foreach (NewsModel scoop in news) {
+                DataTable resultingTableOfNewsWithTheirTopic = GetNewsWithTopicsTable(scoop.Title);
+                LinkScoopWithTopics(scoop, resultingTableOfNewsWithTheirTopic);
+            }
+        }
+
+        private DataTable GetNewsWithTopicsTable (string scoopTitle) {
+            string query = "SELECT * FROM Noticia " +
+                        "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
+                        "WHERE tituloPK = '" + scoopTitle + "' " +
+                        "ORDER BY fechaPublicacion DESC";
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkScoopWithTopics(NewsModel scoop, DataTable resultingTable) {
+            scoop.Topics = new List<string>();
+            foreach (DataRow column in resultingTable.Rows) {
+                var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
+                scoop.Topics.Add(tempTopic);
+            }
+        }
+
+        private void LinkAllNewsWithCategory(List<NewsModel> news) {
+            foreach (NewsModel scoop in news) {
+                DataTable resultingTableOfNewsWithTheirCategory = GetNewsWithCategoryTable(scoop.Topics[0]);
+                LinkScoopWithCategory(scoop, resultingTableOfNewsWithTheirCategory);
+            }
+        }
+
+        private DataTable GetNewsWithCategoryTable(string scoopTopic) {
+            string query = "SELECT * FROM NoticiaPerteneceATopico " +
+                        "INNER JOIN Topico ON Topico.nombrePK = NoticiaPerteneceATopico.nombreTopicoPKFK  " +
+                        "WHERE Topico.nombrePK = '" + scoopTopic + "'";
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkScoopWithCategory(NewsModel scoop, DataTable resultingTable) {
+            foreach (DataRow column in resultingTable.Rows) {
+                scoop.Category = Convert.ToString(column["categoria"]);
+            }
+        }
+
+        private byte[] GetFileBytes(HttpPostedFileBase file) {
             byte[] bytes;
             BinaryReader reader = new BinaryReader(file.InputStream);
             bytes = reader.ReadBytes(file.ContentLength);

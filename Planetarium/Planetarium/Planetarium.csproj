@@ -192,7 +192,6 @@
     <Content Include="Views\Home\Educative.cshtml" />
     <Content Include="Views\Home\FindUs.cshtml" />
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
-    <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\News\ListNews.cshtml" />
     <Content Include="Views\News\News.cshtml" />
   </ItemGroup>
