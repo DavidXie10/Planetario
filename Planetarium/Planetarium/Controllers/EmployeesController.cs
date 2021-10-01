@@ -32,15 +32,14 @@ namespace Planetarium.Controllers
                 if (ModelState.IsValid) {
                     EmployeesHandler dataAcess = new EmployeesHandler();
                     ViewBag.SucessOnCreation = dataAcess.CreateEmployee(employee);
-                if (ViewBag.SucessOnCreation) {
-                        //ViewBag.Message = "El funcionario" + " " + employee.FirstName + " " + employee.LastName  + " fue creado con éxito :)" ;
+                    if (ViewBag.SucessOnCreation) {
                         ModelState.Clear();
                     }
                 }
                 return view;
-            } catch (Exception)
+            }catch (Exception exception)
             {
-                ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
+                ViewBag.Message = exception.ToString();
                 return View(); 
             }
         }

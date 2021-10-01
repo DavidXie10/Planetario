@@ -66,8 +66,8 @@ namespace Planetarium.Handlers
         public bool CreateEmployee(EmployeeModel employee) 
         {
 
-            string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,foto,correo,nombre,apellido,genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,fotoPerfil,paisDeOrigen)" +
-              "VALUES(@cedula,@ocupacion,@titulosAcademicos,CAST('empleado1' AS VARBINARY(MAX)),@correo,@nombre,@apellido,@gender,'2000-02-02','2000-02-02',@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,CAST('empleado1' AS VARBINARY(MAX)),'CR') "; 
+            string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,foto,fotoTipo,correo,nombre,apellido,genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen)" +
+              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@archivo,@tipoFoto,@correo,@nombre,@apellido,@gender,'2000-02-02','2000-02-02',@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,'CR') "; 
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
@@ -81,11 +81,12 @@ namespace Planetarium.Handlers
             queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber );
             queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea );
             queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address );
+            queryCommand.Parameters.AddWithValue("@archivo", GetFileBytes(employee.PhotoFile));
+            queryCommand.Parameters.AddWithValue("@tipoFoto", employee.PhotoFile.ContentType);
 
             connection.Open();
             bool success = queryCommand.ExecuteNonQuery() >= 1;
             connection.Close();
-            Console.WriteLine(queryCommand.ToString());
             return success;
         }
     }

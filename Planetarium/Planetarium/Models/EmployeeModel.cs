@@ -42,5 +42,11 @@ namespace Planetarium.Models
         [Required(ErrorMessage = "Es necesario que ingrese la ocupación")]
         [Display(Name = "Ocupación")]
         public string Occupation { get; set; }
+
+        [Required(ErrorMessage = "Debe agregar un archivo (PNG, JPEG)")]
+        [Display(Name = "Ingrese el archivo con su foto de perfil")]
+        public HttpPostedFileBase PhotoFile { get; set; }
+
+        public string PhotoFileType { get; set; }
     }
 }
