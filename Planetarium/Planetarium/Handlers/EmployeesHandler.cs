@@ -67,12 +67,12 @@ namespace Planetarium.Handlers
         {
 
             string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,foto,correo,nombre,apellido,genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,fotoPerfil,paisDeOrigen)" +
-              "VALUES(@cedula,@ocupacion,@titulosAcademicos,CAST('empleado1' AS VARBINARY(MAX)),@correo,@nombre,@apellido,'M','2000-02-02','2000-02-02',@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,CAST('empleado1' AS VARBINARY(MAX)),'CR') "; 
-            // string query = "INSERT INTO Funcionario(nombre, apellido, correo, cedula, telefono, areaExpertiz, fechaNacimiento,lugarDeResidencia,titulosAcademicos)" + "VALUES (@nombre,@apellido,@correo,@cedula,@telefono,@areaExpertiz,@fechaNacimiento,@lugarDeResidencia,@titulosAcademicos)";
+              "VALUES(@cedula,@ocupacion,@titulosAcademicos,CAST('empleado1' AS VARBINARY(MAX)),@correo,@nombre,@apellido,@gender,'2000-02-02','2000-02-02',@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,CAST('empleado1' AS VARBINARY(MAX)),'CR') "; 
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
+            queryCommand.Parameters.AddWithValue("@gender", employee.Gender);
             queryCommand.Parameters.AddWithValue("@ocupacion", employee.Occupation);
             queryCommand.Parameters.AddWithValue("@titulosAcademicos", employee.AcademicDegree);
             queryCommand.Parameters.AddWithValue("@correo", employee.Mail );

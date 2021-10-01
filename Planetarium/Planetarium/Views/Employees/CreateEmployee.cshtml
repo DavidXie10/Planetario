@@ -2,6 +2,9 @@
 @model Planetarium.Models.EmployeeModel
 @{
     ViewBag.Title = "Crear Funcionario";
+    List<SelectListItem> genders = new List<SelectListItem>() { new
+    SelectListItem { Text = "M" }, new SelectListItem { Text = "F" }, new
+    SelectListItem { Text = "Otro" } };
 }
 <html>
 <head>
@@ -27,41 +30,62 @@
                 @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.LastName)
                 @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
             </div>
+            <br />
+            <div>
+                @Html.LabelFor(model => model.Gender)
+                <br />
+                <select name="gender">
+                    <option value="N" selected>Género</option>
+                    <option value="M">Hombre</option>
+                    <option value="F">Mujer</option>
+                    <option value="O">Otro</option>
+                </select>
+
+            </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Mail)
                 @Html.TextBoxFor(model => model.Mail, new { @class = "form-control", @placeholder = "john.doe@gmail.com" })
             </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Occupation)
                 @Html.TextBoxFor(model => model.Occupation, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
             </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Dni)
                 @Html.TextBoxFor(model => model.Dni, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger", @placeholder = "702790737" })
+                @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger", @placeholder = "#########" })
             </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.PhoneNumber)
-                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @placeholder = "86801632"})
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @placeholder = "########" })
             </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.ExpertiseArea)
                 @Html.TextBoxFor(model => model.ExpertiseArea, new { @class = "form-control" })
             </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Address)
                 @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
             </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.AcademicDegree)
                 @Html.TextBoxFor(model => model.AcademicDegree, new { @class = "form-control" })
             </div>
+            <br />
             <input type="submit" class="btn btn-success" value="Crear" />
         </div>
     }

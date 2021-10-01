@@ -26,6 +26,7 @@ namespace Planetarium.Controllers
         [HttpPost]
         public ActionResult CreateEmployee(EmployeeModel employee) {
             ActionResult view = RedirectToAction("Success", "Home"); ;
+            employee.Gender = Request.Form["gender"].ElementAt(0);
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
@@ -37,7 +38,8 @@ namespace Planetarium.Controllers
                     }
                 }
                 return view;
-            } catch (Exception exception){
+            } catch (Exception)
+            {
                 ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
                 return View(); 
             }

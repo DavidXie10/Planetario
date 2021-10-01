@@ -19,6 +19,9 @@ namespace Planetarium.Models
         [Display(Name = "Correo")]
         public string Mail { get; set; }
 
+        [Display(Name = "Seleccione el género")]
+        public char Gender { get; set; }
+
         [Required(ErrorMessage = "Es necesario que ingrese el número de cédula")]
         [Display(Name = "Número de cédula")]
         public string Dni { get; set; }
