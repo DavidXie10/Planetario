@@ -34,7 +34,7 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Mail)
-                @Html.TextBoxFor(model => model.Mail, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Mail, new { @class = "form-control", @placeholder = "john.doe@gmail.com" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Occupation)
@@ -44,11 +44,11 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Dni)
                 @Html.TextBoxFor(model => model.Dni, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger", @placeholder = "702790737" })
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.PhoneNumber)
-                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @placeholder = "86801632"})
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.ExpertiseArea)

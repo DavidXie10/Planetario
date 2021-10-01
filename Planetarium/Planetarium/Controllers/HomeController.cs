@@ -44,5 +44,11 @@ namespace Planetarium.Controllers
         public ActionResult Educative() {
             return View();
         }
+
+        public ActionResult Success() {
+            ViewBag.Message = "Su información ha sido agregada exitosamente";
+            ViewBag.Title = "Sucess";
+            return View();
+        }
     }
 }
