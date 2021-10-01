@@ -42,13 +42,13 @@ namespace Planetarium.Handlers
                 employees.Add(
                     new EmployeesModel
                     {
-                        IdPhoto = Convert.ToString(column["fotoPerfil"]),
+                        //IdPhoto = Convert.ToString(column["fotoPerfil"]),
                         Name = Convert.ToString(column["nombre"]),
                         LastName = Convert.ToString(column["apellido"]),
                         AcademicDegree = Convert.ToString(column["titulosAcademicos"]),
-                        Occupation = Convert.ToString(column["ocupacion"]),
+                        //Occupation = Convert.ToString(column["ocupacion"]),
                         Mail = Convert.ToString(column["correo"]),
-                        Phrase = Convert.ToString(column["frase"]),
+                        //Phrase = Convert.ToString(column["frase"]),
                     }
                 );
             }
@@ -62,6 +62,31 @@ namespace Planetarium.Handlers
             BinaryReader reader = new BinaryReader(file.InputStream);
             bytes = reader.ReadBytes(file.ContentLength);
             return bytes;
+        }
+
+        public bool CreateEmployee(EmployeesModel employee) 
+        {
+
+            string query = "INSERT INTO Funcionario(nombre, apellido, correo, cedulaPK, telefono, areaExpertiz, fechaNacimiento, lugarDeResidencia, titulosAcademicos, ocupacion, foto, fechaInicioEmpleo)" +
+              "VALUES('nombre', '@apellido', '@correo', '@cedula', 000000000, '@areaExpertiz', '2000-02-02', '@lugarDeResidencia', '@titulosAcademicos', 'pepe', CAST('empleado1' AS VARBINARY(MAX)), '2000-02-02')";
+            // string query = "INSERT INTO Funcionario(nombre, apellido, correo, cedula, telefono, areaExpertiz, fechaNacimiento,lugarDeResidencia,titulosAcademicos)" + "VALUES (@nombre,@apellido,@correo,@cedula,@telefono,@areaExpertiz,@fechaNacimiento,@lugarDeResidencia,@titulosAcademicos)";
+
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+
+            queryCommand.Parameters.AddWithValue("@nombre", employee.Name);
+            queryCommand.Parameters.AddWithValue("@apellido", employee.LastName);
+            queryCommand.Parameters.AddWithValue("@correo", employee.Mail );
+            queryCommand.Parameters.AddWithValue("@cedula", employee.Dni );
+            queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber );
+            queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea );
+            //queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.BirthDay );
+            queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address );
+            queryCommand.Parameters.AddWithValue("@titulosAcademicos", employee.AcademicDegree);
+
+            connection.Open();
+            bool success = queryCommand.ExecuteNonQuery() >= 1;
+            connection.Close();
+            return success;
         }
     }
 }
