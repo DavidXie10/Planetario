@@ -40,10 +40,15 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.PhotoFile)
                 <br />
-                @Html.TextBoxFor(model => model.PhotoFile, new { type = "file",
-               @class = "btn btn alert-info" })
-                @Html.ValidationMessageFor(model => model.PhotoFile, "", new {
-               @class = "text-danger" })
+                @Html.TextBoxFor(model => model.PhotoFile, new
+                {
+                    type = "file",
+               @class = "btn btn alert-info"
+                })
+                @Html.ValidationMessageFor(model => model.PhotoFile, "", new
+                {
+               @class = "text-danger"
+                })
             </div>
             <br />
             <div>
@@ -67,6 +72,12 @@
                 @Html.LabelFor(model => model.Occupation)
                 @Html.TextBoxFor(model => model.Occupation, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
+            </div>
+            <br />
+            <div class="form-group">
+                @Html.LabelFor(model => model.NativeCountry)
+                
+                @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "form-control" })
             </div>
             <br />
             <div class="form-group">

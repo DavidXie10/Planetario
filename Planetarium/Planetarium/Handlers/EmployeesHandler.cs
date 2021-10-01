@@ -67,7 +67,7 @@ namespace Planetarium.Handlers
         {
 
             string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,foto,fotoTipo,correo,nombre,apellido,genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen)" +
-              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@archivo,@tipoFoto,@correo,@nombre,@apellido,@gender,'2000-02-02','2000-02-02',@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,'CR') "; 
+              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@archivo,@tipoFoto,@correo,@nombre,@apellido,@gender,'2000-02-02','2000-02-02',@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,'paisOrigen') "; 
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
@@ -82,6 +82,7 @@ namespace Planetarium.Handlers
             queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea );
             queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address );
             queryCommand.Parameters.AddWithValue("@archivo", GetFileBytes(employee.PhotoFile));
+            //queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry);
             queryCommand.Parameters.AddWithValue("@tipoFoto", employee.PhotoFile.ContentType);
 
             connection.Open();
