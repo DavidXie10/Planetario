@@ -42,7 +42,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Mail)
             <br />
-            @Html.TextBoxFor(model => model.Mail, new { @class = "formcontrol", @placeholder = "johndoe@gmail.com"})
+            @Html.TextBoxFor(model => model.Mail, new { @class = "formcontrol", @placeholder = "johndoe@gmail.com" })
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Dni)
@@ -75,6 +75,14 @@
             @Html.LabelFor(model => model.AcademicDegree)
             <br />
             @Html.TextBoxFor(model => model.AcademicDegree, new { @class = "form-control" })
+        </div>
+        <div class="genderSelection">
+            <form>
+                Género <br/>
+                <input type="Radio" name="Gender" value="Male" />Hombre 
+                <input type="Radio" name="Gender" value="Female" />Mujer 
+                <input type="Radio" name="Gender" value="Other" checked />Otro 
+            </form>
         </div>
         <br />
         <input type="submit" class="btn btn-success" value="Crear funcionario" />

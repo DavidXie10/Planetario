@@ -68,7 +68,7 @@ namespace Planetarium.Handlers
         {
 
             string query = "INSERT INTO Funcionario(nombre, apellido, correo, cedulaPK, telefono, areaExpertiz, fechaNacimiento, lugarDeResidencia, titulosAcademicos, ocupacion, foto, fechaInicioEmpleo)" +
-              "VALUES('nombre', '@apellido', '@correo', '@cedula', 000000000, '@areaExpertiz', '2000-02-02', '@lugarDeResidencia', '@titulosAcademicos', 'pepe', CAST('empleado1' AS VARBINARY(MAX)), '2000-02-02')";
+              "VALUES(@nombre, @apellido, @correo, @cedula, 000000000, @areaExpertiz, '2000-02-02', @lugarDeResidencia, @titulosAcademicos, 'pepe', CAST('empleado1' AS VARBINARY(MAX)), '2000-02-02')";
             // string query = "INSERT INTO Funcionario(nombre, apellido, correo, cedula, telefono, areaExpertiz, fechaNacimiento,lugarDeResidencia,titulosAcademicos)" + "VALUES (@nombre,@apellido,@correo,@cedula,@telefono,@areaExpertiz,@fechaNacimiento,@lugarDeResidencia,@titulosAcademicos)";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
@@ -77,7 +77,7 @@ namespace Planetarium.Handlers
             queryCommand.Parameters.AddWithValue("@apellido", employee.LastName);
             queryCommand.Parameters.AddWithValue("@correo", employee.Mail );
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni );
-            queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber );
+            //queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber );
             queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea );
             //queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.BirthDay );
             queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address );
