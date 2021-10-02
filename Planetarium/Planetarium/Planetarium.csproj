@@ -155,7 +155,12 @@
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
+    <Content Include="images\news\eclipse2.jpg" />
+    <Content Include="images\news\eclipse3.jpg" />
+    <Content Include="images\news\eclipse4.jpg" />
+    <Content Include="images\news\eclipse5.jpg" />
     <Content Include="images\news\perseverance.jpg" />
+    <Content Include="images\news\rover.png" />
     <Content Include="images\news\stringTheory.jpg" />
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
