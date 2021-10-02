@@ -31,12 +31,12 @@
                 <div class="carousel-inner">
 
                     <div class="carousel-item active">
-                        <img src="~/images/news/@ViewBag.News.ImagesRef[0]" class="d-block w-100 carousel-Img" alt="...">
+                        <img src="~/images/news/@(ViewBag.News.ImagesRef[0]+".jpg")" class="d-block w-100 carousel-Img" alt="...">
                     </div>
 
                     @for (int i = 1; i < ViewBag.News.ImagesRef.Count; i++) {
                         <div class="carousel-item">
-                            <img src="~/images/news/@ViewBag.News.ImagesRef[i]" class="d-block w-100 carousel-Img" alt="...">
+                            <img src="~/images/news/@(ViewBag.News.ImagesRef[i]+".jpg")" class="d-block w-100 carousel-Img" alt="...">
                         </div>
                     }
 
