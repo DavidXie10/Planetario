@@ -35,6 +35,7 @@ namespace Planetarium.Handlers {
             List<NewsModel> news = CreateNewsFromDataTable(resultingNewsTable);
             LinkAllNewsWithTopics(news);
             LinkAllNewsWithCategory(news);
+            LinkAllNewsWithImages(news);
             return news;
         }
 
@@ -54,7 +55,6 @@ namespace Planetarium.Handlers {
                 PublisherId = Convert.ToString(scoopRawInfo["cedulaFK"]),
                 Description = Convert.ToString(scoopRawInfo["resumen"]),
                 Author = Convert.ToString(scoopRawInfo["autor"]),
-                ImageRef = Convert.ToString(scoopRawInfo["fotoNoticia"]).Trim()
             };
         }
 
@@ -100,6 +100,30 @@ namespace Planetarium.Handlers {
                 scoop.Category = Convert.ToString(column["categoria"]);
             }
         }
+
+        private void LinkAllNewsWithImages(List<NewsModel> news) {
+            foreach (NewsModel scoop in news) {
+                DataTable resultingTableOfNewsWithTheirImages = GetNewsWithImagesTable(scoop.Title);
+                LinkScoopWithImages(scoop, resultingTableOfNewsWithTheirImages);
+            }
+        }
+        private DataTable GetNewsWithImagesTable(string scoopTitle) {
+            string query = "SELECT * FROM Noticia " +
+                        "INNER JOIN ImagenPerteneceANoticia ON Noticia.tituloPK = ImagenPerteneceANoticia.tituloPKFK  " +
+                        "WHERE tituloPK = '" + scoopTitle + "' " +
+                        "ORDER BY fechaPublicacion DESC";
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkScoopWithImages(NewsModel scoop, DataTable resultingTable) {
+            scoop.ImagesRef = new List<string>();
+            foreach (DataRow column in resultingTable.Rows) {
+                var tempImageRef = Convert.ToString(column["referenciaImagenPK"]);
+                scoop.ImagesRef.Add(tempImageRef);
+            }
+        }
+
+
 
         private byte[] GetFileBytes(HttpPostedFileBase file) {
             byte[] bytes;
