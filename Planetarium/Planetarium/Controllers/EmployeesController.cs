@@ -26,7 +26,7 @@ namespace Planetarium.Controllers
             string[] countriesFromJson = JsonContent.CountrieNames.ToObject<string[]>();
 
             foreach (string country in countriesFromJson) {
-                countries.Add(new SelectListItem { Text = country });
+                countries.Add(new SelectListItem { Text = country, Value = country });
             }
 
             ViewBag.Countries = countries;
