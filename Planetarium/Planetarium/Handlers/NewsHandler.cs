@@ -42,12 +42,12 @@ namespace Planetarium.Handlers {
         private List<NewsModel> CreateNewsFromDataTable(DataTable resultingNewsTable) {
             List<NewsModel> news = new List<NewsModel>();
             foreach (DataRow scoopRawInfo in resultingNewsTable.Rows) {
-                news.Add(CreateScoop(scoopRawInfo));
+                news.Add(InstanceScoop(scoopRawInfo));
             }
             return news;
         }
 
-        private NewsModel CreateScoop(DataRow scoopRawInfo) {
+        private NewsModel InstanceScoop(DataRow scoopRawInfo) {
             return new NewsModel {
                 Title = Convert.ToString(scoopRawInfo["tituloPK"]),
                 Date = Convert.ToDateTime(scoopRawInfo["fechaPublicacion"]),
@@ -123,13 +123,47 @@ namespace Planetarium.Handlers {
             }
         }
 
-
-
         private byte[] GetFileBytes(HttpPostedFileBase file) {
             byte[] bytes;
             BinaryReader reader = new BinaryReader(file.InputStream);
             bytes = reader.ReadBytes(file.ContentLength);
             return bytes;
         }
+
+        public bool PublishNews(NewsModel news) {
+            string query = "INSERT INTO Noticia (tituloPK, resumen, cedulaFK, contenido, autor) " + "VALUES(@tituloPK,@resumen,'103230738',@contenido,@autor)";
+            // TODO: investigar como calcular fecha actual en SQL y meterla a esta tupla
+            // TODO: hacer que la cedula sea obtenida para quien lo publica
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+
+            queryCommand.Parameters.AddWithValue("@tituloPK", news.Title);
+            queryCommand.Parameters.AddWithValue("@resumen", news.Description);
+            queryCommand.Parameters.AddWithValue("@contenido", news.Content);
+            queryCommand.Parameters.AddWithValue("@autor", news.Author);
+
+            connection.Open();
+            bool success = queryCommand.ExecuteNonQuery() >= 1;
+            connection.Close();
+
+            foreach (string topic in news.Topics) {
+                query = "INSERT INTO NoticiaPerteneceATopico " +
+                        "VALUES (" + news.Title + ",'" + topic + "')";
+                queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+
+            foreach (string imageRef in news.ImagesRef) {
+                query = "INSERT INTO ImagenPerteneceANoticia " +
+                        "VALUES (" + news.Title + ",'" + imageRef + "')";
+                queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+            return success;
+        }
+
     }
 }

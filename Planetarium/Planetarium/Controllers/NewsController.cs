@@ -35,5 +35,34 @@ namespace Planetarium.Controllers {
             }
             return view;
         }
+
+
+        [HttpPost]
+        public ActionResult SubmitNews() {
+
+            NewsModel news = new NewsModel();
+            ActionResult successView = RedirectToAction("News", "ListNews");
+            //faq.Category = Request.Form["Category"].Replace(" ", "_");
+            //faq.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
+            //faq.Question = Request.Form["question"];
+            //faq.Answer = Request.Form["answer"];
+            //faq.QuestionId = -1;
+
+            ViewBag.SuccessOnCreation = false;
+            try {
+                if (ModelState.IsValid) {
+                    ViewBag.SuccessOnCreation = this.dataAccess.CreateFrequentlyAskedQuestion(faq);
+                    if (ViewBag.SuccessOnCreation) {
+                        ViewBag.Message = "La pregunta " + "\"" + faq.Question + " \" fue creada con éxito";
+                        ModelState.Clear();
+                    }
+                }
+                return successView;
+            } catch {
+                ViewBag.Message = "Algo salió mal y no fue posible crear la pregunta";
+                return successView;
+            }
+        }
+
     }
 }
