@@ -77,13 +77,7 @@ namespace Planetarium.Controllers {
             foreach (string category in categories) {
                 questionsSortedByCategory[category] = new List<FrequentlyQuestionModel>();
             }
-            //List<FrequentlyQuestionModel> questions = this.dataAccess.GetAllQuestions(questionsSortedByCategory);
             this.dataAccess.GetAllQuestions(questionsSortedByCategory);
-
-            //foreach (string category in categories) {
-            //    questionsSortedByCategory.Add(category,);
-            //}
-
             ViewBag.QuestionsSortedByCategories = questionsSortedByCategory;
             ViewBag.Categories = categories;
             return View();
