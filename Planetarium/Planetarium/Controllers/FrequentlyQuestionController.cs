@@ -10,9 +10,10 @@ using System.Diagnostics;
 namespace Planetarium.Controllers {
     public class FrequentlyQuestionController : Controller {
         public FrequentlyQuestionHandler dataAccess {  get; set;  }
-
+        public ContentParser contentParser { get; set; }
         public FrequentlyQuestionController() {
             dataAccess = new FrequentlyQuestionHandler();
+            contentParser = new ContentParser();
 
         }
 
@@ -45,14 +46,14 @@ namespace Planetarium.Controllers {
         }
 
         [HttpPost]
-        public ActionResult CreateFrequentlyAskedQuestionRawHTML() {
+        public ActionResult SubmitQuestion() {
 
             FrequentlyQuestionModel faq = new FrequentlyQuestionModel();
-            faq.Category = Request.Form["category"].Replace(" ", "_");
-            faq.Topics = new List<string>();
-            faq.Topics.Add(Request.Form["topic"]);
+            ActionResult successView = RedirectToAction("FrequentlyAskQuestions", "FrequentlyQuestions");
+            faq.Category = Request.Form["Category"].Replace(" ", "_");
+            faq.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
             faq.Question = Request.Form["question"];
-            faq.Answer = Request.Form["Answer"];
+            faq.Answer = Request.Form["answer"];
             faq.QuestionId = -1;
 
             ViewBag.SuccessOnCreation = false;
@@ -64,10 +65,10 @@ namespace Planetarium.Controllers {
                         ModelState.Clear();
                     }
                 }
-                return View("/FrequentlyQuestion/FrequentlyAskQuestions");
+                return successView;
             } catch {
                 ViewBag.Message = "Algo salió mal y no fue posible crear la pregunta";
-                return View("/FrequentlyQuestion/FrequentlyAskQuestions"); 
+                return successView;
             }
         }
 
