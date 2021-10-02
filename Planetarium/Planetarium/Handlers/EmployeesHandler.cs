@@ -57,11 +57,12 @@ namespace Planetarium.Handlers {
 
         public bool CreateEmployee(EmployeeModel employee) {
             // TODO: fecha en la que inicia a trabajar
+            bool employeeCreated = false;
             string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,foto,fotoTipo,correo,nombre,apellido,genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen)" +
-              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@archivo,@tipoFoto,@correo,@nombre,@apellido,@gender,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,@paisOrigen) ";
-
+              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@archivo,@tipoFoto,@correo,@nombre,@apellido,@gender,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,'CR') ";
+            string languageQuery = "INSERT INTO Idioma (cedulaPK, idiomaPK)" +
+                "VALUES(@cedula, @idioma)";
             SqlCommand queryCommand = new SqlCommand(query, connection);
-
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
             queryCommand.Parameters.AddWithValue("@gender", employee.Gender);
             queryCommand.Parameters.AddWithValue("@ocupacion", employee.Occupation);
@@ -77,10 +78,18 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@tipoFoto", employee.PhotoFile.ContentType);
             queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.DateOfBirth);
 
+            SqlCommand languageQueryCommand = new SqlCommand(languageQuery, connection);
+            languageQueryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
+            languageQueryCommand.Parameters.AddWithValue("@idioma", employee.Lenguages);
+            
             connection.Open();
-            bool success = queryCommand.ExecuteNonQuery() >= 1;
+            bool employeeInsertSuccess = queryCommand.ExecuteNonQuery() >= 1;
+            bool languageInsertSuccess = languageQueryCommand.ExecuteNonQuery() >= 1;
             connection.Close();
-            return success;
+            if (employeeInsertSuccess && languageInsertSuccess) {
+                employeeCreated = true;
+            }
+            return employeeCreated;
         }
     }
 }

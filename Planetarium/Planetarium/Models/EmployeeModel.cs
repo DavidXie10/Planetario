@@ -44,6 +44,9 @@ namespace Planetarium.Models {
         [Display(Name = "País de origen")]
         public string NativeCountry { get; set; }
 
+        [Display(Name = "Idiomas que habla")]
+        public string Lenguages { get; set; }
+
         [Required(ErrorMessage = "Debe agregar un archivo (PNG, JPEG)")]
         [Display(Name = "Ingrese el archivo con su foto de perfil")]
         public HttpPostedFileBase PhotoFile { get; set; }

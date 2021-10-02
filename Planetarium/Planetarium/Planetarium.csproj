@@ -195,6 +195,7 @@
     <Content Include="Views\Employees\ListEmployees.cshtml" />
     <Content Include="Views\Employees\CreateEmployee.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
+    <Content Include="Views\Employees\paises.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
