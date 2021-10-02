@@ -43,7 +43,8 @@
                 <br />
                 @Html.TextBoxFor(model => model.PhotoFile, new { type = "file", @class = "btn btn alert-info" })
                 @Html.ValidationMessageFor(model => model.PhotoFile, "", new {
-               @class = "text-danger" })
+               @class = "text-danger"
+                })
             </div>
             <br />
             <div class="form-group">
@@ -75,16 +76,15 @@
                 @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
             </div>
             <br />
-            <div class="form-group">
+            <div class="form-group"> 
                 @Html.LabelFor(model => model.NativeCountry)
-                 <select name="contry" id="contry" class="form-control input-lg">
-                    <option value="Ingrese el país"></option>
-                </select>         
+                <br />
+                @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-control" })
             </div>
             <br />
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Lenguages)
+                @Html.LabelFor(model => model.Languages)
                 <div class="container">
                     <div class="row">
                         <div class="col-sm">
@@ -113,9 +113,7 @@
                         </div>
                     </div>
                 </div>
-                
-            </div>
-                @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "form-control" })
+
             </div>
             <br />
             <div class="form-group">

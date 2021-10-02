@@ -36,10 +36,9 @@ namespace Planetarium.Controllers
 
         [HttpPost]
         public ActionResult CreateEmployee(EmployeeModel employee) {
-            ActionResult view = RedirectToAction("Success", "Home"); 
+            ActionResult view = RedirectToAction("Success", "Home"); ;
             employee.Gender = Request.Form["gender"].ElementAt(0);
-            employee.Lenguages = Request.Form["language"];
-            employee.NativeCountry = Request.Form["contry"];
+            employee.Languages = Request.Form["language"];
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
@@ -50,10 +49,9 @@ namespace Planetarium.Controllers
                     }
                 }
                 return view;
-            } catch (Exception e)
+            } catch (Exception)
             {
-                ViewBag.Message = e.Message;
-                //ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
+                ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
                 return View(); 
             }
         }
