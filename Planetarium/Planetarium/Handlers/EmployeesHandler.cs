@@ -56,12 +56,12 @@ namespace Planetarium.Handlers {
         }
 
         public bool CreateEmployee(EmployeeModel employee) {
+            // TODO: fecha en la que inicia a trabajar
             bool employeeCreated = false;
             string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,foto,fotoTipo,correo,nombre,apellido,genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen)" +
               "VALUES(@cedula,@ocupacion,@titulosAcademicos,@archivo,@tipoFoto,@correo,@nombre,@apellido,@gender,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,'CR') ";
             string languageQuery = "INSERT INTO Idioma (cedulaPK, idiomaPK)" +
                 "VALUES(@cedula, @idioma)";
-            
             SqlCommand queryCommand = new SqlCommand(query, connection);
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
             queryCommand.Parameters.AddWithValue("@gender", employee.Gender);
@@ -74,7 +74,7 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea);
             queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address);
             queryCommand.Parameters.AddWithValue("@archivo", GetFileBytes(employee.PhotoFile));
-            //queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry);
+            queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry);
             queryCommand.Parameters.AddWithValue("@tipoFoto", employee.PhotoFile.ContentType);
             queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.DateOfBirth);
 

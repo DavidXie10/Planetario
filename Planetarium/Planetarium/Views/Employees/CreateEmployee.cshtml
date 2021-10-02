@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Crear Funcionario";
 
+    List<SelectListItem> Countries = ViewBag.Countries;
 }
 <html>
 <head>
@@ -76,7 +77,7 @@
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.NativeCountry)
-                <select name="contry" id="contry" class="form-control input-lg">
+                 <select name="contry" id="contry" class="form-control input-lg">
                     <option value="Ingrese el país"></option>
                 </select>         
             </div>
@@ -114,6 +115,9 @@
                 </div>
                 
             </div>
+                @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "form-control" })
+            </div>
+            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.Dni)
                 @Html.TextBoxFor(model => model.Dni, new { @class = "form-control" })
