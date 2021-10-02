@@ -10,7 +10,7 @@
 <body>
     <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "FrequentlyQuestion")"></div>
     <h1>Agregar una pregunta</h1>
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("SubmitQuestion", "FrequentlyQuestion", FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
 
 
@@ -18,9 +18,9 @@
 <div class="form">
     <div class="row">
         <div class="col">
-            @Html.LabelFor(model => model.Category, new {@class = "card-text"})
+            @Html.LabelFor(model => model.Category, new { @class = "card-text" })
             <br />
-            @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "--Sin selección--", new { @class = "form-control" })
+            @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
         </div>
 
         <div class="col">
@@ -41,6 +41,7 @@
         </div>
 
         <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
+
     </div>
 
     <div class="card" style="margin: 10px 0 10px 0;">
@@ -59,7 +60,7 @@
         </div>
 
         <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-            <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="3" name="question"></textarea>
+            <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="3" name="answer"></textarea>
         </div>
     </div>
 

@@ -2,7 +2,8 @@
     $("#Category").change(function () {
         $("#Topics").empty();
         $("#selectedTopics").empty();
-        $("#inoutTopicString").text() = "";
+        $("#inputTopicString").val("");
+
         if ($("#Category").val() != '') {
             $.ajax({
 
@@ -46,7 +47,7 @@ $(document).ready(function () {
 function addTopicButton(value) {
     let buttonsCard = document.querySelector("#selectedTopics")
     let button = document.createElement("a");
-    button.textContent = value;
+    button.textContent = String(value).replace("_", " ");
     button.href = "#";
     button.classList.add("btn", "btn-success");
     button.style.margin = "2px";
@@ -61,7 +62,7 @@ function addElementToArray(element) {
     console.log(element);
     let inputTopicString = document.querySelector("#inputTopicString");
     console.log(inputTopicString);
-    let values = inputTopicString.textContent;
+    let values = inputTopicString.value;
     console.log("Prev: " + values)
     if (values.includes(element) == 0) {
         console.log("No se encuentra")
@@ -69,8 +70,8 @@ function addElementToArray(element) {
     } else {
         console.log("Se encuentra")
     }
-    inputTopicString.textContent = values;
-    console.log("Inner: " + inputTopicString.textContent);
+    inputTopicString.value = values;
+    console.log("Inner: " + inputTopicString.value);
 }
 
 
