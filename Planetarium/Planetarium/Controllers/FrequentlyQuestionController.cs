@@ -72,9 +72,19 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult FrequentlyAskQuestions() {
-            List<FrequentlyQuestionModel> questions = this.dataAccess.GetAllQuestions();
             List<string> categories = this.dataAccess.GetAllCategories();
-            ViewBag.Questions = questions;
+            Dictionary<string, List<FrequentlyQuestionModel>> questionsSortedByCategory = new Dictionary<string, List<FrequentlyQuestionModel>>();
+            foreach (string category in categories) {
+                questionsSortedByCategory[category] = new List<FrequentlyQuestionModel>();
+            }
+            //List<FrequentlyQuestionModel> questions = this.dataAccess.GetAllQuestions(questionsSortedByCategory);
+            this.dataAccess.GetAllQuestions(questionsSortedByCategory);
+
+            //foreach (string category in categories) {
+            //    questionsSortedByCategory.Add(category,);
+            //}
+
+            ViewBag.QuestionsSortedByCategories = questionsSortedByCategory;
             ViewBag.Categories = categories;
             return View();
         }

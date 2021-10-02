@@ -57,7 +57,7 @@ namespace Planetarium.Handlers {
             return queryTable;
         }
 
-        public List<FrequentlyQuestionModel> GetAllQuestions() {
+        public List<FrequentlyQuestionModel> GetAllQuestions(Dictionary<string, List<FrequentlyQuestionModel>> questionsSortedByCategory) {
             List<FrequentlyQuestionModel> frequentlyAskedQuestions = new List<FrequentlyQuestionModel>();
             string query = "SELECT * FROM PreguntaFrecuente ";
             DataTable resultingTable = CreateTableFromQuery(query);
@@ -84,26 +84,22 @@ namespace Planetarium.Handlers {
             }
 
             foreach (FrequentlyQuestionModel questionInstance in frequentlyAskedQuestions) {
-                query = "SELECT * FROM NoticiaPerteneceATopico " +
-                        "INNER JOIN Topico ON Topico.nombrePK = NoticiaPerteneceATopico.nombreTopicoPKFK  " +
-                        "WHERE Topico.nombrePK = '" + questionInstance.Topics[0] + "'";
+                query = "SELECT categoria FROM PreguntaFrecuentePerteneceATopico PFPAT " +
+                        "INNER JOIN Topico T ON T.nombrePK = PFPAT.nombreTopicoPKFK  " +
+                        "WHERE T.nombrePK = '" + questionInstance.Topics[0] + "'";
                 resultingTable = CreateTableFromQuery(query);
 
-                foreach (DataRow column in resultingTable.Rows) {
-                    questionInstance.Category = Convert.ToString(column["categoria"]);
-                }
+                questionsSortedByCategory[Convert.ToString(resultingTable.Rows[0][0])].Add(questionInstance);
             }
 
             return frequentlyAskedQuestions;
         }
 
         public List<string> GetAllCategories() {
-            
             List<string> categories = new List<string>();
 
-            string query = "SELECT DISTINCT categoria " +
-                            "FROM Topico;";
-
+            //string query = "SELECT DISTINCT nombreTopicoPKFK FROM PreguntaFrecuentePerteneceATopico ";
+            string query = "SELECT DISTINCT categoria FROM Topico";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
                 categories.Add(Convert.ToString(column["categoria"]));
@@ -119,15 +115,31 @@ namespace Planetarium.Handlers {
             string query = "SELECT nombrePK " +
                             "FROM Topico T " +
                             "WHERE T.categoria LIKE '%" + category + "%';";
-            
+
             DataTable topicsDataTable = CreateTableFromQuery(query);
 
-            foreach(DataRow column in topicsDataTable.Rows) {
+            foreach (DataRow column in topicsDataTable.Rows) {
                 topics.Add(Convert.ToString(column["nombrePK"]));
             }
 
             return topics;
+        }
 
+        public List<string> GetQuestionsByCategory(string category) {
+
+            List<string> topics = new List<string>();
+
+            string query = "SELECT nombrePK " +
+                            "FROM Topico T " +
+                            "WHERE T.categoria LIKE '%" + category + "%';";
+
+            DataTable topicsDataTable = CreateTableFromQuery(query);
+
+            foreach (DataRow column in topicsDataTable.Rows) {
+                topics.Add(Convert.ToString(column["nombrePK"]));
+            }
+
+            return topics;
         }
     }
 }
