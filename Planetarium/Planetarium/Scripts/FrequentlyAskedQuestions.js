@@ -53,6 +53,7 @@ function addTopicButton(value) {
     button.style.margin = "2px";
     button.addEventListener("click", (event) => {
         let thisButton = event.target;
+        deleteTopicString(thisButton.textContent.replace(" ", "_"));
         thisButton.parentNode.removeChild(thisButton);
     })
     buttonsCard.appendChild(button)
@@ -74,4 +75,11 @@ function addElementToArray(element) {
     console.log("Inner: " + inputTopicString.value);
 }
 
-
+function deleteTopicString(topic) {
+    let topicString = document.querySelector("#inputTopicString");
+    let currentValue = topicString.value;
+    console.log("Current Values: " + currentValue)
+    let newValues = currentValue.replace(topic + "|", "");
+    console.log("New values: " + newValues);
+    topicString.value = newValues;
+}
