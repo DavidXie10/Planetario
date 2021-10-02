@@ -121,16 +121,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
-    <Compile Include="Controllers\FrequentlyQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\ActivityHandler.cs" />
-    <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
+    <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\ContentParser.cs" />
-    <Compile Include="Models\FrequentlyQuestionModel.cs" />
+    <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +144,7 @@
     <Content Include="images\earth.jpg" />
     <Content Include="images\firma-ucr-ico.png" />
     <Content Include="images\hurricane.jpg" />
+    <Content Include="images\iss.jpg" />
     <Content Include="images\logo.jpg" />
     <Content Include="images\logo.svg" />
     <Content Include="favicon.ico" />
@@ -151,14 +152,23 @@
     <Content Include="Global.asax" />
     <Content Include="Data_Files\Planetario.json" />
     <Content Include="Data_Files\Services.json" />
-    <Content Include="Data_Files\CategoriesAndTopics.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\news\anillosDeEinstein.jpg" />
+    <Content Include="images\news\eclipse.jpg" />
+    <Content Include="images\news\eclipse2.jpg" />
+    <Content Include="images\news\eclipse3.jpg" />
+    <Content Include="images\news\eclipse4.jpg" />
+    <Content Include="images\news\eclipse5.jpg" />
+    <Content Include="images\news\perseverance.jpg" />
+    <Content Include="images\news\rover.png" />
+    <Content Include="images\news\stringTheory.jpg" />
+    <Content Include="images\satellite.jpg" />
+    <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\FrequentlyAskedQuestions.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -187,8 +197,8 @@
     <Content Include="Views\Home\Educative.cshtml" />
     <Content Include="Views\Home\FindUs.cshtml" />
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
-    <Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
-    <Content Include="Views\FrequentlyQuestion\FrequentlyAskQuestions.cshtml" />
+    <Content Include="Views\News\ListNews.cshtml" />
+    <Content Include="Views\News\News.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
