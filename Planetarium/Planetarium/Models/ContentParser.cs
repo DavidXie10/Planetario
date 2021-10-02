@@ -31,7 +31,7 @@ namespace Planetarium.Models {
             try {
                 string[] rawData = ExtractRawContent(fileName);
                 string contentReadyToParse = ParseRawJson(rawData);
-                parsedContent = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(contentReadyToParse);
+                parsedContent = JsonConvert.DeserializeObject(contentReadyToParse);
             } catch (Exception e) {
                 string error = "Error while parsing JSON raw data \n" + e.ToString();
                 Debug.WriteLine(error);

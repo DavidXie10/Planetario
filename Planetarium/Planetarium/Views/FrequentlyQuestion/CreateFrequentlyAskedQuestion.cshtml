@@ -9,66 +9,65 @@
 </head>
 <body>
     <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "FrequentlyQuestion")"></div>
-    <h1>Agregar una pregunta</h1>
-    @using (Html.BeginForm("SubmitQuestion", "FrequentlyQuestion", FormMethod.Post, new { enctype = "multipart/form-data" })) {
-    @Html.AntiForgeryToken()
+    <div class="container">
+        <h1>Agregar una pregunta</h1>
+        @using (Html.BeginForm("SubmitQuestion", "FrequentlyQuestion", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @Html.AntiForgeryToken()
+
+            <div class="form">
+                <div class="row">
+                    <div class="col">
+                        @Html.LabelFor(model => model.Category, new { @class = "card-text" })
+                        <br />
+                        @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                    </div>
+
+                    <div class="col">
+                        @Html.LabelFor(model => model.Topics)
+                        <br />
+                        @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                    </div>
+                </div>
 
 
+                <div class="card" style="margin: 10px 0 10px 0;">
+                    <div class="card-header bg-primary">
+                        <h4 class="text-white">Topicos seleccionados</h4>
+                    </div>
 
-<div class="form">
-    <div class="row">
-        <div class="col">
-            @Html.LabelFor(model => model.Category, new { @class = "card-text" })
-            <br />
-            @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
-        </div>
+                    <div class="card-body" id="selectedTopics">
 
-        <div class="col">
-            @Html.LabelFor(model => model.Topics)
-            <br />
-            @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
-        </div>
+                    </div>
+
+                    <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
+
+                </div>
+
+                <div class="card" style="margin: 10px 0 10px 0;">
+                    <div class="card-header bg-primary">
+                        <h4 class="text-white">@Html.LabelFor(model => model.Question)</h4>
+                    </div>
+
+                    <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
+                        <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="3" name="question"></textarea>
+                    </div>
+                </div>
+
+                <div class="card" style="margin: 10px 0 10px 0;">
+                    <div class="card-header bg-primary">
+                        <h4 class="text-white">@Html.LabelFor(model => model.Answer)</h4>
+                    </div>
+
+                    <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
+                        <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="3" name="answer"></textarea>
+                    </div>
+                </div>
+
+                <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Crear" />
+
+            </div>
+        }
     </div>
-
-
-    <div class="card" style="margin: 10px 0 10px 0;">
-        <div class="card-header bg-primary">
-            <h4 class="text-white">Topicos seleccionados</h4>
-        </div>
-
-        <div class="card-body" id="selectedTopics">
-
-        </div>
-
-        <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
-
-    </div>
-
-    <div class="card" style="margin: 10px 0 10px 0;">
-        <div class="card-header bg-primary">
-            <h4 class="text-white">@Html.LabelFor(model => model.Question)</h4>
-        </div>
-
-        <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-            <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="3" name="question"></textarea>
-        </div>
-    </div>
-
-    <div class="card" style="margin: 10px 0 10px 0;">
-        <div class="card-header bg-primary">
-            <h4 class="text-white">@Html.LabelFor(model => model.Answer)</h4>
-        </div>
-
-        <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-            <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="3" name="answer"></textarea>
-        </div>
-    </div>
-
-    <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Crear" />
-
-</div>
-    }
-
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="~/Scripts/FrequentlyAskedQuestions.js"></script>
 </body>

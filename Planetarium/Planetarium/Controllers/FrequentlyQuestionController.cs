@@ -49,7 +49,7 @@ namespace Planetarium.Controllers {
         public ActionResult SubmitQuestion() {
 
             FrequentlyQuestionModel faq = new FrequentlyQuestionModel();
-            ActionResult successView = RedirectToAction("FrequentlyAskQuestions", "FrequentlyQuestions");
+            ActionResult successView = RedirectToAction("Index", "Home");
             faq.Category = Request.Form["Category"].Replace(" ", "_");
             faq.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
             faq.Question = Request.Form["question"];

@@ -15,7 +15,7 @@ namespace Planetarium.Handlers {
         private string connectionRoute;
 
         public FrequentlyQuestionHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["PiConnection"].ToString();
+            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 
@@ -98,7 +98,6 @@ namespace Planetarium.Handlers {
         public List<string> GetAllCategories() {
             List<string> categories = new List<string>();
 
-            //string query = "SELECT DISTINCT nombreTopicoPKFK FROM PreguntaFrecuentePerteneceATopico ";
             string query = "SELECT DISTINCT categoria FROM Topico";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
