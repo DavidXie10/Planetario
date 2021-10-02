@@ -2,6 +2,7 @@
 @model Planetarium.Models.EmployeeModel
 @{
     ViewBag.Title = "Crear Funcionario";
+    List<SelectListItem> Countries = ViewBag.Countries;
 }
 <html>
 <head>
@@ -74,8 +75,8 @@
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.NativeCountry)
-                
-                @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "form-control" })
+                <br />
+                @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-control" })
             </div>
             <br />
             <div class="form-group">

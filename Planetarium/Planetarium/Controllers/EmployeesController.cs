@@ -20,6 +20,17 @@ namespace Planetarium.Controllers
 
         public ActionResult CreateEmployee() 
         {
+            List<SelectListItem> countries = new List<SelectListItem>();
+            ContentParser contentParser = new ContentParser();
+            dynamic JsonContent = contentParser.ParseFromJSON("countries.json");
+            string[] countriesFromJson = JsonContent.CountrieNames.ToObject<string[]>();
+
+            foreach (string country in countriesFromJson) {
+                countries.Add(new SelectListItem { Text = country });
+            }
+
+            ViewBag.Countries = countries;
+
             return View();
         }
 

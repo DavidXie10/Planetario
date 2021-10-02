@@ -21,8 +21,8 @@ namespace Planetarium.Controllers
         public ActionResult WhoWeAre()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.MissionMessage = contentParser.getContentFromFile("Mision.txt");
-            ViewBag.VisionMessage = contentParser.getContentFromFile("Vision.txt");
+            //ViewBag.MissionMessage = contentParser.getContentFromFile("Mision.txt");
+            //ViewBag.VisionMessage = contentParser.getContentFromFile("Vision.txt");
             return View();
         }
 
