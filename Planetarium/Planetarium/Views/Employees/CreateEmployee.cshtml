@@ -2,9 +2,12 @@
 @model Planetarium.Models.EmployeeModel
 @{
     ViewBag.Title = "Crear Funcionario";
+
 }
 <html>
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
     @if (ViewBag.Message != null) {
@@ -42,13 +45,13 @@
                @class = "text-danger" })
             </div>
             <br />
-            <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.DateOfBirth)
                 <br />
                 @Html.EditorFor(model => model.DateOfBirth, new { @type = "date" })
                 @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
             </div>
+            <br />
             <div>
                 @Html.LabelFor(model => model.Gender)
                 <br />
@@ -58,7 +61,6 @@
                     <option value="F">Mujer</option>
                     <option value="O">Otro</option>
                 </select>
-
             </div>
             <br />
             <div class="form-group">
@@ -74,10 +76,44 @@
             <br />
             <div class="form-group">
                 @Html.LabelFor(model => model.NativeCountry)
-                
-                @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "form-control" })
+                <select name="contry" id="contry" class="form-control input-lg">
+                    <option value="Ingrese el país"></option>
+                </select>         
             </div>
             <br />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Lenguages)
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <fieldset name="checkbox">
+                                <br />
+                                <input type="checkbox" name="language" value="Inglés" /> Inglés <br />
+                                <input type="checkbox" name="language" value="Español" /> Español <br />
+                                <input type="checkbox" name="language" value="Francés" /> Francés <br />
+                            </fieldset>
+                        </div>
+                        <div class="col-sm">
+                            <fieldset name="checkbox">
+                                <br />
+                                <input type="checkbox" name="language" value="Polaco" /> Polaco <br />
+                                <input type="checkbox" name="language" value="Ruso" /> Ruso  <br />
+                                <input type="checkbox" name="language" value="Portugués" /> Portugués <br />
+                            </fieldset>
+                        </div>
+                        <div class="col-sm">
+                            <fieldset name="checkbox">
+                                <br />
+                                <input type="checkbox" name="language" value="Chino mandarín" /> Chino mandarín <br />
+                                <input type="checkbox" name="language" value="Italiano" /> Italiano <br />
+                                <input type="checkbox" name="language" value="Alemán" /> Alemán <br />
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Dni)
                 @Html.TextBoxFor(model => model.Dni, new { @class = "form-control" })
@@ -108,7 +144,25 @@
         </div>
     }
 </body>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 </html>
+
+<script>
+    $(document).ready(function () {
+        load_json_data("contry");
+
+        function load_json_data(id) {
+            var html_code = "";
+            $.getJSON("paises.json", function (data) {
+                html_code += '<option value="">Ingrese ' + id + "</option>";
+                $.each(data, function (key, value) {
+                    html_code += '<option value="' + value.id + '">' + value.name + "</option>";
+                });
+                $("#" + id).html(html_code);
+            });
+        }
+    });
+</script>
