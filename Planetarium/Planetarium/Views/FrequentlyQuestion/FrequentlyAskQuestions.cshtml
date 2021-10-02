@@ -1,0 +1,47 @@
+﻿@model Planetarium.Models.FrequentlyQuestionModel
+@{
+    ViewBag.Title = "Preguntas Frecuentes";
+
+}
+<html>
+<head>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <div id="accordion">
+
+            @{ var categoryCounter = 1;}
+            @foreach (string category in ViewBag.Categories) {
+                <div class="card">
+                    <div class="card-header" id="@("header"+categoryCounter)">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="@("#collapse"+categoryCounter)" aria-expanded="true" aria-controls="@("collapse"+categoryCounter)">
+                                <h3>@category</h3>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="@("collapse"+categoryCounter)" class="collapse" aria-labelledby="@("heading"+categoryCounter)" data-parent="#accordion">
+                        <div class="card-body">
+                            @foreach (var questionInstance in ViewBag.QuestionsSortedByCategories[category]) {
+                                <div class="card border-success" style="margin:10px 0 10px 0;">
+                                    <div class="card-header">
+                                        @foreach (var topic in questionInstance.Topics) {
+                                            <a class="badge rounded-pill bg-success"> @topic</a>
+                                        }
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">@questionInstance.Question</h4>
+                                        <p class="card-text">@questionInstance.Answer</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                { categoryCounter++; }
+            }
+        </div>
+    </div>
+</body>

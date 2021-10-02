@@ -121,15 +121,18 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\FrequentlyQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\ActivityHandler.cs" />
+    <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\ContentParser.cs" />
+    <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -199,6 +202,8 @@
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
     <Content Include="Views\News\ListNews.cshtml" />
     <Content Include="Views\News\News.cshtml" />
+    <Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
+    <Content Include="Views\FrequentlyQuestion\FrequentlyAskQuestions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

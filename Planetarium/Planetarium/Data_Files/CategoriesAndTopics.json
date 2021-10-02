@@ -1,0 +1,6 @@
+{
+  "Cuerpos_del_Sistema_Solar": [ "Planetas", "Satélites", "Cometas", "Asteroides" ],
+  "Objetos_de_cielo_profundo": [ "Galaxias", "Estrellas", "Nebulosas planetarias" ],
+  "Astronomía": [ "Astronomía observacional", "Astronomía teórica", "Mecánica celeste", "Astrofísica", "Astroquímica", "Astrobiología" ],
+  "General": [ "Astrofotografía", "Instrumentos", "Preguntas sencillas" ]
+}
