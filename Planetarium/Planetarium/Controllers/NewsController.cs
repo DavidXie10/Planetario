@@ -8,6 +8,16 @@ using Planetarium.Models;
 
 namespace Planetarium.Controllers {
     public class NewsController : Controller {
+
+        public NewsHandler dataAccess { get; set; }
+        public ContentParser contentParser { get; set; }
+        public NewsController() {
+            dataAccess = new NewsHandler();
+            contentParser = new ContentParser();
+
+        }
+
+
         public ActionResult ListNews() {
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
@@ -39,7 +49,6 @@ namespace Planetarium.Controllers {
 
         [HttpPost]
         public ActionResult SubmitNews() {
-
             NewsModel news = new NewsModel();
             ActionResult successView = RedirectToAction("News", "ListNews");
             //faq.Category = Request.Form["Category"].Replace(" ", "_");
@@ -51,15 +60,15 @@ namespace Planetarium.Controllers {
             ViewBag.SuccessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
-                    ViewBag.SuccessOnCreation = this.dataAccess.CreateFrequentlyAskedQuestion(faq);
+                    ViewBag.SuccessOnCreation = this.dataAccess.PublishNews(news);
                     if (ViewBag.SuccessOnCreation) {
-                        ViewBag.Message = "La pregunta " + "\"" + faq.Question + " \" fue creada con éxito";
+                        ViewBag.Message = "La noticia " + "\"" + news.Title + " \" fue creada con éxito";
                         ModelState.Clear();
                     }
                 }
                 return successView;
             } catch {
-                ViewBag.Message = "Algo salió mal y no fue posible crear la pregunta";
+                ViewBag.Message = "Algo salió mal y no fue posible crear la noticia";
                 return successView;
             }
         }
