@@ -19,7 +19,7 @@
     <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "News")"></div>
     <div class="container">
         <h1>Agregar una noticia</h1>
-        @using (Html.BeginForm("SubmitNews", "News", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        @using (Html.BeginForm("PostNews", "News", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
 
             <div class="form">

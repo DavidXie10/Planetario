@@ -56,7 +56,7 @@ namespace Planetarium.Controllers {
             return Json(new SelectList(topicsList, "Value", "Text"));
         }
 
-        public ActionResult SubmitNews() {
+        private List<SelectListItem> loadCategories() {
             List<string> categories = dataAccess.GetAllCategories();
 
             List<SelectListItem> liCategories = new List<SelectListItem>();
@@ -64,13 +64,16 @@ namespace Planetarium.Controllers {
                 liCategories.Add(new SelectListItem { Text = category, Value = category });
             }
 
-            ViewData["category"] = liCategories;
+            return liCategories;
+        }
 
+        public ActionResult SubmitNewsForm() {
+            ViewData["category"] = loadCategories();
             return View();
         }
 
         [HttpPost]
-        public ActionResult SubmitNews(NewsModel news) {
+        public ActionResult PostNews(NewsModel news) {
             List<string> categories = dataAccess.GetAllCategories();
 
             List<SelectListItem> liCategories = new List<SelectListItem>();
@@ -79,6 +82,7 @@ namespace Planetarium.Controllers {
             }
 
             ViewData["category"] = liCategories;
+            ActionResult view = RedirectToAction("Success", "Home");
             ActionResult view = RedirectToAction("Success", "Home");
             news.Category = Request.Form["Category"].Replace(" ", "_");
             news.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
