@@ -169,6 +169,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\categoriesAndTopics.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -199,6 +200,8 @@
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
     <Content Include="Views\News\ListNews.cshtml" />
     <Content Include="Views\News\News.cshtml" />
+    <Content Include="Views\News\SubmitNewsForm.cshtml" />
+    <Content Include="Views\Home\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
