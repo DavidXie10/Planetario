@@ -22,7 +22,7 @@
             </div>
         }
     }
-    @using (Html.BeginForm("CreateEmployee", "Employees", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @using (Html.BeginForm("PostCreateEmployee", "Employees", FormMethod.Post, new { enctype = "multipart/form-data" })) {
         @Html.AntiForgeryToken()
         <h1>Formulario de creación de funcionario</h1>
         <div class="form-horizontal">
