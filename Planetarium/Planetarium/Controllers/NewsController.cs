@@ -83,7 +83,6 @@ namespace Planetarium.Controllers {
 
             ViewData["category"] = liCategories;
             ActionResult view = RedirectToAction("Success", "Home");
-            ActionResult view = RedirectToAction("Success", "Home");
             news.Category = Request.Form["Category"].Replace(" ", "_");
             news.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
             news.Title = Request.Form["title"];
@@ -98,18 +97,20 @@ namespace Planetarium.Controllers {
                 if (ViewBag.SuccessOnCreation) {
                     //ViewBag.Message = "La noticia " + "\"" + news.Title + " \" fue creada con éxito";
                     ModelState.Clear();
+                    view = RedirectToAction("Success", "Home");
                     return view;
                 } else {
-                    ViewBag.Error = true;
-                    ViewBag.WarningMessage = "El titulo de la noticia esta vacio o no agregaron tópicos";
+                    TempData["Error"] = true;
+                    TempData["WarningMessage"] = "El titulo de la noticia esta vacio o no agregaron tópicos";
+                    view = RedirectToAction("SubmitNewsForm", "News");
                     //view = RedirectToAction("Failure", "Home");
-                    return View();
+                    return view;
                 }
             } catch (Exception exeption) {
                 ViewBag.Message = exeption.ToString();
                 ViewBag.Error = true;
                 ViewBag.WarningMessage = "El nombre de la noticia \"" + news.Title + "\" esta repetido";
-                return View();
+                return view;
             }
         }
     }

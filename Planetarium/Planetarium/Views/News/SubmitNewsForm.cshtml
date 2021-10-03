@@ -9,10 +9,10 @@
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    @if (ViewBag.Error == true) {
+    @if (Convert.ToBoolean(TempData["Error"]) == true) {
         <div class="alert alert-danger alert-dismissible" role="alert">
             <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
-            <strong>¡Oh no!</strong> @ViewBag.WarningMessage
+            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
         </div>
     }
 
