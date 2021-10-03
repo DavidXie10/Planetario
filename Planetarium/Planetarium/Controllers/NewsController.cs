@@ -14,9 +14,7 @@ namespace Planetarium.Controllers {
         public NewsController() {
             dataAccess = new NewsHandler();
             contentParser = new ContentParser();
-
         }
-
 
         public ActionResult ListNews() {
             NewsHandler dataAccess = new NewsHandler();
@@ -46,32 +44,65 @@ namespace Planetarium.Controllers {
             return view;
         }
 
+        public JsonResult GetTopicsList(string category) {
+            List<SelectListItem> topicsList = new List<SelectListItem>();
+
+            List<string> topicsFromCategory = dataAccess.GetTopicsByCategory(category);
+
+            foreach (string topic in topicsFromCategory) {
+                topicsList.Add(new SelectListItem { Text = topic, Value = topic });
+            }
+
+            return Json(new SelectList(topicsList, "Value", "Text"));
+        }
+
+        public ActionResult SubmitNews() {
+            List<string> categories = dataAccess.GetAllCategories();
+
+            List<SelectListItem> liCategories = new List<SelectListItem>();
+            foreach (string category in categories) {
+                liCategories.Add(new SelectListItem { Text = category, Value = category });
+            }
+
+            ViewData["category"] = liCategories;
+
+            return View();
+        }
 
         [HttpPost]
-        public ActionResult SubmitNews() {
-            NewsModel news = new NewsModel();
-            ActionResult successView = RedirectToAction("News", "ListNews");
-            //faq.Category = Request.Form["Category"].Replace(" ", "_");
-            //faq.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
-            //faq.Question = Request.Form["question"];
-            //faq.Answer = Request.Form["answer"];
-            //faq.QuestionId = -1;
+        public ActionResult SubmitNews(NewsModel news) {
+            List<string> categories = dataAccess.GetAllCategories();
+
+            List<SelectListItem> liCategories = new List<SelectListItem>();
+            foreach (string category in categories) {
+                liCategories.Add(new SelectListItem { Text = category, Value = category });
+            }
+
+            ViewData["category"] = liCategories;
+            ActionResult view = RedirectToAction("Success", "Home"); ;
+            news.Category = Request.Form["Category"].Replace(" ", "_");
+            news.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
+            news.Title = Request.Form["title"];
+            // TODO: author puede ser nulo
+            news.Author = Request.Form["author"];
+            news.Description = Request.Form["description"];
+            news.Content = Request.Form["content"];
 
             ViewBag.SuccessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
                     ViewBag.SuccessOnCreation = this.dataAccess.PublishNews(news);
                     if (ViewBag.SuccessOnCreation) {
-                        ViewBag.Message = "La noticia " + "\"" + news.Title + " \" fue creada con éxito";
+                        //ViewBag.Message = "La noticia " + "\"" + news.Title + " \" fue creada con éxito";
                         ModelState.Clear();
                     }
                 }
-                return successView;
-            } catch {
-                ViewBag.Message = "Algo salió mal y no fue posible crear la noticia";
-                return successView;
+                return view;
+            } catch (Exception exeption) {
+                ViewBag.Message = exeption.ToString();
+                //ViewBag.Message = "Algo salió mal y no fue posible crear la noticia";
+                return View();
             }
         }
-
     }
 }
