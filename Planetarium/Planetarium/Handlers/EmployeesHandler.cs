@@ -38,9 +38,9 @@ namespace Planetarium.Handlers {
                         FirstName = Convert.ToString(column["nombre"]),
                         LastName = Convert.ToString(column["apellido"]),
                         AcademicDegree = Convert.ToString(column["titulosAcademicos"]),
-                        //Occupation = Convert.ToString(column["ocupacion"]),
+                        Occupation = Convert.ToString(column["ocupacion"]),
                         Mail = Convert.ToString(column["correo"]),
-                        //Phrase = Convert.ToString(column["frase"]),
+                        Phrase = Convert.ToString(column["frase"]),
                     }
                 );
             }
