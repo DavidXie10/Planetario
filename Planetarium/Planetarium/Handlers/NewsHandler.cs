@@ -104,14 +104,14 @@ namespace Planetarium.Handlers {
         private void LinkAllNewsWithImages(List<NewsModel> news) {
             foreach (NewsModel scoop in news) {
                 DataTable resultingTableOfNewsWithTheirImages = GetNewsWithImagesTable(scoop.Title);
-                LinkScoopWithImages(scoop, resultingTableOfNewsWithTheirImages);
+                if (resultingTableOfNewsWithTheirImages != null)
+                    LinkScoopWithImages(scoop, resultingTableOfNewsWithTheirImages);
             }
         }
         private DataTable GetNewsWithImagesTable(string scoopTitle) {
             string query = "SELECT * FROM Noticia " +
                         "INNER JOIN ImagenPerteneceANoticia ON Noticia.tituloPK = ImagenPerteneceANoticia.tituloPKFK  " +
-                        "WHERE tituloPK = '" + scoopTitle + "' " +
-                        "ORDER BY fechaPublicacion DESC";
+                        "WHERE tituloPK = '" + scoopTitle + "' ";
             return CreateTableFromQuery(query);
         }
 
@@ -131,7 +131,8 @@ namespace Planetarium.Handlers {
         }
 
         public bool PublishNews(NewsModel news) {
-            string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " + "VALUES(@tituloPK,@resumen,'2000-02-02','103230738',@contenido,@autor)";
+            string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " +
+                           "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'103230738',@contenido,@autor)";
             // TODO: investigar como calcular fecha actual en SQL y meterla a esta tupla
             // TODO: hacer que la cedula sea obtenida para quien lo publica
             // TODO: autor puede venir nulo
@@ -142,27 +143,37 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@contenido", news.Content);
             queryCommand.Parameters.AddWithValue("@autor", news.Author);
 
+            //VALIDACIONES ACA
+            if (news.Topics.Count == 0 || news.Title.Equals("")) {
+                return false;
+            }
+
             connection.Open();
             bool success = queryCommand.ExecuteNonQuery() >= 1;
             connection.Close();
 
+            if (!success) {
+                return success;
+            }
+
             foreach (string topic in news.Topics) {
                 query = "INSERT INTO NoticiaPerteneceATopico " +
-                        "VALUES (" + news.Title + ",'" + topic + "')";
+                        "VALUES ('" + news.Title + "','" + topic + "')";
                 queryCommand = new SqlCommand(query, connection);
                 connection.Open();
                 success = queryCommand.ExecuteNonQuery() >= 1;
                 connection.Close();
             }
 
-            // TODO: tomar imagenes
-            foreach (string imageRef in news.ImagesRef) {
-                query = "INSERT INTO ImagenPerteneceANoticia " +
-                        "VALUES (" + news.Title + ",'" + imageRef + "')";
-                queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+            if (news.ImagesRef != null) {
+                foreach (string imageRef in news.ImagesRef) {
+                    query = "INSERT INTO ImagenPerteneceANoticia " +
+                            "VALUES ('" + news.Title + "','" + imageRef + "')";
+                    queryCommand = new SqlCommand(query, connection);
+                    connection.Open();
+                    success = queryCommand.ExecuteNonQuery() >= 1;
+                    connection.Close();
+                }
             }
             return success;
         }

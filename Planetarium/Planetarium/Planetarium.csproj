@@ -199,6 +199,8 @@
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
     <Content Include="Views\News\ListNews.cshtml" />
     <Content Include="Views\News\News.cshtml" />
+    <Content Include="Views\News\SubmitNews.cshtml" />
+    <Content Include="Views\Home\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

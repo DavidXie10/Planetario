@@ -15,7 +15,7 @@ namespace Planetarium.Handlers {
         private string connectionRoute;
 
         public ActivityHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["AGREGAR EN WEB.CONF"].ToString();
+            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 

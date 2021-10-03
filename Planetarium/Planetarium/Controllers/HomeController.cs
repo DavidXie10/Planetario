@@ -59,7 +59,7 @@ namespace Planetarium.Controllers
 
         public ActionResult Success() {
             ViewBag.Message = "Su información ha sido agregada exitosamente";
-            ViewBag.Title = "Sucess";
+            ViewBag.Title = "Success";
             return View();
         }
 
