@@ -131,9 +131,10 @@ namespace Planetarium.Handlers {
         }
 
         public bool PublishNews(NewsModel news) {
-            string query = "INSERT INTO Noticia (tituloPK, resumen, cedulaFK, contenido, autor) " + "VALUES(@tituloPK,@resumen,'103230738',@contenido,@autor)";
+            string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " + "VALUES(@tituloPK,@resumen,'2000-02-02','103230738',@contenido,@autor)";
             // TODO: investigar como calcular fecha actual en SQL y meterla a esta tupla
             // TODO: hacer que la cedula sea obtenida para quien lo publica
+            // TODO: autor puede venir nulo
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
             queryCommand.Parameters.AddWithValue("@tituloPK", news.Title);
@@ -154,6 +155,7 @@ namespace Planetarium.Handlers {
                 connection.Close();
             }
 
+            // TODO: tomar imagenes
             foreach (string imageRef in news.ImagesRef) {
                 query = "INSERT INTO ImagenPerteneceANoticia " +
                         "VALUES (" + news.Title + ",'" + imageRef + "')";
@@ -163,6 +165,35 @@ namespace Planetarium.Handlers {
                 connection.Close();
             }
             return success;
+        }
+
+        public List<string> GetAllCategories() {
+            List<string> categories = new List<string>();
+
+            string query = "SELECT DISTINCT categoria FROM Topico";
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow column in resultingTable.Rows) {
+                categories.Add(Convert.ToString(column["categoria"]));
+            }
+
+            return categories;
+        }
+
+        public List<string> GetTopicsByCategory(string category) {
+
+            List<string> topics = new List<string>();
+
+            string query = "SELECT nombrePK " +
+                            "FROM Topico T " +
+                            "WHERE T.categoria LIKE '%" + category + "%';";
+
+            DataTable topicsDataTable = CreateTableFromQuery(query);
+
+            foreach (DataRow column in topicsDataTable.Rows) {
+                topics.Add(Convert.ToString(column["nombrePK"]));
+            }
+
+            return topics;
         }
 
     }

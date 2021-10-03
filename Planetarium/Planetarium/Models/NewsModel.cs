@@ -4,14 +4,12 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace Planetarium.Models
-{
-    public class NewsModel
-    {
+namespace Planetarium.Models {
+    public class NewsModel {
         [Required(ErrorMessage = "Es necesario que tenga un titulo")]
         [Display(Name = "Título")]
         public string Title { get; set; }
-    
+
         public DateTime Date { get; set; }
 
         [Required(ErrorMessage = "Es necesario el resumen de la noticia")]
@@ -35,6 +33,6 @@ namespace Planetarium.Models
         [Display(Name = "Seleccione el tópico")]
         public List<string> Topics { get; set; }
 
-        public List<string> ImagesRef { get; set; }   
+        public List<string> ImagesRef { get; set; }
     }
 }

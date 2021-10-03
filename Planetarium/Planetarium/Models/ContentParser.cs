@@ -19,7 +19,7 @@ namespace Planetarium.Models {
                 var content = ExtractRawContent(fileName);
                 contentExtracted = ParseContent(content);
             } catch (Exception e) {
-                Console.WriteLine("File not found\n" +  e.ToString());
+                Console.WriteLine("File not found\n" + e.ToString());
                 contentExtracted += "File not found";
             }
             return contentExtracted;
@@ -40,8 +40,6 @@ namespace Planetarium.Models {
             }
             return contentExtracted;
         }
-
-        
 
         private bool IsStringEmpty(String line) {
             return line == "" ? true : false;
@@ -66,6 +64,18 @@ namespace Planetarium.Models {
                 Debug.WriteLine(error);
             }
             return parsedContent;
+        }
+
+        public List<string> GetTopicsFromString(string topics) {
+            List<string> topicsParsed = new List<string>();
+            string[] topicsList = topics.Split('|');
+            foreach (string topic in topicsList) {
+                if (topic != "") {
+                    topicsParsed.Add(topic.Replace("_", " "));
+                }
+
+            }
+            return topicsParsed;
         }
     }
 }
