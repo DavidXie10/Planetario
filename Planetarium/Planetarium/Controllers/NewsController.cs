@@ -5,15 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
+using System.IO;
 
 namespace Planetarium.Controllers {
     public class NewsController : Controller {
 
         public NewsHandler dataAccess { get; set; }
         public ContentParser contentParser { get; set; }
+        public List<string> ImagesNames { get; set; }
+
         public NewsController() {
             dataAccess = new NewsHandler();
             contentParser = new ContentParser();
+            ImagesNames = new List<string>();
         }
 
         public ActionResult ListNews() {
@@ -69,6 +73,8 @@ namespace Planetarium.Controllers {
 
         public ActionResult SubmitNewsForm() {
             ViewData["category"] = loadCategories();
+            List<string> imagesNames = new List<string>();
+            ViewBag.ImagesNames = imagesNames;
             return View();
         }
 
@@ -90,6 +96,9 @@ namespace Planetarium.Controllers {
             news.Author = Request.Form["author"];
             news.Description = Request.Form["description"];
             news.Content = Request.Form["content"];
+
+            List<string> imagesString = contentParser.GetTopicsFromString(Request.Form["imagesString"]);
+            news.ImagesRef = imagesString;
 
             ViewBag.SuccessOnCreation = false;
             try {
@@ -113,5 +122,20 @@ namespace Planetarium.Controllers {
                 return view;
             }
         }
+
+        [HttpPost]
+        public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files) {
+            
+            foreach (var file in files) {
+                string filePath = file.FileName;
+                file.SaveAs(Path.Combine(Server.MapPath("~/images/news"), filePath));
+
+                ImagesNames.Add(filePath);
+            }
+
+            return Json("file uploaded successfully");
+        }
+
+
     }
 }
