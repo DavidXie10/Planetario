@@ -18,91 +18,68 @@
 
     <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "News")"></div>
     <div class="container">
-        <h1>Agregar una noticia</h1>
+        <h1>Formulario para agregar una noticia</h1>
         @using (Html.BeginForm("PostNews", "News", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
-
             <div class="form">
-                <div class="row">
-                    <div class="col">
-                        @Html.LabelFor(model => model.Category, new { @class = "card-text" })
-                        <br />
-                        @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">NUEVA NOTICIA</h4>
                     </div>
-                    <div class="col">
-                        @Html.LabelFor(model => model.Topics)
-                        <br />
-                        @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
-                    </div>
-                </div>
-                <div class="card" style="margin: 10px 0 10px 0;">
-                    <div class="card-header bg-primary">
-                        <h4 class="text-white">Topicos seleccionados</h4>
-                    </div>
-
-                    <div class="card-body" id="selectedTopics">
-                    </div>
-
-                    <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="card" style="margin: 10px 0 10px 0;">
-                            <div class="card-header bg-primary">
-                                <h4 class="text-white">@Html.LabelFor(model => model.Title)</h4>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Category, new { @class = "card-text" })
+                                <br />
+                                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
                             </div>
-
-                            <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-                                <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="title"></textarea>
+                            <div class="col">
+                                @Html.LabelFor(model => model.Topics)
+                                <br />
+                                @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
                             </div>
                         </div>
-                    </div>
-                    <div class="col">
                         <div class="card" style="margin: 10px 0 10px 0;">
-                            <div class="card-header bg-primary">
-                                <h4 class="text-white">@Html.LabelFor(model => model.Author)</h4>
+                            <div class="card-header">
+                                <h4 class="text-success">Topicos seleccionados</h4>
                             </div>
-                            <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-                                <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="author"></textarea>
-                                <span class="field-validation-valid" data-valmsg-for="selectedTopics"></span>
+
+                            <div class="card-body" id="selectedTopics">
                             </div>
+
+                            <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Title)
+                                @Html.TextAreaFor(model => model.Title, new { @class = "form-control", @rows = "5" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.Author)
+                                @Html.TextAreaFor(model => model.Author, new { @class = "form-control", @rows = "5" })
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                            @Html.LabelFor(model => model.Description)
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3" })
+                        </div>
+                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                            @Html.LabelFor(model => model.Content)
+                            @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @rows = "5" })
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div>
+                                <h5>Arrastre los archivos</h5>
+                                <div id="dropArea"> Arrastre los archivos acá </div>
+                                <h6> Archivos subidos: </h6>
+                                <ul class="list-group" id="uploadList">
+                                </ul>
+                            </div>
+                            <input type="text" id="imagesString" name="imagesString" style="display:none;" />
                         </div>
                     </div>
                 </div>
-                <div class="card" style="margin: 10px 0 10px 0;">
-                    <div class="card-header bg-primary">
-                        <h4 class="text-white">@Html.LabelFor(model => model.Description)</h4>
-                    </div>
-
-                    <div class="card-body bg-white" style="margin:0; padding: 0;">
-                        <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="3" name="description"></textarea>
-                    </div>
-                </div>
-
-                <div class="card" style="margin: 10px 0 10px 0;">
-                    <div class="card-header bg-primary">
-                        <h4 class="text-white">@Html.LabelFor(model => model.Content)</h4>
-                    </div>
-
-                    <div class="card-body bg-white" style="margin:0; padding: 0;">
-                        <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="5" name="content"></textarea>
-                    </div>
-                </div>
-
-                <div>
-                    <h3>Arrastre los archivos</h3>
-                    <div id="dropArea"> Arrastre los archivos acá </div>
-                    <h4> Archivos subidos: </h4>
-                    <ul class="list-group" id="uploadList">
-                    </ul>
-                </div>
-
-                <input type="text" id="imagesString" name="imagesString" style="display:none;" />
-
-                <br />
-
                 <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Publicar" />
-
             </div>
         }
     </div>
