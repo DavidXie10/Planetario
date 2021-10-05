@@ -5,9 +5,34 @@ using System.Web;
 
 namespace Planetarium.Models {
     public class ActivityModel {
-        public int Id { get; set; }
+        
         public string Title { get; set; }
+
         public string Body { get; set; }
-        public string Date { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public int Duration { get; set; }
+
+        public string Capacity { get; set; }
+
+        public float Price { get; set; }
+
+        public string Complexity { get; set; }
+
+        public int  State { get; set; }
+
+        public string Type { get; set; }
+
+        public string Link { get; set; }
+
+        public string Description { get; set; }
+
+        public string PublisherId { get; set; }
+
+        public string Category { get; set; }
+
+        public List<string> Topics { get; set; }
+
     }
 }
