@@ -29,7 +29,7 @@ namespace Planetarium.Handlers {
 
         public List<EmployeeModel> GetAllEmployees() {
             List<EmployeeModel> employees = new List<EmployeeModel>();
-            string query = "SELECT * FROM Funcionario ";
+            string query = "SELECT * FROM Funcionario ORDER BY nombre ";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
                 employees.Add(CreateScoop(column));
