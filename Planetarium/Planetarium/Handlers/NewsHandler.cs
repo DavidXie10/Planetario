@@ -123,11 +123,34 @@ namespace Planetarium.Handlers {
             }
         }
 
-        private byte[] GetFileBytes(HttpPostedFileBase file) {
-            byte[] bytes;
-            BinaryReader reader = new BinaryReader(file.InputStream);
-            bytes = reader.ReadBytes(file.ContentLength);
-            return bytes;
+        private bool InsertImages(NewsModel news) {
+            bool success = false;
+
+            foreach (string imageRef in news.ImagesRef) {
+                string query = "INSERT INTO ImagenPerteneceANoticia " +
+                        "VALUES ('" + news.Title + "','" + imageRef + "')";
+                SqlCommand queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+
+            return success;
+        }
+
+        private bool InsertNewsTopics(NewsModel news) {
+            bool success = false;
+
+            foreach (string topic in news.Topics) {
+                string query = "INSERT INTO NoticiaPerteneceATopico " +
+                        "VALUES ('" + news.Title + "','" + topic + "')";
+                SqlCommand queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+
+            return success;
         }
 
         public bool PublishNews(NewsModel news) {
@@ -141,37 +164,16 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@contenido", news.Content);
             queryCommand.Parameters.AddWithValue("@autor", news.Author);
 
-            if (news.Topics.Count == 0 || news.Title.Equals("")) {
-                return false;
-            }
-
             connection.Open();
             bool success = queryCommand.ExecuteNonQuery() >= 1;
             connection.Close();
 
-            if (!success) {
-                return success;
-            }
-
-            foreach (string topic in news.Topics) {
-                query = "INSERT INTO NoticiaPerteneceATopico " +
-                        "VALUES ('" + news.Title + "','" + topic + "')";
-                queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
-            }
+            success = InsertNewsTopics(news);
 
             if (news.ImagesRef != null) {
-                foreach (string imageRef in news.ImagesRef) {
-                    query = "INSERT INTO ImagenPerteneceANoticia " +
-                            "VALUES ('" + news.Title + "','" + imageRef + "')";
-                    queryCommand = new SqlCommand(query, connection);
-                    connection.Open();
-                    success = queryCommand.ExecuteNonQuery() >= 1;
-                    connection.Close();
-                }
+                success = InsertImages(news);
             }
+
             return success;
         }
 
@@ -188,7 +190,6 @@ namespace Planetarium.Handlers {
         }
 
         public List<string> GetTopicsByCategory(string category) {
-
             List<string> topics = new List<string>();
 
             string query = "SELECT nombrePK " +
@@ -203,6 +204,5 @@ namespace Planetarium.Handlers {
 
             return topics;
         }
-
     }
 }

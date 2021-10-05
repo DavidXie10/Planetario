@@ -66,6 +66,13 @@ namespace Planetarium.Models {
             return parsedContent;
         }
 
+        public string GetRawJsonString(string fileName) {
+            string rawJsonString = "";
+            string[] rawJson = ExtractRawContent(fileName);
+            rawJsonString = ParseRawJson(rawJson);
+            return rawJsonString;
+        }
+
         public List<string> GetTopicsFromString(string topics) {
             List<string> topicsParsed = new List<string>();
             string[] topicsList = topics.Split('|');

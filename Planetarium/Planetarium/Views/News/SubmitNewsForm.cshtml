@@ -75,7 +75,9 @@
                         <div class="row" style="margin-top: 15px;">
                             <div>
                                 <h5>Arrastre los archivos</h5>
-                                <div id="dropArea"> Arrastre los archivos acá </div>
+                                <div id="dropArea"> 
+                                    <h3 style="color: black;">Arrastre los archivos acá</h3> 
+                                </div>
                                 <h6> Archivos subidos: </h6>
                                 <ul class="list-group" id="uploadList">
                                 </ul>
@@ -95,7 +97,7 @@
 
 <style>
     #dropArea {
-        background: #b5b5b5;
+        background: #77bafa;
         border: black dashed 1px;
         height: 150px;
         text-align: center;
@@ -104,7 +106,7 @@
     }
 
     .active-drop {
-        background: #77bafa !important;
+        background: white !important;
         border: solid 2px blue !important;
         opacity: .5;
         color: black !important;
@@ -134,7 +136,7 @@
                     $('#dropArea').removeClass('active-drop');
                 },
                 afterAll: function (e) {
-                    $('#dropArea').html('file(s) uploaded successfully');
+                    $('#dropArea').html('File(s) uploaded successfully');
                 },
                 uploadFinished: function (i, file, response, time) {
                     $('#uploadList').append('<li class="list-group-item">' + file.name + '</li>')

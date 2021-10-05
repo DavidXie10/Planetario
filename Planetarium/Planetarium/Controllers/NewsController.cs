@@ -10,13 +10,13 @@ using System.IO;
 namespace Planetarium.Controllers {
     public class NewsController : Controller {
 
-        public NewsHandler dataAccess { get; set; }
-        public ContentParser contentParser { get; set; }
+        public NewsHandler DataAccess { get; set; }
+        public ContentParser ContentParser { get; set; }
         public List<string> ImagesNames { get; set; }
 
         public NewsController() {
-            dataAccess = new NewsHandler();
-            contentParser = new ContentParser();
+            DataAccess = new NewsHandler();
+            ContentParser = new ContentParser();
             ImagesNames = new List<string>();
         }
 
@@ -51,7 +51,7 @@ namespace Planetarium.Controllers {
         public JsonResult GetTopicsList(string category) {
             List<SelectListItem> topicsList = new List<SelectListItem>();
 
-            List<string> topicsFromCategory = dataAccess.GetTopicsByCategory(category);
+            List<string> topicsFromCategory = DataAccess.GetTopicsByCategory(category);
 
             foreach (string topic in topicsFromCategory) {
                 topicsList.Add(new SelectListItem { Text = topic, Value = topic });
@@ -60,83 +60,61 @@ namespace Planetarium.Controllers {
             return Json(new SelectList(topicsList, "Value", "Text"));
         }
 
-        private List<SelectListItem> loadCategories() {
-            List<string> categories = dataAccess.GetAllCategories();
+        private List<SelectListItem> LoadCategories() {
+            List<string> categories = DataAccess.GetAllCategories();
 
-            List<SelectListItem> liCategories = new List<SelectListItem>();
+            List<SelectListItem> dropdownCategories = new List<SelectListItem>();
             foreach (string category in categories) {
-                liCategories.Add(new SelectListItem { Text = category, Value = category });
+                dropdownCategories.Add(new SelectListItem { Text = category, Value = category });
             }
 
-            return liCategories;
+            return dropdownCategories;
         }
 
         public ActionResult SubmitNewsForm() {
-            ViewData["category"] = loadCategories();
-            List<string> imagesNames = new List<string>();
-            ViewBag.ImagesNames = imagesNames;
+            ViewData["category"] = LoadCategories();
             return View();
         }
 
         [HttpPost]
         public ActionResult PostNews(NewsModel news) {
-            List<string> categories = dataAccess.GetAllCategories();
-
-            List<SelectListItem> liCategories = new List<SelectListItem>();
-            foreach (string category in categories) {
-                liCategories.Add(new SelectListItem { Text = category, Value = category });
-            }
-
-            ViewData["category"] = liCategories;
             ActionResult view = RedirectToAction("Success", "Home");
-            news.Category = Request.Form["Category"].Replace(" ", "_");
-            news.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
-            news.Title = Request.Form["title"];
-            // TODO: author puede ser nulo
-            news.Author = Request.Form["author"];
-            news.Description = Request.Form["description"];
-            news.Content = Request.Form["content"];
-
-            List<string> imagesString = contentParser.GetTopicsFromString(Request.Form["imagesString"]);
-            news.ImagesRef = imagesString;
+            LoadNewsWithForm(news);
 
             ViewBag.SuccessOnCreation = false;
             try {
-                ViewBag.SuccessOnCreation = this.dataAccess.PublishNews(news);
+                ViewBag.SuccessOnCreation = this.DataAccess.PublishNews(news);
                 if (ViewBag.SuccessOnCreation) {
-                    //ViewBag.Message = "La noticia " + "\"" + news.Title + " \" fue creada con éxito";
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
-                    return view;
-                } else {
-                    TempData["Error"] = true;
-                    TempData["WarningMessage"] = "El titulo de la noticia esta vacio, no agregaron tópicos o no selecionó categoría";
-                    view = RedirectToAction("SubmitNewsForm", "News");
-                    //view = RedirectToAction("Failure", "Home");
-                    return view;
-                }
-            } catch (Exception exeption) {
-                ViewBag.Message = exeption.ToString();
-                ViewBag.Error = true;
-                ViewBag.WarningMessage = "El nombre de la noticia \"" + news.Title + "\" esta repetido";
-                return view;
+                } 
+            } catch  {
+                TempData["Error"] = true;
+                TempData["WarningMessage"] = "El título de la noticia esta repetido";
+                view = RedirectToAction("SubmitNewsForm", "News");
             }
 
+            return view;
+        }
+
+        private void LoadNewsWithForm(NewsModel news) {
+            news.Category = Request.Form["Category"].Replace(" ", "_");
+            news.Topics = ContentParser.GetTopicsFromString(Request.Form["topicsString"]);
+            news.Title = Request.Form["title"];
+            news.Author = Request.Form["author"];
+            news.Description = Request.Form["description"];
+            news.Content = Request.Form["content"];
+            news.ImagesRef = ContentParser.GetTopicsFromString(Request.Form["imagesString"]);
         }
 
         [HttpPost]
         public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files) {
-            
             foreach (var file in files) {
                 string filePath = file.FileName;
                 file.SaveAs(Path.Combine(Server.MapPath("~/images/news"), filePath));
-
-                ImagesNames.Add(filePath);
             }
 
-            return Json("file uploaded successfully");
+            return Json("Files uploaded successfully");
         }
-
-
     }
 }
