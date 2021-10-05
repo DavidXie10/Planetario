@@ -5,7 +5,6 @@ using System.Web;
 using System.ComponentModel.DataAnnotations;
 
 namespace Planetarium.Models {
-    //TO-DO: Quitar Required si no hay solucion
     public class NewsModel {
         [Required(ErrorMessage = "Es necesario que tenga un titulo")]
         [Display(Name = "Título")]
@@ -30,7 +29,7 @@ namespace Planetarium.Models {
         [Display(Name = "Seleccione la categoría")]
         public string Category { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que seleccione un tópico")]
+        [Required(ErrorMessage = "Es necesario que seleccione un tópico y una categoría")]
         [Display(Name = "Seleccione el tópico")]
         public List<string> Topics { get; set; }
 

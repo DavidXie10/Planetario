@@ -32,11 +32,13 @@
                                 @Html.LabelFor(model => model.Category, new { @class = "card-text" })
                                 <br />
                                 @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.Topics)
                                 <br />
                                 @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="card" style="margin: 10px 0 10px 0;">
@@ -53,6 +55,7 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.Title)
                                 @Html.TextAreaFor(model => model.Title, new { @class = "form-control", @rows = "5" })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.Author)
@@ -62,10 +65,12 @@
                         <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
                             @Html.LabelFor(model => model.Description)
                             @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                         </div>
-                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                        <div class="row form-group" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
                             @Html.LabelFor(model => model.Content)
                             @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
                         </div>
                         <div class="row" style="margin-top: 15px;">
                             <div>
@@ -107,6 +112,7 @@
 </style>
 
 @section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
     <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
     <script src="~/Scripts/jquery.filedrop.js"></script>
     <script type="text/javascript">
