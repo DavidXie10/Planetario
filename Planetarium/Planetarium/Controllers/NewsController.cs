@@ -110,7 +110,7 @@ namespace Planetarium.Controllers {
                     return view;
                 } else {
                     TempData["Error"] = true;
-                    TempData["WarningMessage"] = "El titulo de la noticia esta vacio o no agregaron tópicos";
+                    TempData["WarningMessage"] = "El titulo de la noticia esta vacio, no agregaron tópicos o no selecionó categoría";
                     view = RedirectToAction("SubmitNewsForm", "News");
                     //view = RedirectToAction("Failure", "Home");
                     return view;
@@ -121,6 +121,7 @@ namespace Planetarium.Controllers {
                 ViewBag.WarningMessage = "El nombre de la noticia \"" + news.Title + "\" esta repetido";
                 return view;
             }
+
         }
 
         [HttpPost]

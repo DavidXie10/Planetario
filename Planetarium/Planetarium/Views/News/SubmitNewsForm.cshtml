@@ -28,11 +28,13 @@
                     @Html.LabelFor(model => model.Category, new { @class = "card-text" })
                     <br />
                     @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
                 </div>
                 <div class="col">
                     @Html.LabelFor(model => model.Topics)
                     <br />
                     @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="card" style="margin: 10px 0 10px 0;">
@@ -53,9 +55,8 @@
                         </div>
 
                         <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-                            <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="title"></textarea>
+                            <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="title" required></textarea>
                         </div>
-                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col">
@@ -65,6 +66,7 @@
                         </div>
                         <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
                             <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="author"></textarea>
+                            <span class="field-validation-valid" data-valmsg-for="selectedTopics"></span>
                         </div>
                     </div>
                 </div>
@@ -74,8 +76,8 @@
                     <h4 class="text-white">@Html.LabelFor(model => model.Description)</h4>
                 </div>
 
-                <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-                    <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="3" name="description"></textarea>
+                <div class="card-body bg-white" style="margin:0; padding: 0;">
+                    <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="3" name="description" required></textarea>
                 </div>
             </div>
 
@@ -84,8 +86,8 @@
                     <h4 class="text-white">@Html.LabelFor(model => model.Content)</h4>
                 </div>
 
-                <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-                    <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="5" name="content"></textarea>
+                <div class="card-body bg-white" style="margin:0; padding: 0;">
+                    <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="5" name="content" required></textarea>
                 </div>
             </div>
 
