@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Planetarium.Handlers;
 using Planetarium.Models;
 
@@ -19,18 +22,29 @@ namespace Planetarium.Controllers
         }
 
         
-        public ActionResult CreateEmployee() 
-        {
-            List<SelectListItem> countries = new List<SelectListItem>();
+        public ActionResult CreateEmployee() {
+
             ContentParser contentParser = new ContentParser();
-            dynamic JsonContent = contentParser.ParseFromJSON("countries.json");
-            string[] countriesFromJson = JsonContent.CountrieNames.ToObject<string[]>();
+
+            List<SelectListItem> countries = new List<SelectListItem>();
+            List<SelectListItem> languages = new List<SelectListItem>();
+
+            dynamic JsonContentCountries = contentParser.ParseFromJSON("countries.json");
+            dynamic JsonContentLanguages = contentParser.ParseFromJSON("Languages.json");
+
+            string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
 
             foreach (string country in countriesFromJson) {
                 countries.Add(new SelectListItem { Text = country, Value = country });
             }
 
+            foreach(var langage in JsonContentLanguages) {
+                string name = langage.Value["name"].ToString();
+                languages.Add(new SelectListItem { Value = name, Text = name });
+            }
+
             ViewBag.Countries = countries;
+            ViewBag.Languages = languages;
 
             return View();
         }
@@ -59,4 +73,9 @@ namespace Planetarium.Controllers
             }
         }
     }
+}
+
+public partial class Language {
+    public string Name { get; set; }
+    public string NativeName { get; set; }
 }

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Text;
 
 namespace Planetarium.Models {
     public class ContentParser {
@@ -53,6 +49,13 @@ namespace Planetarium.Models {
                 contentExtracted += line + "\n";
             }
             return contentExtracted;
+        }
+
+        public string GetRawJsonString(string fileName) {
+            string rawJsonString = "";
+            string[] rawJson = ExtractRawContent(fileName);
+            rawJsonString = ParseRawJson(rawJson);
+            return rawJsonString;
         }
 
         public dynamic ParseFromJSON(string fileName) {

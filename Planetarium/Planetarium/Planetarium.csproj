@@ -158,12 +158,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Data_Files\countries.json" />
+    <Content Include="Data_Files\Languages.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\GenericMultiselect.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -195,7 +197,6 @@
     <Content Include="Views\Employees\ListEmployees.cshtml" />
     <Content Include="Views\Employees\CreateEmployee.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
-    <Content Include="Views\Employees\paises.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
