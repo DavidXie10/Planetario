@@ -10,102 +10,100 @@
 </head>
 <body>
     @if (Convert.ToBoolean(TempData["Error"]) == true) {
-    <div class="alert alert-danger alert-dismissible" role="alert">
-        <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
-        <strong>¡Oh no!</strong> @TempData["WarningMessage"]
-    </div>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+        </div>
     }
 
     <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "News")"></div>
     <div class="container">
         <h1>Agregar una noticia</h1>
         @using (Html.BeginForm("PostNews", "News", FormMethod.Post, new { enctype = "multipart/form-data" })) {
-        @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
 
-        <div class="form">
-            <div class="row">
-                <div class="col">
-                    @Html.LabelFor(model => model.Category, new { @class = "card-text" })
-                    <br />
-                    @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+            <div class="form">
+                <div class="row">
+                    <div class="col">
+                        @Html.LabelFor(model => model.Category, new { @class = "card-text" })
+                        <br />
+                        @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                    </div>
+                    <div class="col">
+                        @Html.LabelFor(model => model.Topics)
+                        <br />
+                        @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                    </div>
                 </div>
-                <div class="col">
-                    @Html.LabelFor(model => model.Topics)
-                    <br />
-                    @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="card" style="margin: 10px 0 10px 0;">
-                <div class="card-header bg-primary">
-                    <h4 class="text-white">Topicos seleccionados</h4>
-                </div>
+                <div class="card" style="margin: 10px 0 10px 0;">
+                    <div class="card-header bg-primary">
+                        <h4 class="text-white">Topicos seleccionados</h4>
+                    </div>
 
-                <div class="card-body" id="selectedTopics">
-                </div>
+                    <div class="card-body" id="selectedTopics">
+                    </div>
 
-                <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="card" style="margin: 10px 0 10px 0;">
-                        <div class="card-header bg-primary">
-                            <h4 class="text-white">@Html.LabelFor(model => model.Title)</h4>
+                    <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card" style="margin: 10px 0 10px 0;">
+                            <div class="card-header bg-primary">
+                                <h4 class="text-white">@Html.LabelFor(model => model.Title)</h4>
+                            </div>
+
+                            <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
+                                <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="title"></textarea>
+                            </div>
                         </div>
-
-                        <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-                            <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="title" required></textarea>
+                    </div>
+                    <div class="col">
+                        <div class="card" style="margin: 10px 0 10px 0;">
+                            <div class="card-header bg-primary">
+                                <h4 class="text-white">@Html.LabelFor(model => model.Author)</h4>
+                            </div>
+                            <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
+                                <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="author"></textarea>
+                                <span class="field-validation-valid" data-valmsg-for="selectedTopics"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card" style="margin: 10px 0 10px 0;">
-                        <div class="card-header bg-primary">
-                            <h4 class="text-white">@Html.LabelFor(model => model.Author)</h4>
-                        </div>
-                        <div class="card-body bg-white" id="selectedTopics" style="margin:0; padding: 0;">
-                            <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="2" name="author"></textarea>
-                            <span class="field-validation-valid" data-valmsg-for="selectedTopics"></span>
-                        </div>
+                <div class="card" style="margin: 10px 0 10px 0;">
+                    <div class="card-header bg-primary">
+                        <h4 class="text-white">@Html.LabelFor(model => model.Description)</h4>
+                    </div>
+
+                    <div class="card-body bg-white" style="margin:0; padding: 0;">
+                        <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="3" name="description"></textarea>
                     </div>
                 </div>
-            </div>
-            <div class="card" style="margin: 10px 0 10px 0;">
-                <div class="card-header bg-primary">
-                    <h4 class="text-white">@Html.LabelFor(model => model.Description)</h4>
+
+                <div class="card" style="margin: 10px 0 10px 0;">
+                    <div class="card-header bg-primary">
+                        <h4 class="text-white">@Html.LabelFor(model => model.Content)</h4>
+                    </div>
+
+                    <div class="card-body bg-white" style="margin:0; padding: 0;">
+                        <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="5" name="content"></textarea>
+                    </div>
                 </div>
 
-                <div class="card-body bg-white" style="margin:0; padding: 0;">
-                    <textarea class="form-control w-100" style="color: black; margin:0; padding:10px;" rows="3" name="description" required></textarea>
-                </div>
-            </div>
-
-            <div class="card" style="margin: 10px 0 10px 0;">
-                <div class="card-header bg-primary">
-                    <h4 class="text-white">@Html.LabelFor(model => model.Content)</h4>
+                <div>
+                    <h3>Arrastre los archivos</h3>
+                    <div id="dropArea"> Arrastre los archivos acá </div>
+                    <h4> Archivos subidos: </h4>
+                    <ul class="list-group" id="uploadList">
+                    </ul>
                 </div>
 
-                <div class="card-body bg-white" style="margin:0; padding: 0;">
-                    <textarea class="form-control w-100" style="margin:0; padding:10px;" rows="5" name="content" required></textarea>
-                </div>
+                <input type="text" id="imagesString" name="imagesString" style="display:none;" />
+
+                <br />
+
+                <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Publicar" />
+
             </div>
-
-            <div>
-                <h3>Arrastre los archivos</h3>
-                <div id="dropArea"> Arrastre los archivos acá </div>
-                <h4> Archivos subidos: </h4>
-                <ul class="list-group" id="uploadList">
-                </ul>
-            </div>
-
-            <input type="text" id="imagesString" name="imagesString" style="display:none;" />
-
-            <br />
-
-            <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Publicar" />
-
-        </div>
         }
     </div>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
