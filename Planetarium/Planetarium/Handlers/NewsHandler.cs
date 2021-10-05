@@ -133,17 +133,14 @@ namespace Planetarium.Handlers {
         public bool PublishNews(NewsModel news) {
             string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " +
                            "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'103230738',@contenido,@autor)";
-            // TODO: investigar como calcular fecha actual en SQL y meterla a esta tupla
-            // TODO: hacer que la cedula sea obtenida para quien lo publica
-            // TODO: autor puede venir nulo
             SqlCommand queryCommand = new SqlCommand(query, connection);
+            //TO-DO: Cambiar cedula quemada
 
             queryCommand.Parameters.AddWithValue("@tituloPK", news.Title);
             queryCommand.Parameters.AddWithValue("@resumen", news.Description);
             queryCommand.Parameters.AddWithValue("@contenido", news.Content);
             queryCommand.Parameters.AddWithValue("@autor", news.Author);
 
-            //VALIDACIONES ACA
             if (news.Topics.Count == 0 || news.Title.Equals("")) {
                 return false;
             }
