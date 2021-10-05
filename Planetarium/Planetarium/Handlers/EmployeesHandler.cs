@@ -32,21 +32,57 @@ namespace Planetarium.Handlers {
             string query = "SELECT * FROM Funcionario ";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
-                employees.Add(
-                    new EmployeeModel {
-                        //IdPhoto = Convert.ToString(column["fotoPerfil"]),
-                        FirstName = Convert.ToString(column["nombre"]),
-                        LastName = Convert.ToString(column["apellido"]),
-                        AcademicDegree = Convert.ToString(column["titulosAcademicos"]),
-                        Occupation = Convert.ToString(column["ocupacion"]),
-                        Mail = Convert.ToString(column["correo"]),
-                        Phrase = Convert.ToString(column["frase"]),
-                    }
-                );
+                employees.Add(CreateScoop(column));
             }
+            LinkAllEmployeeWithLanguages(employees);
 
             return employees;
         }
+
+        private EmployeeModel CreateScoop(DataRow scoopRawInfo) {
+            return new EmployeeModel {
+                Dni = Convert.ToString(scoopRawInfo["cedulaPK"]),
+                FirstName = Convert.ToString(scoopRawInfo["nombre"]),
+                LastName = Convert.ToString(scoopRawInfo["apellido"]),
+                AcademicDegree = Convert.ToString(scoopRawInfo["titulosAcademicos"]),
+                Occupation = Convert.ToString(scoopRawInfo["ocupacion"]),
+                Mail = Convert.ToString(scoopRawInfo["correo"]),
+                PhoneNumber = Convert.ToInt32(scoopRawInfo["telefono"]),
+                Gender = Convert.ToChar(scoopRawInfo["genero"]),
+                ExpertiseArea = Convert.ToString(scoopRawInfo["areaExpertiz"]),
+                Address = Convert.ToString(scoopRawInfo["lugarDeResidencia"]),
+                NativeCountry = Convert.ToString(scoopRawInfo["paisOrigen"]),
+                DateOfBirth = Convert.ToDateTime(scoopRawInfo["fechaNacimiento"]),
+                Phrase = Convert.ToString(scoopRawInfo["frase"]),
+                IdPhoto = Convert.ToString(scoopRawInfo["fotoPerfil"])
+
+            };
+        }
+
+        private void LinkAllEmployeeWithLanguages(List<EmployeeModel> employees) {
+            foreach (EmployeeModel scoop in employees) {
+                DataTable resultingTableOfEmployeeWithTheirLanguage = GetEmployeeWithLanguagesTable(scoop.Dni);
+                LinkScoopWithLanguages(scoop, resultingTableOfEmployeeWithTheirLanguage);
+            }
+        }
+
+        private DataTable GetEmployeeWithLanguagesTable(string scoopDni) {
+            string query = "SELECT Idioma.idiomaPK FROM Funcionario " +
+                        "INNER JOIN Idioma ON Funcionario.cedulaPK = Idioma.cedulaPK  " +
+                        "WHERE Funcionario.cedulaPK = '" + scoopDni + "' ";
+
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkScoopWithLanguages(EmployeeModel scoop, DataTable resultingTable) {
+            scoop.Languages = new List<string>();
+            foreach (DataRow column in resultingTable.Rows)
+            {
+                var tempLanguage = Convert.ToString(column["idiomaPK"]);
+                scoop.Languages.Add(tempLanguage);
+            }
+        }
+
 
         private byte[] GetFileBytes(HttpPostedFileBase file) {
             byte[] bytes;

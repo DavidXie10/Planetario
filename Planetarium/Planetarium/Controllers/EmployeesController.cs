@@ -14,6 +14,23 @@ namespace Planetarium.Controllers
     public class EmployeesController : Controller
     {
         // GET: Employees
+        public ActionResult Employee(String Dni) {
+            ActionResult view;
+            try {
+                EmployeesHandler dataAccess = new EmployeesHandler();
+                EmployeeModel employee = dataAccess.GetAllEmployees().Find(smodel => String.Equals(smodel.Dni, Dni));
+                if (employee == null) {
+                    view = RedirectToAction("ListEmployees");
+                } else {
+                    ViewBag.Employee = employee;
+                    view = View(employee);
+                }
+            } catch {
+                view = RedirectToAction("ListEmployees");
+            }
+            return view;
+        }
+
         public ActionResult ListEmployees()
         {
             EmployeesHandler dataAccess = new EmployeesHandler();
@@ -54,7 +71,7 @@ namespace Planetarium.Controllers
             
             ActionResult view = RedirectToAction("Success", "Home");
             employee.Gender = Request.Form["gender"].ElementAt(0);
-            employee.Languages = Request.Form["language"];
+            //employee.Languages = Request.Form["language"];
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
