@@ -30,20 +30,26 @@ namespace Planetarium.Handlers {
         }
 
         public List<ActivityModel> GetAllActivities() {
-            List<ActivityModel> activities = new List<ActivityModel>();
-            string query = "SELECT * FROM Activity ";
+            string query = "SELECT * FROM ActividadEducativa";
             DataTable resultingTable = CreateTableFromQuery(query);
+            List<ActivityModel> activities = new List<ActivityModel>();
             foreach (DataRow column in resultingTable.Rows) {
                 activities.Add(
                     new ActivityModel {
-                        Title = Convert.ToString(column["titulo"]),
-                        Body = Convert.ToString(column["cuerpo"]),
-                        Id = Convert.ToInt32(column["id"]),
-                        Date = Convert.ToString(column["date"])
+                        Title = Convert.ToString(column["tituloPK"]),
+                        Description = Convert.ToString(column["descripcion"]),
+                        Date = Convert.ToDateTime(column["fechaInicioPK"]),
+                        Duration = Convert.ToInt32(column["duracion"]),
+                        Capacity = Convert.ToString(column["capacidadMaxima"]),
+                        Price = Convert.ToInt32(column["precio"]),
+                        Complexity = Convert.ToString(column["nivelComplejidad"]),
+                        State = Convert.ToInt32(column["estado"]),
+                        Type = Convert.ToString(column["tipo"]),
+                        Link = Convert.ToString(column["enlace"]),
+                        PublisherId = Convert.ToString(column["cedulaFK"]),
                     }
                 );
             }
-
             return activities;
         }
 
