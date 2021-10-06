@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $("#Category").change(function () {
-        $("#Topics").empty();
-        $("#selectedTopics").empty();
+        $("#topicSelect").empty();
+        $("#topicsContainer").empty();
         $("#inputTopicString").val("");
 
         if ($("#Category").val() != '') {
