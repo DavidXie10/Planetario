@@ -1,37 +1,50 @@
 ﻿<div class="container">
     <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
 
-    @for (int i=0; i<3; i++)
+    @foreach (var activitie in ViewBag.activities)
     {
-        <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
-            <div class="card-body">
-                <div id="checkboxes">
-                    <label for="one"><input type="checkbox" id="one" value= 1 />Aprobada</label>
-                    <label for="two"> <input type="checkbox" id="two" value=2/>Rechazada </label>
+        if (activitie.State == 0)
+        {
+            <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
+                <div class="card-body">
+                    <br>
+                    <h2 class="text-start">Título de la actividad: @activitie.Title </h2>
+                    <h4>Propuesto por: @activitie.Publisher </h4>
+                    <br />
+                    <ul>
+                        <li>Fecha: @activitie.Date</li>
+                        <li>Duración: @activitie.Duration</li>
+                        <li>Precio: @activitie.Price </li>
+                        <li>Capacidad: @activitie.Capacity</li>
+                        <li>Tipo: @activitie.Type</li>
+                    </ul>
+                    <span>
+                        <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @activitie.Category</a></h5>
+                        <h5>
+                            Tópicos:
+                            @foreach (var topic in activitie.Topics)
+                            {
+                            <a class="badge rounded-pill bg-info"> @topic</a>
+                            }
+                        </h5>
+                    </span>
+                    <p class="card-text" style="margin-top: 15px;">
+                        @activitie.Description
+                    </p>
+                    @using (Html.BeginForm("SubmitApprobation", "Collaborator", FormMethod.Post, new { title = ViewBag.Title, enctype = "multipart/form-data" })) {
+                    @Html.AntiForgeryToken()
+
+                    <select name="status" class="form-control">
+                        <option value="1" selected>Aprobar</option>
+                        <option value="2">Rechazar</option>
+                    </select>
+                    <br />
+                    <input type="text" name="myTitle" value=@activitie.Title style="display: none;" />
+                    <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Enviar" />
+                    }
                 </div>
-                <br>
-                <h2 class="text-start">Título de la actividad:  </h2>
-                <h4>Propuesto por: </h4>
-                <br />
-                <h9>Fecha: </h9>
-                <h9>Duración: </h9>
-                <h9>Precio: </h9>
-                <h9>Capacidad: </h9>
-                <h9>Tipo: </h9>
-                <span>
-                    <h5>Categoría: <a class=" btn btn-group-sm btn-success"> Category</a></h5>
-                    <h5>
-                        Tópicos:
-
-                    </h5>
-                </span>
-                <p class="card-text" style="margin-top: 15px;">
-                    Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-
-
             </div>
-        </div>
-    }
+        }
+     }
 
-</div>
+    </div>

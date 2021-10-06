@@ -98,6 +98,15 @@ namespace Planetarium.Handlers {
             }
         }
 
+        public bool UpdateActivityState(string title, int state ){
+            string query = "UPDATE ActividadEducativa SET estado = "+ state +" WHERE tituloPK = '"+ title +"' ";
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            connection.Open();
+            bool activityStateUpdateSuccess = queryCommand.ExecuteNonQuery() >= 1;
+            connection.Close();
+            return activityStateUpdateSuccess;
+        }
+
         private byte[] GetFileBytes(HttpPostedFileBase file) {
             byte[] bytes;
             BinaryReader reader = new BinaryReader(file.InputStream);
