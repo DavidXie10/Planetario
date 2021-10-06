@@ -115,14 +115,20 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@tipoFoto", employee.PhotoFile.ContentType);
             queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.DateOfBirth);
 
-            SqlCommand languageQueryCommand = new SqlCommand(languageQuery, connection);
-            languageQueryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
-            languageQueryCommand.Parameters.AddWithValue("@idioma", employee.Languages);
-
             connection.Open();
             bool employeeInsertSuccess = queryCommand.ExecuteNonQuery() >= 1;
-            bool languageInsertSuccess = languageQueryCommand.ExecuteNonQuery() >= 1;
             connection.Close();
+
+            SqlCommand languageQueryCommand = new SqlCommand(languageQuery, connection);
+            
+            foreach (string language in employee.Languages) {
+                languageQueryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
+                languageQueryCommand.Parameters.AddWithValue("@idioma", language);
+                connection.Open();
+                languageQueryCommand.ExecuteNonQuery();
+                connection.Close();
+            }
+            bool languageInsertSuccess = true;
 
             if (employeeInsertSuccess && languageInsertSuccess) {
                 employeeCreated = true;

@@ -41,8 +41,14 @@ function deleteOnEvent(triggeredEvent) {
 
 function addElementToArray(value) {
 
+    //Test
+    console.log("Valor para ser insertado: " + value)
+
     //Hidden input string current value
     let values = defaultInputString.value;
+
+    //Test
+    console.log("Valores previos: " + values);
 
     //Checking existance
     if (values.includes(value) == 0) {
@@ -51,6 +57,9 @@ function addElementToArray(value) {
 
     //Updating the value
     defaultInputString.value = values;
+
+    //Test
+    console.log("Valor despues del cambio: " + defaultInputString.value);
 }
 
 function deleteElementString(value) {

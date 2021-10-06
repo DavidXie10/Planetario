@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Planetarium.Models {
     public class ContentParser {
@@ -69,6 +70,18 @@ namespace Planetarium.Models {
                 Debug.WriteLine(error);
             }
             return parsedContent;
+        }
+
+
+        public List<string> GetListFromString(string content) {
+            List<string> listFromContent = new List<string>();
+            string[] contentList = content.Split('|');
+            foreach (string contentInList in contentList) {
+                if (contentInList != "") {
+                    listFromContent.Add(contentInList.Replace("_", " "));
+                }
+            }
+            return listFromContent;
         }
     }
 }

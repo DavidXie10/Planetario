@@ -14,6 +14,7 @@ namespace Planetarium.Controllers
     public class EmployeesController : Controller
     {
         // GET: Employees
+        ContentParser contentParser = new ContentParser();
         public ActionResult Employee(String Dni) {
             ActionResult view;
             try {
@@ -71,7 +72,7 @@ namespace Planetarium.Controllers
             
             ActionResult view = RedirectToAction("Success", "Home");
             employee.Gender = Request.Form["gender"].ElementAt(0);
-            //employee.Languages = Request.Form["language"];
+            employee.Languages = contentParser.GetListFromString(Request.Form["defaultInputString"]);
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
@@ -82,17 +83,13 @@ namespace Planetarium.Controllers
                     }
                 }
                 return view;
-            } catch (Exception )
+            } catch (Exception e)
             {
+                Debug.WriteLine("Error en la insercion: " + e.ToString());
                 view = RedirectToAction("CreateEmployee", "Employees");
                 ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
                 return view; 
             }
         }
     }
-}
-
-public partial class Language {
-    public string Name { get; set; }
-    public string NativeName { get; set; }
 }
