@@ -30,7 +30,23 @@ namespace Planetarium.Handlers {
         }
 
         public List<ActivityModel> GetAllActivities() {
-            string query = "SELECT * FROM ActividadEducativa";
+            string query = "SELECT DISTINCT F.nombre+ ' ' + F.apellido 'publicador',"
+                            + " AE.tituloPK,"
+                            +" AE.descripcion,"
+                            +" AE.fechaInicioPK,"
+                            +" AE.duracion,"
+                            +" AE.capacidadMaxima,"
+                            +" AE.precio,"
+                            +" AE.nivelComplejidad,"
+                            +" AE.estado,"
+                            +" AE.tipo,"
+                            +" AE.enlace,"
+                            +" T.categoria"
+                            +" FROM Funcionario F  JOIN ActividadEducativa AE"
+                            +" ON F.cedulaPK  = AE.cedulaFK "
+                            +" JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
+                            +" JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
+                            +" JOIN Idioma I ON I.cedulaPK = AE.cedulaFK ORDER BY AE.fechaInicioPK ";
             DataTable resultingTable = CreateTableFromQuery(query);
             List<ActivityModel> activities = new List<ActivityModel>();
             foreach (DataRow column in resultingTable.Rows) {
@@ -46,11 +62,40 @@ namespace Planetarium.Handlers {
                         State = Convert.ToInt32(column["estado"]),
                         Type = Convert.ToString(column["tipo"]),
                         Link = Convert.ToString(column["enlace"]),
-                        PublisherId = Convert.ToString(column["cedulaFK"]),
+                        Publisher = Convert.ToString(column["publicador"]),
+                        Category = Convert.ToString(column["categoria"])
                     }
                 );
             }
+            LinkAllTopics(activities);
+
             return activities;
+        }
+
+        private void LinkAllTopics(List<ActivityModel> activities)
+        {
+            foreach (ActivityModel scoop in activities)
+            {
+                DataTable resultingTableWithTheirTopic = GetTopicsPerTable(scoop.Title);
+                LinkScoopWithTopics(scoop, resultingTableWithTheirTopic);
+            }
+        }
+
+        private DataTable GetTopicsPerTable(string scoopTitle)
+        {
+            string query = "SELECT nombreTopicoPKFK FROM ActividadEducativa INNER JOIN ActividadEducativaPerteneceATopico ON ActividadEducativa.tituloPK = ActividadEducativaPerteneceATopico.tituloPKFK  WHERE tituloPK = '"+ scoopTitle + "'";
+            return CreateTableFromQuery(query);
+        }
+
+
+        private void LinkScoopWithTopics(ActivityModel scoop, DataTable resultingTable)
+        {
+            scoop.Topics = new List<string>();
+            foreach (DataRow column in resultingTable.Rows)
+            {
+                var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
+                scoop.Topics.Add(tempTopic);
+            }
         }
 
         private byte[] GetFileBytes(HttpPostedFileBase file) {

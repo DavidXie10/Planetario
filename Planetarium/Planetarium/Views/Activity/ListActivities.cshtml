@@ -3,24 +3,31 @@
 
     @foreach (var activitie in ViewBag.activities)
     {
-        if (activitie.State == 1) { 
-        
+        if (activitie.State == 1)
+        {
+
             <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
                 <div class="card-body">
                     <br>
                     <h2 class="text-start">@activitie.Title  </h2>
-                    <h4>Propuesto por: @activitie.PublisherId </h4>
+                    <h4>Impartido por: @activitie.Publisher </h4>
                     <br />
                     <h9>Fecha: @activitie.Date</h9><br>
                     <h9>Duración: @activitie.Duration minutos</h9><br>
-                    <h9>Precio: <span>&#36;</span> @activitie.Price</h9><br>
+                    @{ 
+                        string price = (@activitie.Price==0)? "Gratis" :  "$"+@activitie.Price;
+                    }
+                    <h9>Precio:  @price </h9><br>
                     <h9>Capacidad: @activitie.Capacity personas</h9><br>
                     <h9>Tipo: @activitie.Type</h9><br>
                     <span>
-                        <h5>Categoría: <a class=" btn btn-group-sm btn-success"> Category</a></h5>
+                        <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @activitie.Category</a></h5>
                         <h5>
                             Tópicos:
-
+                            @foreach (var topic in activitie.Topics)
+                            {
+                                <a class="badge rounded-pill bg-info"> @topic</a>
+                            }
                         </h5>
                     </span>
                     <p class="card-text" style="margin-top: 15px;">
@@ -34,4 +41,4 @@
     }
 
 </div>
-            <
+            
