@@ -71,8 +71,7 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@nivelComplejidad", educationalActivity.ComplexityLevel);
             queryCommand.Parameters.AddWithValue("@tipo", educationalActivity.TypeOfAssistance);
             queryCommand.Parameters.AddWithValue("@enlace", educationalActivity.Link);
-            // TODO: cambiar a enumeracion o constantes
-            // 0 virtual
+
             int virtualFlag = educationalActivity.TypeOfAssistance == "Virtual" ? 1 : 0;
             int onSiteFlag = educationalActivity.TypeOfAssistance == "Virtual" ? 0 : 1;
             
@@ -118,10 +117,5 @@ namespace Planetarium.Handlers {
 
             return success;
         }
-
-
-
-
-
     }
 }

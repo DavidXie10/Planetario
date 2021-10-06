@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
 using System.IO;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace Planetarium.Controllers {
     public class EducationalActivityController : Controller {
@@ -74,18 +76,17 @@ namespace Planetarium.Controllers {
         public ActionResult UploadEducationalActivity(EducationalActivityModel educationalActivity) {
             ActionResult view = RedirectToAction("Success", "Home");
             LoadEducationalActivityWithForm(educationalActivity);
-
             ViewBag.SuccessOnCreation = false;
             try {
-                //IsValid?
                 ViewBag.SuccessOnCreation = this.DataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
+                    SendEmail();
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            } catch (Exception e) {
+            } catch {
                 TempData["Error"] = true;
-                TempData["WarningMessage"] = e.ToString();
+                TempData["WarningMessage"] = "Algo salio mal";
                 view = RedirectToAction("ProposeEducationalActivity", "EducationalActivity");
             }
 
@@ -100,5 +101,35 @@ namespace Planetarium.Controllers {
                 educationalActivity.Link = "";
             }
         }
+
+        private void SendEmail() {
+            MimeMessage message = new MimeMessage();
+
+            MailboxAddress from = new MailboxAddress("Coordinador","juan.pachecocastro@ucr.ac.cr");
+            message.From.Add(from);
+
+            MailboxAddress to = new MailboxAddress("Educador", "davidxieli@gmail.com");
+            message.To.Add(to);
+
+            message.Subject = "Su propuesta está en revisión";
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = "<h1>¡Hola!</h1> <p>Actualmente se encuentra en revisión su propuesta</p>";
+            bodyBuilder.TextBody = "¡Hola! Actualmente se encuentra en revisión su propuesta";
+            message.Body = bodyBuilder.ToMessageBody();
+
+            SmtpClient client = new SmtpClient();
+            client.Connect("smtp.ucr.ac.cr", 587);
+            // TODO: cambiar nombre y contraseña
+            // Nombre: nombre.apellido
+            // Contraseña: del correo ucr
+            client.Authenticate("juan.pachecocastro", "password");
+
+            client.Send(message);
+            client.Disconnect(true);
+            client.Dispose();
+        }
+
+
     }
 }

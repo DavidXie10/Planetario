@@ -34,6 +34,7 @@ namespace Planetarium.Models
         public List<string> TargetAudience { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ponga la duración")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
         [Display(Name = "Duración (Minutos)")]
         public int Duration { get; set; }
 
@@ -48,6 +49,7 @@ namespace Planetarium.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Es necesario que seleccione un precio de la actividad")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
         [Display(Name = "Introduzca el precio en colones")]
         public double Price { get; set; }
 
