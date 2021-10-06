@@ -4,7 +4,6 @@
         this.defaultOptionSelector = document.querySelector(optionSelectorId);
         this.defaultButtonContainer = document.querySelector(buttonContainerId);
         this.defaultInputString = document.querySelector(inputStringId);
-        console.log('holis')
     }
 
     addButton(value) {
@@ -27,7 +26,7 @@
             let value = buttonToDelete.textContent;
 
             //Deleting the value from the string container
-            this.deleteElementString(String(value));
+            this.deleteElementString(value);
 
             //Deleting from document
             buttonToDelete.parentNode.removeChild(buttonToDelete);
@@ -38,7 +37,7 @@
         this.defaultButtonContainer.appendChild(button);
 
         //Adding button value to string
-        addElementToArray(String(value));
+        this.addElementToArray(String(value));
     }
 
     deleteOnEvent(triggeredEvent) {

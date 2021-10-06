@@ -40,7 +40,7 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.Topics)
                                 <br />
-                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value)"})
                                 @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -130,13 +130,22 @@
 
 
     <script type="text/javascript">
-        //let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "inputTopicString");
+        let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
         let multiSelectTargetAudience = new GenericMultiSelect("#audienceSelect", "#audienceContainer", "#inputAudienceString");
+
+        function addTopicButton(element) {
+            if (element != "") {
+                multiSelectTopics.addButton(element);
+            }
+        }
+
         function addAudienceButton(element) {
             if (element != "") {
                 multiSelectTargetAudience.addButton(element);
             }
         }
+
+
        
         console.log("Se cargoo");
     </script>
