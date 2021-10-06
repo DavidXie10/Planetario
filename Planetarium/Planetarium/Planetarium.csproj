@@ -121,15 +121,21 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\CollaboratorController.cs" />
+    <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\ActivityHandler.cs" />
+    <Compile Include="Handlers\CollaboratorHandler.cs" />
+    <Compile Include="Handlers\EducationalActivityHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Models\ActivityModel.cs" />
+    <Compile Include="Models\CollaboratorModel.cs" />
     <Compile Include="Models\ContentParser.cs" />
+    <Compile Include="Models\EducationalActivityModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -165,10 +171,13 @@
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
+    <Content Include="Scripts\bootstrap-duration-picker.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\categoriesAndTopics.js" />
+    <Content Include="Scripts\GenericMultiselect.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -201,6 +210,8 @@
     <Content Include="Views\News\News.cshtml" />
     <Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
     <Content Include="Views\FrequentlyQuestion\FrequentlyAskQuestions.cshtml" />
+    <Content Include="Views\EducationalActivity\ProposeEducationalActivity.cshtml" />
+    <Content Include="Views\Collaborator\ActivitiesApprobation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
