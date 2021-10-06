@@ -100,7 +100,12 @@
                     <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
                         <div class="col">
                             @Html.LabelFor(model => model.Price)
-                            @Html.TextBoxFor(model => model.Price, new{ type = "number", @class = "form-control", step = "any"})
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">₡</div>
+                                </div>
+                                @Html.TextBoxFor(model => model.Price, new { type = "number", @class = "form-control " })
+                            </div>
                         </div>
                         <div class="col">
                             @Html.LabelFor(model => model.MaximumCapacity)

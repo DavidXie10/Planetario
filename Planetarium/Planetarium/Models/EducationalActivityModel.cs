@@ -48,7 +48,7 @@ namespace Planetarium.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Es necesario que seleccione un precio de la actividad")]
-        [Display(Name = "Seleccione el precio")]
+        [Display(Name = "Introduzca el precio en colones")]
         public double Price { get; set; }
 
         [Required(ErrorMessage = "Es necesario que introduzca la capacidad máxima")]
