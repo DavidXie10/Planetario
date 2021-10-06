@@ -34,7 +34,7 @@ namespace Planetarium.Models
         public List<string> TargetAudience { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ponga la duración")]
-        [Display(Name = "Duración")]
+        [Display(Name = "Duración (Minutos)")]
         public int Duration { get; set; }
 
         [Required(ErrorMessage = "Es necesario que seleccione la fecha de inicio de la actividad")]

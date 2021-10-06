@@ -81,9 +81,10 @@
                             </div>
                             <input type="text" name="inputAudienceString" id="inputAudienceString" value="" style="display: none;" />
                         </div>
-                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                        <div class="row" style="margin-top: 15px;">
                             <div class="col">
                                 @Html.LabelFor(model => model.Duration)
+                                <input type="number" class="form-control" id="duration" value="">
 
                             </div>
                             <div class="col">
@@ -97,7 +98,7 @@
                             @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3" })
                             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                         </div>
-                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                        <div class="row" style="margin-top: 15px;">
                             <div class="col">
                                 @Html.LabelFor(model => model.Price)
                                 <div class="input-group mb-2">
@@ -113,10 +114,15 @@
                                 @Html.ValidationMessageFor(model => model.MaximumCapacity, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
-                                @Html.LabelFor(model => model.ComplexityLevel)
-                                @Html.DropDownListFor(model => model.ComplexityLevel, ComplexityLevelsItems, "Seleccione el nivel de complejidad", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ComplexityLevel, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.TypeOfAssistance)
+                                @Html.DropDownListFor(model => model.TypeOfAssistance, AssistancesItems, "Seleccione el tipo de asistencia", new { @class = "form-control", onchange = "isVirtual(this.value)" })
+                                @Html.ValidationMessageFor(model => model.TypeOfAssistance, "", new { @class = "text-danger" })
                             </div>
+                        </div>
+
+                        <div id="inputLink" style="display: none;">
+                            @Html.LabelFor(model => model.Link)
+                            @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -130,6 +136,7 @@
 
 
     <script type="text/javascript">
+
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
         let multiSelectTargetAudience = new GenericMultiSelect("#audienceSelect", "#audienceContainer", "#inputAudienceString");
 
@@ -145,7 +152,13 @@
             }
         }
 
-
+        function isVirtual(value) {
+            if (value == "Virtual") {
+                document.querySelector("#inputLink").style.display = "block";
+            } else {
+                document.querySelector("#inputLink").style.display = "none";
+            }
+        }
        
         console.log("Se cargoo");
     </script>
