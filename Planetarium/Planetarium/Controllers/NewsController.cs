@@ -18,6 +18,10 @@ namespace Planetarium.Controllers {
             return View();
         }
 
+        public ActionResult EditNews() {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult News(string title) {
             ActionResult view;
