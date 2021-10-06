@@ -83,17 +83,22 @@ namespace Planetarium.Controllers {
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            } catch {
+            } catch (Exception e) {
                 TempData["Error"] = true;
-                TempData["WarningMessage"] = "El título de la noticia esta repetido";
-                view = RedirectToAction("ProposeEducationalActivity", "News");
+                TempData["WarningMessage"] = e.ToString();
+                view = RedirectToAction("ProposeEducationalActivity", "EducationalActivity");
             }
 
             return view;
         }
 
         private void LoadEducationalActivityWithForm(EducationalActivityModel educationalActivity) {
-            educationalActivity.TargetAudience = ContentParser.GetTopicsFromString(Request.Form["defaultInputString"]);
+            educationalActivity.Duration = int.Parse(Request.Form["Duration"]);
+            educationalActivity.TargetAudience = ContentParser.GetTopicsFromString(Request.Form["inputAudienceString"]);
+            educationalActivity.Topics = ContentParser.GetTopicsFromString(Request.Form["inputTopicString"]);
+            if (educationalActivity.Link == null) {
+                educationalActivity.Link = "";
+            }
         }
     }
 }

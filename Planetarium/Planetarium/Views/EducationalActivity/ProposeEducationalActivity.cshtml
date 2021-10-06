@@ -61,16 +61,19 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.ActivityType)
                                 @Html.DropDownListFor(model => model.ActivityType, ActivitiesTypesItems, "- Sin selección -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ActivityType, "", new {@class = "text-danger"})
                             </div>
                         </div>
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
                                 @Html.LabelFor(model => model.ComplexityLevel)
-                                @Html.DropDownListFor(model => model.ComplexityLevel, ComplexityLevelsItems, new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.ComplexityLevel, ComplexityLevelsItems, "Seleccione nivel de complejidad", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ComplexityLevel, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.TargetAudience)
                                 @Html.DropDownList("audienceSelect", TargetAudiencesItems, "Seleccione los públicos meta", new { @class = "form-control", @onchange = "addAudienceButton(this.value)" })
+                                @Html.ValidationMessageFor(model => model.TargetAudience, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="card" style="margin: 10px 0 10px 0">
@@ -84,13 +87,14 @@
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
                                 @Html.LabelFor(model => model.Duration)
-                                <input type="number" class="form-control" id="duration" value="">
-
+                                <input name="Duration" type="number" class="form-control" id="Duration" value="">
+                                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.Date)
                                 <br />
                                 @Html.EditorFor(model => model.Date, new { @type = "date", @class = "w-100" })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
@@ -107,6 +111,7 @@
                                     </div>
                                     @Html.TextBoxFor(model => model.Price, new { type = "number", @class = "form-control " })
                                 </div>
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.MaximumCapacity)
