@@ -42,7 +42,7 @@ namespace Planetarium.Controllers
             // TODO: cambiar nombre y contraseña
             // Nombre: nombre.apellido
             // Contraseña: del correo ucr
-            client.Authenticate("mauricio.rojassegnini", "mauuam1771.");
+            client.Authenticate("username", "password");
 
             client.Send(message);
             client.Disconnect(true);
