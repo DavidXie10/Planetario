@@ -11,9 +11,8 @@
         <br>
         <div class="row">
             <div class="col-md-3">
-                @{string perfilPhoto = @ViewBag.Employee.IdPhoto + ".png"; }
                 <div class="col-md-4">
-                    <img class="passaport-Img" width="165" height="200" src="~/images/EmployeesProfilePhotos/@perfilPhoto" alt="an employee profile photo">
+                    <img class="passaport-Img" width="165" height="200" src="~/images/EmployeesProfilePhotos/@ViewBag.Employee.PhotoPath" alt="an employee profile photo">
                 </div>
                 <br>
                 <div class="card col-md">
@@ -68,7 +67,7 @@
                                 Idiomas:
                                 @foreach (var language in @ViewBag.Employee.Languages)
                                 {
-                                    <a class="badge rounded-pill bg-info"> @language </a>
+                                <a class="badge rounded-pill bg-info"> @language </a>
                                 }
                                 <br>
                             </p>

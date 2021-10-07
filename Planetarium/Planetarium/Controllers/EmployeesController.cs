@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Planetarium.Handlers;
 using Planetarium.Models;
+using System.IO;
 
 namespace Planetarium.Controllers
 {
@@ -67,6 +68,10 @@ namespace Planetarium.Controllers
             return View();
         }
 
+        public void UploadPhoto(HttpPostedFileBase file) {
+            file.SaveAs(Path.Combine(Server.MapPath("~/images/EmployeesProfilePhotos"), file.FileName));
+        }
+
         [HttpPost]
         public ActionResult PostCreateEmployee(EmployeeModel employee) {
             
@@ -76,6 +81,7 @@ namespace Planetarium.Controllers
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
+                    UploadPhoto(employee.PhotoFile);
                     EmployeesHandler dataAcess = new EmployeesHandler();
                     ViewBag.SucessOnCreation = dataAcess.CreateEmployee(employee);
                     if (ViewBag.SucessOnCreation) {

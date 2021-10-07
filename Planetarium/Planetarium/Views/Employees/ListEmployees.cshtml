@@ -10,11 +10,10 @@
         <br>
         <div class="container">
             @{foreach (var employees in ViewBag.employees) {
-                    string perfilPhoto = employees.IdPhoto+".png";
                     <div class="card mb-3">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img class="passaport-Img" width="215" height="300" src="~/images/EmployeesProfilePhotos/@perfilPhoto" alt="an employee profile photo">
+                                <img class="passaport-Img" width="215" height="300" src="~/images/EmployeesProfilePhotos/@employees.PhotoPath" alt="an employee profile photo">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">

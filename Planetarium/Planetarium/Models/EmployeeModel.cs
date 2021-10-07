@@ -50,13 +50,11 @@ namespace Planetarium.Models {
         [Display(Name = "Idiomas que habla")]
         public List<string> Languages { get; set; }
 
-        public string IdPhoto { get; set; }
+        public string PhotoPath { get; set; }
 
         [Required(ErrorMessage = "Debe agregar un archivo (PNG, JPEG)")]
         [Display(Name = "Ingrese el archivo con su foto de perfil")]
         public HttpPostedFileBase PhotoFile { get; set; }
-
-        public string PhotoFileType { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar fecha de nacimiento")]
         [Display(Name = "Fecha de nacimiento")]

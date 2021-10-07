@@ -54,8 +54,7 @@ namespace Planetarium.Handlers {
                 NativeCountry = Convert.ToString(scoopRawInfo["paisOrigen"]),
                 DateOfBirth = Convert.ToDateTime(scoopRawInfo["fechaNacimiento"]),
                 Phrase = Convert.ToString(scoopRawInfo["frase"]),
-                IdPhoto = Convert.ToString(scoopRawInfo["fotoPerfil"])
-
+                PhotoPath = Convert.ToString(scoopRawInfo["fotoPerfil"])
             };
         }
 
@@ -93,48 +92,54 @@ namespace Planetarium.Handlers {
 
         public bool CreateEmployee(EmployeeModel employee) {
             bool employeeCreated = false;
-            string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,foto,fotoTipo,correo,nombre,apellido,genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen)" +
-              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@archivo,@tipoFoto,@correo,@nombre,@apellido,@gender,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,@paisOrigen) ";
-            string languageQuery = "INSERT INTO Idioma (cedulaPK, idiomaPK)" +
-                                    "VALUES(@cedula, @idioma)";
+            string query = "INSERT INTO Funcionario(foto,fotoTipo,cedulaPK,ocupacion,titulosAcademicos,correo,nombre,apellido, frase, genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen, fotoPerfil)" +
+              "VALUES(@archivo,@tipoFoto,@cedula,@ocupacion,@titulosAcademicos,@correo,@nombre,@apellido, @frase, @genero,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,@paisOrigen,@fotoPerfil) ";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
+            queryCommand.Parameters.AddWithValue("@archivo", GetFileBytes(employee.PhotoFile));
+            queryCommand.Parameters.AddWithValue("@tipoFoto", employee.PhotoFile.ContentType);
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
-            queryCommand.Parameters.AddWithValue("@gender", employee.Gender);
             queryCommand.Parameters.AddWithValue("@ocupacion", employee.Occupation);
             queryCommand.Parameters.AddWithValue("@titulosAcademicos", employee.AcademicDegree);
             queryCommand.Parameters.AddWithValue("@correo", employee.Mail);
             queryCommand.Parameters.AddWithValue("@nombre", employee.FirstName);
             queryCommand.Parameters.AddWithValue("@apellido", employee.LastName);
+            queryCommand.Parameters.AddWithValue("@frase", "Sin frase");
+            queryCommand.Parameters.AddWithValue("@genero", employee.Gender);
+            queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.DateOfBirth);
             queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber);
             queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea);
             queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address);
-            queryCommand.Parameters.AddWithValue("@archivo", GetFileBytes(employee.PhotoFile));
             queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry);
-            queryCommand.Parameters.AddWithValue("@tipoFoto", employee.PhotoFile.ContentType);
-            queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.DateOfBirth);
+            queryCommand.Parameters.AddWithValue("@fotoPerfil", employee.PhotoFile.FileName);
 
             connection.Open();
             bool employeeInsertSuccess = queryCommand.ExecuteNonQuery() >= 1;
             connection.Close();
+            bool languageInsertSuccess = InsertLanguages(employee);
 
-            SqlCommand languageQueryCommand = new SqlCommand(languageQuery, connection);
-            
-            foreach (string language in employee.Languages) {
-                languageQueryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
-                languageQueryCommand.Parameters.AddWithValue("@idioma", language);
-                connection.Open();
-                languageQueryCommand.ExecuteNonQuery();
-                connection.Close();
-            }
-            bool languageInsertSuccess = true;
-
-            if (employeeInsertSuccess && languageInsertSuccess) {
+            if (employeeInsertSuccess && languageInsertSuccess)
+            {
                 employeeCreated = true;
             }
 
             return employeeCreated;
+        }
+
+        public bool InsertLanguages(EmployeeModel employee)
+        {
+            bool sucess = false;
+            foreach (string language in employee.Languages)
+            {
+                string languageQuery = "INSERT INTO Idioma (cedulaPK, idiomaPK)" +
+                        "VALUES ('" + employee.Dni + "','" + language + "')";
+                SqlCommand languageQueryCommand = new SqlCommand(languageQuery, connection);
+                connection.Open();
+                sucess = languageQueryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+            return sucess;
         }
     }
 }
