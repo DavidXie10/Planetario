@@ -24,17 +24,21 @@
                         <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @activity.Category</a></h5>
                         <h5>
                             Tópicos:
-                            @foreach (var topic in activity.Topics)
-                            {
+                            @foreach (var topic in activity.Topics) {
                                 <a class="badge rounded-pill bg-info"> @topic</a>
                             }
                         </h5>
                     </span>
+                    <h5>
+                        Publicos Meta:
+                        @foreach (var targetAudienceInstance in activity.TargetAudience) {
+                            <a class="badge bg-info"> @targetAudienceInstance</a>
+                        }
+                    </h5>
                     <p class="card-text" style="margin-top: 15px;">
                         @activity.Description
                     </p>
-                    @using (Html.BeginForm("SubmitApprobation", "EducationalActivity", FormMethod.Post, new { title = ViewBag.Title, enctype = "multipart/form-data" }))
-                    {
+                    @using (Html.BeginForm("SubmitApprobation", "EducationalActivity", FormMethod.Post, new { title = ViewBag.Title, enctype = "multipart/form-data" })) {
                         @Html.AntiForgeryToken()
 
                         <select name="status" class="form-control">
