@@ -87,7 +87,7 @@
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
                                 @Html.LabelFor(model => model.Duration)
-                                <input name="Duration" type="number" class="form-control" id="Duration" value="">
+                                @Html.TextBoxFor(model => model.Duration, new { @type = "number", @class = "form-control", @value = "" })
                                 @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">

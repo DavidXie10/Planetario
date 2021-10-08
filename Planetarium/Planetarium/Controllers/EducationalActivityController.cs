@@ -48,7 +48,6 @@ namespace Planetarium.Controllers {
             foreach (string option in options) {
                 dropdown.Add(new SelectListItem { Text = option, Value = option });
             }
-
             return dropdown;
         }
 
@@ -80,13 +79,13 @@ namespace Planetarium.Controllers {
             try {
                 ViewBag.SuccessOnCreation = this.DataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
-                    SendEmail();
+                    SendEmail(0);
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
             } catch {
                 TempData["Error"] = true;
-                TempData["WarningMessage"] = "Algo salio mal";
+                TempData["WarningMessage"] = "Algo salió mal";
                 view = RedirectToAction("ProposeEducationalActivity", "EducationalActivity");
             }
 
@@ -102,36 +101,75 @@ namespace Planetarium.Controllers {
             }
         }
 
-        private void SendEmail() {
+        private void SendEmail(int state) {
+            const string BASE_MESSAGE_HTML = "<h1>¡Hola!</h1> <p>Su propuesta ha sido ";
+            const string BASE_MESSAGE_TEXT = "¡Hola! Su propuesta ha sido ";
+            const string BASE_SUBJECT = "Estado de la propuesta";
             MimeMessage message = new MimeMessage();
 
-            MailboxAddress from = new MailboxAddress("Coordinador","juan.pachecocastro@ucr.ac.cr");
+            MailboxAddress from = new MailboxAddress("Coordinador", "mauricio.rojassegnini@ucr.ac.cr");
             message.From.Add(from);
-
             MailboxAddress to = new MailboxAddress("Educador", "davidxieli@gmail.com");
             message.To.Add(to);
 
-            message.Subject = "Su propuesta está en revisión";
+            message.Subject = BASE_SUBJECT;
 
             BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = "<h1>¡Hola!</h1> <p>Actualmente se encuentra en revisión su propuesta</p>";
-            bodyBuilder.TextBody = "¡Hola! Actualmente se encuentra en revisión su propuesta";
+            bodyBuilder.HtmlBody = WordUsageDependingOnState(BASE_MESSAGE_HTML, state);
+            bodyBuilder.TextBody = WordUsageDependingOnState(BASE_MESSAGE_TEXT, state);
+            bodyBuilder.HtmlBody += "</p>";
+
             message.Body = bodyBuilder.ToMessageBody();
 
             SmtpClient client = new SmtpClient();
             client.Connect("smtp.ucr.ac.cr", 587);
-            // TODO: cambiar nombre y contraseña
-            // Nombre: nombre.apellido
-            // Contraseña: del correo ucr
-            client.Authenticate("juan.pachecocastro", "password");
+            client.Authenticate("mauricio.rojassegnini", "password");
 
             client.Send(message);
             client.Disconnect(true);
             client.Dispose();
         }
 
-        
+        private string WordUsageDependingOnState(string baseMessage, int state){
+            return baseMessage +( (state == 0) ? "pasada a revisión." : (state == 1) ? "aprobada." : "rechazada.");    
+        }
 
+        public ActionResult ListActivities()
+        {
+            EducationalActivityHandler dataAccess = new EducationalActivityHandler();
+            ViewBag.activities = dataAccess.GetAllActivities();
+            return View();
+        }
 
+        public ActionResult ActivitiesApprobation()
+        {
+            ViewBag.activities = DataAccess.GetAllActivities();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SubmitApprobation()
+        {
+            ActionResult view = RedirectToAction("ActivitiesApprobation", "EducationalActivity");
+            int state = Convert.ToInt32(Request.Form["status"]);
+            string title = Request.Form["myTitle"];
+
+            ViewBag.SuccessOnCreation = false;
+            try
+            {   
+                ViewBag.SuccessOnCreation = DataAccess.UpdateActivityState(title, state);
+                if (ViewBag.SuccessOnCreation)
+                {
+                    ModelState.Clear();
+                    SendEmail(state);
+                }
+            }
+            catch
+            {
+                TempData["Error"] = true;
+                TempData["WarningMessage"] = "Algo salio mal";
+            }
+            return view;
+        }
     }
 }

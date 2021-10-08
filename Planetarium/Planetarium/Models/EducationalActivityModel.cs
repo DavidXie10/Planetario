@@ -67,5 +67,7 @@ namespace Planetarium.Models
         [Display(Name = "Enlace a la actividad")]
         public string Link { get; set; }
 
+        public string Publisher { get; set; }
+
     }
 }
