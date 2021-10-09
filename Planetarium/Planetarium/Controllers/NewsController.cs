@@ -5,9 +5,21 @@ using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
+using System.IO;
 
 namespace Planetarium.Controllers {
     public class NewsController : Controller {
+
+        public NewsHandler DataAccess { get; set; }
+        public ContentParser ContentParser { get; set; }
+        public List<string> ImagesNames { get; set; }
+
+        public NewsController() {
+            DataAccess = new NewsHandler();
+            ContentParser = new ContentParser();
+            ImagesNames = new List<string>();
+        }
+
         public ActionResult ListNews() {
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
@@ -34,6 +46,75 @@ namespace Planetarium.Controllers {
                 view = RedirectToAction("ListNews");
             }
             return view;
+        }
+
+        public JsonResult GetTopicsList(string category) {
+            List<SelectListItem> topicsList = new List<SelectListItem>();
+
+            List<string> topicsFromCategory = DataAccess.GetTopicsByCategory(category);
+
+            foreach (string topic in topicsFromCategory) {
+                topicsList.Add(new SelectListItem { Text = topic, Value = topic });
+            }
+
+            return Json(new SelectList(topicsList, "Value", "Text"));
+        }
+
+        private List<SelectListItem> LoadCategories() {
+            List<string> categories = DataAccess.GetAllCategories();
+
+            List<SelectListItem> dropdownCategories = new List<SelectListItem>();
+            foreach (string category in categories) {
+                dropdownCategories.Add(new SelectListItem { Text = category, Value = category });
+            }
+
+            return dropdownCategories;
+        }
+
+        public ActionResult SubmitNewsForm() {
+            ViewData["category"] = LoadCategories();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PostNews(NewsModel news) {
+            ActionResult view = RedirectToAction("Success", "Home");
+            LoadNewsWithForm(news);
+
+            ViewBag.SuccessOnCreation = false;
+            try {
+                ViewBag.SuccessOnCreation = this.DataAccess.PublishNews(news);
+                if (ViewBag.SuccessOnCreation) {
+                    ModelState.Clear();
+                    view = RedirectToAction("Success", "Home");
+                } 
+            } catch (Exception e) {
+                TempData["Error"] = true;
+                TempData["WarningMessage"] = e.ToString();
+                view = RedirectToAction("SubmitNewsForm", "News");
+            }
+
+            return view;
+        }
+
+        private void LoadNewsWithForm(NewsModel news) {
+            news.Category = Request.Form["Category"].Replace(" ", "_");
+            news.Topics = ContentParser.GetTopicsFromString(Request.Form["topicsString"]);
+            news.Title = Request.Form["title"];
+            news.Author = Request.Form["author"];
+            news.Description = Request.Form["description"];
+            news.Content = Request.Form["content"];
+            news.ImagesRef = ContentParser.GetTopicsFromString(Request.Form["imagesString"]);
+        }
+
+        [HttpPost]
+        public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files) {
+            foreach (var file in files) {
+                string filePath = file.FileName.Replace("_", "-").Replace(" ", "-");
+                file.SaveAs(Path.Combine(Server.MapPath("~/images/news"), filePath));
+            }
+
+            return Json("Files uploaded successfully");
         }
     }
 }

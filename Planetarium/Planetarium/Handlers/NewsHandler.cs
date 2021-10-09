@@ -42,12 +42,12 @@ namespace Planetarium.Handlers {
         private List<NewsModel> CreateNewsFromDataTable(DataTable resultingNewsTable) {
             List<NewsModel> news = new List<NewsModel>();
             foreach (DataRow scoopRawInfo in resultingNewsTable.Rows) {
-                news.Add(CreateScoop(scoopRawInfo));
+                news.Add(InstanceScoop(scoopRawInfo));
             }
             return news;
         }
 
-        private NewsModel CreateScoop(DataRow scoopRawInfo) {
+        private NewsModel InstanceScoop(DataRow scoopRawInfo) {
             return new NewsModel {
                 Title = Convert.ToString(scoopRawInfo["tituloPK"]),
                 Date = Convert.ToDateTime(scoopRawInfo["fechaPublicacion"]),
@@ -104,14 +104,14 @@ namespace Planetarium.Handlers {
         private void LinkAllNewsWithImages(List<NewsModel> news) {
             foreach (NewsModel scoop in news) {
                 DataTable resultingTableOfNewsWithTheirImages = GetNewsWithImagesTable(scoop.Title);
-                LinkScoopWithImages(scoop, resultingTableOfNewsWithTheirImages);
+                if (resultingTableOfNewsWithTheirImages != null)
+                    LinkScoopWithImages(scoop, resultingTableOfNewsWithTheirImages);
             }
         }
         private DataTable GetNewsWithImagesTable(string scoopTitle) {
             string query = "SELECT * FROM Noticia " +
                         "INNER JOIN ImagenPerteneceANoticia ON Noticia.tituloPK = ImagenPerteneceANoticia.tituloPKFK  " +
-                        "WHERE tituloPK = '" + scoopTitle + "' " +
-                        "ORDER BY fechaPublicacion DESC";
+                        "WHERE tituloPK = '" + scoopTitle + "' ";
             return CreateTableFromQuery(query);
         }
 
@@ -123,13 +123,87 @@ namespace Planetarium.Handlers {
             }
         }
 
+        private bool InsertImages(NewsModel news) {
+            bool success = false;
 
+            foreach (string imageRef in news.ImagesRef) {
+                
+                string query = "INSERT INTO ImagenPerteneceANoticia " +
+                        "VALUES ('" + news.Title + "','" + imageRef.Replace("_", "-").Replace(" ", "-") + "')";
+                SqlCommand queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
 
-        private byte[] GetFileBytes(HttpPostedFileBase file) {
-            byte[] bytes;
-            BinaryReader reader = new BinaryReader(file.InputStream);
-            bytes = reader.ReadBytes(file.ContentLength);
-            return bytes;
+            return success;
+        }
+
+        private bool InsertNewsTopics(NewsModel news) {
+            bool success = false;
+
+            foreach (string topic in news.Topics) {
+                string query = "INSERT INTO NoticiaPerteneceATopico " +
+                        "VALUES ('" + news.Title + "','" + topic + "')";
+                SqlCommand queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+
+            return success;
+        }
+
+        public bool PublishNews(NewsModel news) {
+            string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " +
+                           "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'202210135',@contenido,@autor)";
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            //TO-DO: Cambiar cedula quemada
+
+            queryCommand.Parameters.AddWithValue("@tituloPK", news.Title);
+            queryCommand.Parameters.AddWithValue("@resumen", news.Description);
+            queryCommand.Parameters.AddWithValue("@contenido", news.Content);
+            queryCommand.Parameters.AddWithValue("@autor", news.Author);
+
+            connection.Open();
+            bool success = queryCommand.ExecuteNonQuery() >= 1;
+            connection.Close();
+
+            success = InsertNewsTopics(news);
+
+            if (news.ImagesRef != null) {
+                success = InsertImages(news);
+            }
+
+            return success;
+        }
+
+        public List<string> GetAllCategories() {
+            List<string> categories = new List<string>();
+
+            string query = "SELECT DISTINCT categoria FROM Topico";
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow column in resultingTable.Rows) {
+                categories.Add(Convert.ToString(column["categoria"]));
+            }
+
+            return categories;
+        }
+
+        public List<string> GetTopicsByCategory(string category) {
+            List<string> topics = new List<string>();
+
+            string query = "SELECT nombrePK " +
+                            "FROM Topico T " +
+                            "WHERE T.categoria LIKE '%" + category + "%';";
+
+            DataTable topicsDataTable = CreateTableFromQuery(query);
+
+            foreach (DataRow column in topicsDataTable.Rows) {
+                topics.Add(Convert.ToString(column["nombrePK"]));
+            }
+
+            return topics;
         }
     }
 }
