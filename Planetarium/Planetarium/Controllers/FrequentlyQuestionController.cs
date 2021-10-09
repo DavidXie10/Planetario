@@ -49,7 +49,7 @@ namespace Planetarium.Controllers {
         public ActionResult SubmitQuestion(FrequentlyQuestionModel faq) {
             ActionResult view = RedirectToAction("CreateFrequentlyAskedQuestion", "FrequentlyQuestion");
             faq.Category = Request.Form["Category"].Replace(" ", "_");
-            faq.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
+            faq.Topics = contentParser.GetListFromString(Request.Form["topicsString"]);
             faq.QuestionId = -1;
 
             ViewBag.SuccessOnCreation = false;

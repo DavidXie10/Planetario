@@ -103,12 +103,12 @@ namespace Planetarium.Controllers {
 
         private void LoadNewsWithForm(NewsModel news) {
             news.Category = Request.Form["Category"].Replace(" ", "_");
-            news.Topics = ContentParser.GetTopicsFromString(Request.Form["topicsString"]);
+            news.Topics = ContentParser.GetListFromString(Request.Form["topicsString"]);
             news.Title = Request.Form["title"];
             news.Author = Request.Form["author"];
             news.Description = Request.Form["description"];
             news.Content = Request.Form["content"];
-            news.ImagesRef = ContentParser.GetTopicsFromString(Request.Form["imagesString"]);
+            news.ImagesRef = ContentParser.GetListFromString(Request.Form["imagesString"]);
         }
 
         [HttpPost]

@@ -94,8 +94,8 @@ namespace Planetarium.Controllers {
 
         private void LoadEducationalActivityWithForm(EducationalActivityModel educationalActivity) {
             educationalActivity.Duration = int.Parse(Request.Form["Duration"]);
-            educationalActivity.TargetAudience = ContentParser.GetTopicsFromString(Request.Form["inputAudienceString"]);
-            educationalActivity.Topics = ContentParser.GetTopicsFromString(Request.Form["inputTopicString"]);
+            educationalActivity.TargetAudience = ContentParser.GetListFromString(Request.Form["inputAudienceString"]);
+            educationalActivity.Topics = ContentParser.GetListFromString(Request.Form["inputTopicString"]);
             if (educationalActivity.Link == null) {
                 educationalActivity.Link = "";
             }
