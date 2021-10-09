@@ -69,7 +69,7 @@ namespace Planetarium.Controllers
         }
 
         public void UploadPhoto(HttpPostedFileBase file) {
-            file.SaveAs(Path.Combine(Server.MapPath("~/images/EmployeesProfilePhotos"), file.FileName));
+            file.SaveAs(Path.Combine(Server.MapPath("~/images/EmployeesProfilePhotos"), file.FileName.Replace(" ", "-").Replace("_","-");
         }
 
         [HttpPost]
