@@ -1,0 +1,6 @@
+{
+    "TipoActividad": [ "Charla", "Taller" ],
+    "NivelComplejidad": [ "Básico", "Intermedio", "Avanzado" ],
+    "Asistencia": [ "Presencial", "Virtual"],
+    "PublicoMeta": [ "Infantil", "Juvenil", "Adulto", "Adulto Mayor" ]
+} 
