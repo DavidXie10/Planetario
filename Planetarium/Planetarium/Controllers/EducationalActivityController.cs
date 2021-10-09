@@ -136,8 +136,7 @@ namespace Planetarium.Controllers {
 
         public ActionResult ListActivities()
         {
-            EducationalActivityHandler dataAccess = new EducationalActivityHandler();
-            ViewBag.activities = dataAccess.GetAllActivities();
+            ViewBag.activities = DataAccess.GetAllActivities();
             return View();
         }
 
