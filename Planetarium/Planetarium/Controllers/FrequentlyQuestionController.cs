@@ -46,14 +46,10 @@ namespace Planetarium.Controllers {
         }
 
         [HttpPost]
-        public ActionResult SubmitQuestion() {
-
-            FrequentlyQuestionModel faq = new FrequentlyQuestionModel();
-            ActionResult successView = RedirectToAction("Index", "Home");
+        public ActionResult SubmitQuestion(FrequentlyQuestionModel faq) {
+            ActionResult view = RedirectToAction("CreateFrequentlyAskedQuestion", "FrequentlyQuestion");
             faq.Category = Request.Form["Category"].Replace(" ", "_");
             faq.Topics = contentParser.GetTopicsFromString(Request.Form["topicsString"]);
-            faq.Question = Request.Form["question"];
-            faq.Answer = Request.Form["answer"];
             faq.QuestionId = -1;
 
             ViewBag.SuccessOnCreation = false;
@@ -61,15 +57,15 @@ namespace Planetarium.Controllers {
                 if (ModelState.IsValid) {
                     ViewBag.SuccessOnCreation = this.dataAccess.CreateFrequentlyAskedQuestion(faq);
                     if (ViewBag.SuccessOnCreation) {
+                        view = RedirectToAction("Success", "Home");
                         ViewBag.Message = "La pregunta " + "\"" + faq.Question + " \" fue creada con éxito";
                         ModelState.Clear();
                     }
                 }
-                return successView;
             } catch {
                 ViewBag.Message = "Algo salió mal y no fue posible crear la pregunta";
-                return successView;
             }
+            return view;
         }
 
         public ActionResult FrequentlyAskQuestions() {
