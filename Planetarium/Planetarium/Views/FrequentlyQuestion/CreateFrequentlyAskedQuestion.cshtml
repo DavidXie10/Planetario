@@ -1,0 +1,73 @@
+﻿@model Planetarium.Models.FrequentlyQuestionModel
+@{
+    ViewBag.Title = "Agregar Pregunta";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "FrequentlyQuestion")"></div>
+    <div class="container">
+        <h1>Agregar una pregunta</h1>
+        @using (Html.BeginForm("SubmitQuestion", "FrequentlyQuestion", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @Html.AntiForgeryToken()
+
+         <div class="form">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-success text-center">NUEVA PREGUNTA</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Category, new { @class = "card-text" })
+                            <br />
+                            @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col">
+                            @Html.LabelFor(model => model.Topics)
+                            <br />
+                            @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin: 10px 0 10px 0;">
+                        <div class="card-header">
+                            <h4 class="text-success">Topicos seleccionados</h4>
+                        </div>
+
+                        <div class="card-body" id="selectedTopics">
+                        </div>
+
+                        <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Question)
+                            @Html.TextAreaFor(model => model.Question, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.Question, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Answer)
+                            @Html.TextAreaFor(model => model.Answer, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.Answer, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Agregar pregunta" />
+         </div>
+         }
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/FrequentlyAskedQuestions.js"></script>
+</body>
+</html>

@@ -7,7 +7,7 @@
             <div class="card-body">
                 <h2 class="text-start">@news.Title </h2>
                 <h4>@news.Author</h4>
-                <br/>
+                <br />
                 <h9>@news.Date</h9>
                 <span>
                     <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @news.Category</a></h5>
@@ -22,7 +22,6 @@
                     @news.Description
                 </p>
                 @Html.ActionLink("Seguir leyendo", "News", new { title = news.Title }, new { @class = "btn btn-primary" })
-
             </div>
         </div>
     }

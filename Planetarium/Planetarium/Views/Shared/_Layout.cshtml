@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
-
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -40,10 +40,10 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home/FAQ" tabindex="-1" aria-disabled="true">FAQ</a>
+                    <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true">FAQ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home/Educative" tabindex="-1" aria-disabled="true">Educativo</a>
+                    <a class="nav-link" href="/FrequentlyQuestion/CreateFrequentlyAskedQuestion" tabindex="-1" aria-disabled="true">Educativo</a>
                 </li>
             </ul>
         </div>
@@ -66,7 +66,7 @@
                     Universidad de Costa Rica
                 </p>
             </div>
-            
+
             <div class="row">
                 <div class="col-sm">
                     <div class="card-body">
@@ -121,12 +121,13 @@
             <div class="d-flex justify-content-center">
                 <img src="~/images/firma-ucr-ico.png" width="150" height="75" alt="Alternate Text" />
             </div>
-           
+
         </div>
-</footer>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

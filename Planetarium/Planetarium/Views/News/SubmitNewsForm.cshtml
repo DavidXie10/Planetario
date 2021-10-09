@@ -1,0 +1,148 @@
+﻿
+@model Planetarium.Models.NewsModel
+@{
+    ViewBag.Title = "Agregar noticia";
+}
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @if (Convert.ToBoolean(TempData["Error"]) == true) {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+        </div>
+    }
+
+    <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "News")"></div>
+    <div class="container">
+        <h1>Formulario para agregar una noticia</h1>
+        @using (Html.BeginForm("PostNews", "News", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @Html.AntiForgeryToken()
+            <div class="form">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">NUEVA NOTICIA</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Category, new { @class = "card-text" })
+                                <br />
+                                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.Topics)
+                                <br />
+                                @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="card" style="margin: 10px 0 10px 0;">
+                            <div class="card-header">
+                                <h4 class="text-success">Topicos seleccionados</h4>
+                            </div>
+
+                            <div class="card-body" id="selectedTopics">
+                            </div>
+
+                            <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Title)
+                                @Html.TextAreaFor(model => model.Title, new { @class = "form-control", @rows = "5" })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.Author)
+                                @Html.TextAreaFor(model => model.Author, new { @class = "form-control", @rows = "5" })
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                            @Html.LabelFor(model => model.Description)
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="row form-group" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                            @Html.LabelFor(model => model.Content)
+                            @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div>
+                                <h5>Arrastre los archivos</h5>
+                                <div id="dropArea"> 
+                                    <h3 style="color: black;">Arrastre los archivos acá</h3> 
+                                </div>
+                                <h6> Archivos subidos: </h6>
+                                <ul class="list-group" id="uploadList">
+                                </ul>
+                            </div>
+                            <input type="text" id="imagesString" name="imagesString" style="display:none;" />
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Publicar" />
+            </div>
+        }
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/categoriesAndTopics.js"></script>
+</body>
+</html>
+
+<style>
+    #dropArea {
+        background: #77bafa;
+        border: black dashed 1px;
+        height: 150px;
+        text-align: center;
+        color: #fff;
+        padding-top: 12px;
+    }
+
+    .active-drop {
+        background: white !important;
+        border: solid 2px blue !important;
+        opacity: .5;
+        color: black !important;
+    }
+</style>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://code.jquery.com/jquery-migrate-3.0.1.js"></script>
+    <script src="~/Scripts/jquery.filedrop.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#dropArea').filedrop({
+                url: '@Url.Action("UploadFiles")',
+                allowedfiletypes: ['image/jpeg', 'image/png', 'image/gif'],
+                allowedfileextensions: ['.jpg', '.jpeg', '.png', '.gif'],
+                paramname: 'files',
+                maxfiles: 5,
+                maxfilesize: 5, // in MB
+                dragOver: function () {
+                    $('#dropArea').addClass('active-drop');
+                },
+                dragLeave: function () {
+                    $('#dropArea').removeClass('active-drop');
+                },
+                drop: function () {
+                    $('#dropArea').removeClass('active-drop');
+                },
+                afterAll: function (e) {
+                    $('#dropArea').html('File(s) uploaded successfully');
+                },
+                uploadFinished: function (i, file, response, time) {
+                    $('#uploadList').append('<li class="list-group-item">' + file.name + '</li>')
+                    document.querySelector("#imagesString").value += String(file.name) + "|";
+                }
+            })
+        })
+    </script>
+}

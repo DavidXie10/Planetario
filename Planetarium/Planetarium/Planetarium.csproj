@@ -134,15 +134,18 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
+	 <Compile Include="Controllers\FrequentlyQuestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
+	<Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
     <Compile Include="Models\EducationalActivityModel.cs" />
+	<Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -191,6 +194,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.filedrop.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -210,7 +214,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Activity\ListActivities.cshtml" />
     <Content Include="Views\Home\WhoWeAre.cshtml" />
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\Educative.cshtml" />
@@ -218,16 +221,18 @@
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
     <Content Include="Views\News\ListNews.cshtml" />
     <Content Include="Views\News\News.cshtml" />
-    <Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
-    <Content Include="Views\FrequentlyQuestion\FrequentlyAskQuestions.cshtml" />
-    <Content Include="Views\EducationalActivity\ProposeEducationalActivity.cshtml" />
-    <Content Include="Views\Collaborator\ActivitiesApprobation.cshtml" />
-    <Content Include="Views\News\EditNews.cshtml" />
-    <Content Include="Views\EducationalActivity\ActivitiesApprobation.cshtml" />
-    <Content Include="Views\EducationalActivity\ListActivities.cshtml" />
+	<Content Include="Views\EducationalActivity\ActivitiesApprobation.cshtml" />
+	<Content Include="Views\EducationalActivity\ListActivities.cshtml" />
+	<Content Include="Views\Collaborator\ActivitiesApprobation.cshtml" />
+	<Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
+	<Content Include="Views\FrequentlyQuestion\FrequentlyAskQuestions.cshtml" />
+	<Content Include="Views\EducationalActivity\ProposeEducationalActivity.cshtml" />
+    <Content Include="Views\News\SubmitNewsForm.cshtml" />
+    <Content Include="Views\Home\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="images\UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

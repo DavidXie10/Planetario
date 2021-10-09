@@ -13,38 +13,9 @@ namespace Planetarium.Models {
         public ContentParser() {
         }
 
-        public string GetContentFromFile(string fileName) {
-            string contentExtracted = "";
-            try {
-                var content = ExtractRawContent(fileName);
-                contentExtracted = ParseContent(content);
-            } catch (Exception e) {
-                Console.WriteLine("File not found\n" +  e.ToString());
-                contentExtracted += "File not found";
-            }
-            return contentExtracted;
-        }
 
         private string[] ExtractRawContent(string fileName) {
             return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName));
-        }
-
-        private string ParseContent(string[] content) {
-            string contentExtracted = "";
-            foreach (string line in content) {
-                if (IsStringEmpty(line)) {
-                    contentExtracted += "<br/>";
-                } else {
-                    contentExtracted += line + "\n";
-                }
-            }
-            return contentExtracted;
-        }
-
-        
-
-        private bool IsStringEmpty(String line) {
-            return line == "" ? true : false;
         }
 
         public string ParseRawJson(string[] content) {
@@ -71,11 +42,11 @@ namespace Planetarium.Models {
         public List<string> GetTopicsFromString(string topics) {
             List<string> topicsParsed = new List<string>();
             string[] topicsList = topics.Split('|');
-            foreach (string topic in topicsList) {
-                if (topic != "") {
+            foreach(string topic in topicsList) {
+                if(topic != "") {
                     topicsParsed.Add(topic.Replace("_", " "));
                 }
-
+                
             }
             return topicsParsed;
         }
