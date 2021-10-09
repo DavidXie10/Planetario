@@ -208,11 +208,11 @@ namespace Planetarium.Handlers
         public List<string> GetAllActivities()
         {
             List<string> activitiesTitles = new List<string>();
-            string query = "SELECT * FROM Activity ";
+            string query = "SELECT * FROM ActividadEducativa ";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows)
             {
-                activitiesTitles.Add( Convert.ToString(column["titulo"]));                     
+                activitiesTitles.Add( Convert.ToString(column["tituloPK"]));                     
             }
             return activitiesTitles;
         }
