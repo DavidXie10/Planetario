@@ -45,10 +45,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.10.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.10\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.15.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.15.0\lib\net47\MailKit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MimeKit, Version=2.15.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.15.0\lib\net47\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -99,9 +115,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -120,17 +133,23 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ActivityController.cs" />
-    <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\EducationalActivityController.cs" />
+    <Compile Include="Controllers\FrequentlyQuestionController.cs" />
+	<Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Handlers\ActivityHandler.cs" />
-    <Compile Include="Handlers\EmployeesHandler.cs" />
-    <Compile Include="Models\ActivityModel.cs" />
+    <Compile Include="Handlers\EducationalActivityHandler.cs" />
+    <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
+    <Compile Include="Handlers\NewsHandler.cs" />
+	<Compile Include="Handlers\EmployeesHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
-    <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\EducationalActivityModel.cs" />
+    <Compile Include="Models\FrequentlyQuestionModel.cs" />
+    <Compile Include="Models\NewsModel.cs" />
+	<Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -141,8 +160,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Data_Files\Vision.txt" />
-    <Content Include="images\astronaut.png" />
+    <Content Include="Content\summernote-bs4.css" />
+	<Content Include="Data_Files\Vision.txt" />
+	<Content Include="images\astronaut.png" />
     <Content Include="images\earth.jpg" />
     <Content Include="images\EmployeesProfilePhotos\foto1.png" />
     <Content Include="images\EmployeesProfilePhotos\foto2.png" />
@@ -151,31 +171,49 @@
     <Content Include="images\EmployeesProfilePhotos\foto5.png" />
     <Content Include="images\firma-ucr-ico.png" />
     <Content Include="images\hurricane.jpg" />
+    <Content Include="images\iss.jpg" />
     <Content Include="images\logo.jpg" />
     <Content Include="images\logo.svg" />
-    <Content Include="Data_Files\Mision.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Data_Files\countries.json" />
-    <Content Include="Data_Files\Languages.json" />
+    <Content Include="Data_Files\Planetario.json" />
+    <Content Include="Data_Files\Services.json" />
+    <Content Include="Data_Files\EducationalActivity.json" />
+	<Content Include="Data_Files\countries.json" />
+	<Content Include="Data_Files\Languages.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\news\anillosDeEinstein.jpg" />
+    <Content Include="images\news\eclipse.jpg" />
+    <Content Include="images\news\eclipse2.jpg" />
+    <Content Include="images\news\eclipse3.jpg" />
+    <Content Include="images\news\eclipse4.jpg" />
+    <Content Include="images\news\eclipse5.jpg" />
+    <Content Include="images\news\perseverance.jpg" />
+    <Content Include="images\news\rover.png" />
+    <Content Include="images\news\stringTheory.jpg" />
+    <Content Include="images\satellite.jpg" />
+    <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\categoriesAndTopics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.filedrop.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\summernote-bs4.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -188,19 +226,26 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Activity\ListActivities.cshtml" />
     <Content Include="Views\Home\WhoWeAre.cshtml" />
-    <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\Educative.cshtml" />
     <Content Include="Views\Home\FindUs.cshtml" />
     <Content Include="Views\Home\ActivitiesDescription.cshtml" />
-    <Content Include="Views\Employees\ListEmployees.cshtml" />
-    <Content Include="Views\Employees\CreateEmployee.cshtml" />
+    <Content Include="Views\News\ListNews.cshtml" />
+    <Content Include="Views\News\News.cshtml" />
+    <Content Include="Views\EducationalActivity\ActivitiesApprobation.cshtml" />
+    <Content Include="Views\EducationalActivity\ListActivities.cshtml" />
+    <Content Include="Views\FrequentlyQuestion\CreateFrequentlyAskedQuestion.cshtml" />
+    <Content Include="Views\FrequentlyQuestion\FrequentlyAskQuestions.cshtml" />
+    <Content Include="Views\EducationalActivity\ProposeEducationalActivity.cshtml" />
+    <Content Include="Views\News\SubmitNewsForm.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
-    <Content Include="Views\Employees\Employee.cshtml" />
+	<Content Include="Views\Employees\Employee.cshtml" />
+	<Content Include="Views\Employees\ListEmployees.cshtml" />
+	<Content Include="Views\Employees\CreateEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="images\UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

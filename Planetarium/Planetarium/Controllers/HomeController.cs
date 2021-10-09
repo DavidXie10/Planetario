@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Planetarium.Handlers;
 using Planetarium.Models;
 
 namespace Planetarium.Controllers
@@ -11,22 +12,37 @@ namespace Planetarium.Controllers
     {
         public ActionResult Index()
         {
+            NewsHandler dataAccess = new NewsHandler();
+            ViewBag.News = dataAccess.GetAllNews();
+            ViewBag.length = 3;
             return View();
         }
         
         public ActionResult FindUs() {
+            ContentParser contentParser = new ContentParser();
+            dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
+            string[] schedule = jsonContent.Horarios.ToObject<string[]>();
+            string[] transportBuses = jsonContent.Buses.ToObject<string[]>();
+            string[] transportTrains = jsonContent.Trenes.ToObject<string[]>();
+            string[] parking = jsonContent.Parqueos.ToObject<string[]>();
+
+            ViewBag.Parking = parking;
+            ViewBag.TransportBuses = transportBuses;
+            ViewBag.TransportTrains = transportTrains;
+            ViewBag.Schedule = schedule;
             return View();
         }
 
         public ActionResult WhoWeAre()
         {
             ContentParser contentParser = new ContentParser();
-            ViewBag.MissionMessage = contentParser.GetContentFromFile("Mision.txt");
-            ViewBag.VisionMessage = contentParser.GetContentFromFile("Vision.txt");
-            return View();
-        }
 
-        public ActionResult ListEmployees() {
+            dynamic jsonContent = contentParser.ParseFromJSON("Planetario.json");
+            string mision = jsonContent.Mision;
+            string vision = jsonContent.Vision;
+
+            ViewBag.MissionMessage = mision;
+            ViewBag.VisionMessage = vision;
             return View();
         }
 
@@ -37,18 +53,15 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public ActionResult FAQ() {
-            return View();
-        }
-
         public ActionResult Educative() {
             return View();
         }
 
         public ActionResult Success() {
             ViewBag.Message = "Su información ha sido agregada exitosamente";
-            ViewBag.Title = "Sucess";
+            ViewBag.Title = "Success";
             return View();
         }
+
     }
 }

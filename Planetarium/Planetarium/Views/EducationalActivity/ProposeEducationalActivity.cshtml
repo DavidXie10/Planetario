@@ -1,0 +1,175 @@
+﻿@model Planetarium.Models.EducationalActivityModel
+@{
+    ViewBag.Title = "Agregar actividad educacional";
+    List<SelectListItem> ActivitiesTypesItems = ViewBag.ActivitiesTypes;
+    List<SelectListItem> ComplexityLevelsItems = ViewBag.ComplexityLevels;
+    List<SelectListItem> AssistancesItems = ViewBag.Assistances;
+    List<SelectListItem> TargetAudiencesItems = ViewBag.TargetAudiences;
+}
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @if (Convert.ToBoolean(TempData["Error"]) == true) {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+        </div>
+    }
+
+    <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "EducationalActivity")"></div>
+    <div class="container">
+        <h1>Formulario para agregar una actividad educativa</h1>
+        @using (Html.BeginForm("UploadEducationalActivity", "EducationalActivity", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @Html.AntiForgeryToken()
+            <div class="form">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">NUEVA ACTIVIDAD EDUCATIVA</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Category, new { @class = "card-text" })
+                                <br />
+                                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.Topics)
+                                <br />
+                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value)"})
+                                @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="card" style="margin: 10px 0 10px 0;">
+                            <div class="card-header">
+                                <h4 class="text-success">Topicos seleccionados</h4>
+                            </div>
+                            <div class="card-body" id="topicsContainer">
+                            </div>
+                            <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Title)
+                                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.ActivityType)
+                                @Html.DropDownListFor(model => model.ActivityType, ActivitiesTypesItems, "- Sin selección -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ActivityType, "", new {@class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                @Html.LabelFor(model => model.ComplexityLevel)
+                                @Html.DropDownListFor(model => model.ComplexityLevel, ComplexityLevelsItems, "Seleccione nivel de complejidad", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ComplexityLevel, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.TargetAudience)
+                                @Html.DropDownList("audienceSelect", TargetAudiencesItems, "Seleccione los públicos meta", new { @class = "form-control", @onchange = "addAudienceButton(this.value)" })
+                                @Html.ValidationMessageFor(model => model.TargetAudience, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="card" style="margin: 10px 0 10px 0">
+                            <div class="card-header">
+                                <h4 class="text-success text-center">Públicos meta seleccionados</h4>
+                            </div>
+                            <div class="card-body" id="audienceContainer">
+                            </div>
+                            <input type="text" name="inputAudienceString" id="inputAudienceString" value="" style="display: none;" />
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Duration)
+                                @Html.TextBoxFor(model => model.Duration, new { @type = "number", @class = "form-control", @value = "" })
+                                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.Date)
+                                <br />
+                                @Html.EditorFor(model => model.Date, new { @type = "date", @class = "w-100" })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                            @Html.LabelFor(model => model.Description)
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Price)
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">₡</div>
+                                    </div>
+                                    @Html.TextBoxFor(model => model.Price, new { type = "number", @class = "form-control " })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.MaximumCapacity)
+                                @Html.TextBoxFor(model => model.MaximumCapacity, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MaximumCapacity, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.TypeOfAssistance)
+                                @Html.DropDownListFor(model => model.TypeOfAssistance, AssistancesItems, "Seleccione el tipo de asistencia", new { @class = "form-control", onchange = "isVirtual(this.value)" })
+                                @Html.ValidationMessageFor(model => model.TypeOfAssistance, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div id="inputLink" style="display: none;">
+                            @Html.LabelFor(model => model.Link)
+                            @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Proponer" />
+            </div>
+        }
+    </div>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/GenericMultiselect.js"></script>
+    <script type="text/javascript" src="~/Scripts/categoriesAndTopics.js"></script>
+
+
+    <script type="text/javascript">
+
+        let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
+        let multiSelectTargetAudience = new GenericMultiSelect("#audienceSelect", "#audienceContainer", "#inputAudienceString");
+
+        function addTopicButton(element) {
+            if (element != "") {
+                multiSelectTopics.addButton(element);
+            }
+        }
+
+        function addAudienceButton(element) {
+            if (element != "") {
+                multiSelectTargetAudience.addButton(element);
+            }
+        }
+
+        function isVirtual(value) {
+            if (value == "Virtual") {
+                document.querySelector("#inputLink").style.display = "block";
+            } else {
+                document.querySelector("#inputLink").style.display = "none";
+            }
+        }
+       
+        console.log("Se cargoo");
+    </script>
+
+</body>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>

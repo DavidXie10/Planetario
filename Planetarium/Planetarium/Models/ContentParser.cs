@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Collections.Generic;
+using System.Text;
 
 namespace Planetarium.Models {
     public class ContentParser {
@@ -10,38 +13,9 @@ namespace Planetarium.Models {
         public ContentParser() {
         }
 
-        public string GetContentFromFile(string fileName) {
-            string contentExtracted = "";
-            try {
-                var content = ExtractRawContent(fileName);
-                contentExtracted = ParseContent(content);
-            } catch (Exception e) {
-                Console.WriteLine("File not found\n" +  e.ToString());
-                contentExtracted += "File not found";
-            }
-            return contentExtracted;
-        }
 
         private string[] ExtractRawContent(string fileName) {
             return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName));
-        }
-
-        private string ParseContent(string[] content) {
-            string contentExtracted = "";
-            foreach (string line in content) {
-                if (IsStringEmpty(line)) {
-                    contentExtracted += "<br/>";
-                } else {
-                    contentExtracted += line + "\n";
-                }
-            }
-            return contentExtracted;
-        }
-
-        
-
-        private bool IsStringEmpty(String line) {
-            return line == "" ? true : false;
         }
 
         public string ParseRawJson(string[] content) {
@@ -50,13 +24,6 @@ namespace Planetarium.Models {
                 contentExtracted += line + "\n";
             }
             return contentExtracted;
-        }
-
-        public string GetRawJsonString(string fileName) {
-            string rawJsonString = "";
-            string[] rawJson = ExtractRawContent(fileName);
-            rawJsonString = ParseRawJson(rawJson);
-            return rawJsonString;
         }
 
         public dynamic ParseFromJSON(string fileName) {
@@ -72,16 +39,16 @@ namespace Planetarium.Models {
             return parsedContent;
         }
 
-
-        public List<string> GetListFromString(string content) {
-            List<string> listFromContent = new List<string>();
-            string[] contentList = content.Split('|');
-            foreach (string contentInList in contentList) {
-                if (contentInList != "") {
-                    listFromContent.Add(contentInList.Replace("_", " "));
+        public List<string> GetTopicsFromString(string topics) {
+            List<string> topicsParsed = new List<string>();
+            string[] topicsList = topics.Split('|');
+            foreach(string topic in topicsList) {
+                if(topic != "") {
+                    topicsParsed.Add(topic.Replace("_", " "));
                 }
+                
             }
-            return listFromContent;
+            return topicsParsed;
         }
     }
 }

@@ -1,0 +1,54 @@
+﻿<div class="container">
+    <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
+
+    @foreach (var activity in ViewBag.activities)
+    {
+        if (activity.State == "1")
+        {
+
+            <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
+                <div class="card-body">
+                    <br>
+                    <h2 class="text-start">@activity.Title  </h2>
+                    <h4>Impartido por: @activity.Publisher </h4>
+                    <br />
+                    <h9>Fecha: @activity.Date</h9><br>
+                    <h9>Duración: @activity.Duration minutos</h9><br>
+                    @{
+                        string price = (@activity.Price == 0) ? "Gratis" : "$" + @activity.Price;
+                    }
+                    <h9>Precio:  @price </h9><br>
+                    <h9>Capacidad: @activity.MaximumCapacity personas</h9><br>
+                    <h9>Tipo: @activity.ActivityType</h9><br>
+                    <h9>Modalidad: @activity.TypeOfAssistance</h9><br>
+                    <h9>Nivel de complejidad: @activity.ComplexityLevel</h9>
+                    <span>
+                        <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @activity.Category</a></h5>
+                        <h5>
+                            Tópicos:
+                            @foreach (var topic in activity.Topics)
+                            {
+                                <a class="badge rounded-pill bg-info"> @topic</a>
+                            }
+                        </h5>
+
+                    </span>
+                    <h5>
+                        Publicos Meta:
+                        @foreach (var targetAudienceInstance in activity.TargetAudience)
+                        {
+                            <a class="badge bg-info"> @targetAudienceInstance</a>
+                        }
+                    </h5>
+                    <p class="card-text" style="margin-top: 15px;">
+                        @activity.Description
+                    </p>
+
+
+                </div>
+            </div>
+        }
+    }
+
+</div>
+
