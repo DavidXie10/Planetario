@@ -21,7 +21,7 @@ namespace Planetarium.Handlers {
 
         public bool CreateFrequentlyAskedQuestion(FrequentlyQuestionModel faqQuestion) {
             string query = "INSERT INTO PreguntaFrecuente (pregunta, respuesta, cedulaFK) " +
-                           "VALUES (@pregunta, @respuesta, '402540855')";
+                           "VALUES (@pregunta, @respuesta, '503250235')";
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
             queryCommand.Parameters.AddWithValue("@pregunta", faqQuestion.Question);
