@@ -203,7 +203,6 @@
     <Content Include="Views\News\News.cshtml" />
     <Content Include="Views\News\SubmitNewsForm.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
-    <Content Include="Views\News\NewsEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

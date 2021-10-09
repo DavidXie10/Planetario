@@ -21,13 +21,7 @@
                 <p class="card-text" style="margin-top: 15px;">
                     @news.Description
                 </p>
-                @using (Html.BeginForm("ViewRequest", "News")) {
-                    <input type="submit" value="Editar noticia" />
-                }
-
                 @Html.ActionLink("Seguir leyendo", "News", new { title = news.Title }, new { @class = "btn btn-primary" })
-                @Html.ActionLink("Editar Noticia", "NewsEditor", new { selectedNew = news }, new { @class = "btn btn-primary" })
-
             </div>
         </div>
     }

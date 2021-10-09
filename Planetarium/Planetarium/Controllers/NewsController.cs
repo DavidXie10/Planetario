@@ -30,11 +30,6 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        public ActionResult NewsEditor(NewsModel selectedNew) {
-            ViewBag.News = selectedNew;
-            return View();
-        }
-
         [HttpGet]
         public ActionResult News(string title) {
             ActionResult view;
