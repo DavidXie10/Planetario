@@ -74,6 +74,15 @@
                             </div>
                         </div>
 
+                        <!-- TODO: ActivityDate con buen formato y sacarlo de opciones -->
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col">
+                                @Html.LabelFor(model => model.ActivityDate)
+                                @Html.TextBoxFor(model => model.ActivityDate, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ActivityDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
                         <div class="row" style="margin-top: 15px;">
                             <div>
                                 <h5>Arrastre los archivos</h5>

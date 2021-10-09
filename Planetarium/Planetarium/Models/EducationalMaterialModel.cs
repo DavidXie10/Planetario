@@ -20,7 +20,9 @@ namespace Planetarium.Models
         [Display(Name = "Tipo de actividad")]
         public string ActivityTitle { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime ActivityDate { get; set; }
+
+        public DateTime PublicationDate { get; set; }
 
         [Required(ErrorMessage = "Es necesario que seleccione una categoría")]
         [Display(Name = "Seleccione la categoría")]

@@ -38,7 +38,7 @@ namespace Planetarium.Controllers
         public ActionResult SendEducationalMaterialForm(EducationalMaterialModel educationalMaterial)
         {
             ActionResult view = RedirectToAction("Success", "Home");
-            educationalMaterial.EducationalMaterialFileNames = ContentParser.GetTopicsFromString(Request.Form["filesString"]);
+            educationalMaterial.EducationalMaterialFileNames = ContentParser.GetListFromString(Request.Form["filesString"]);
             ViewBag.SuccessOnCreation = false;
             try
             {

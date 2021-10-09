@@ -40,101 +40,120 @@ namespace Planetarium.Handlers
             List<EducationalMaterialModel> educationalMaterials = CreateEducationalMaterialFromDataTable(resultingNewsTable);
             LinkAllEducationalMaterialWithTopics(educationalMaterials);
             LinkAllEducationalMaterialWithCategory(educationalMaterials);
+            LinkAllEducationalMaterialWithEducationalActivity(educationalMaterials);
             return educationalMaterials;
+        }
+
+        private void LinkAllEducationalMaterialWithEducationalActivity(List<EducationalMaterialModel> educationalMaterials) {
+            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
+                DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithEducationalActivityTable(educationalMaterial.Title, educationalMaterial.Author);
+                LinkEducationalMaterialWithEducationalActivity(educationalMaterial, resultingTableOfNewsWithTheirTopic);
+                
+            }
+        }
+
+        private DataTable GetEducationalMaterialWithEducationalActivityTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
+            string query = "SELECT tituloActividaPK, fechaInicioPK  FROM Ofrecer " +
+                       "WHERE tituloMaterialPK = '" + educationalMaterialTitle + "' AND autorPK = '" + educationalMaterialAuthor + "'";
+
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkEducationalMaterialWithEducationalActivity(EducationalMaterialModel educationalMaterial, DataTable resultingTable) {
+            //educationalMaterial.ActivityTitle = Convert.ToString(resultingTable["tituloActividadPK"]);
         }
 
         private List<EducationalMaterialModel> CreateEducationalMaterialFromDataTable(DataTable resultingNewsTable)
         {
             List<EducationalMaterialModel> educationalMaterials = new List<EducationalMaterialModel>();
-            foreach (DataRow scoopRawInfo in resultingNewsTable.Rows)
+            foreach (DataRow educationalMaterialRawInfo in resultingNewsTable.Rows)
             {
-                educationalMaterials.Add(CreateScoop(scoopRawInfo));
+                educationalMaterials.Add(CreateEducationalMaterial(educationalMaterialRawInfo));
             }
             return educationalMaterials;
         }
 
-        private EducationalMaterialModel CreateScoop(DataRow scoopRawInfo)
+        private EducationalMaterialModel CreateEducationalMaterial(DataRow educationalMaterialRawInfo)
         {
             return new EducationalMaterialModel
             {
-                Author = Convert.ToString(scoopRawInfo["autorPK"]),
-                Title = Convert.ToString(scoopRawInfo["tituloPK"]),
-                Date = Convert.ToDateTime(scoopRawInfo["fechaPublicacion"]),
-
+                Author = Convert.ToString(educationalMaterialRawInfo["autorPK"]),
+                Title = Convert.ToString(educationalMaterialRawInfo["tituloPK"]),
+                PublicationDate = Convert.ToDateTime(educationalMaterialRawInfo["fechaPublicacion"]),
             };
         }
 
         private void LinkAllEducationalMaterialWithTopics(List<EducationalMaterialModel> educationalMaterials)
         {
-            foreach (EducationalMaterialModel scoop in educationalMaterials)
+            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials)
             {
-                DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithTopicsTable(scoop.Title, scoop.Author);
-                LinkScoopWithTopics(scoop, resultingTableOfNewsWithTheirTopic);
+                DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithTopicsTable(educationalMaterial.Title, educationalMaterial.Author);
+                LinkEducationalMaterialWithTopics(educationalMaterial, resultingTableOfNewsWithTheirTopic);
             }
         }
 
-        private DataTable GetEducationalMaterialWithTopicsTable(string scoopTitle, string scoopAuthor)
+        private DataTable GetEducationalMaterialWithTopicsTable(string educationalMaterialTitle, string educationalMaterialAuthor)
         {
             string query = "SELECT nombreTopicoPKFK FROM MaterialEducativo " +
                        "INNER JOIN MaterialEducativoPerteneceATopico ON(tituloPK = tituloMaterialEducativoPKFK " +
                        "AND autorPK = autorMaterialEducativoPKFK) " +
-                       "WHERE tituloPK = '" + scoopTitle + "' AND autorPK = '" + scoopAuthor + "' " +
+                       "WHERE tituloPK = '" + educationalMaterialTitle + "' AND autorPK = '" + educationalMaterialAuthor + "' " +
                        "ORDER BY fechaPublicacion DESC";
 
             return CreateTableFromQuery(query);
         }
 
-        private void LinkScoopWithTopics(EducationalMaterialModel scoop, DataTable resultingTable)
+        private void LinkEducationalMaterialWithTopics(EducationalMaterialModel educationalMaterial, DataTable resultingTable)
         {
-            scoop.Topics = new List<string>();
+            educationalMaterial.Topics = new List<string>();
             foreach (DataRow column in resultingTable.Rows)
             {
                 var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
-                scoop.Topics.Add(tempTopic);
+                educationalMaterial.Topics.Add(tempTopic);
             }
         }
 
         private void LinkAllEducationalMaterialWithCategory(List<EducationalMaterialModel> educationalMaterials)
         {
-            foreach (EducationalMaterialModel scoop in educationalMaterials)
+            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials)
             {
-                DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(scoop.Topics[0]);
-                LinkScoopWithCategory(scoop, resultingTableOfEducationalMaterialWithTheirCategory);
+                DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
+                LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
             }
         }
 
-        private DataTable GetEducationalMaterialWithCategoryTable(string scoopTopic)
+        private DataTable GetEducationalMaterialWithCategoryTable(string educationalMaterialTopic)
         {
             string query = "SELECT categoria FROM MaterialEducativoPerteneceATopico " +
                         "INNER JOIN Topico ON nombrePK = nombreTopicoPKFK  " +
-                        "WHERE nombrePK = '" + scoopTopic + "'";
+                        "WHERE nombrePK = '" + educationalMaterialTopic + "'";
             return CreateTableFromQuery(query);
         }
 
-        private void LinkScoopWithCategory(EducationalMaterialModel scoop, DataTable resultingTable)
+        private void LinkEducationalMaterialWithCategory(EducationalMaterialModel educationalMaterial, DataTable resultingTable)
         {
             foreach (DataRow column in resultingTable.Rows)
             {
-                scoop.Category = Convert.ToString(column["categoria"]);
+                educationalMaterial.Category = Convert.ToString(column["categoria"]);
             }
         }
         
-        private DataTable GetEducationalMaterialWithKeywordsTable(string scoopTitle, string scoopAuthor)
+        private DataTable GetEducationalMaterialWithKeywordsTable(string educationalMaterialTitle, string educationalMaterialAuthor)
         {
             string query = "SELECT palabraClave FROM MaterialEducativo ME " +
                         "INNER JOIN PalabraClaveMaterialEducativo PC ON(ME.tituloPK = PC.tituloPK " +
                         "AND ME.autorPK = PC.autorPK) " +
-                        "WHERE ME.tituloPK = '" + scoopTitle + "' " +
-                        "AND ME.autorPK = '" + scoopAuthor + "' " +
+                        "WHERE ME.tituloPK = '" + educationalMaterialTitle + "' " +
+                        "AND ME.autorPK = '" + educationalMaterialAuthor + "' " +
                         "ORDER BY fechaPublicacion DESC";
             return CreateTableFromQuery(query);
         }
 
         public bool InsertEducationalMaterial(EducationalMaterialModel educationalMaterial)
         {
-            string query = "INSERT INTO MaterialEducativo (tituloPK, autorPK, fechaPublicacion ) " +
+            string educationalMaterialQuery = "INSERT INTO MaterialEducativo (tituloPK, autorPK, fechaPublicacion ) " +
                            "VALUES(@tituloPK,@autorPK, CAST( GETDATE() AS Date ))";
-            SqlCommand queryCommand = new SqlCommand(query, connection);
+            SqlCommand queryCommand = new SqlCommand(educationalMaterialQuery, connection);
 
             queryCommand.Parameters.AddWithValue("@tituloPK", educationalMaterial.Title);
             queryCommand.Parameters.AddWithValue("@autorPK", educationalMaterial.Author);
@@ -149,6 +168,25 @@ namespace Planetarium.Handlers
             {
                 success = InsertEducationalMaterialFiles(educationalMaterial);
             }
+
+            success = InsertRelationshipWithEducationalActivity(educationalMaterial);
+
+            return success;
+        }
+
+        private bool InsertRelationshipWithEducationalActivity(EducationalMaterialModel educationalMaterial) {
+            string query = "INSERT INTO Ofrecer(cedulaPK, tituloActividadPK, fechaInicioPK, tituloMaterialPK, autorPK) " +
+                            "VALUES('203250235', @tituloActividad, @fechaInicio, @tituloMaterial, @autor)";
+
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            queryCommand.Parameters.AddWithValue("@tituloActividad", educationalMaterial.ActivityTitle);
+            queryCommand.Parameters.AddWithValue("@fechaInicio", educationalMaterial.ActivityDate);
+            queryCommand.Parameters.AddWithValue("@tituloMaterial", educationalMaterial.Title);
+            queryCommand.Parameters.AddWithValue("@autor", educationalMaterial.Author);
+
+            connection.Open();
+            bool success = queryCommand.ExecuteNonQuery() >= 1;
+            connection.Close();
 
             return success;
         }
