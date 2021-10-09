@@ -130,7 +130,94 @@ namespace Planetarium.Handlers
             return CreateTableFromQuery(query);
         }
 
-        
+        public bool InsertEducationalMaterial(EducationalMaterialModel educationalMaterial)
+        {
+            string query = "INSERT INTO MaterialEducativo (tituloPK, autorPK, fechaPublicacion ) " +
+                           "VALUES(@tituloPK,@autorPK, CAST( GETDATE() AS Date ))";
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+
+            queryCommand.Parameters.AddWithValue("@tituloPK", educationalMaterial.Title);
+            queryCommand.Parameters.AddWithValue("@autorPK", educationalMaterial.Author);
+
+            connection.Open();
+            bool success = queryCommand.ExecuteNonQuery() >= 1;
+            connection.Close();
+
+            success = InsertEducationalMaterialTopics(educationalMaterial);
+
+            if (educationalMaterial.EducationalMaterialFileNames != null)
+            {
+                success = InsertEducationalMaterialFiles(educationalMaterial);
+            }
+
+            return success;
+        }
+
+        private bool InsertEducationalMaterialTopics(EducationalMaterialModel educationalMaterial)
+        {
+            bool success = false;
+
+            foreach (string topic in educationalMaterial.Topics)
+            {
+                string query = "INSERT INTO MaterialEducativoPerteneceATopico " +
+                        "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + topic + "')";
+                SqlCommand queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+
+            return success;
+        }
+
+        private bool InsertEducationalMaterialFiles(EducationalMaterialModel educationalMaterial)
+        {
+            bool success = false;
+
+            foreach (string file in educationalMaterial.EducationalMaterialFileNames)
+            {
+                string query = "INSERT INTO ArchivoDeMaterialEducativo " +
+                        "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + file + "')";
+                SqlCommand queryCommand = new SqlCommand(query, connection);
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
+
+            return success;
+        }
+
+        public List<string> GetTopicsByCategory(string category)
+        {
+            List<string> topics = new List<string>();
+
+            string query = "SELECT nombrePK " +
+                            "FROM Topico T " +
+                            "WHERE T.categoria LIKE '%" + category + "%';";
+
+            DataTable topicsDataTable = CreateTableFromQuery(query);
+
+            foreach (DataRow column in topicsDataTable.Rows)
+            {
+                topics.Add(Convert.ToString(column["nombrePK"]));
+            }
+
+            return topics;
+        }
+
+        public List<string> GetAllActivities()
+        {
+            List<string> activitiesTitles = new List<string>();
+            string query = "SELECT * FROM Activity ";
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow column in resultingTable.Rows)
+            {
+                activitiesTitles.Add( Convert.ToString(column["titulo"]));                     
+            }
+            return activitiesTitles;
+        }
+
+
     }
 
 }
