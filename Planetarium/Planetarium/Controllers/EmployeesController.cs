@@ -10,17 +10,21 @@ using Planetarium.Handlers;
 using Planetarium.Models;
 using System.IO;
 
-namespace Planetarium.Controllers
-{
-    public class EmployeesController : Controller
-    {
-        // GET: Employees
-        ContentParser contentParser = new ContentParser();
+namespace Planetarium.Controllers {
+    public class EmployeesController : Controller {
+
+        public EmployeesHandler DataAccess { get; set; }
+        public ContentParser ContentParser { get; set; }
+
+        public EmployeesController() {
+            DataAccess = new EmployeesHandler();
+            ContentParser = new ContentParser();
+        }
+
         public ActionResult Employee(String Dni) {
             ActionResult view;
             try {
-                EmployeesHandler dataAccess = new EmployeesHandler();
-                EmployeeModel employee = dataAccess.GetAllEmployees().Find(smodel => String.Equals(smodel.Dni, Dni));
+                EmployeeModel employee = DataAccess.GetAllEmployees().Find(smodel => String.Equals(smodel.Dni, Dni));
                 if (employee == null) {
                     view = RedirectToAction("ListEmployees");
                 } else {
@@ -35,21 +39,17 @@ namespace Planetarium.Controllers
 
         public ActionResult ListEmployees()
         {
-            EmployeesHandler dataAccess = new EmployeesHandler();
-            ViewBag.employees = dataAccess.GetAllEmployees();
+            ViewBag.employees = DataAccess.GetAllEmployees();
             return View();
         }
 
         
         public ActionResult CreateEmployee() {
-
-            ContentParser contentParser = new ContentParser();
-
             List<SelectListItem> countries = new List<SelectListItem>();
             List<SelectListItem> languages = new List<SelectListItem>();
 
-            dynamic JsonContentCountries = contentParser.ParseFromJSON("countries.json");
-            dynamic JsonContentLanguages = contentParser.ParseFromJSON("Languages.json");
+            dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
+            dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
 
             string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
 
@@ -69,7 +69,7 @@ namespace Planetarium.Controllers
         }
 
         public void UploadPhoto(HttpPostedFileBase file) {
-            file.SaveAs(Path.Combine(Server.MapPath("~/images/EmployeesProfilePhotos"), file.FileName.Replace(" ", "-").Replace("_","-");
+            file.SaveAs(Path.Combine(Server.MapPath("~/images/EmployeesProfilePhotos"), file.FileName.Replace(" ", "-").Replace("_","-")));
         }
 
         [HttpPost]
@@ -77,21 +77,18 @@ namespace Planetarium.Controllers
             
             ActionResult view = RedirectToAction("Success", "Home");
             employee.Gender = Request.Form["gender"].ElementAt(0);
-            employee.Languages = contentParser.GetListFromString(Request.Form["defaultInputString"]);
+            employee.Languages = ContentParser.GetListFromString(Request.Form["defaultInputString"]);
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
                     UploadPhoto(employee.PhotoFile);
-                    EmployeesHandler dataAcess = new EmployeesHandler();
-                    ViewBag.SucessOnCreation = dataAcess.CreateEmployee(employee);
+                    ViewBag.SucessOnCreation = DataAccess.CreateEmployee(employee);
                     if (ViewBag.SucessOnCreation) {
                         ModelState.Clear();
                     }
                 }
                 return view;
-            } catch (Exception e)
-            {
-                Debug.WriteLine("Error en la insercion: " + e.ToString());
+            } catch {
                 view = RedirectToAction("CreateEmployee", "Employees");
                 ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
                 return view; 
