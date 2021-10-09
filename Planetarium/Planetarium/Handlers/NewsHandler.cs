@@ -127,8 +127,9 @@ namespace Planetarium.Handlers {
             bool success = false;
 
             foreach (string imageRef in news.ImagesRef) {
+                
                 string query = "INSERT INTO ImagenPerteneceANoticia " +
-                        "VALUES ('" + news.Title + "','" + imageRef + "')";
+                        "VALUES ('" + news.Title + "','" + imageRef.Replace("_", "-").Replace(" ", "-") + "')";
                 SqlCommand queryCommand = new SqlCommand(query, connection);
                 connection.Open();
                 success = queryCommand.ExecuteNonQuery() >= 1;
@@ -155,7 +156,7 @@ namespace Planetarium.Handlers {
 
         public bool PublishNews(NewsModel news) {
             string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " +
-                           "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'103230738',@contenido,@autor)";
+                           "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'202210135',@contenido,@autor)";
             SqlCommand queryCommand = new SqlCommand(query, connection);
             //TO-DO: Cambiar cedula quemada
 

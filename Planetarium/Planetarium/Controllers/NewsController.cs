@@ -93,9 +93,9 @@ namespace Planetarium.Controllers {
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 } 
-            } catch  {
+            } catch (Exception e) {
                 TempData["Error"] = true;
-                TempData["WarningMessage"] = "El título de la noticia esta repetido";
+                TempData["WarningMessage"] = e.ToString();
                 view = RedirectToAction("SubmitNewsForm", "News");
             }
 
@@ -115,7 +115,7 @@ namespace Planetarium.Controllers {
         [HttpPost]
         public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files) {
             foreach (var file in files) {
-                string filePath = file.FileName;
+                string filePath = file.FileName.Replace("_", "-").Replace(" ", "-");
                 file.SaveAs(Path.Combine(Server.MapPath("~/images/news"), filePath));
             }
 
