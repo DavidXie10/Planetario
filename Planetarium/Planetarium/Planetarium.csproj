@@ -180,7 +180,6 @@
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
-    <Content Include="Scripts\bootstrap-duration-picker.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -196,6 +195,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\summernote-bs4.js" />
     <Content Include="Web.config" />
@@ -223,6 +223,8 @@
     <Content Include="Views\EducationalActivity\ProposeEducationalActivity.cshtml" />
     <Content Include="Views\Collaborator\ActivitiesApprobation.cshtml" />
     <Content Include="Views\News\EditNews.cshtml" />
+    <Content Include="Views\EducationalActivity\ActivitiesApprobation.cshtml" />
+    <Content Include="Views\EducationalActivity\ListActivities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
