@@ -2,9 +2,10 @@
     <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
     <div class="form-group has-feedback">
         <label class="control-label">Buscador</label>
-        <input type="text" id="search" class="form-control" placeholder="Escriba en este espacio" />
+        <input type="text" id="search" class="form-control" placeholder="Buscar por palabras claves" autocomplete="off" />
         <i class="glyphicon glyphicon-user form-control-feedback"></i>
     </div>
+    <div id="filter-message"></div>
     @foreach (var activity in ViewBag.activities) {
         if (activity.State == "1") {
 
@@ -56,22 +57,25 @@
     }
 
     function search() {
-        let text = document.getElementById("search").value;
+        let text = document.getElementById("search").value;      
         var activities = @Html.Raw(Json.Encode(ViewBag.activities))
+        matchAllTitles(activities, text)
+    }
+    function matchAllTitles(activities,text) {
+        var matching = new Boolean(false);
         for (var activity in activities) {
-            //console.log(activities[activity].Title);
+            matching = match(activities[activity].Title, text);
             if (text == "")
                 show(activities[activity].Title)
-            else if (match(activities[activity].Title, text))
+            else if (matching)
                 show(activities[activity].Title)
             else
-                hide(activities[activity].Title)
+                hide(activities[activity].Title)       
         }
+        return matching;
     }
-
+    
     function match(word, substring) {
-        console.log(word, substring);
-        console.log(word.includes(substring));
         return word.toLowerCase().includes(substring.toLowerCase());
     }
 
@@ -81,6 +85,10 @@
 
     function show(elementId) {
         document.getElementById(elementId).style.display = "block";
+    }
+
+    function filterMessageDisplay(message) {
+        document.getElementById("filter-message").innerHTML = message;
     }
 
     main();
