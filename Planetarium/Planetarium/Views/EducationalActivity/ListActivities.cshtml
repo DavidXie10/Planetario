@@ -2,7 +2,7 @@
     <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
     <div class="form-group has-feedback">
         <label class="control-label">Buscador</label>
-        <input type="text" id="search" class="form-control" placeholder="Buscar por palabras claves" autocomplete="off" />
+        <input type="text" id="search" class="form-control" placeholder="Buscar por palabras claves, categorías o tópicos" autocomplete="off" />
         <i class="glyphicon glyphicon-user form-control-feedback"></i>
     </div>
     <div id="filter-message"></div>
@@ -64,7 +64,9 @@
     function matchAllTitles(activities,text) {
         var matching = new Boolean(false);
         for (var activity in activities) {
-            matching = match(activities[activity].Title, text);
+            matching = match(activities[activity].Title, text)
+                || match(activities[activity].Category, text)
+                || matchTopics(activities[activity].Topics, text);
             if (text == "")
                 show(activities[activity].Title)
             else if (matching)
@@ -74,7 +76,17 @@
         }
         return matching;
     }
-    
+
+    function matchTopics(topics, word) {
+        var matching = new Boolean(false);
+        for (var topic in topics) {
+            matching = match(topics[topic], word);
+            if (matching)
+                return matching;
+        }
+        return matching;
+    }
+
     function match(word, substring) {
         return word.toLowerCase().includes(substring.toLowerCase());
     }

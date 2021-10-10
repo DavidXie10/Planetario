@@ -135,7 +135,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\FrequentlyQuestionController.cs" />
-	<Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -144,12 +144,13 @@
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
     <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
-	<Compile Include="Handlers\EmployeesHandler.cs" />
+    <Compile Include="Handlers\EmployeesHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
     <Compile Include="Models\EducationalActivityModel.cs" />
+    <Compile Include="Models\EducationalMaterialModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
-	<Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +162,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\summernote-bs4.css" />
-	<Content Include="Data_Files\Vision.txt" />
-	<Content Include="images\astronaut.png" />
+    <Content Include="Data_Files\Vision.txt" />
+    <Content Include="images\astronaut.png" />
     <Content Include="images\earth.jpg" />
     <Content Include="images\EmployeesProfilePhotos\foto1.png" />
     <Content Include="images\EmployeesProfilePhotos\foto2.png" />
@@ -180,8 +181,8 @@
     <Content Include="Data_Files\Planetario.json" />
     <Content Include="Data_Files\Services.json" />
     <Content Include="Data_Files\EducationalActivity.json" />
-	<Content Include="Data_Files\countries.json" />
-	<Content Include="Data_Files\Languages.json" />
+    <Content Include="Data_Files\countries.json" />
+    <Content Include="Data_Files\Languages.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
@@ -239,9 +240,11 @@
     <Content Include="Views\EducationalActivity\ProposeEducationalActivity.cshtml" />
     <Content Include="Views\News\SubmitNewsForm.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
-	<Content Include="Views\Employees\Employee.cshtml" />
-	<Content Include="Views\Employees\ListEmployees.cshtml" />
-	<Content Include="Views\Employees\CreateEmployee.cshtml" />
+    <Content Include="Views\Employees\Employee.cshtml" />
+    <Content Include="Views\Employees\ListEmployees.cshtml" />
+    <Content Include="Views\Employees\CreateEmployee.cshtml" />
+    <Content Include="Views\EducationalMaterial\ListEducationalMaterial.cshtml" />
+    <Content Include="Views\EducationalMaterial\SumbitEducationalMaterial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
