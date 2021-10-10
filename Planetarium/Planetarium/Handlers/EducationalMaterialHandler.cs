@@ -115,12 +115,13 @@ namespace Planetarium.Handlers
 
         private void LinkAllEducationalMaterialWithCategory(List<EducationalMaterialModel> educationalMaterials)
         {
-            if(educationalMaterials != null) {
-                foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
-                    DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
-                    LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
-                }
+            /*
+            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
+                DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
+                LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
             }
+            */
+            
         }
 
         private DataTable GetEducationalMaterialWithCategoryTable(string educationalMaterialTopic)
@@ -175,21 +176,37 @@ namespace Planetarium.Handlers
             return success;
         }
 
+        private List<DateTime> getAllDates(EducationalMaterialModel educationalMaterial) {
+            List<DateTime> dates = new List<DateTime>();
+            string query = "SELECT fechaInicioPK FROM ActividadEducativa " +
+                       "WHERE tituloMaterialPK = '" + educationalMaterial.ActivityTitle + "' AND autorPK = '" + educationalMaterial.Author + "'";
+
+            DataTable table = CreateTableFromQuery(query);
+
+            foreach (DataRow column in table.Rows) {
+                dates.Add(Convert.ToDateTime(column["fechaInicioPK"]));
+            }
+
+            return dates;
+        }
+
         private bool InsertRelationshipWithEducationalActivity(EducationalMaterialModel educationalMaterial) {
-
-
-            string query = "INSERT INTO Ofrecer(cedulaPK, tituloActividadPK, fechaInicioPK, tituloMaterialPK, autorPK) " +
+            List<DateTime> dates = getAllDates(educationalMaterial);
+            bool success = false;
+            foreach (DateTime date in dates) {
+                string query = "INSERT INTO Ofrecer(cedulaPK, tituloActividadPK, fechaInicioPK, tituloMaterialPK, autorPK) " +
                             "VALUES('203250235', @tituloActividad, @fechaInicio, @tituloMaterial, @autor)";
 
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            queryCommand.Parameters.AddWithValue("@tituloActividad", educationalMaterial.ActivityTitle);
-            queryCommand.Parameters.AddWithValue("@fechaInicio", educationalMaterial.ActivityDate);
-            queryCommand.Parameters.AddWithValue("@tituloMaterial", educationalMaterial.Title);
-            queryCommand.Parameters.AddWithValue("@autor", educationalMaterial.Author);
+                SqlCommand queryCommand = new SqlCommand(query, connection);
+                queryCommand.Parameters.AddWithValue("@tituloActividad", educationalMaterial.ActivityTitle);
+                queryCommand.Parameters.AddWithValue("@fechaInicio", date);
+                queryCommand.Parameters.AddWithValue("@tituloMaterial", educationalMaterial.Title);
+                queryCommand.Parameters.AddWithValue("@autor", educationalMaterial.Author);
 
-            connection.Open();
-            bool success = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close();
+                connection.Open();
+                success = queryCommand.ExecuteNonQuery() >= 1;
+                connection.Close();
+            }
 
             return success;
         }
