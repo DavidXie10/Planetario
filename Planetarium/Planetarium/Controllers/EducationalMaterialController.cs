@@ -27,8 +27,21 @@ namespace Planetarium.Controllers
             ViewBag.EducationalMaterials = DataAccess.GetAllEducationalMaterial();
             return View();
         }
+
+        private List<SelectListItem> LoadCategories() {
+            List<string> categories = DataAccess.GetAllCategories();
+
+            List<SelectListItem> dropdownCategories = new List<SelectListItem>();
+            foreach (string category in categories) {
+                dropdownCategories.Add(new SelectListItem { Text = category, Value = category });
+            }
+
+            return dropdownCategories;
+        }
+
         public ActionResult SumbitEducationalMaterial()
         {
+            ViewData["category"] = LoadCategories();
             ViewBag.EducationalMaterials = DataAccess.GetAllEducationalMaterial();
             ViewBag.DropDownActivitiesNames = LoadActivityNames();
             return View();

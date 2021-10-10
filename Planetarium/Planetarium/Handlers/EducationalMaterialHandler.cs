@@ -43,7 +43,7 @@ namespace Planetarium.Handlers
             LinkAllEducationalMaterialWithEducationalActivity(educationalMaterials);
             return educationalMaterials;
         }
-
+        
         private void LinkAllEducationalMaterialWithEducationalActivity(List<EducationalMaterialModel> educationalMaterials) {
             foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
                 DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithEducationalActivityTable(educationalMaterial.Title, educationalMaterial.Author);
@@ -53,7 +53,7 @@ namespace Planetarium.Handlers
         }
 
         private DataTable GetEducationalMaterialWithEducationalActivityTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
-            string query = "SELECT tituloActividaPK, fechaInicioPK  FROM Ofrecer " +
+            string query = "SELECT tituloActividadPK, fechaInicioPK  FROM Ofrecer " +
                        "WHERE tituloMaterialPK = '" + educationalMaterialTitle + "' AND autorPK = '" + educationalMaterialAuthor + "'";
 
             return CreateTableFromQuery(query);
@@ -115,10 +115,11 @@ namespace Planetarium.Handlers
 
         private void LinkAllEducationalMaterialWithCategory(List<EducationalMaterialModel> educationalMaterials)
         {
-            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials)
-            {
-                DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
-                LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
+            if(educationalMaterials != null) {
+                foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
+                    DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
+                    LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
+                }
             }
         }
 
@@ -175,6 +176,8 @@ namespace Planetarium.Handlers
         }
 
         private bool InsertRelationshipWithEducationalActivity(EducationalMaterialModel educationalMaterial) {
+
+
             string query = "INSERT INTO Ofrecer(cedulaPK, tituloActividadPK, fechaInicioPK, tituloMaterialPK, autorPK) " +
                             "VALUES('203250235', @tituloActividad, @fechaInicio, @tituloMaterial, @autor)";
 
@@ -255,6 +258,17 @@ namespace Planetarium.Handlers
             return activitiesTitles;
         }
 
+        public List<string> GetAllCategories() {
+            List<string> categories = new List<string>();
+
+            string query = "SELECT DISTINCT categoria FROM Topico";
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow column in resultingTable.Rows) {
+                categories.Add(Convert.ToString(column["categoria"]));
+            }
+
+            return categories;
+        }
 
     }
 
