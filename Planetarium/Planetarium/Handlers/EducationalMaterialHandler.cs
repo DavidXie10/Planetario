@@ -179,7 +179,7 @@ namespace Planetarium.Handlers
         private List<DateTime> getAllDates(EducationalMaterialModel educationalMaterial) {
             List<DateTime> dates = new List<DateTime>();
             string query = "SELECT fechaInicioPK FROM ActividadEducativa " +
-                       "WHERE tituloMaterialPK = '" + educationalMaterial.ActivityTitle + "' AND autorPK = '" + educationalMaterial.Author + "'";
+                       "WHERE tituloPK = '" + educationalMaterial.ActivityTitle+ "'";
 
             DataTable table = CreateTableFromQuery(query);
 

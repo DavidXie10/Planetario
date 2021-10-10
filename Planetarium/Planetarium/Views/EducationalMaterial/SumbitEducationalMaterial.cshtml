@@ -154,7 +154,7 @@
                 },
                 uploadFinished: function (i, file, response, time) {
                     $('#uploadList').append('<li class="list-group-item">' + file.name + '</li>')
-                    document.querySelector("#imagesString").value += String(file.name) + "|";
+                    document.querySelector("#filesString").value += String(file.name) + "|";
                 }
             })
         })
