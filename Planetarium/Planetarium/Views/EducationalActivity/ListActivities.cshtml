@@ -1,4 +1,16 @@
 ﻿<div class="container">
+    <hr />
+    <h3 class="text-start">
+        <i class="fas fa-tasks"></i>
+        @Html.ActionLink("Evaluar actividad educativa", "/ActivitiesApprobation", new { @class = "btn btn-info" })
+        <br />
+        <br />
+        <i class="fas fa-user-edit"></i>
+        @Html.ActionLink("Agregar actividad educativa", "/ProposeEducationalActivity", new { @class = "btn btn-info" })
+    </h3>
+
+    <hr />
+
     <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
     <div class="form-group has-feedback">
         <label class="control-label">Buscador</label>
