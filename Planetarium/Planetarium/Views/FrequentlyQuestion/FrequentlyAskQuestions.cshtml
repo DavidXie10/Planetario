@@ -7,13 +7,21 @@
 <head>
 </head>
 <body>
-    
+    <hr />
+    <div class="container">
+        <h3 class="text-start">
+            <i class="fas fa-user-edit"></i>
+            @Html.ActionLink("Formular pregunta", "../FrequentlyQuestion/CreateFrequentlyAskedQuestion", new { @class = "btn btn-info" })
+        </h3>
+    </div>
+    <hr />
     <div class="container">
         <h1>@ViewBag.Title</h1>
         <div id="accordion">
 
             @{ var categoryCounter = 1;}
-            @foreach (string category in ViewBag.Categories) {
+            @foreach (string category in ViewBag.Categories)
+            {
                 <div class="card">
                     <div class="card-header" id="@("header"+categoryCounter)">
                         <h2 class="mb-0">
@@ -24,10 +32,12 @@
                     </div>
                     <div id="@("collapse"+categoryCounter)" class="collapse" aria-labelledby="@("heading"+categoryCounter)" data-parent="#accordion">
                         <div class="card-body">
-                            @foreach (var questionInstance in ViewBag.QuestionsSortedByCategories[category]) {
+                            @foreach (var questionInstance in ViewBag.QuestionsSortedByCategories[category])
+                            {
                                 <div class="card border-success" style="margin:10px 0 10px 0;">
                                     <div class="card-header">
-                                        @foreach (var topic in questionInstance.Topics) {
+                                        @foreach (var topic in questionInstance.Topics)
+                                        {
                                             <a class="badge rounded-pill bg-success"> @topic</a>
                                         }
                                     </div>
@@ -44,4 +54,6 @@
             }
         </div>
     </div>
+    <hr />
+
 </body>

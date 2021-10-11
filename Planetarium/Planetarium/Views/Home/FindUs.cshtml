@@ -12,8 +12,17 @@
             crossorigin=""></script>
 </head>
 <body>
+    <h1>Encuéntranos</h1>
+    <hr />
+    <div id="container">             
+        <div class="text-center">
+            <img src="~/images/PlanetariumUCR/planetarioUCR.jpg" height="500" width="850" class="rounded" alt="Planetario de la UCR ">
+        </div>   
+    </div>
+
+    <hr />
     <div class="container">
-        <h1>Encuéntranos</h1>
+        
         <div class="row">
             <div class="col-md-6">
                 <div class="card w-100 border-info mb-3">
@@ -23,7 +32,8 @@
                             <ul>
 
 
-                                @foreach (string parking in @ViewBag.Parking) {
+                                @foreach (string parking in @ViewBag.Parking)
+                                {
 
                                     <li>@parking</li>
 
@@ -42,7 +52,8 @@
                             <ul>
 
 
-                                @foreach (string schedule in @ViewBag.Schedule) {
+                                @foreach (string schedule in @ViewBag.Schedule)
+                                {
 
                                     <li>@schedule</li>
 
@@ -61,7 +72,8 @@
                             Buses <br />
                             <ul>
 
-                                @foreach (string buses in @ViewBag.TransportBuses) {
+                                @foreach (string buses in @ViewBag.TransportBuses)
+                                {
 
                                     <li>@buses</li>
 
@@ -72,7 +84,8 @@
                             Trenes <br />
                             <ul>
 
-                                @foreach (string trenes in @ViewBag.TransportTrains) {
+                                @foreach (string trenes in @ViewBag.TransportTrains)
+                                {
 
                                     <li>@trenes</li>
 
@@ -91,7 +104,7 @@
             <a href="https://www.google.com/search?tbs=lf:1,lf_ui:4&tbm=lcl&sxsrf=AOaemvK-VwqyLQaufAG-R6_qcN71axUC8g:1632586553979&q=planetario+UCR&rflfq=1&num=10&ved=2ahUKEwiamfXswprzAhXKZzABHfg9ClMQtgN6BAgVEAQ#rlfi=hd:;si:6509775643863284678,l,Cg5wbGFuZXRhcmlvIFVDUiIDiAEBWhAiDnBsYW5ldGFyaW8gdWNykgEScmVzZWFyY2hfaW5zdGl0dXRl;mv:[[9.9372215,-84.0448404],[9.9369111,-84.05120509999999" target="_blank" class="btn btn-success mt-3">¿Cómo llegar?</a>
         </div>
     </div>
-    
+    <hr />
     <script type="text/javascript" src="~/Scripts/main.js"></script>
 </body>
 </html>
