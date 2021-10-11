@@ -8,21 +8,17 @@ using System.Data.SqlClient;
 using System.IO;
 using Planetarium.Models;
 
-namespace Planetarium.Handlers
-{
-    public class EducationalMaterialHandler
-    {
+namespace Planetarium.Handlers {
+    public class EducationalMaterialHandler {
         private SqlConnection connection;
         private string connectionRoute;
 
-        public EducationalMaterialHandler()
-        {
+        public EducationalMaterialHandler() {
             connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
             connection = new SqlConnection(connectionRoute);
         }
 
-        private DataTable CreateTableFromQuery(string query)
-        {
+        private DataTable CreateTableFromQuery(string query) {
             SqlCommand queryCommand = new SqlCommand(query, connection);
             SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
             DataTable queryTable = new DataTable();
@@ -32,8 +28,7 @@ namespace Planetarium.Handlers
             return queryTable;
         }
 
-        public List<EducationalMaterialModel> GetAllEducationalMaterial()
-        {
+        public List<EducationalMaterialModel> GetAllEducationalMaterial() {
             string query = "SELECT * FROM MaterialEducativo " +
                            "ORDER BY fechaPublicacion DESC ";
             DataTable resultingNewsTable = CreateTableFromQuery(query);
@@ -64,20 +59,16 @@ namespace Planetarium.Handlers
             educationalMaterial.ActivityTitle = Convert.ToString(resultingTable.Rows[0]["tituloActividadPK"]);
         }
 
-        private List<EducationalMaterialModel> CreateEducationalMaterialFromDataTable(DataTable resultingNewsTable)
-        {
+        private List<EducationalMaterialModel> CreateEducationalMaterialFromDataTable(DataTable resultingNewsTable) {
             List<EducationalMaterialModel> educationalMaterials = new List<EducationalMaterialModel>();
-            foreach (DataRow educationalMaterialRawInfo in resultingNewsTable.Rows)
-            {
+            foreach (DataRow educationalMaterialRawInfo in resultingNewsTable.Rows) {
                 educationalMaterials.Add(CreateEducationalMaterial(educationalMaterialRawInfo));
             }
             return educationalMaterials;
         }
 
-        private EducationalMaterialModel CreateEducationalMaterial(DataRow educationalMaterialRawInfo)
-        {
-            return new EducationalMaterialModel
-            {
+        private EducationalMaterialModel CreateEducationalMaterial(DataRow educationalMaterialRawInfo) {
+            return new EducationalMaterialModel {
                 Author = Convert.ToString(educationalMaterialRawInfo["autorPK"]),
                 Title = Convert.ToString(educationalMaterialRawInfo["tituloPK"]),
                 PublicationDate = Convert.ToDateTime(educationalMaterialRawInfo["fechaPublicacion"]),
@@ -105,17 +96,14 @@ namespace Planetarium.Handlers
             }
         }
 
-        private void LinkAllEducationalMaterialWithTopics(List<EducationalMaterialModel> educationalMaterials)
-        {
-            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials)
-            {
+        private void LinkAllEducationalMaterialWithTopics(List<EducationalMaterialModel> educationalMaterials) {
+            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
                 DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithTopicsTable(educationalMaterial.Title, educationalMaterial.Author);
                 LinkEducationalMaterialWithTopics(educationalMaterial, resultingTableOfNewsWithTheirTopic);
             }
         }
 
-        private DataTable GetEducationalMaterialWithTopicsTable(string educationalMaterialTitle, string educationalMaterialAuthor)
-        {
+        private DataTable GetEducationalMaterialWithTopicsTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
             string query = "SELECT nombreTopicoPKFK FROM MaterialEducativo " +
                        "INNER JOIN MaterialEducativoPerteneceATopico ON(tituloPK = tituloMaterialEducativoPKFK " +
                        "AND autorPK = autorMaterialEducativoPKFK) " +
@@ -125,39 +113,33 @@ namespace Planetarium.Handlers
             return CreateTableFromQuery(query);
         }
 
-        private void LinkEducationalMaterialWithTopics(EducationalMaterialModel educationalMaterial, DataTable resultingTable)
-        {
+        private void LinkEducationalMaterialWithTopics(EducationalMaterialModel educationalMaterial, DataTable resultingTable) {
             educationalMaterial.Topics = new List<string>();
-            foreach (DataRow column in resultingTable.Rows)
-            {
+            foreach (DataRow column in resultingTable.Rows) {
                 var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
                 educationalMaterial.Topics.Add(tempTopic);
             }
         }
 
-        private void LinkAllEducationalMaterialWithCategory(List<EducationalMaterialModel> educationalMaterials)
-        {
+        private void LinkAllEducationalMaterialWithCategory(List<EducationalMaterialModel> educationalMaterials) {
             foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
                 DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
                 LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
             }
         }
 
-        private DataTable GetEducationalMaterialWithCategoryTable(string educationalMaterialTopic)
-        {
+        private DataTable GetEducationalMaterialWithCategoryTable(string educationalMaterialTopic) {
             string query = "SELECT categoria FROM MaterialEducativoPerteneceATopico " +
                         "INNER JOIN Topico ON nombrePK = nombreTopicoPKFK  " +
                         "WHERE nombrePK = '" + educationalMaterialTopic + "'";
             return CreateTableFromQuery(query);
         }
 
-        private void LinkEducationalMaterialWithCategory(EducationalMaterialModel educationalMaterial, DataTable resultingTable)
-        {
+        private void LinkEducationalMaterialWithCategory(EducationalMaterialModel educationalMaterial, DataTable resultingTable) {
             educationalMaterial.Category = Convert.ToString(resultingTable.Rows[0]["categoria"]);
         }
         
-        private DataTable GetEducationalMaterialWithKeywordsTable(string educationalMaterialTitle, string educationalMaterialAuthor)
-        {
+        private DataTable GetEducationalMaterialWithKeywordsTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
             string query = "SELECT palabraClave FROM MaterialEducativo ME " +
                         "INNER JOIN PalabraClaveMaterialEducativo PC ON(ME.tituloPK = PC.tituloPK " +
                         "AND ME.autorPK = PC.autorPK) " +
@@ -167,8 +149,7 @@ namespace Planetarium.Handlers
             return CreateTableFromQuery(query);
         }
 
-        public bool InsertEducationalMaterial(EducationalMaterialModel educationalMaterial)
-        {
+        public bool InsertEducationalMaterial(EducationalMaterialModel educationalMaterial) {
             string educationalMaterialQuery = "INSERT INTO MaterialEducativo (tituloPK, autorPK, fechaPublicacion ) " +
                            "VALUES(@tituloPK,@autorPK, CAST( GETDATE() AS Date ))";
             SqlCommand queryCommand = new SqlCommand(educationalMaterialQuery, connection);
@@ -227,12 +208,10 @@ namespace Planetarium.Handlers
             return success;
         }
 
-        private bool InsertEducationalMaterialTopics(EducationalMaterialModel educationalMaterial)
-        {
+        private bool InsertEducationalMaterialTopics(EducationalMaterialModel educationalMaterial) {
             bool success = false;
 
-            foreach (string topic in educationalMaterial.Topics)
-            {
+            foreach (string topic in educationalMaterial.Topics) {
                 string query = "INSERT INTO MaterialEducativoPerteneceATopico " +
                         "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + topic + "')";
                 SqlCommand queryCommand = new SqlCommand(query, connection);
@@ -244,12 +223,10 @@ namespace Planetarium.Handlers
             return success;
         }
 
-        private bool InsertEducationalMaterialFiles(EducationalMaterialModel educationalMaterial)
-        {
+        private bool InsertEducationalMaterialFiles(EducationalMaterialModel educationalMaterial) {
             bool success = false;
 
-            foreach (string file in educationalMaterial.EducationalMaterialFileNames)
-            {
+            foreach (string file in educationalMaterial.EducationalMaterialFileNames) {
                 string query = "INSERT INTO ArchivoDeMaterialEducativo " +
                         "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + file + "')";
                 SqlCommand queryCommand = new SqlCommand(query, connection);
@@ -261,8 +238,7 @@ namespace Planetarium.Handlers
             return success;
         }
 
-        public List<string> GetTopicsByCategory(string category)
-        {
+        public List<string> GetTopicsByCategory(string category) {
             List<string> topics = new List<string>();
 
             string query = "SELECT nombrePK " +
@@ -271,16 +247,14 @@ namespace Planetarium.Handlers
 
             DataTable topicsDataTable = CreateTableFromQuery(query);
 
-            foreach (DataRow column in topicsDataTable.Rows)
-            {
+            foreach (DataRow column in topicsDataTable.Rows) {
                 topics.Add(Convert.ToString(column["nombrePK"]));
             }
 
             return topics;
         }
 
-        public List<string> GetAllActivities()
-        {
+        public List<string> GetAllActivities() {
             List<string> activitiesTitles = new List<string>();
             string query = "SELECT * FROM ActividadEducativa ";
             DataTable resultingTable = CreateTableFromQuery(query);
