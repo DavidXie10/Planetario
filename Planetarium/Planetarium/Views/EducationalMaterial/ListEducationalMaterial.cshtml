@@ -14,19 +14,23 @@
                 <div class="card-body">
                     <h2 class="text-start">@educationalMaterials.Title </h2>
                     <h5>Autor: @educationalMaterials.Author</h5>
-                    <h9>Fecha de publicación: @educationalMaterials.Date</h9>
+                    <h9>Fecha de publicación: @educationalMaterials.PublicationDate</h9>
+                    <br/>
+                    <h9>Pertenece a la actividad: "@educationalMaterials.ActivityTitle"</h9>
                     <span>
                         <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @educationalMaterials.Category</a></h5>
                         <h5>
                             Tópicos:
-                            @foreach (var topic in educationalMaterials.Topics)
-                            {
+                            @foreach (var topic in educationalMaterials.Topics) {
                                 <a class="badge rounded-pill bg-info"> @topic</a>
                             }
                         </h5>
                     </span>
                     <p class="card-text" style="margin-top: 15px;">
-                        Aquí va el material(?)
+                        @foreach (var material in educationalMaterials.EducationalMaterialFileNames) {
+                            <a href="~/Educational_Material/@material" download="@material">@material</a>
+                            <br />
+                        }
                     </p>
                 </div>
             </div>

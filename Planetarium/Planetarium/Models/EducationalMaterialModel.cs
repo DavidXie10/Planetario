@@ -17,7 +17,7 @@ namespace Planetarium.Models
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Es necesario que seleccione la actividad asociada al material")]
-        [Display(Name = "Tipo de actividad")]
+        [Display(Name = "Título de la actividad")]
         public string ActivityTitle { get; set; }
 
         public DateTime ActivityDate { get; set; }

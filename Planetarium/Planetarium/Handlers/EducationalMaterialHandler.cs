@@ -41,26 +41,27 @@ namespace Planetarium.Handlers
             LinkAllEducationalMaterialWithTopics(educationalMaterials);
             LinkAllEducationalMaterialWithCategory(educationalMaterials);
             LinkAllEducationalMaterialWithEducationalActivity(educationalMaterials);
+            LinkAllEducationalMaterialWithFileName(educationalMaterials);
             return educationalMaterials;
         }
         
         private void LinkAllEducationalMaterialWithEducationalActivity(List<EducationalMaterialModel> educationalMaterials) {
             foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
-                DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithEducationalActivityTable(educationalMaterial.Title, educationalMaterial.Author);
-                LinkEducationalMaterialWithEducationalActivity(educationalMaterial, resultingTableOfNewsWithTheirTopic);
+                DataTable resultingTableOfEducationalMaterialWithActivity = GetEducationalMaterialWithEducationalActivityTable(educationalMaterial.Title, educationalMaterial.Author);
+                LinkEducationalMaterialWithEducationalActivity(educationalMaterial, resultingTableOfEducationalMaterialWithActivity);
                 
             }
         }
 
         private DataTable GetEducationalMaterialWithEducationalActivityTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
             string query = "SELECT tituloActividadPK, fechaInicioPK  FROM Ofrecer " +
-                       "WHERE tituloMaterialPK = '" + educationalMaterialTitle + "' AND autorPK = '" + educationalMaterialAuthor + "'";
+                           "WHERE tituloMaterialPK = '" + educationalMaterialTitle + "' AND autorPK = '" + educationalMaterialAuthor + "'";
 
             return CreateTableFromQuery(query);
         }
 
         private void LinkEducationalMaterialWithEducationalActivity(EducationalMaterialModel educationalMaterial, DataTable resultingTable) {
-            //educationalMaterial.ActivityTitle = Convert.ToString(resultingTable["tituloActividadPK"]);
+            educationalMaterial.ActivityTitle = Convert.ToString(resultingTable.Rows[0]["tituloActividadPK"]);
         }
 
         private List<EducationalMaterialModel> CreateEducationalMaterialFromDataTable(DataTable resultingNewsTable)
@@ -81,6 +82,27 @@ namespace Planetarium.Handlers
                 Title = Convert.ToString(educationalMaterialRawInfo["tituloPK"]),
                 PublicationDate = Convert.ToDateTime(educationalMaterialRawInfo["fechaPublicacion"]),
             };
+        }
+
+        private void LinkAllEducationalMaterialWithFileName(List<EducationalMaterialModel> educationalMaterials) {
+            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
+                DataTable resultingTableOfEducationalMaterialWithTheirFileName = GetEducationalMaterialWithFileNameTable(educationalMaterial.Title, educationalMaterial.Author);
+                LinkEducationalMaterialWithFileName(educationalMaterial, resultingTableOfEducationalMaterialWithTheirFileName);
+            }
+        }
+
+        private DataTable GetEducationalMaterialWithFileNameTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
+            string query = "SELECT nombreArchivoPK FROM ArchivoDeMaterialEducativo " +
+                           "WHERE tituloPKFK = '" + educationalMaterialTitle + "' AND autorPKFK = '" + educationalMaterialAuthor + "'";
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkEducationalMaterialWithFileName(EducationalMaterialModel educationalMaterial, DataTable resultingTable) {
+            educationalMaterial.EducationalMaterialFileNames = new List<string>();
+            foreach (DataRow column in resultingTable.Rows) {
+                var tempFileName = Convert.ToString(column["nombreArchivoPK"]);
+                educationalMaterial.EducationalMaterialFileNames.Add(tempFileName);
+            }
         }
 
         private void LinkAllEducationalMaterialWithTopics(List<EducationalMaterialModel> educationalMaterials)
@@ -115,13 +137,10 @@ namespace Planetarium.Handlers
 
         private void LinkAllEducationalMaterialWithCategory(List<EducationalMaterialModel> educationalMaterials)
         {
-            /*
             foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
                 DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
                 LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
             }
-            */
-            
         }
 
         private DataTable GetEducationalMaterialWithCategoryTable(string educationalMaterialTopic)
@@ -134,10 +153,7 @@ namespace Planetarium.Handlers
 
         private void LinkEducationalMaterialWithCategory(EducationalMaterialModel educationalMaterial, DataTable resultingTable)
         {
-            foreach (DataRow column in resultingTable.Rows)
-            {
-                educationalMaterial.Category = Convert.ToString(column["categoria"]);
-            }
+            educationalMaterial.Category = Convert.ToString(resultingTable.Rows[0]["categoria"]);
         }
         
         private DataTable GetEducationalMaterialWithKeywordsTable(string educationalMaterialTitle, string educationalMaterialAuthor)

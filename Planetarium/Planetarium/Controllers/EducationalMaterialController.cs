@@ -39,7 +39,7 @@ namespace Planetarium.Controllers
             return dropdownCategories;
         }
 
-        public ActionResult SumbitEducationalMaterial()
+        public ActionResult SubmitEducationalMaterial()
         {
             ViewData["category"] = LoadCategories();
             ViewBag.EducationalMaterials = DataAccess.GetAllEducationalMaterial();
@@ -51,7 +51,13 @@ namespace Planetarium.Controllers
         public ActionResult SendEducationalMaterialForm(EducationalMaterialModel educationalMaterial)
         {
             ActionResult view = RedirectToAction("Success", "Home");
-            educationalMaterial.EducationalMaterialFileNames = ContentParser.GetTopicsFromString(Request.Form["filesString"]);
+            educationalMaterial.EducationalMaterialFileNames = ContentParser.GetListFromString(Request.Form["filesString"]);
+
+            for (int i = 0; i < educationalMaterial.EducationalMaterialFileNames.Count; i++) {
+                educationalMaterial.EducationalMaterialFileNames[i] = educationalMaterial.EducationalMaterialFileNames[i].Replace(" ", "-").Replace(" ", "-");
+            }
+
+
             educationalMaterial.Category = Request.Form["Category"].Replace(" ", "_");
             educationalMaterial.Topics = ContentParser.GetTopicsFromString(Request.Form["inputTopicString"]);
             ViewBag.SuccessOnCreation = false;
