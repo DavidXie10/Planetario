@@ -20,7 +20,7 @@
     <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "EducationalMaterial")"></div>
     <div class="container">
         <h1>Formulario para agregar material educativo</h1>
-        @using (Html.BeginForm("SumbitEducationalMaterial", "EducationalMaterial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("SendEducationalMaterialForm", "EducationalMaterial", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div class="form">
@@ -73,7 +73,6 @@
                                 @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
                         <div class="row" style="margin-top: 15px;">
                             <div>
                                 <h5>Arrastre los archivos</h5>
@@ -140,7 +139,7 @@
                 allowedfileextensions: [],
                 paramname: 'files',
                 maxfiles: 5,
-                maxfilesize: 5, // in MB
+                maxfilesize: 100, // in MB
                 dragOver: function () {
                     $('#dropArea').addClass('active-drop');
                 },
@@ -155,7 +154,7 @@
                 },
                 uploadFinished: function (i, file, response, time) {
                     $('#uploadList').append('<li class="list-group-item">' + file.name + '</li>')
-                    document.querySelector("#imagesString").value += String(file.name) + "|";
+                    document.querySelector("#filesString").value += String(file.name) + "|";
                 }
             })
         })

@@ -49,5 +49,20 @@ namespace Planetarium.Models {
             }
             return listFromContent;
         }
+
+        public List<string> GetTopicsFromString(string topics)
+        {
+            List<string> topicsParsed = new List<string>();
+            string[] topicsList = topics.Split('|');
+            foreach (string topic in topicsList)
+            {
+                if (topic != "")
+                {
+                    topicsParsed.Add(topic.Replace("_", " "));
+                }
+
+            }
+            return topicsParsed;
+        }
     }
 }

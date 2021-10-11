@@ -7,26 +7,36 @@
 <body>
     <div class="container">
         <h1 style="margin:10px 0 20px 0;">Material Educativo</h1>
+        <div class="form-group has-feedback">
+            <label class="control-label">Buscador</label>
+            <input type="text" id="search" class="form-control" placeholder="Buscar por palabras claves, categorías o tópicos" autocomplete="off" />
+            <i class="glyphicon glyphicon-user form-control-feedback"></i>
+        </div>
+        <div id="filter-message"></div>
 
         @foreach (var educationalMaterials in @ViewBag.EducationalMaterials)
         {
-            <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
+            <div id="@educationalMaterials.Title" class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
                 <div class="card-body">
                     <h2 class="text-start">@educationalMaterials.Title </h2>
                     <h5>Autor: @educationalMaterials.Author</h5>
-                    <h9>Fecha de publicación: @educationalMaterials.Date</h9>
+                    <h9>Fecha de publicación: @educationalMaterials.PublicationDate</h9>
+                    <br />
+                    <h9>Pertenece a la actividad: "@educationalMaterials.ActivityTitle"</h9>
                     <span>
                         <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @educationalMaterials.Category</a></h5>
                         <h5>
                             Tópicos:
-                            @foreach (var topic in educationalMaterials.Topics)
-                            {
+                            @foreach (var topic in educationalMaterials.Topics) {
                                 <a class="badge rounded-pill bg-info"> @topic</a>
                             }
                         </h5>
                     </span>
                     <p class="card-text" style="margin-top: 15px;">
-                        Aquí va el material(?)
+                        @foreach (var material in educationalMaterials.EducationalMaterialFileNames) {
+                            <a href="~/Educational_Material/@material" download="@material">@material</a>
+                            <br />
+                        }
                     </p>
                 </div>
             </div>
@@ -35,3 +45,59 @@
     </div>
 </body>
 </html>
+
+<script>
+    async function main() {
+        document.getElementById("search").addEventListener("keyup", search);
+    }
+
+    function search() {
+        let text = document.getElementById("search").value;
+        var educationalMaterials = @Html.Raw(Json.Encode(ViewBag.EducationalMaterials))
+        matchAllTitles(educationalMaterials, text)
+    }
+    function matchAllTitles(educationalMaterials,text) {
+        var matching = new Boolean(false);
+        for (var material in educationalMaterials) {
+            matching = match(educationalMaterials[material].Title, text)
+                || match(educationalMaterials[material].Category, text)
+                || matchTopics(educationalMaterials[material].Topics, text);
+            if (text == "")
+                show(educationalMaterials[material].Title)
+            else if (matching)
+                show(educationalMaterials[material].Title)
+            else
+                hide(educationalMaterials[material].Title)
+        }
+        return matching;
+    }
+
+    function matchTopics(topics, word) {
+        var matching = new Boolean(false);
+        for (var topic in topics) {
+            matching = match(topics[topic], word);
+            if (matching)
+                return matching;
+        }
+        return matching;
+    }
+
+    function match(word, substring) {
+        return word.toLowerCase().includes(substring.toLowerCase());
+    }
+
+    function hide(elementId) {
+        document.getElementById(elementId).style.display = "none";
+    }
+
+    function show(elementId) {
+        document.getElementById(elementId).style.display = "block";
+    }
+
+    function filterMessageDisplay(message) {
+        document.getElementById("filter-message").innerHTML = message;
+    }
+
+    main();
+
+</script>

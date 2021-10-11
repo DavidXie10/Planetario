@@ -8,78 +8,85 @@ using Planetarium.Handlers;
 using Planetarium.Models;
 
 
-namespace Planetarium.Controllers
-{
+namespace Planetarium.Controllers {
     
-    public class EducationalMaterialController : Controller
-    {
+    public class EducationalMaterialController : Controller {
         public EducationalMaterialHandler DataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
-        public EducationalMaterialController()
-        {
+        public EducationalMaterialController() {
             DataAccess = new EducationalMaterialHandler();
             ContentParser = new ContentParser();
         }
 
-        public ActionResult ListEducationalMaterial()
-        {
+        public ActionResult ListEducationalMaterial() {
             ViewBag.EducationalMaterials = DataAccess.GetAllEducationalMaterial();
             return View();
         }
-        public ActionResult SumbitEducationalMaterial()
-        {
+
+        private List<SelectListItem> LoadCategories() {
+            List<string> categories = DataAccess.GetAllCategories();
+
+            List<SelectListItem> dropdownCategories = new List<SelectListItem>();
+            foreach (string category in categories) {
+                dropdownCategories.Add(new SelectListItem { Text = category, Value = category });
+            }
+
+            return dropdownCategories;
+        }
+
+        public ActionResult SubmitEducationalMaterial() {
+            ViewData["category"] = LoadCategories();
             ViewBag.EducationalMaterials = DataAccess.GetAllEducationalMaterial();
             ViewBag.DropDownActivitiesNames = LoadActivityNames();
             return View();
         }
 
         [HttpPost]
-        public ActionResult SendEducationalMaterialForm(EducationalMaterialModel educationalMaterial)
-        {
+        public ActionResult SendEducationalMaterialForm(EducationalMaterialModel educationalMaterial) {
             ActionResult view = RedirectToAction("Success", "Home");
-            educationalMaterial.EducationalMaterialFileNames = ContentParser.GetTopicsFromString(Request.Form["filesString"]);
+            educationalMaterial.EducationalMaterialFileNames = ContentParser.GetListFromString(Request.Form["filesString"]);
+
+            for (int i = 0; i < educationalMaterial.EducationalMaterialFileNames.Count; i++) {
+                educationalMaterial.EducationalMaterialFileNames[i] = educationalMaterial.EducationalMaterialFileNames[i].Replace(" ", "-").Replace(" ", "-");
+            }
+
+
+            educationalMaterial.Category = Request.Form["Category"].Replace(" ", "_");
+            educationalMaterial.Topics = ContentParser.GetTopicsFromString(Request.Form["inputTopicString"]);
             ViewBag.SuccessOnCreation = false;
-            try
-            {
+            try {
                 ViewBag.SuccessOnCreation = this.DataAccess.InsertEducationalMaterial(educationalMaterial);
-                if (ViewBag.SuccessOnCreation)
-                {
+                if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            }
-            catch (Exception e)
-            {
+            } catch {
                 //TODO: Cambiar el e.ToString()
                 TempData["Error"] = true;
-                TempData["WarningMessage"] = e.ToString();
+                TempData["WarningMessage"] = "Algo salio mal";
                 view = RedirectToAction("SumbitEducationalMaterial", "EducationalMaterial");
             }
 
             return view;
         }
-        public JsonResult GetTopicsList(string category)
-        {
+        public JsonResult GetTopicsList(string category){
             List<SelectListItem> topicsList = new List<SelectListItem>();
 
             List<string> topicsFromCategory = DataAccess.GetTopicsByCategory(category);
 
-            foreach (string topic in topicsFromCategory)
-            {
+            foreach (string topic in topicsFromCategory) {
                 topicsList.Add(new SelectListItem { Text = topic, Value = topic });
             }
 
             return Json(new SelectList(topicsList, "Value", "Text"));
         }
 
-        private List<SelectListItem> LoadActivityNames()
-        {
+        private List<SelectListItem> LoadActivityNames() {
             List<string> activitiesNames = DataAccess.GetAllActivities();
 
             List<SelectListItem> dropdownActivities = new List<SelectListItem>();
-            foreach (string activity in activitiesNames)
-            {
+            foreach (string activity in activitiesNames) {
                 dropdownActivities.Add(new SelectListItem { Text = activity, Value = activity });
             }
 
@@ -87,10 +94,8 @@ namespace Planetarium.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files)
-        {
-            foreach (var file in files)
-            {
+        public ActionResult UploadFiles(IEnumerable<HttpPostedFileBase> files) {
+            foreach (var file in files) {
                 string filePath = file.FileName.Replace("_", "-").Replace(" ", "-");
                 file.SaveAs(Path.Combine(Server.MapPath("~/Educational_Material/"), filePath));
             }
