@@ -8,24 +8,7 @@ using System.IO;
 using Planetarium.Models;
 
 namespace Planetarium.Handlers {
-    public class EmployeesHandler {
-        private SqlConnection connection;
-        private string connectionRoute;
-
-        public EmployeesHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
-            connection = new SqlConnection(connectionRoute);
-        }
-
-        private DataTable CreateTableFromQuery(string query) {
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
-            DataTable queryTable = new DataTable();
-            connection.Open();
-            tableAdapter.Fill(queryTable);
-            connection.Close();
-            return queryTable;
-        }
+    public class EmployeesHandler : DatabaseHandler {
 
         public List<EmployeeModel> GetAllEmployees() {
             List<EmployeeModel> employees = new List<EmployeeModel>();
@@ -91,12 +74,11 @@ namespace Planetarium.Handlers {
 
             AddParametersToQueryCommand(queryCommand, employee);
 
-            connection.Open();
-            bool employeeInsertSuccess = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close();
+            employeeCreated = DatabaseQuery(queryCommand);
+
             bool languageInsertSuccess = InsertLanguages(employee);
 
-            if (employeeInsertSuccess && languageInsertSuccess) {
+            if (employeeCreated && languageInsertSuccess) {
                 employeeCreated = true;
             }
 
@@ -122,16 +104,13 @@ namespace Planetarium.Handlers {
         }
 
         public bool InsertLanguages(EmployeeModel employee) {
-            bool sucess = false;
+            bool success = false;
             foreach (string language in employee.Languages) {
                 string languageQuery = "INSERT INTO Idioma (cedulaPK, idiomaPK)" +
                         "VALUES ('" + employee.Dni + "','" + language + "')";
-                SqlCommand languageQueryCommand = new SqlCommand(languageQuery, connection);
-                connection.Open();
-                sucess = languageQueryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                success = DatabaseQuery(languageQuery);
             }
-            return sucess;
+            return success;
         }
     }
 }

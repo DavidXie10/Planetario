@@ -8,25 +8,7 @@ using System.IO;
 using Planetarium.Models;
 
 namespace Planetarium.Handlers {
-    public class NewsHandler {
-
-        private SqlConnection connection;
-        private string connectionRoute;
-
-        public NewsHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
-            connection = new SqlConnection(connectionRoute);
-        }
-
-        private DataTable CreateTableFromQuery(string query) {
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
-            DataTable queryTable = new DataTable();
-            connection.Open();
-            tableAdapter.Fill(queryTable);
-            connection.Close();
-            return queryTable;
-        }
+    public class NewsHandler : DatabaseHandler {
 
         public List<NewsModel> GetAllNews() {
             string query = "SELECT * FROM Noticia " +
@@ -130,10 +112,7 @@ namespace Planetarium.Handlers {
                 
                 string query = "INSERT INTO ImagenPerteneceANoticia " +
                         "VALUES ('" + news.Title + "','" + imageRef.Replace("_", "-").Replace(" ", "-") + "')";
-                SqlCommand queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                success = DatabaseQuery(query);
             }
 
             return success;
@@ -145,16 +124,14 @@ namespace Planetarium.Handlers {
             foreach (string topic in news.Topics) {
                 string query = "INSERT INTO NoticiaPerteneceATopico " +
                         "VALUES ('" + news.Title + "','" + topic + "')";
-                SqlCommand queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                success = DatabaseQuery(query);
             }
 
             return success;
         }
 
         public bool PublishNews(NewsModel news) {
+            bool success = false;
             string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " +
                            "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'202210135',@contenido,@autor)";
             SqlCommand queryCommand = new SqlCommand(query, connection);
@@ -165,10 +142,7 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@contenido", news.Content);
             queryCommand.Parameters.AddWithValue("@autor", news.Author);
 
-            connection.Open();
-            bool success = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close();
-
+            success = DatabaseQuery(queryCommand);
             success = InsertNewsTopics(news);
 
             if (news.ImagesRef != null) {

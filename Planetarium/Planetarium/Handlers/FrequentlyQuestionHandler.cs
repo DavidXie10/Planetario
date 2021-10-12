@@ -9,17 +9,10 @@ using System.Data.SqlClient;
 using System.Configuration;
 
 namespace Planetarium.Handlers {
-    public class FrequentlyQuestionHandler {
-
-        private SqlConnection connection;
-        private string connectionRoute;
-
-        public FrequentlyQuestionHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
-            connection = new SqlConnection(connectionRoute);
-        }
+    public class FrequentlyQuestionHandler : DatabaseHandler{
 
         public bool CreateFrequentlyAskedQuestion(FrequentlyQuestionModel faqQuestion) {
+            bool success = false;
             string query = "INSERT INTO PreguntaFrecuente (pregunta, respuesta, cedulaFK) " +
                            "VALUES (@pregunta, @respuesta, '503250235')";
             SqlCommand queryCommand = new SqlCommand(query, connection);
@@ -27,9 +20,7 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@pregunta", faqQuestion.Question);
             queryCommand.Parameters.AddWithValue("@respuesta", faqQuestion.Answer);
 
-            connection.Open();
-            bool success = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close();
+            success = DatabaseQuery(queryCommand);
 
             query = "SELECT IDENT_CURRENT('PreguntaFrecuente') ";
             DataTable resultingTable = CreateTableFromQuery(query);
@@ -39,22 +30,9 @@ namespace Planetarium.Handlers {
             foreach (string topic in faqQuestion.Topics) {
                 query = "INSERT INTO PreguntaFrecuentePerteneceATopico " +
                         "VALUES (" + questionId + ",'" + topic + "')";
-                queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                success = DatabaseQuery(query);
             }
             return success;
-        }
-
-        private DataTable CreateTableFromQuery(string query) {
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
-            DataTable queryTable = new DataTable();
-            connection.Open();
-            tableAdapter.Fill(queryTable);
-            connection.Close();
-            return queryTable;
         }
 
         public List<FrequentlyQuestionModel> GetAllQuestions(Dictionary<string, List<FrequentlyQuestionModel>> questionsSortedByCategory) {

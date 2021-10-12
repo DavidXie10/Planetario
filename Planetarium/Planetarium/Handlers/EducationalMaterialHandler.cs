@@ -9,24 +9,8 @@ using System.IO;
 using Planetarium.Models;
 
 namespace Planetarium.Handlers {
-    public class EducationalMaterialHandler {
-        private SqlConnection connection;
-        private string connectionRoute;
+    public class EducationalMaterialHandler : DatabaseHandler {
 
-        public EducationalMaterialHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
-            connection = new SqlConnection(connectionRoute);
-        }
-
-        private DataTable CreateTableFromQuery(string query) {
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
-            DataTable queryTable = new DataTable();
-            connection.Open();
-            tableAdapter.Fill(queryTable);
-            connection.Close();
-            return queryTable;
-        }
 
         public List<EducationalMaterialModel> GetAllEducationalMaterial() {
             string query = "SELECT * FROM MaterialEducativo " +
@@ -150,6 +134,7 @@ namespace Planetarium.Handlers {
         }
 
         public bool InsertEducationalMaterial(EducationalMaterialModel educationalMaterial) {
+            bool success = false;
             string educationalMaterialQuery = "INSERT INTO MaterialEducativo (tituloPK, autorPK, fechaPublicacion ) " +
                            "VALUES(@tituloPK,@autorPK, CAST( GETDATE() AS Date ))";
             SqlCommand queryCommand = new SqlCommand(educationalMaterialQuery, connection);
@@ -157,9 +142,7 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@tituloPK", educationalMaterial.Title);
             queryCommand.Parameters.AddWithValue("@autorPK", educationalMaterial.Author);
 
-            connection.Open();
-            bool success = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close();
+            success = DatabaseQuery(queryCommand);
 
             success = InsertEducationalMaterialTopics(educationalMaterial);
 
@@ -200,9 +183,7 @@ namespace Planetarium.Handlers {
                 queryCommand.Parameters.AddWithValue("@tituloMaterial", educationalMaterial.Title);
                 queryCommand.Parameters.AddWithValue("@autor", educationalMaterial.Author);
 
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                success = DatabaseQuery(queryCommand);
             }
 
             return success;
@@ -212,12 +193,11 @@ namespace Planetarium.Handlers {
             bool success = false;
 
             foreach (string topic in educationalMaterial.Topics) {
+                
                 string query = "INSERT INTO MaterialEducativoPerteneceATopico " +
                         "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + topic + "')";
-                SqlCommand queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                
+                success = DatabaseQuery(query);
             }
 
             return success;
@@ -229,10 +209,7 @@ namespace Planetarium.Handlers {
             foreach (string file in educationalMaterial.EducationalMaterialFileNames) {
                 string query = "INSERT INTO ArchivoDeMaterialEducativo " +
                         "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + file + "')";
-                SqlCommand queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                success = DatabaseQuery(query);
             }
 
             return success;

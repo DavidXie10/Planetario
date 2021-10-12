@@ -6,30 +6,19 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using Planetarium.Models;
+using static Planetarium.Handlers.DatabaseHandler;
 
 namespace Planetarium.Handlers {
-    public class EducationalActivityHandler {
-        private SqlConnection connection;
-        private string connectionRoute;
+    public class EducationalActivityHandler : DatabaseHandler {
 
-        public EducationalActivityHandler() {
-            connectionRoute = ConfigurationManager.ConnectionStrings["PlanetariumConnection"].ToString();
-            connection = new SqlConnection(connectionRoute);
-        }
 
-        private DataTable CreateTableFromQuery(string query) {
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
-            DataTable queryTable = new DataTable();
-            connection.Open();
-            tableAdapter.Fill(queryTable);
-            connection.Close();
-            return queryTable;
-        }
 
         public List<string> GetAllCategories() {
             List<string> categories = new List<string>();
-            string query = "SELECT DISTINCT categoria FROM Topico";
+
+            string query =  "SELECT DISTINCT categoria " +
+                            "FROM Topico";
+
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
                 categories.Add(Convert.ToString(column["categoria"]));
@@ -46,7 +35,6 @@ namespace Planetarium.Handlers {
                             "WHERE T.categoria LIKE '%" + category + "%';";
 
             DataTable topicsDataTable = CreateTableFromQuery(query);
-
             foreach (DataRow column in topicsDataTable.Rows) {
                 topics.Add(Convert.ToString(column["nombrePK"]));
             }
@@ -55,18 +43,15 @@ namespace Planetarium.Handlers {
         }
 
         public bool ProposeEducationalActivity(EducationalActivityModel educationalActivity) {
+            bool success = false;
             string query = "INSERT INTO ActividadEducativa (tituloPK, fechaInicioPK, duracion, capacidadMaxima, precio, descripcion, nivelComplejidad, estado, tipo, banderaVirtual, enlace, banderaPresencial, cedulaFK) " +
                            "VALUES(@tituloPK,@fechaInicioPK,@duracion,@capacidadMaxima,@precio,@descripcion,@nivelComplejidad,0,@tipo,@banderaVirtual,@enlace,@banderaPresencial,'106260895') ";
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
             //TO-DO: Cambiar cedula quemada
-
             AddParametersToQueryCommand(queryCommand, educationalActivity);
 
-            connection.Open();
-            bool success = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close();
-
+            success = DatabaseQuery(queryCommand);
             success = InsertActivitiesTopics(educationalActivity);
             success = InsertActivitiesAudiences(educationalActivity);
 
@@ -95,12 +80,9 @@ namespace Planetarium.Handlers {
             bool success = false;
 
             foreach (string topic in educationalActivity.Topics) {
-                string query = "INSERT INTO ActividadEducativaPerteneceATopico " +
-                        "VALUES ('" + educationalActivity.Title + "','" + educationalActivity.Date + "','" + topic + "')";
-                SqlCommand queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                string query =  "INSERT INTO ActividadEducativaPerteneceATopico " +
+                                "VALUES ('" + educationalActivity.Title + "','" + educationalActivity.Date + "','" + topic + "')";
+                success = DatabaseQuery(query);
             }
 
             return success;
@@ -110,18 +92,18 @@ namespace Planetarium.Handlers {
             bool success = false;
 
             foreach (string audience in educationalActivity.TargetAudience) {
-                string query = "INSERT INTO PublicoMeta " +
-                        "VALUES ('" + educationalActivity.Title + "','" + educationalActivity.Date + "','" + audience + "')";
-                SqlCommand queryCommand = new SqlCommand(query, connection);
-                connection.Open();
-                success = queryCommand.ExecuteNonQuery() >= 1;
-                connection.Close();
+                string query =  "INSERT INTO PublicoMeta " +
+                                "VALUES ('" + educationalActivity.Title + "','" + educationalActivity.Date + "','" + audience + "')";
+                success = DatabaseQuery(query);
             }
 
             return success;
         }
 
         public List<EducationalActivityModel> GetAllActivities() {
+
+            List<EducationalActivityModel> activities = new List<EducationalActivityModel>();
+
             string query = "SELECT DISTINCT F.nombre+ ' ' + F.apellido 'publicador',"
                             + " AE.tituloPK,"
                             + " AE.descripcion,"
@@ -140,12 +122,12 @@ namespace Planetarium.Handlers {
                             + " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
                             + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
                             + " JOIN Idioma I ON I.cedulaPK = AE.cedulaFK ORDER BY AE.fechaInicioPK ";
-            DataTable resultingTable = CreateTableFromQuery(query);
-            List<EducationalActivityModel> activities = new List<EducationalActivityModel>();
 
+            DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
                 activities.Add(CreateInstanceEducationalActivity(rawEducationalInfo));
             }
+
             LinkAllTargetAudience(activities);
             LinkAllTopics(activities);
 
@@ -178,10 +160,10 @@ namespace Planetarium.Handlers {
         }
 
         private DataTable GetTargetAudiencePerEducationalActivity(string activityTitle, string initialDate) {
-            string query = "SELECT publicoMetaPK " +
-                "FROM PublicoMeta INNER JOIN ActividadEducativa" +
-                " ON PublicoMeta.fechaInicioPK = ActividadEducativa.fechaInicioPK AND PublicoMeta.tituloPK = ActividadEducativa.tituloPK " +
-                "WHERE PublicoMeta.tituloPK = '" + activityTitle + "'" + " AND PublicoMeta.fechaInicioPK = " + "'" + initialDate + "';";
+            string query =  "SELECT publicoMetaPK " +
+                            "FROM PublicoMeta INNER JOIN ActividadEducativa " +
+                            "ON PublicoMeta.fechaInicioPK = ActividadEducativa.fechaInicioPK AND PublicoMeta.tituloPK = ActividadEducativa.tituloPK " +
+                            "WHERE PublicoMeta.tituloPK = '" + activityTitle + "'" + " AND PublicoMeta.fechaInicioPK = " + "'" + initialDate + "';";
             return CreateTableFromQuery(query);
         }
 
@@ -193,7 +175,10 @@ namespace Planetarium.Handlers {
         }
 
         private DataTable GetTopicsPerActivityEducationalActivity(string activityTitle) {
-            string query = "SELECT nombreTopicoPKFK FROM ActividadEducativa INNER JOIN ActividadEducativaPerteneceATopico ON ActividadEducativa.tituloPK = ActividadEducativaPerteneceATopico.tituloPKFK  WHERE tituloPK = '" + activityTitle + "'";
+            string query =  "SELECT nombreTopicoPKFK " +
+                            "FROM ActividadEducativa INNER JOIN ActividadEducativaPerteneceATopico " +
+                            "ON ActividadEducativa.tituloPK = ActividadEducativaPerteneceATopico.tituloPKFK " +
+                            "WHERE tituloPK = '" + activityTitle + "'";
             return CreateTableFromQuery(query);
         }
 
@@ -215,11 +200,7 @@ namespace Planetarium.Handlers {
 
         public bool UpdateActivityState(string activityTitle, int state) {
             string query = "UPDATE ActividadEducativa SET estado = " + state + " WHERE tituloPK = '" + activityTitle + "' ";
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            connection.Open();
-            bool activityStateUpdateSuccess = queryCommand.ExecuteNonQuery() >= 1;
-            connection.Close();
-            return activityStateUpdateSuccess;
+            return DatabaseQuery(query);
         }
     }
 }
