@@ -16,8 +16,10 @@
         <h1>Encuéntranos</h1>
         <hr />
         <div class="text-center">
-            <img src="~/images/PlanetariumUCR/planetarioUCR.jpg" height="500" width="850" class="rounded" alt="Planetario de la UCR ">
+            <a href="https://www.youtube.com/watch?v=XaxXnrJA23k" target="_blank"><img src="~/images/PlanetariumUCR/planetarioUCR.jpg" height="500" width="850" class="rounded" alt="Planetario de la UCR "></a>
         </div>   
+        <div>
+        </div>
         <hr />
         <div class="row">
             <div class="col-md-6">
@@ -26,7 +28,6 @@
                     <div class="card-body">
                         <p class="card-text">
                             <ul>
-
 
                                 @foreach (string parking in @ViewBag.Parking)
                                 {
@@ -42,7 +43,9 @@
             </div>
             <div class="col-md-6">
                 <div class="card w-100 border-info mb-3">
-                    <div class="card-header">Horarios</div>
+                    <div class="card-header">
+                    <i class="fas fa-calendar"></i>
+                    Horarios</div>
                     <div class="card-body">
                         <p class="card-text">
                             <ul>
@@ -65,6 +68,7 @@
                     <div class="card-header">Medio de Transporte</div>
                     <div class="card-body">
                         <p class="card-text">
+                            <i class="fas fa-bus"></i>
                             Buses <br />
                             <ul>
 
@@ -76,7 +80,7 @@
                                 }
 
                             </ul>
-
+                            <i class="fas fa-subway"></i>
                             Trenes <br />
                             <ul>
 

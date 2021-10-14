@@ -14,6 +14,7 @@ namespace Planetarium.Controllers
         {
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
+            ViewBag.Us = WhoWeAre();
             ViewBag.Activities = educationalActivityHandler.GetAllActivities();
             ViewBag.News = dataAccess.GetAllNews();
             ViewBag.length = 3;
