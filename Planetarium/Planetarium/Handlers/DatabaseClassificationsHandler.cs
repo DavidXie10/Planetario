@@ -52,6 +52,6 @@ namespace Planetarium.Handlers {
                 var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
                 topicsList.Add(tempTopic);
             }
-        }
+        }  
     }
 }

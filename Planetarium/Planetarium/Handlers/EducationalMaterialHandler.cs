@@ -13,12 +13,16 @@ namespace Planetarium.Handlers {
 
 
         public List<EducationalMaterialModel> GetAllEducationalMaterial() {
-            string query = "SELECT * FROM MaterialEducativo " +
-                           "ORDER BY fechaPublicacion DESC ";
+            string query = "SELECT DISTINCT ME.autorPK, ME.tituloPK, ME.fechaPublicacion, T.categoria " +
+                           "FROM MaterialEducativo ME " +
+                           "INNER JOIN MaterialEducativoPerteneceATopico MEPAT ON ME.autorPK = MEPAT.autorMaterialEducativoPKFK "  +
+                           "AND ME.tituloPK = MEPAT.tituloMaterialEducativoPKFK " +
+                           "INNER JOIN Topico T ON MEPAT.nombreTopicoPKFK = T.nombrePK " +
+                           "ORDER BY fechaPublicacion DESC";
+
             DataTable resultingNewsTable = CreateTableFromQuery(query);
             List<EducationalMaterialModel> educationalMaterials = CreateEducationalMaterialFromDataTable(resultingNewsTable);
             LinkAllFeatureWithTopics(CreateDictionary(educationalMaterials));
-            LinkAllEducationalMaterialWithCategory(educationalMaterials);
             LinkAllEducationalMaterialWithEducationalActivity(educationalMaterials);
             LinkAllEducationalMaterialWithFileName(educationalMaterials);
             return educationalMaterials;
@@ -56,6 +60,7 @@ namespace Planetarium.Handlers {
                 Author = Convert.ToString(educationalMaterialRawInfo["autorPK"]),
                 Title = Convert.ToString(educationalMaterialRawInfo["tituloPK"]),
                 PublicationDate = Convert.ToDateTime(educationalMaterialRawInfo["fechaPublicacion"]),
+                Category = Convert.ToString(educationalMaterialRawInfo["categoria"])
             };
         }
 
@@ -97,34 +102,6 @@ namespace Planetarium.Handlers {
             return CreateTableFromQuery(query);
         }
 
-        private void LinkAllEducationalMaterialWithCategory(List<EducationalMaterialModel> educationalMaterials) {
-            foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
-                DataTable resultingTableOfEducationalMaterialWithTheirCategory = GetEducationalMaterialWithCategoryTable(educationalMaterial.Topics[0]);
-                LinkEducationalMaterialWithCategory(educationalMaterial, resultingTableOfEducationalMaterialWithTheirCategory);
-            }
-        }
-
-        private DataTable GetEducationalMaterialWithCategoryTable(string educationalMaterialTopic) {
-            string query = "SELECT categoria FROM MaterialEducativoPerteneceATopico " +
-                        "INNER JOIN Topico ON nombrePK = nombreTopicoPKFK  " +
-                        "WHERE nombrePK = '" + educationalMaterialTopic + "'";
-            return CreateTableFromQuery(query);
-        }
-
-        private void LinkEducationalMaterialWithCategory(EducationalMaterialModel educationalMaterial, DataTable resultingTable) {
-            educationalMaterial.Category = Convert.ToString(resultingTable.Rows[0]["categoria"]);
-        }
-
-        //private DataTable GetEducationalMaterialWithKeywordsTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
-        //    string query = "SELECT palabraClave FROM MaterialEducativo ME " +
-        //                "INNER JOIN PalabraClaveMaterialEducativo PC ON(ME.tituloPK = PC.tituloPK " +
-        //                "AND ME.autorPK = PC.autorPK) " +
-        //                "WHERE ME.tituloPK = '" + educationalMaterialTitle + "' " +
-        //                "AND ME.autorPK = '" + educationalMaterialAuthor + "' " +
-        //                "ORDER BY fechaPublicacion DESC";
-        //    return CreateTableFromQuery(query);
-        //}
-
         public bool InsertEducationalMaterial(EducationalMaterialModel educationalMaterial) {
             bool success = false;
             string educationalMaterialQuery = "INSERT INTO MaterialEducativo (tituloPK, autorPK, fechaPublicacion ) " +
@@ -138,8 +115,7 @@ namespace Planetarium.Handlers {
 
             success = InsertEducationalMaterialTopics(educationalMaterial);
 
-            if (educationalMaterial.EducationalMaterialFileNames != null)
-            {
+            if (educationalMaterial.EducationalMaterialFileNames != null) {
                 success = InsertEducationalMaterialFiles(educationalMaterial);
             }
 
@@ -184,26 +160,21 @@ namespace Planetarium.Handlers {
         private bool InsertEducationalMaterialTopics(EducationalMaterialModel educationalMaterial) {
             bool success = false;
 
-            foreach (string topic in educationalMaterial.Topics) {
-                
+            foreach (string topic in educationalMaterial.Topics) {              
                 string query = "INSERT INTO MaterialEducativoPerteneceATopico " +
-                        "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + topic + "')";
-                
+                        "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + topic + "')";         
                 success = DatabaseQuery(query);
             }
-
             return success;
         }
 
         private bool InsertEducationalMaterialFiles(EducationalMaterialModel educationalMaterial) {
             bool success = false;
-
             foreach (string file in educationalMaterial.EducationalMaterialFileNames) {
                 string query = "INSERT INTO NombreArchivoMaterialEducativo " +
                         "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + file + "')";
                 success = DatabaseQuery(query);
             }
-
             return success;
         }
 
@@ -211,8 +182,7 @@ namespace Planetarium.Handlers {
             List<string> activitiesTitles = new List<string>();
             string query = "SELECT * FROM ActividadEducativa ";
             DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow column in resultingTable.Rows)
-            {
+            foreach (DataRow column in resultingTable.Rows) {
                 activitiesTitles.Add( Convert.ToString(column["tituloPK"]));                     
             }
             return activitiesTitles;

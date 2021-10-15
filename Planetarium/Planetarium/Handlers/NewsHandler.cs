@@ -6,17 +6,20 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using Planetarium.Models;
+using System.Linq;
 
 namespace Planetarium.Handlers {
     public class NewsHandler : DatabaseClassificationsHandler {
 
         public List<NewsModel> GetAllNews() {
-            string query = "SELECT * FROM Noticia " +
+            string query = "SELECT DISTINCT N.tituloPK, N.resumen, N.fechaPublicacion, N.cedulaFK, N.contenido, N.autor, T.categoria " +
+                           "FROM Noticia N " +
+                           "INNER JOIN NoticiaPerteneceATopico NPAT ON NPAT.tituloPKFK = N.tituloPK " +
+                           "INNER JOIN Topico T ON T.nombrePK = NPAT.nombreTopicoPKFK " +
                            "ORDER BY fechaPublicacion DESC ";
             DataTable resultingNewsTable = CreateTableFromQuery(query);
             List<NewsModel> news = CreateNewsFromDataTable(resultingNewsTable);
             LinkAllFeatureWithTopics(CreateDictionary(news));
-            LinkAllNewsWithCategory(news);
             LinkAllNewsWithImages(news);
             return news;
         }
@@ -45,6 +48,7 @@ namespace Planetarium.Handlers {
                 PublisherId = Convert.ToString(scoopRawInfo["cedulaFK"]),
                 Description = Convert.ToString(scoopRawInfo["resumen"]),
                 Author = Convert.ToString(scoopRawInfo["autor"]),
+                Category = Convert.ToString(scoopRawInfo["categoria"])
             };
         }
 
@@ -54,34 +58,6 @@ namespace Planetarium.Handlers {
                         "WHERE tituloPK = '" + keys[0] + "' " +
                         "ORDER BY fechaPublicacion DESC";
             return CreateTableFromQuery(query);
-        }
-
-        private void LinkScoopWithTopics(NewsModel scoop, DataTable resultingTable) {
-            scoop.Topics = new List<string>();
-            foreach (DataRow column in resultingTable.Rows) {
-                var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
-                scoop.Topics.Add(tempTopic);
-            }
-        }
-
-        private void LinkAllNewsWithCategory(List<NewsModel> news) {
-            foreach (NewsModel scoop in news) {
-                DataTable resultingTableOfNewsWithTheirCategory = GetNewsWithCategoryTable(scoop.Topics[0]);
-                LinkScoopWithCategory(scoop, resultingTableOfNewsWithTheirCategory);
-            }
-        }
-
-        private DataTable GetNewsWithCategoryTable(string scoopTopic) {
-            string query = "SELECT * FROM NoticiaPerteneceATopico " +
-                        "INNER JOIN Topico ON Topico.nombrePK = NoticiaPerteneceATopico.nombreTopicoPKFK  " +
-                        "WHERE Topico.nombrePK = '" + scoopTopic + "'";
-            return CreateTableFromQuery(query);
-        }
-
-        private void LinkScoopWithCategory(NewsModel scoop, DataTable resultingTable) {
-            foreach (DataRow column in resultingTable.Rows) {
-                scoop.Category = Convert.ToString(column["categoria"]);
-            }
         }
 
         private void LinkAllNewsWithImages(List<NewsModel> news) {
@@ -152,33 +128,5 @@ namespace Planetarium.Handlers {
 
             return success;
         }
-
-        /*public List<string> GetAllCategories() {
-            List<string> categories = new List<string>();
-
-            string query = "SELECT DISTINCT categoria FROM Topico";
-            DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow column in resultingTable.Rows) {
-                categories.Add(Convert.ToString(column["categoria"]));
-            }
-
-            return categories;
-        }*/
-
-        /*public List<string> GetTopicsByCategory(string category) {
-            List<string> topics = new List<string>();
-
-            string query = "SELECT nombrePK " +
-                            "FROM Topico T " +
-                            "WHERE T.categoria LIKE '%" + category + "%';";
-
-            DataTable topicsDataTable = CreateTableFromQuery(query);
-
-            foreach (DataRow column in topicsDataTable.Rows) {
-                topics.Add(Convert.ToString(column["nombrePK"]));
-            }
-
-            return topics;
-        }*/
     }
 }
