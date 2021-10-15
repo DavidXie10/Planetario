@@ -94,16 +94,8 @@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/GenericMultiselect.js"></script>
     <script type="text/javascript" src="~/Scripts/categoriesAndTopics.js"></script>
-
-
     <script type="text/javascript">
-
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
-        function addTopicButton(element) {
-            if (element != "") {
-                multiSelectTopics.addButton(element);
-            }
-        }
     </script>
 
     </body>
@@ -139,7 +131,7 @@
                 allowedfileextensions: [],
                 paramname: 'files',
                 maxfiles: 5,
-                maxfilesize: 100, // in MB
+                maxfilesize: 1000, // in MB
                 dragOver: function () {
                     $('#dropArea').addClass('active-drop');
                 },

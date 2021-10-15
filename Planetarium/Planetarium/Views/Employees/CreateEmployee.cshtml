@@ -138,7 +138,7 @@
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.Languages)
-                                @Html.DropDownList("defaultOptionSelector", Languanges, "-Seleccione sus idiomas-", new { @class = "form-control", @onchange = "addButton(this.value)" })
+                                @Html.DropDownList("languageSelect", Languanges, "-Seleccione sus idiomas-", new { @class = "form-control", @onchange = "addLanguageButton(this.value)" })
                             </div>
                         </div>
 
@@ -147,11 +147,11 @@
                                 <h4 class="text-success text-center">Idiomas Seleccionados</h4>
                             </div>
 
-                            <div class="card-body" id="defaultButtonContainer">
+                            <div class="card-body" id="languagesContainer">
 
                             </div>
 
-                            <input type="text" name="defaultInputString" id="defaultInputString" style="display: none;" />
+                            <input type="text" name="defaultInputString" id="inputLanguageString" style="display: none;" />
                         </div>
                     </div>
 
@@ -173,12 +173,15 @@
                     </div>
 
                 </div>
-                
+
                 <input type="submit" style="margin-top: 20px;" class="btn btn-success w-25" value="Crear Funcionario" />
             </div>
         }
     </div>
     <script src="~/Scripts/GenericMultiselect.js"></script>
+    <script type="text/javascript">
+        let multiSelectLanguages = new GenericMultiSelect("#languageSelect", "#languagesContainer", "#inputLanguageString");
+    </script>
 
 </body>
 
