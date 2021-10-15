@@ -8,17 +8,25 @@ using System.IO;
 using Planetarium.Models;
 
 namespace Planetarium.Handlers {
-    public class NewsHandler : DatabaseHandler {
+    public class NewsHandler : DatabaseClassificationsHandler {
 
         public List<NewsModel> GetAllNews() {
             string query = "SELECT * FROM Noticia " +
                            "ORDER BY fechaPublicacion DESC ";
             DataTable resultingNewsTable = CreateTableFromQuery(query);
             List<NewsModel> news = CreateNewsFromDataTable(resultingNewsTable);
-            LinkAllNewsWithTopics(news);
+            LinkAllFeatureWithTopics(CreateDictionary(news));
             LinkAllNewsWithCategory(news);
             LinkAllNewsWithImages(news);
             return news;
+        }
+
+        private Dictionary<string[], List<string>> CreateDictionary (List<NewsModel> news) {
+            Dictionary<string[], List<string>> tempDictionary = new Dictionary<string[], List<string>>();
+            foreach (NewsModel newsInstance in news) {
+                tempDictionary.Add(new string[] { newsInstance.Title }, newsInstance.Topics = new List<string>());
+            }
+            return tempDictionary;
         }
 
         private List<NewsModel> CreateNewsFromDataTable(DataTable resultingNewsTable) {
@@ -40,17 +48,10 @@ namespace Planetarium.Handlers {
             };
         }
 
-        private void LinkAllNewsWithTopics(List<NewsModel> news) {
-            foreach (NewsModel scoop in news) {
-                DataTable resultingTableOfNewsWithTheirTopic = GetNewsWithTopicsTable(scoop.Title);
-                LinkScoopWithTopics(scoop, resultingTableOfNewsWithTheirTopic);
-            }
-        }
-
-        private DataTable GetNewsWithTopicsTable (string scoopTitle) {
+        override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
             string query = "SELECT * FROM Noticia " +
                         "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
-                        "WHERE tituloPK = '" + scoopTitle + "' " +
+                        "WHERE tituloPK = '" + keys[0] + "' " +
                         "ORDER BY fechaPublicacion DESC";
             return CreateTableFromQuery(query);
         }
@@ -152,7 +153,7 @@ namespace Planetarium.Handlers {
             return success;
         }
 
-        public List<string> GetAllCategories() {
+        /*public List<string> GetAllCategories() {
             List<string> categories = new List<string>();
 
             string query = "SELECT DISTINCT categoria FROM Topico";
@@ -162,9 +163,9 @@ namespace Planetarium.Handlers {
             }
 
             return categories;
-        }
+        }*/
 
-        public List<string> GetTopicsByCategory(string category) {
+        /*public List<string> GetTopicsByCategory(string category) {
             List<string> topics = new List<string>();
 
             string query = "SELECT nombrePK " +
@@ -178,6 +179,6 @@ namespace Planetarium.Handlers {
             }
 
             return topics;
-        }
+        }*/
     }
 }

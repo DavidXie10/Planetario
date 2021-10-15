@@ -142,6 +142,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\DatabaseClassificationsHandler.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
     <Compile Include="Handlers\EducationalMaterialHandler.cs" />

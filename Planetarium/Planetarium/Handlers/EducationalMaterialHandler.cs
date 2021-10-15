@@ -9,7 +9,7 @@ using System.IO;
 using Planetarium.Models;
 
 namespace Planetarium.Handlers {
-    public class EducationalMaterialHandler : DatabaseHandler {
+    public class EducationalMaterialHandler : DatabaseClassificationsHandler {
 
 
         public List<EducationalMaterialModel> GetAllEducationalMaterial() {
@@ -82,16 +82,16 @@ namespace Planetarium.Handlers {
 
         private void LinkAllEducationalMaterialWithTopics(List<EducationalMaterialModel> educationalMaterials) {
             foreach (EducationalMaterialModel educationalMaterial in educationalMaterials) {
-                DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithTopicsTable(educationalMaterial.Title, educationalMaterial.Author);
-                LinkEducationalMaterialWithTopics(educationalMaterial, resultingTableOfNewsWithTheirTopic);
+                //DataTable resultingTableOfNewsWithTheirTopic = GetEducationalMaterialWithTopicsTable(educationalMaterial.Title, educationalMaterial.Author);
+                //LinkEducationalMaterialWithTopics(educationalMaterial, resultingTableOfNewsWithTheirTopic);
             }
         }
 
-        private DataTable GetEducationalMaterialWithTopicsTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
+        override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
             string query = "SELECT nombreTopicoPKFK FROM MaterialEducativo " +
                        "INNER JOIN MaterialEducativoPerteneceATopico ON(tituloPK = tituloMaterialEducativoPKFK " +
                        "AND autorPK = autorMaterialEducativoPKFK) " +
-                       "WHERE tituloPK = '" + educationalMaterialTitle + "' AND autorPK = '" + educationalMaterialAuthor + "' " +
+                       "WHERE tituloPK = '" + keys[0] + "' AND autorPK = '" + keys[1] + "' " +
                        "ORDER BY fechaPublicacion DESC";
 
             return CreateTableFromQuery(query);
@@ -215,7 +215,7 @@ namespace Planetarium.Handlers {
             return success;
         }
 
-        public List<string> GetTopicsByCategory(string category) {
+        /*public List<string> GetTopicsByCategory(string category) {
             List<string> topics = new List<string>();
 
             string query = "SELECT nombrePK " +
@@ -229,7 +229,7 @@ namespace Planetarium.Handlers {
             }
 
             return topics;
-        }
+        }*/
 
         public List<string> GetAllActivities() {
             List<string> activitiesTitles = new List<string>();
@@ -242,7 +242,7 @@ namespace Planetarium.Handlers {
             return activitiesTitles;
         }
 
-        public List<string> GetAllCategories() {
+        /*public List<string> GetAllCategories() {
             List<string> categories = new List<string>();
 
             string query = "SELECT DISTINCT categoria FROM Topico";
@@ -252,7 +252,7 @@ namespace Planetarium.Handlers {
             }
 
             return categories;
-        }
+        }*/
 
     }
 

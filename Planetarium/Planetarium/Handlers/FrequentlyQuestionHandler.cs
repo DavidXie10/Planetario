@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 
 namespace Planetarium.Handlers {
-    public class FrequentlyQuestionHandler : DatabaseHandler{
+    public class FrequentlyQuestionHandler : DatabaseClassificationsHandler {
 
         public bool CreateFrequentlyAskedQuestion(FrequentlyQuestionModel faqQuestion) {
             bool success = false;
@@ -49,31 +49,65 @@ namespace Planetarium.Handlers {
                 );
             }
 
-            foreach (FrequentlyQuestionModel questionInstance in frequentlyAskedQuestions) {
-                query = "SELECT * FROM PreguntaFrecuente PF " +
-                        "INNER JOIN PreguntaFrecuentePerteneceATopico PFPAT ON PF.idPreguntaPK = PFPAT.idPreguntaFrecuentePKFK  " +
-                        "WHERE idPreguntaPK = '" + questionInstance.QuestionId + "'";
-                resultingTable = CreateTableFromQuery(query);
-                questionInstance.Topics = new List<string>();
-                foreach (DataRow column in resultingTable.Rows) {
-                    var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
-                    questionInstance.Topics.Add(tempTopic);
-                }
-            }
+            LinkAllFeatureWithTopics(CreateDictionary(frequentlyAskedQuestions));
 
-            foreach (FrequentlyQuestionModel questionInstance in frequentlyAskedQuestions) {
-                query = "SELECT categoria FROM PreguntaFrecuentePerteneceATopico PFPAT " +
-                        "INNER JOIN Topico T ON T.nombrePK = PFPAT.nombreTopicoPKFK  " +
-                        "WHERE T.nombrePK = '" + questionInstance.Topics[0] + "'";
-                resultingTable = CreateTableFromQuery(query);
-
-                questionsSortedByCategory[Convert.ToString(resultingTable.Rows[0][0])].Add(questionInstance);
-            }
+            LinkAllQuestionWithCategory(frequentlyAskedQuestions);
 
             return frequentlyAskedQuestions;
         }
 
-        public List<string> GetAllCategories() {
+        //private Dictionary<string[], List<string>> CreateDictionary<Feature>(List<Feature> featuresList) {
+        //    Dictionary<string[], List<string>> tempDictionary = new Dictionary<string[], List<string>>();
+        //    foreach (Feature featureInstance in featuresList) {
+        //        tempDictionary.Add(new string[] { newsInstance.Title }, newsInstance.Topics = new List<string>());
+        //    }
+        //    return tempDictionary;
+        //}
+
+        private Dictionary<string[], List<string>> CreateDictionary(List<FrequentlyQuestionModel> frequentlyQuestionList) {
+            Dictionary<string[], List<string>> tempDictionary = new Dictionary<string[], List<string>>();
+            foreach (FrequentlyQuestionModel frequentlyQuestionInstance in frequentlyQuestionList) {
+                tempDictionary.Add(new string[] { frequentlyQuestionInstance.QuestionId.ToString() }, frequentlyQuestionInstance.Topics = new List<string>());
+            }
+            return tempDictionary;
+        }
+
+        override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
+            string query = "SELECT * FROM PreguntaFrecuente PF " +
+                        "INNER JOIN PreguntaFrecuentePerteneceATopico PFPAT ON PF.idPreguntaPK = PFPAT.idPreguntaFrecuentePKFK  " +
+                        "WHERE idPreguntaPK = '" + keys[0] + "'";
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkQuestionWithTopics(FrequentlyQuestionModel frequentQuestion, DataTable resultingTable) {
+            frequentQuestion.Topics = new List<string>();
+            foreach (DataRow column in resultingTable.Rows) {
+                var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
+                frequentQuestion.Topics.Add(tempTopic);
+            }
+        }
+
+        private void LinkAllQuestionWithCategory(List<FrequentlyQuestionModel> frequentQuestions) {
+            foreach (FrequentlyQuestionModel frequentQuestion in frequentQuestions) {
+                DataTable resultingTableOfQuestionWithTheirCategory = GetQuestionWithCategoryTable(frequentQuestion.Topics[0]);
+                LinkQuestionWithCategory(frequentQuestion, resultingTableOfQuestionWithTheirCategory);
+            }
+        }
+
+        private DataTable GetQuestionWithCategoryTable(string topic) {
+            string query = "SELECT categoria FROM PreguntaFrecuentePerteneceATopico PFPAT " +
+                        "INNER JOIN Topico T ON T.nombrePK = PFPAT.nombreTopicoPKFK  " +
+                        "WHERE T.nombrePK = '" + topic + "'";
+            return CreateTableFromQuery(query);
+        }
+
+        private void LinkQuestionWithCategory(FrequentlyQuestionModel question, DataTable resultingTable) {
+            question.Category = Convert.ToString(resultingTable.Rows[0]["categoria"]);
+        }
+
+
+
+        /*public List<string> GetAllCategories() {
             List<string> categories = new List<string>();
 
             string query = "SELECT DISTINCT categoria FROM Topico";
@@ -83,7 +117,7 @@ namespace Planetarium.Handlers {
             }
 
             return categories;
-        }
+        }*/
 
         public List<string> GetTopicsByCategory(string category) {
 

@@ -9,11 +9,11 @@ using Planetarium.Models;
 using static Planetarium.Handlers.DatabaseHandler;
 
 namespace Planetarium.Handlers {
-    public class EducationalActivityHandler : DatabaseHandler {
+    public class EducationalActivityHandler : DatabaseClassificationsHandler {
 
 
 
-        public List<string> GetAllCategories() {
+        /*public List<string> GetAllCategories() {
             List<string> categories = new List<string>();
 
             string query =  "SELECT DISTINCT categoria " +
@@ -25,9 +25,9 @@ namespace Planetarium.Handlers {
             }
 
             return categories;
-        }
+        }*/
 
-        public List<string> GetTopicsByCategory(string category) {
+        /*public List<string> GetTopicsByCategory(string category) {
             List<string> topics = new List<string>();
 
             string query = "SELECT nombrePK " +
@@ -40,7 +40,7 @@ namespace Planetarium.Handlers {
             }
 
             return topics;
-        }
+        }*/
 
         public bool ProposeEducationalActivity(EducationalActivityModel educationalActivity) {
             bool success = false;
@@ -129,7 +129,7 @@ namespace Planetarium.Handlers {
             }
 
             LinkAllTargetAudience(activities);
-            LinkAllTopics(activities);
+            LinkAllFeatureWithTopics(CreateDictionary(activities));
 
             return activities;
         }
@@ -167,18 +167,21 @@ namespace Planetarium.Handlers {
             return CreateTableFromQuery(query);
         }
 
-        private void LinkAllTopics(List<EducationalActivityModel> activities) {
-            foreach (EducationalActivityModel activity in activities) {
-                DataTable resultingTableWithTheirTopic = GetTopicsPerActivityEducationalActivity(activity.Title);
-                LinkActivityWithTopics(activity, resultingTableWithTheirTopic);
+        private Dictionary<string[], List<string>> CreateDictionary(List<EducationalActivityModel> activities) {
+            Dictionary<string[], List<string>> tempDictionary = new Dictionary<string[], List<string>>();
+            foreach (EducationalActivityModel activityInstance in activities) {
+                tempDictionary.Add(new string[] { activityInstance.Title, activityInstance.Date.ToString() }, activityInstance.Topics = new List<string>());
             }
+            return tempDictionary;
         }
 
-        private DataTable GetTopicsPerActivityEducationalActivity(string activityTitle) {
-            string query =  "SELECT nombreTopicoPKFK " +
-                            "FROM ActividadEducativa INNER JOIN ActividadEducativaPerteneceATopico " +
-                            "ON ActividadEducativa.tituloPK = ActividadEducativaPerteneceATopico.tituloPKFK " +
-                            "WHERE tituloPK = '" + activityTitle + "'";
+        override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
+            string query = "SELECT nombreTopicoPKFK FROM ActividadEducativa AE" +
+                            "INNER JOIN ActividadEducativaPerteneceATopico AEPT" +
+                            "ON (AE.tituloPK = AEPT.tituloPKFK " +
+                            "AND AE.fechaInicioPK = AEPT.fechaInicioPK)" +
+                            "WHERE AE.tituloPK = '" + keys[0] + "'" +
+                            "AE.fechaInicioPK = '" + keys[1] + "'";
             return CreateTableFromQuery(query);
         }
 
