@@ -37,8 +37,7 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-        public ActionResult ListEmployees()
-        {
+        public ActionResult ListEmployees() {
             ViewBag.employees = DataAccess.GetAllEmployees();
             return View();
         }

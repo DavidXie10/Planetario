@@ -26,10 +26,6 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        public ActionResult News() {
-            return View();
-        }
-
         public ActionResult EditNews() {
             return View();
         }
@@ -63,7 +59,7 @@ namespace Planetarium.Controllers {
 
             return Json(new SelectList(topicsList, "Value", "Text"));
         }
-
+        
         private List<SelectListItem> LoadCategories() {
             List<string> categories = DataAccess.GetAllCategories();
 
@@ -103,7 +99,7 @@ namespace Planetarium.Controllers {
 
         private void LoadNewsWithForm(NewsModel news) {
             news.Category = Request.Form["Category"].Replace(" ", "_");
-            news.Topics = ContentParser.GetListFromString(Request.Form["topicsString"]);
+            news.Topics = ContentParser.GetTopicsFromString(Request.Form["inputTopicString"]);
             news.Title = Request.Form["title"];
             news.Author = Request.Form["author"];
             news.Description = Request.Form["description"];

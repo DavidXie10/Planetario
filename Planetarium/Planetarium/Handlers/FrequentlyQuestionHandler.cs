@@ -51,18 +51,10 @@ namespace Planetarium.Handlers {
 
             LinkAllFeatureWithTopics(CreateDictionary(frequentlyAskedQuestions));
 
-            LinkAllQuestionWithCategory(frequentlyAskedQuestions);
+            LinkAllQuestionsWithCategory(frequentlyAskedQuestions, questionsSortedByCategory);
 
             return frequentlyAskedQuestions;
         }
-
-        //private Dictionary<string[], List<string>> CreateDictionary<Feature>(List<Feature> featuresList) {
-        //    Dictionary<string[], List<string>> tempDictionary = new Dictionary<string[], List<string>>();
-        //    foreach (Feature featureInstance in featuresList) {
-        //        tempDictionary.Add(new string[] { newsInstance.Title }, newsInstance.Topics = new List<string>());
-        //    }
-        //    return tempDictionary;
-        //}
 
         private Dictionary<string[], List<string>> CreateDictionary(List<FrequentlyQuestionModel> frequentlyQuestionList) {
             Dictionary<string[], List<string>> tempDictionary = new Dictionary<string[], List<string>>();
@@ -79,18 +71,10 @@ namespace Planetarium.Handlers {
             return CreateTableFromQuery(query);
         }
 
-        private void LinkQuestionWithTopics(FrequentlyQuestionModel frequentQuestion, DataTable resultingTable) {
-            frequentQuestion.Topics = new List<string>();
-            foreach (DataRow column in resultingTable.Rows) {
-                var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
-                frequentQuestion.Topics.Add(tempTopic);
-            }
-        }
-
-        private void LinkAllQuestionWithCategory(List<FrequentlyQuestionModel> frequentQuestions) {
+        private void LinkAllQuestionsWithCategory(List<FrequentlyQuestionModel> frequentQuestions, Dictionary<string, List<FrequentlyQuestionModel>> questionsSortedByCategory) {
             foreach (FrequentlyQuestionModel frequentQuestion in frequentQuestions) {
                 DataTable resultingTableOfQuestionWithTheirCategory = GetQuestionWithCategoryTable(frequentQuestion.Topics[0]);
-                LinkQuestionWithCategory(frequentQuestion, resultingTableOfQuestionWithTheirCategory);
+                SortQuestion(frequentQuestion, resultingTableOfQuestionWithTheirCategory, questionsSortedByCategory);
             }
         }
 
@@ -101,56 +85,8 @@ namespace Planetarium.Handlers {
             return CreateTableFromQuery(query);
         }
 
-        private void LinkQuestionWithCategory(FrequentlyQuestionModel question, DataTable resultingTable) {
-            question.Category = Convert.ToString(resultingTable.Rows[0]["categoria"]);
-        }
-
-
-
-        /*public List<string> GetAllCategories() {
-            List<string> categories = new List<string>();
-
-            string query = "SELECT DISTINCT categoria FROM Topico";
-            DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow column in resultingTable.Rows) {
-                categories.Add(Convert.ToString(column["categoria"]));
-            }
-
-            return categories;
-        }*/
-
-        public List<string> GetTopicsByCategory(string category) {
-
-            List<string> topics = new List<string>();
-
-            string query = "SELECT nombrePK " +
-                            "FROM Topico T " +
-                            "WHERE T.categoria LIKE '%" + category + "%';";
-
-            DataTable topicsDataTable = CreateTableFromQuery(query);
-
-            foreach (DataRow column in topicsDataTable.Rows) {
-                topics.Add(Convert.ToString(column["nombrePK"]));
-            }
-
-            return topics;
-        }
-
-        public List<string> GetQuestionsByCategory(string category) {
-
-            List<string> topics = new List<string>();
-
-            string query = "SELECT nombrePK " +
-                            "FROM Topico T " +
-                            "WHERE T.categoria LIKE '%" + category + "%';";
-
-            DataTable topicsDataTable = CreateTableFromQuery(query);
-
-            foreach (DataRow column in topicsDataTable.Rows) {
-                topics.Add(Convert.ToString(column["nombrePK"]));
-            }
-
-            return topics;
+        private void SortQuestion(FrequentlyQuestionModel question, DataTable resultingTable, Dictionary<string, List<FrequentlyQuestionModel>> questionsSortedByCategory) {
+            questionsSortedByCategory[Convert.ToString(resultingTable.Rows[0][0])].Add(question);
         }
     }
 }

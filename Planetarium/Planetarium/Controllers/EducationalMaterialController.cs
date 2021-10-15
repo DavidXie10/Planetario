@@ -70,6 +70,7 @@ namespace Planetarium.Controllers {
 
             return view;
         }
+
         public JsonResult GetTopicsList(string category){
             List<SelectListItem> topicsList = new List<SelectListItem>();
 

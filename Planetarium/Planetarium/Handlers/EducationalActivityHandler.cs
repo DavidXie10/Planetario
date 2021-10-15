@@ -11,37 +11,6 @@ using static Planetarium.Handlers.DatabaseHandler;
 namespace Planetarium.Handlers {
     public class EducationalActivityHandler : DatabaseClassificationsHandler {
 
-
-
-        /*public List<string> GetAllCategories() {
-            List<string> categories = new List<string>();
-
-            string query =  "SELECT DISTINCT categoria " +
-                            "FROM Topico";
-
-            DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow column in resultingTable.Rows) {
-                categories.Add(Convert.ToString(column["categoria"]));
-            }
-
-            return categories;
-        }*/
-
-        /*public List<string> GetTopicsByCategory(string category) {
-            List<string> topics = new List<string>();
-
-            string query = "SELECT nombrePK " +
-                            "FROM Topico T " +
-                            "WHERE T.categoria LIKE '%" + category + "%';";
-
-            DataTable topicsDataTable = CreateTableFromQuery(query);
-            foreach (DataRow column in topicsDataTable.Rows) {
-                topics.Add(Convert.ToString(column["nombrePK"]));
-            }
-
-            return topics;
-        }*/
-
         public bool ProposeEducationalActivity(EducationalActivityModel educationalActivity) {
             bool success = false;
             string query = "INSERT INTO ActividadEducativa (tituloPK, fechaInicioPK, duracion, capacidadMaxima, precio, descripcion, nivelComplejidad, estado, tipo, banderaVirtual, enlace, banderaPresencial, cedulaFK) " +
@@ -176,12 +145,12 @@ namespace Planetarium.Handlers {
         }
 
         override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
-            string query = "SELECT nombreTopicoPKFK FROM ActividadEducativa AE" +
-                            "INNER JOIN ActividadEducativaPerteneceATopico AEPT" +
+            string query = "SELECT nombreTopicoPKFK FROM ActividadEducativa AE " +
+                            "INNER JOIN ActividadEducativaPerteneceATopico AEPT " +
                             "ON (AE.tituloPK = AEPT.tituloPKFK " +
-                            "AND AE.fechaInicioPK = AEPT.fechaInicioPK)" +
-                            "WHERE AE.tituloPK = '" + keys[0] + "'" +
-                            "AE.fechaInicioPK = '" + keys[1] + "'";
+                            "AND AE.fechaInicioPK = AEPT.fechaInicioPK) " +
+                            "WHERE AE.tituloPK = '" + keys[0] + "' " +
+                            "AND AE.fechaInicioPK = '" + keys[1] + "' ";
             return CreateTableFromQuery(query);
         }
 
@@ -190,14 +159,6 @@ namespace Planetarium.Handlers {
             foreach (DataRow column in resultingTable.Rows) {
                 var tempTopic = Convert.ToString(column["publicoMetaPK"]);
                 activity.TargetAudience.Add(tempTopic);
-            }
-        }
-
-        private void LinkActivityWithTopics(EducationalActivityModel activity, DataTable resultingTable) {
-            activity.Topics = new List<string>();
-            foreach (DataRow column in resultingTable.Rows) {
-                var tempTopic = Convert.ToString(column["nombreTopicoPKFK"]);
-                activity.Topics.Add(tempTopic);
             }
         }
 

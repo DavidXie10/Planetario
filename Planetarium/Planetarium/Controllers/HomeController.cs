@@ -6,12 +6,9 @@ using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
 
-namespace Planetarium.Controllers
-{
-    public class HomeController : Controller
-    {
-        public ActionResult Index()
-        {
+namespace Planetarium.Controllers {
+    public class HomeController : Controller {
+        public ActionResult Index() {
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
             ViewBag.length = 3;
@@ -33,8 +30,7 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public ActionResult WhoWeAre()
-        {
+        public ActionResult WhoWeAre() {
             ContentParser contentParser = new ContentParser();
 
             dynamic jsonContent = contentParser.ParseFromJSON("Planetario.json");
@@ -46,8 +42,7 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public ActionResult ActivitiesDescription()
-        {
+        public ActionResult ActivitiesDescription() {
             ViewBag.Message = "Our activities.";
 
             return View();
@@ -62,6 +57,5 @@ namespace Planetarium.Controllers
             ViewBag.Title = "Success";
             return View();
         }
-
     }
 }

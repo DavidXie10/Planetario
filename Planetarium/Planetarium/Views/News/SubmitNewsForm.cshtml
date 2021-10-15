@@ -37,7 +37,7 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.Topics)
                                 <br />
-                                @Html.DropDownList("Topics", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control" })
+                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value)" })
                                 @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -45,11 +45,9 @@
                             <div class="card-header">
                                 <h4 class="text-success">Topicos seleccionados</h4>
                             </div>
-
-                            <div class="card-body" id="selectedTopics">
+                            <div class="card-body" id="topicsContainer">
                             </div>
-
-                            <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
+                            <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
                         </div>
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
@@ -75,8 +73,8 @@
                         <div class="row" style="margin-top: 15px;">
                             <div>
                                 <h5>Arrastre los archivos</h5>
-                                <div id="dropArea"> 
-                                    <h3 style="color: black;">Arrastre los archivos acá</h3> 
+                                <div id="dropArea">
+                                    <h3 style="color: black;">Arrastre los archivos acá</h3>
                                 </div>
                                 <h6> Archivos subidos: </h6>
                                 <ul class="list-group" id="uploadList">
@@ -91,7 +89,18 @@
         }
     </div>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/GenericMultiselect.js"></script>
     <script type="text/javascript" src="~/Scripts/categoriesAndTopics.js"></script>
+
+    <script type="text/javascript">
+
+        let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
+        function addTopicButton(element) {
+            if (element != "") {
+                multiSelectTopics.addButton(element);
+            }
+        }
+    </script>
 </body>
 </html>
 
