@@ -83,7 +83,7 @@ namespace Planetarium.Handlers {
         }
 
         private DataTable GetEducationalMaterialWithFileNameTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
-            string query = "SELECT nombreArchivoPK FROM ArchivoDeMaterialEducativo " +
+            string query = "SELECT nombreArchivoPK FROM NombreArchivoMaterialEducativo " +
                            "WHERE tituloPKFK = '" + educationalMaterialTitle + "' AND autorPKFK = '" + educationalMaterialAuthor + "'";
             return CreateTableFromQuery(query);
         }
@@ -227,7 +227,7 @@ namespace Planetarium.Handlers {
             bool success = false;
 
             foreach (string file in educationalMaterial.EducationalMaterialFileNames) {
-                string query = "INSERT INTO ArchivoDeMaterialEducativo " +
+                string query = "INSERT INTO NombreArchivoMaterialEducativo " +
                         "VALUES ('" + educationalMaterial.Author + "','" + educationalMaterial.Title + "','" + file + "')";
                 SqlCommand queryCommand = new SqlCommand(query, connection);
                 connection.Open();
