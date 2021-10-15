@@ -5,9 +5,10 @@
 <head>
     <link rel="stylesheet" href="~/Content/activitiesHomePageAccess.css">
 </head>
-<hr />
+
 
 <div class="container">
+    <hr />
     <h3 class="text-start">
         @Html.ActionLink("Quiénes somos", "/WhoWeAre")
     </h3>
@@ -15,24 +16,26 @@
     <div id="container">
         @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
     </div>
-</div>
-<hr />
 
-<div class="d-flex justify-content-center">
-    <div class="imageActivities">
-        <img src="~/images/PlanetariumUCR/activitiesImageHomePage.jpg" class="img-fluid" alt="Responsive image">
 
-        <div class="image__overlay image__overlay--primary">
-            <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities")</div>
-            <p class="image__description">
-                Aquí podés encontrar las próximas actividades
-            </p>
+    <hr />
+    <div class="d-flex justify-content-center">
+
+        <div class="imageActivities">
+            <img src="~/images/PlanetariumUCR/activitiesImageHomePage.jpg" class="img-fluid" alt="Responsive image">
+
+            <div class="image__overlay image__overlay--primary">
+                <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities")</div>
+                <p class="image__description">
+                    Aquí podés encontrar las próximas actividades
+                </p>
+            </div>
         </div>
     </div>
-</div>
 
-<hr />
-<div class="container">
+
+
+    <hr />
     <h3 class="text-start">
         <a href="/News/ListNews">Noticias</a>
     </h3>
@@ -40,7 +43,7 @@
         Todo lo que tenés que saber respecto a temas sobre planetas, galaxias, nuevas tecnologías y muchos temas más.
     </h6>
     <div class="row" style="margin-top: 40px;">
-        @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index){
+        @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
             <div class="col-sm">
                 <div class="card bg-primary">
                     <div class="card-text" style="padding: 0;">
@@ -50,7 +53,7 @@
                         <p class="card-text">
                             @ViewBag.News[index].Title
                         </p>
-                        
+
                         @Html.ActionLink("Ver Noticia", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "btn btn-info" })
                     </div>
                 </div>
@@ -58,4 +61,3 @@
         }
     </div>
 </div>
-<hr />

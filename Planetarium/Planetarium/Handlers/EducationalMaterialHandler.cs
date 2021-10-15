@@ -256,7 +256,7 @@ namespace Planetarium.Handlers {
 
         public List<string> GetAllActivities() {
             List<string> activitiesTitles = new List<string>();
-            string query = "SELECT * FROM ActividadEducativa ";
+            string query = "SELECT * FROM ActividadEducativa WHERE estado = 1";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows)
             {

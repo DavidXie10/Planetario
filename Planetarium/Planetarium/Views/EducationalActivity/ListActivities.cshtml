@@ -10,7 +10,7 @@
 
     <hr />
 
-    <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
+    <h1 style="margin:10px 0 20px 0;">Actividades Educativas</h1>
     <div class="form-group has-feedback">
         <label class="control-label">Buscador</label>
         <input type="text" id="search" class="form-control" placeholder="Buscar por palabras claves, categorías o tópicos" autocomplete="off" />
@@ -29,7 +29,7 @@
                     <h9>Fecha: @activity.Date</h9><br>
                     <h9>Duración: @activity.Duration minutos</h9><br>
                     @{
-                        string price = (@activity.Price == 0) ? "Gratis" : "$" + @activity.Price;
+                        string price = (@activity.Price == 0) ? "Gratis" : "₡" + @activity.Price;
                     }
                     <h9>Precio:  @price </h9><br>
                     <h9>Capacidad: @activity.MaximumCapacity personas</h9><br>
