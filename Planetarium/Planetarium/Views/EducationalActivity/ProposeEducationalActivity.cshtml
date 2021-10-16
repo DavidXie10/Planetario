@@ -141,31 +141,8 @@
 
 
     <script type="text/javascript">
-
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
         let multiSelectTargetAudience = new GenericMultiSelect("#audienceSelect", "#audienceContainer", "#inputAudienceString");
-
-        function addTopicButton(element) {
-            if (element != "") {
-                multiSelectTopics.addButton(element);
-            }
-        }
-
-        function addAudienceButton(element) {
-            if (element != "") {
-                multiSelectTargetAudience.addButton(element);
-            }
-        }
-
-        function isVirtual(value) {
-            if (value == "Virtual") {
-                document.querySelector("#inputLink").style.display = "block";
-            } else {
-                document.querySelector("#inputLink").style.display = "none";
-            }
-        }
-       
-        console.log("Se cargoo");
     </script>
 
 </body>

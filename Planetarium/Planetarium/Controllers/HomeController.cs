@@ -10,6 +10,9 @@ namespace Planetarium.Controllers {
     public class HomeController : Controller {
         public ActionResult Index() {
             NewsHandler dataAccess = new NewsHandler();
+            EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
+            ViewBag.Us = WhoWeAre();
+            ViewBag.Activities = educationalActivityHandler.GetAllApprovedActivities();
             ViewBag.News = dataAccess.GetAllNews();
             ViewBag.length = 3;
             return View();
@@ -22,7 +25,7 @@ namespace Planetarium.Controllers {
             string[] transportBuses = jsonContent.Buses.ToObject<string[]>();
             string[] transportTrains = jsonContent.Trenes.ToObject<string[]>();
             string[] parking = jsonContent.Parqueos.ToObject<string[]>();
-
+            
             ViewBag.Parking = parking;
             ViewBag.TransportBuses = transportBuses;
             ViewBag.TransportTrains = transportTrains;

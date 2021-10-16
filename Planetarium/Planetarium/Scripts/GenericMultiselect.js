@@ -82,3 +82,29 @@
 
     }
 }
+
+function addTopicButton(element) {
+    if (element != "") {
+        multiSelectTopics.addButton(element);
+    }
+}
+
+function addAudienceButton(element) {
+    if (element != "") {
+        multiSelectTargetAudience.addButton(element);
+    }
+}
+
+function addLanguageButton(element) {
+    if (element != "") {
+        multiSelectLanguages.addButton(element);
+    }
+}
+
+function isVirtual(value) {
+    if (value == "Virtual") {
+        document.querySelector("#inputLink").style.display = "block";
+    } else {
+        document.querySelector("#inputLink").style.display = "none";
+    }
+}

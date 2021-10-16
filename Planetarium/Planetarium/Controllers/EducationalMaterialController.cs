@@ -65,7 +65,7 @@ namespace Planetarium.Controllers {
                 //TODO: Cambiar el e.ToString()
                 TempData["Error"] = true;
                 TempData["WarningMessage"] = "Algo salio mal";
-                view = RedirectToAction("SumbitEducationalMaterial", "EducationalMaterial");
+                view = RedirectToAction("SubmitEducationalMaterial", "EducationalMaterial");
             }
 
             return view;

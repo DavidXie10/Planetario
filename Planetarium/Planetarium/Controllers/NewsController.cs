@@ -80,7 +80,6 @@ namespace Planetarium.Controllers {
         public ActionResult PostNews(NewsModel news) {
             ActionResult view = RedirectToAction("Success", "Home");
             LoadNewsWithForm(news);
-
             ViewBag.SuccessOnCreation = false;
             try {
                 ViewBag.SuccessOnCreation = this.DataAccess.PublishNews(news);

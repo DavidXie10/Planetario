@@ -45,9 +45,11 @@
                             <div class="card-header">
                                 <h4 class="text-success">Topicos seleccionados</h4>
                             </div>
+
                             <div class="card-body" id="topicsContainer">
                             </div>
-                            <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
+
+                            <input type="text" name="topicsString" id="inputTopicString" value="" style="display: none;" />
                         </div>
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
@@ -91,15 +93,8 @@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/GenericMultiselect.js"></script>
     <script type="text/javascript" src="~/Scripts/categoriesAndTopics.js"></script>
-
     <script type="text/javascript">
-
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
-        function addTopicButton(element) {
-            if (element != "") {
-                multiSelectTopics.addButton(element);
-            }
-        }
     </script>
 </body>
 </html>

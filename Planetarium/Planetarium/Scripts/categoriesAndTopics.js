@@ -30,8 +30,6 @@
         } else {
             $("#topicSelect").empty();
         }
-    }
-
-    )
+    })
 });
 

@@ -11,6 +11,7 @@
             <p class="card-text">
                 <h2>@ViewBag.News.Title</h2>
             </p>
+            <hr/>
             <h4> @ViewBag.News.Author </h4>
             <p class="card-text"> @ViewBag.News.Date </p>
             <p class="card-text">Categoría: @ViewBag.News.Category </p>
@@ -21,11 +22,14 @@
                 }
             </p>
         </div>
-
         <div class="card col-md">
             <div class="card-body">
                 <p class="card-text">@ViewBag.News.Content</p>
             </div>
+        </div>
+
+        <div class="card col-md">
+            
             @if (ViewBag.News.ImagesRef.Count != 0) {
                 <div id="carouselNewsImage" class="carousel slide carousel-fade" data-ride="carousel" style="margin: 20px 5px 20px 5px">
                     <div class="carousel-inner">
@@ -58,7 +62,7 @@
 
 
         </div>
-        <a class="btn btn-primary" href="/News/ListNews" role="button">Atrás</a>
+        <a class="btn btn-primary" href="/News/ListNews" role="button">Ver más noticias</a>
     </div>
 
 </body>

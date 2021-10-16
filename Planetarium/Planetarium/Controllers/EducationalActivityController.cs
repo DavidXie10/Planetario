@@ -136,13 +136,13 @@ namespace Planetarium.Controllers {
 
         public ActionResult ListActivities()
         {
-            ViewBag.activities = DataAccess.GetAllActivities();
+            ViewBag.activities = DataAccess.GetAllApprovedActivities();
             return View();
         }
 
         public ActionResult ActivitiesApprobation()
         {
-            ViewBag.activities = DataAccess.GetAllActivities();
+            ViewBag.activities = DataAccess.GetAllOnRevisionActivities();
             return View();
         }
 
