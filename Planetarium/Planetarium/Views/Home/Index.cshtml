@@ -47,7 +47,9 @@
             <div class="col-sm">
                 <div class="card bg-primary">
                     <div class="card-text" style="padding: 0;">
-                        <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid" />
+                        @if (ViewBag.News[index].ImagesRef.Count > 0) {
+                            <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid" />
+                        }
                     </div>
                     <div class="card-body">
                         <p class="card-text">
