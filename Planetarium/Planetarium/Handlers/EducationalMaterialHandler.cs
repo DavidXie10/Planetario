@@ -15,8 +15,8 @@ namespace Planetarium.Handlers {
         public List<EducationalMaterialModel> GetAllEducationalMaterial() {
             string query = "SELECT DISTINCT ME.autorPK, ME.tituloPK, ME.fechaPublicacion, T.categoria " +
                            "FROM MaterialEducativo ME " +
-                           "INNER JOIN MaterialEducativoPerteneceATopico MEPAT ON ME.autorPK = MEPAT.autorMaterialEducativoPKFK "  +
-                           "AND ME.tituloPK = MEPAT.tituloMaterialEducativoPKFK " +
+                           "INNER JOIN MaterialEducativoPerteneceATopico MEPAT ON ME.autorPK = MEPAT.autorPKFK "  +
+                           "AND ME.tituloPK = MEPAT.tituloPKFK " +
                            "INNER JOIN Topico T ON MEPAT.nombreTopicoPKFK = T.nombrePK " +
                            "ORDER BY fechaPublicacion DESC";
 
@@ -37,14 +37,14 @@ namespace Planetarium.Handlers {
         }
 
         private DataTable GetEducationalMaterialWithEducationalActivityTable(string educationalMaterialTitle, string educationalMaterialAuthor) {
-            string query = "SELECT tituloActividadPK, fechaInicioPK  FROM Ofrecer " +
-                           "WHERE tituloMaterialPK = '" + educationalMaterialTitle + "' AND autorPK = '" + educationalMaterialAuthor + "'";
+            string query = "SELECT tituloActividadPKFK, fechaInicioPKFK  FROM Ofrecer " +
+                           "WHERE tituloMaterialPKFK = '" + educationalMaterialTitle + "' AND autorPKFK = '" + educationalMaterialAuthor + "'";
 
             return CreateTableFromQuery(query);
         }
 
         private void LinkEducationalMaterialWithEducationalActivity(EducationalMaterialModel educationalMaterial, DataTable resultingTable) {
-            educationalMaterial.ActivityTitle = Convert.ToString(resultingTable.Rows[0]["tituloActividadPK"]);
+            educationalMaterial.ActivityTitle = Convert.ToString(resultingTable.Rows[0]["tituloActividadPKFK"]);
         }
 
         private List<EducationalMaterialModel> CreateEducationalMaterialFromDataTable(DataTable resultingNewsTable) {
@@ -95,8 +95,8 @@ namespace Planetarium.Handlers {
 
         override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
             string query = "SELECT nombreTopicoPKFK FROM MaterialEducativo ME " +
-                       "INNER JOIN MaterialEducativoPerteneceATopico MEPAT ON (ME.tituloPK = MEPAT.tituloMaterialEducativoPKFK " +
-                       "AND ME.autorPK = MEPAT.autorMaterialEducativoPKFK) " +
+                       "INNER JOIN MaterialEducativoPerteneceATopico MEPAT ON (ME.tituloPK = MEPAT.tituloPKFK " +
+                       "AND ME.autorPK = MEPAT.autorPKFK) " +
                        "WHERE tituloPK = '" + keys[1] + "' AND autorPK = '" + keys[0] + "' ";
 
             return CreateTableFromQuery(query);
@@ -142,7 +142,7 @@ namespace Planetarium.Handlers {
             List<DateTime> dates = GetAllDates(educationalMaterial);
             bool success = false;
             foreach (DateTime date in dates) {
-                string query = "INSERT INTO Ofrecer(cedulaPK, tituloActividadPK, fechaInicioPK, tituloMaterialPK, autorPK) " +
+                string query = "INSERT INTO Ofrecer(cedulaPKFK, tituloActividadPKFK, fechaInicioPKFK, tituloMaterialPKFK, autorPKFK) " +
                             "VALUES('203250235', @tituloActividad, @fechaInicio, @tituloMaterial, @autor)";
 
                 SqlCommand queryCommand = new SqlCommand(query, connection);
@@ -180,7 +180,7 @@ namespace Planetarium.Handlers {
 
         public List<string> GetAllActivities() {
             List<string> activitiesTitles = new List<string>();
-            string query = "SELECT * FROM ActividadEducativa WHERE estado = 1";
+            string query = "SELECT * FROM ActividadEducativa WHERE estadoRevision = 1";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
                 activitiesTitles.Add( Convert.ToString(column["tituloPK"]));                     

@@ -44,7 +44,7 @@ namespace Planetarium.Handlers {
                     new FrequentlyQuestionModel {
                         Question = Convert.ToString(column["pregunta"]),
                         Answer = Convert.ToString(column["respuesta"]),
-                        QuestionId = Convert.ToInt32(column["idPreguntaPK"])
+                        QuestionId = Convert.ToInt32(column["idPK"])
                     }
                 );
             }
@@ -66,8 +66,8 @@ namespace Planetarium.Handlers {
 
         override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
             string query = "SELECT * FROM PreguntaFrecuente PF " +
-                        "INNER JOIN PreguntaFrecuentePerteneceATopico PFPAT ON PF.idPreguntaPK = PFPAT.idPreguntaFrecuentePKFK  " +
-                        "WHERE idPreguntaPK = '" + keys[0] + "'";
+                        "INNER JOIN PreguntaFrecuentePerteneceATopico PFPAT ON PF.idPK = PFPAT.idPreguntaFrecuentePKFK  " +
+                        "WHERE idPK = '" + keys[0] + "'";
             return CreateTableFromQuery(query);
         }
 

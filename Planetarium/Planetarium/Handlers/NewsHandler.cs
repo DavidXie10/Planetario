@@ -55,8 +55,7 @@ namespace Planetarium.Handlers {
         override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
             string query = "SELECT * FROM Noticia " +
                         "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
-                        "WHERE tituloPK = '" + keys[0] + "' " +
-                        "ORDER BY fechaPublicacion DESC";
+                        "WHERE tituloPK = '" + keys[0] + "' ";
             return CreateTableFromQuery(query);
         }
 

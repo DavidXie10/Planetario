@@ -13,8 +13,8 @@ namespace Planetarium.Handlers {
 
         public bool ProposeEducationalActivity(EducationalActivityModel educationalActivity) {
             bool success = false;
-            string query = "INSERT INTO ActividadEducativa (tituloPK, fechaInicioPK, duracion, capacidadMaxima, precio, descripcion, nivelComplejidad, estado, tipo, banderaVirtual, enlace, banderaPresencial, cedulaFK) " +
-                           "VALUES(@tituloPK,@fechaInicioPK,@duracion,@capacidadMaxima,@precio,@descripcion,@nivelComplejidad,0,@tipo,@banderaVirtual,@enlace,@banderaPresencial,'106260895') ";
+            string query = "INSERT INTO ActividadEducativa (tituloPK, fechaInicioPK, duracion, capacidadMaxima, precio, descripcion, nivelComplejidad, estadoRevision, modalidad, banderaVirtual, enlace, banderaPresencial, cedulaFK) " +
+                           "VALUES(@tituloPK,@fechaInicioPK,@duracion,@capacidadMaxima,@precio,@descripcion,@nivelComplejidad,0,@modalidad,@banderaVirtual,@enlace,@banderaPresencial,'106260895') ";
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
             //TO-DO: Cambiar cedula quemada
@@ -35,7 +35,7 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@precio", educationalActivity.Price);
             queryCommand.Parameters.AddWithValue("@descripcion", educationalActivity.Description);
             queryCommand.Parameters.AddWithValue("@nivelComplejidad", educationalActivity.ComplexityLevel);
-            queryCommand.Parameters.AddWithValue("@tipo", educationalActivity.ActivityType);
+            queryCommand.Parameters.AddWithValue("@modalidad", educationalActivity.ActivityType);
             queryCommand.Parameters.AddWithValue("@enlace", educationalActivity.Link);
 
             int virtualFlag = educationalActivity.TypeOfAssistance == "Virtual" ? 1 : 0;
@@ -89,17 +89,18 @@ namespace Planetarium.Handlers {
                             + " AE.capacidadMaxima,"
                             + " AE.precio,"
                             + " AE.nivelComplejidad,"
-                            + " AE.estado,"
-                            + " AE.tipo,"
+                            + " AE.estadoRevision,"
+                            + " AE.modalidad,"
                             + " AE.enlace,"
                             + " AE.banderaVirtual,"
                             + " T.categoria"
                             + " FROM Funcionario F  JOIN ActividadEducativa AE"
                             + " ON F.cedulaPK  = AE.cedulaFK "
-                            + " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
+                            + " JOIN ActividadEducativaPerteneceATopico AEPT ON (AE.tituloPK = AEPT.tituloPKFK"
+                            + " AND AE.fechaInicioPK = AEPT.fechaInicioPKFK)"
                             + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
                             + " JOIN Idioma I ON I.cedulaPK = AE.cedulaFK "
-                            + " WHERE AE.estado = " + state
+                            + " WHERE AE.estadoRevision = " + state
                             + " ORDER BY AE.fechaInicioPK ";
 
             DataTable resultingTable = CreateTableFromQuery(query);
@@ -122,9 +123,9 @@ namespace Planetarium.Handlers {
                 MaximumCapacity = Convert.ToInt32(rawEducationalInfo["capacidadMaxima"]),
                 Price = Convert.ToInt32(rawEducationalInfo["precio"]),
                 ComplexityLevel = Convert.ToString(rawEducationalInfo["nivelComplejidad"]),
-                State = Convert.ToString(rawEducationalInfo["estado"]),
+                State = Convert.ToString(rawEducationalInfo["estadoRevision"]),
                 TypeOfAssistance = (Convert.ToInt32(rawEducationalInfo["banderaVirtual"]) == 1) ? "Virtual" : "Presencial",
-                ActivityType = Convert.ToString(rawEducationalInfo["tipo"]),
+                ActivityType = Convert.ToString(rawEducationalInfo["modalidad"]),
                 Link = Convert.ToString(rawEducationalInfo["enlace"]),
                 Publisher = Convert.ToString(rawEducationalInfo["publicador"]),
                 Category = Convert.ToString(rawEducationalInfo["categoria"])
@@ -141,8 +142,8 @@ namespace Planetarium.Handlers {
         private DataTable GetTargetAudiencePerEducationalActivity(string activityTitle, string initialDate) {
             string query =  "SELECT publicoMetaPK " +
                             "FROM PublicoMeta INNER JOIN ActividadEducativa " +
-                            "ON PublicoMeta.fechaInicioPK = ActividadEducativa.fechaInicioPK AND PublicoMeta.tituloPK = ActividadEducativa.tituloPK " +
-                            "WHERE PublicoMeta.tituloPK = '" + activityTitle + "'" + " AND PublicoMeta.fechaInicioPK = " + "'" + initialDate + "';";
+                            "ON PublicoMeta.fechaInicioPKFK = ActividadEducativa.fechaInicioPK AND PublicoMeta.tituloPKFK = ActividadEducativa.tituloPK " +
+                            "WHERE PublicoMeta.tituloPKFK = '" + activityTitle + "'" + " AND PublicoMeta.fechaInicioPKFK = " + "'" + initialDate + "';";
             return CreateTableFromQuery(query);
         }
 
@@ -158,7 +159,7 @@ namespace Planetarium.Handlers {
             string query = "SELECT nombreTopicoPKFK FROM ActividadEducativa AE " +
                             "INNER JOIN ActividadEducativaPerteneceATopico AEPT " +
                             "ON (AE.tituloPK = AEPT.tituloPKFK " +
-                            "AND AE.fechaInicioPK = AEPT.fechaInicioPK) " +
+                            "AND AE.fechaInicioPK = AEPT.fechaInicioPKFK) " +
                             "WHERE AE.tituloPK = '" + keys[0] + "' " +
                             "AND AE.fechaInicioPK = '" + keys[1] + "' ";
             return CreateTableFromQuery(query);
@@ -173,7 +174,7 @@ namespace Planetarium.Handlers {
         }
 
         public bool UpdateActivityState(string activityTitle, int state) {
-            string query = "UPDATE ActividadEducativa SET estado = " + state + " WHERE tituloPK = '" + activityTitle + "' ";
+            string query = "UPDATE ActividadEducativa SET estadoRevision = " + state + " WHERE tituloPK = '" + activityTitle + "' ";
             return DatabaseQuery(query);
         }
     }

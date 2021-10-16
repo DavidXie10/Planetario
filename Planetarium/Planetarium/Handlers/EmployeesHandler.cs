@@ -37,7 +37,7 @@ namespace Planetarium.Handlers {
                 NativeCountry = Convert.ToString(employeeRawInfo["paisOrigen"]),
                 DateOfBirth = Convert.ToDateTime(employeeRawInfo["fechaNacimiento"]),
                 Phrase = Convert.ToString(employeeRawInfo["frase"]),
-                PhotoPath = Convert.ToString(employeeRawInfo["fotoPerfil"])
+                PhotoPath = Convert.ToString(employeeRawInfo["rutaFotoPerfil"])
             };
         }
 
@@ -67,8 +67,8 @@ namespace Planetarium.Handlers {
 
         public bool CreateEmployee(EmployeeModel employee) {
             bool employeeCreated = false;
-            string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,correo,nombre,apellido, frase, genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen, fotoPerfil)" +
-              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@correo,@nombre,@apellido, @frase, @genero,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,@paisOrigen,@fotoPerfil) ";
+            string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,correo,nombre,apellido, frase, genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen, rutaFotoPerfil)" +
+              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@correo,@nombre,@apellido, @frase, @genero,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,@paisOrigen,@rutaFotoPerfil) ";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
@@ -100,7 +100,7 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea);
             queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address);
             queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry);
-            queryCommand.Parameters.AddWithValue("@fotoPerfil", employee.PhotoFile.FileName.Replace(" ", "-").Replace("_", "-"));
+            queryCommand.Parameters.AddWithValue("@rutaFotoPerfil", employee.PhotoFile.FileName.Replace(" ", "-").Replace("_", "-"));
         }
 
         public bool InsertLanguages(EmployeeModel employee) {
