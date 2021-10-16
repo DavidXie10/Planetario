@@ -2,32 +2,62 @@
     ViewBag.Title = "Home Page";
 }
 
-<hr />
+<head>
+    <link rel="stylesheet" href="~/Content/activitiesHomePageAccess.css">
+</head>
+
+
 <div class="container">
+    <hr />
     <h3 class="text-start">
-        <a href="News">Noticias</a>
+        @Html.ActionLink("Quiénes somos", "/WhoWeAre")
+    </h3>
+
+    <div id="container">
+        @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
+    </div>
+
+
+    <hr />
+    <div class="d-flex justify-content-center">
+
+        <div class="imageActivities">
+            <img src="~/images/PlanetariumUCR/activitiesImageHomePage.jpg" class="img-fluid" alt="Responsive image">
+
+            <div class="image__overlay image__overlay--primary">
+                <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities")</div>
+                <p class="image__description">
+                    Aquí podés encontrar las próximas actividades
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <hr />
+    <h3 class="text-start">
+        <a href="/News/ListNews">Noticias</a>
     </h3>
     <h6 class="text-start">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        Todo lo que tenés que saber respecto a temas sobre planetas, galaxias, nuevas tecnologías y muchos temas más.
     </h6>
     <div class="row" style="margin-top: 40px;">
-        @for (int index = 0; index < ViewBag.length; ++index)
-        {
-
+        @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
             <div class="col-sm">
                 <div class="card bg-primary">
                     <div class="card-text" style="padding: 0;">
-                        <img src="~/images/satellite.jpg" alt="Alternate Text" class="img-fluid" />
+                        <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid" />
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            @ViewBag.News[index].Description
+                            @ViewBag.News[index].Title
                         </p>
+
                         @Html.ActionLink("Ver Noticia", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "btn btn-info" })
                     </div>
                 </div>
             </div>
-
         }
     </div>
 </div>

@@ -7,12 +7,15 @@
 
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
+    <link rel="stylesheet" type="text/css" href="/profileStyles.css" />
+    <script type="text/javascript" src="~/Scripts/profilePage.js"></script>
+    <script src="https://kit.fontawesome.com/9ca089ca02.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">
-            <img src="~/images/logo.svg" width="60" height="56" alt="">
+        <a class="navbar-brand" href="/Home/Index">
+            <img src="~/images/logo.svg" width="60" height="60" alt="">
             Planetario UCR
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,37 +25,43 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/Home/Index">Inicio</a>
+
+                    <a class="nav-link" href="/Home/Index"><i class="fas fa-home"></i> Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home/FindUs">Encuéntrenos</a>
+                    <a class="nav-link" href="/Home/FindUs"><i class="fas fa-map-marked-alt"></i> Encuéntrenos</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/Home/WhoWeAre">¿Quienes Somos?</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/Employees/ListEmployees">Funcionarios</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Funcionarios
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/Employees/ListEmployees"><i class="fas fa-user-astronaut"></i> Funcionarios</a>
+                        <a class="dropdown-item" href="/Employees/CreateEmployee"><i class="fas fa-user-plus"></i> Agregar funcionario</a>
+                    </div>
+                    
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Eventos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/EducationalActivity/ListActivities">Actividades</a>
-                        <a class="dropdown-item" href="/News/ListNews">Noticias</a>
+                        <a class="dropdown-item" href="/EducationalActivity/ListActivities"><i class='fas fa-meteor'></i> Actividades</a>
+                        <a class="dropdown-item" href="/News/ListNews"><i class="far fa-newspaper"></i> Noticias</a>
+                        <a class="dropdown-item" href="/EducationalMaterial/ListEducationalMaterial"><i class="fas fa-list"></i> Lista de Materiales</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true">FAQ</a>
+
+                    <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true"><i class="fas fa-question-circle"></i> FAQ</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/FrequentlyQuestion/CreateFrequentlyAskedQuestion" tabindex="-1" aria-disabled="true">Educativo</a>
-                </li>
+
             </ul>
         </div>
     </nav>
-
-
 
     <div class="rounded">
         @RenderBody()
@@ -63,7 +72,9 @@
     <footer>
         <div class="card-footer" style="padding:40px;">
             <div class="d-flex align-items-center" href="/">
-                <img src="~/images/logo.svg" width="90" height="100" class="d-inline-block" alt="" style="margin-right: 10px;">
+                <a href="/Home/Index">
+                    <img src="~/images/logo.svg" width="90" height="100" class="d-inline-block" alt="" style="margin-right: 10px;">
+                </a>
                 <p class="d-inline-block">
                     Planetario de San Jose, <br />
                     Universidad de Costa Rica
@@ -74,23 +85,21 @@
                 <div class="col-sm">
                     <div class="card-body">
                         <p class="card-title">
-                            <strong>Teléfono</strong> <br />
+                            <i class="fas fa-phone"></i>
+                            <strong> Teléfono</strong> <br />
                         </p>
                         <p class="card-text">
                             8793-0495 <br />
                             2233-9485 <br />
                             8493-3022 <br />
                         </p>
-                    </div>
-                </div>
-
-                <div class="col-sm">
-                    <div class="card-body">
                         <p class="card-title">
-                            <strong>Dirección</strong> <br />
+                            <i class="fas fa-envelope"></i>
+                            <strong> Correo</strong> <br />
                         </p>
                         <p class="card-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            <a href="mailto:actividades.planetarioucr@gmail.com">actividades.planetarioucr@gmail.com</a>
+                            <br />
                         </p>
                     </div>
                 </div>
@@ -98,7 +107,21 @@
                 <div class="col-sm">
                     <div class="card-body">
                         <p class="card-title">
-                            <strong>Horarios</strong> <br />
+                            <i class="fas fa-map-marker-alt"></i>
+                            <strong> Dirección</strong> <br />
+                        </p>
+                        <p class="card-text">
+                            Ciudad de la Investigación de la UCR, San Pedro de Montes de Oca. Del supermercado Muñoz y Nanne 400 metros Norte (entrada principal a la Ciudad de la Investigación).
+                            También de Radio Universidad 500 metros Este.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm">
+                    <div class="card-body">
+                        <p class="card-title">
+                            <i class="fas fa-calendar"></i>
+                            <strong> Horarios</strong> <br />
                         </p>
                         <p class="card-text">
                             L - V: 9:00am - 8:00pm <br />
@@ -110,11 +133,13 @@
                 <div class="col-sm">
                     <div class="card-body">
                         <a class="nav-link" href="/Home/WhoWeAre">
-                            <strong>Nosotros</strong> <br />
+                            <i class="fas fa-space-shuttle"></i>
+                            <strong> Nosotros</strong> <br />
                         </a>
 
-                        <a class="nav-link" href="#">
-                            <strong>Nuestros colaboradores</strong> <br />
+                        <a class="nav-link" href="/Employees/ListEmployees">
+                            <i class="fas fa-users"></i>
+                            <strong> Nuestros colaboradores</strong> <br />
                         </a>
                     </div>
                 </div>
@@ -131,6 +156,6 @@
     @Scripts.Render("~/bundles/jquery")
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
-
+    
 </body>
 </html>

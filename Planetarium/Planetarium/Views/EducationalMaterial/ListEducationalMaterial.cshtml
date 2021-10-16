@@ -6,6 +6,15 @@
 
 <body>
     <div class="container">
+
+        <hr />
+        <h3 class="text-start">
+            <i class="fas fa-user-edit"></i>
+            @Html.ActionLink("Agregar material educativo", "/SubmitEducationalMaterial", new { @class = "btn btn-info" })
+        </h3>
+
+        <hr />
+
         <h1 style="margin:10px 0 20px 0;">Material Educativo</h1>
         <div class="form-group has-feedback">
             <label class="control-label">Buscador</label>
@@ -14,8 +23,7 @@
         </div>
         <div id="filter-message"></div>
 
-        @foreach (var educationalMaterials in @ViewBag.EducationalMaterials)
-        {
+        @foreach (var educationalMaterials in @ViewBag.EducationalMaterials) {
             <div id="@educationalMaterials.Title" class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
                 <div class="card-body">
                     <h2 class="text-start">@educationalMaterials.Title </h2>
@@ -35,7 +43,7 @@
                     <p class="card-text" style="margin-top: 15px;">
                         <h5>Materiales: </h5>
                         @foreach (var material in educationalMaterials.EducationalMaterialFileNames) {
-                            <a href="~/Educational_Material/@material" download="@material">@material</a>
+                    <a href="~/Educational_Material/@material" download="@material"> <i class="fas fa-download"></i> @material</a>
                             <br />
                         }
                     </p>

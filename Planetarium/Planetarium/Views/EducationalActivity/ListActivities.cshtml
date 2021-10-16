@@ -1,5 +1,16 @@
 ﻿<div class="container">
-    <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
+    <hr />
+    <h3 class="text-start">
+        <i class="fas fa-tasks"></i>
+        @Html.ActionLink("Aceptar propuestas de actividades educativas", "/ActivitiesApprobation", new { @class = "btn btn-info" })
+        <hr />
+        <i class="fas fa-user-edit"></i>
+        @Html.ActionLink("Agregar actividad educativa", "/ProposeEducationalActivity", new { @class = "btn btn-info" })
+    </h3>
+
+    <hr />
+
+    <h1 style="margin:10px 0 20px 0;">Actividades Educativas</h1>
     <div class="form-group has-feedback">
         <label class="control-label">Buscador</label>
         <input type="text" id="search" class="form-control" placeholder="Buscar por palabras claves, categorías o tópicos" autocomplete="off" />
@@ -18,7 +29,7 @@
                     <h9>Fecha: @activity.Date</h9><br>
                     <h9>Duración: @activity.Duration minutos</h9><br>
                     @{
-                        string price = (@activity.Price == 0) ? "Gratis" : "$" + @activity.Price;
+                        string price = (@activity.Price == 0) ? "Gratis" : "₡" + @activity.Price;
                     }
                     <h9>Precio:  @price </h9><br>
                     <h9>Capacidad: @activity.MaximumCapacity personas</h9><br>

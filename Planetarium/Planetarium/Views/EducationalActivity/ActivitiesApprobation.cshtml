@@ -1,57 +1,62 @@
 ﻿<div class="container">
     <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
 
-    @foreach (var activity in ViewBag.activities)
-    {
-        if (activity.State == "0")
-        {
-            <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
-                <div class="card-body">
-                    <br>
-                    <h2 class="text-start">Título de la actividad: @activity.Title </h2>
-                    <h4>Propuesto por: @activity.Publisher </h4>
-                    <br />
-                    <ul>
-                        <li>Fecha: @activity.Date</li>
-                        <li>Duración: @activity.Duration</li>
-                        <li>Precio: @activity.Price </li>
-                        <li>Capacidad: @activity.MaximumCapacity</li>
-                        <li>Tipo: @activity.ActivityType</li>
-                        <li>Modalidad: @activity.TypeOfAssistance</li>
-                        <li>Nivel de complejidad: @activity.ComplexityLevel</li>
-                    </ul>
-                    <span>
-                        <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @activity.Category</a></h5>
-                        <h5>
-                            Tópicos:
-                            @foreach (var topic in activity.Topics) {
-                                <a class="badge rounded-pill bg-info"> @topic</a>
-                            }
-                        </h5>
-                    </span>
-                    <h5>
-                        Publicos Meta:
-                        @foreach (var targetAudienceInstance in activity.TargetAudience) {
-                            <a class="badge bg-info"> @targetAudienceInstance</a>
-                        }
-                    </h5>
-                    <p class="card-text" style="margin-top: 15px;">
-                        @activity.Description
-                    </p>
-                    @using (Html.BeginForm("SubmitApprobation", "EducationalActivity", FormMethod.Post, new { title = ViewBag.Title, enctype = "multipart/form-data" })) {
-                        @Html.AntiForgeryToken()
-
-                        <select name="status" class="form-control">
-                            <option value="1" selected>Aprobar</option>
-                            <option value="2">Rechazar</option>
-                        </select>
-                        <br />
-                        <input type="text" name="myTitle" value="@activity.Title" style="display: none;" />
-                        <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Enviar" />
-                    }
+    @if (ViewBag.activities.Count == 0) {
+        <div class="card-body">
+            <div class="card border-info" style="margin:10px 0 10px 0;">
+                <div class="card-header">
+                    <h3>No hay actividades que revisar</h3>
                 </div>
             </div>
-        }
-    }
+        </div>
+    } 
+    @foreach (var activity in ViewBag.activities) {
+        <div class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
+            <div class="card-body">
+                <br>
+                <h2 class="text-start">Título de la actividad: @activity.Title </h2>
+                <h4>Propuesto por: @activity.Publisher </h4>
+                <br />
+                <ul>
+                    <li>Fecha: @activity.Date</li>
+                    <li>Duración: @activity.Duration</li>
+                    <li>Precio: @activity.Price </li>
+                    <li>Capacidad: @activity.MaximumCapacity</li>
+                    <li>Tipo: @activity.ActivityType</li>
+                    <li>Modalidad: @activity.TypeOfAssistance</li>
+                    <li>Nivel de complejidad: @activity.ComplexityLevel</li>
+                </ul>
+                <span>
+                    <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @activity.Category</a></h5>
+                    <h5>
+                        Tópicos:
+                        @foreach (var topic in activity.Topics) {
+                            <a class="badge rounded-pill bg-info"> @topic</a>
+                        }
+                    </h5>
+                </span>
+                <h5>
+                    Publicos Meta:
+                    @foreach (var targetAudienceInstance in activity.TargetAudience) {
+                        <a class="badge bg-info"> @targetAudienceInstance</a>
+                    }
+                </h5>
+                <p class="card-text" style="margin-top: 15px;">
+                    @activity.Description
+                </p>
+                @using (Html.BeginForm("SubmitApprobation", "EducationalActivity", FormMethod.Post, new { title = ViewBag.Title, enctype = "multipart/form-data" })) {
+                    @Html.AntiForgeryToken()
+                
 
+                    <select name="status" class="form-control">
+                        <option value="1" selected>Aprobar</option>
+                        <option value="2">Rechazar</option>
+                    </select>
+                    <br />
+                    <input type="text" name="myTitle" value="@activity.Title" style="display: none;" />
+                    <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Enviar" />
+                }
+            </div>
+        </div>
+     }
 </div>

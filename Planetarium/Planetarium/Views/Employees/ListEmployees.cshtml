@@ -7,15 +7,16 @@
 <body>
     <div class="container">
         <h4 class="text-md-left" style="margin: 5px;">Conozca nuestros funcionarios</h4>
+        <hr/>
         <br>
         <div class="container">
             @{foreach (var employees in ViewBag.employees) {
                     <div class="card mb-3">
                         <div class="row no-gutters">
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <img class="passaport-Img" width="215" height="300" src="~/images/EmployeesProfilePhotos/@employees.PhotoPath" alt="an employee profile photo">
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <div class="card-body">
                                     <h5 class="card-title">Nombre: @employees.FirstName @employees.LastName</h5>
                                     <p class="card-text">Título académico: @employees.AcademicDegree</p>
