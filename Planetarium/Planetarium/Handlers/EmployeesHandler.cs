@@ -50,7 +50,7 @@ namespace Planetarium.Handlers {
 
         private DataTable GetEmployeeWithLanguagesTable(string employeeDni) {
             string query = "SELECT Idioma.idiomaPK FROM Funcionario " +
-                        "INNER JOIN Idioma ON Funcionario.cedulaPK = Idioma.cedulaPK  " +
+                        "INNER JOIN Idioma ON Funcionario.cedulaPK = Idioma.cedulaPKFK  " +
                         "WHERE Funcionario.cedulaPK = '" + employeeDni + "' ";
 
             return CreateTableFromQuery(query);
@@ -106,7 +106,7 @@ namespace Planetarium.Handlers {
         public bool InsertLanguages(EmployeeModel employee) {
             bool success = false;
             foreach (string language in employee.Languages) {
-                string languageQuery = "INSERT INTO Idioma (cedulaPK, idiomaPK)" +
+                string languageQuery = "INSERT INTO Idioma (cedulaPKFK, idiomaPK)" +
                         "VALUES ('" + employee.Dni + "','" + language + "')";
                 success = DatabaseQuery(languageQuery);
             }
