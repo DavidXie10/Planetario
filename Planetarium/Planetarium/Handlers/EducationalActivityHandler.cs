@@ -78,6 +78,9 @@ namespace Planetarium.Handlers {
         }
 
         public List<EducationalActivityModel> GetAllActivitiesFromState(int state) {
+
+            List<EducationalActivityModel> activities = new List<EducationalActivityModel>();
+
             string query = "SELECT DISTINCT F.nombre+ ' ' + F.apellido 'publicador',"
                             + " AE.tituloPK,"
                             + " AE.descripcion,"
@@ -100,42 +103,6 @@ namespace Planetarium.Handlers {
                             + " ORDER BY AE.fechaInicioPK ";
 
             DataTable resultingTable = CreateTableFromQuery(query);
-            List<EducationalActivityModel> activities = new List<EducationalActivityModel>();
-
-            foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
-                activities.Add(CreateInstanceEducationalActivity(rawEducationalInfo));
-            }
-            LinkAllTargetAudience(activities);
-            LinkAllTopics(activities);
-
-            return activities;
-        }
-
-        /*
-        public List<EducationalActivityModel> GetAllActivities() {
-
-            List<EducationalActivityModel> activities = new List<EducationalActivityModel>();
-
-            string query = "SELECT DISTINCT F.nombre+ ' ' + F.apellido 'publicador',"
-                            + " AE.tituloPK,"
-                            + " AE.descripcion,"
-                            + " AE.fechaInicioPK,"
-                            + " AE.duracion,"
-                            + " AE.capacidadMaxima,"
-                            + " AE.precio,"
-                            + " AE.nivelComplejidad,"
-                            + " AE.estado,"
-                            + " AE.tipo,"
-                            + " AE.enlace,"
-                            + " AE.banderaVirtual,"
-                            + " T.categoria"
-                            + " FROM Funcionario F  JOIN ActividadEducativa AE"
-                            + " ON F.cedulaPK  = AE.cedulaFK "
-                            + " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
-                            + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
-                            + " JOIN Idioma I ON I.cedulaPK = AE.cedulaFK ORDER BY AE.fechaInicioPK ";
-
-            DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
                 activities.Add(CreateInstanceEducationalActivity(rawEducationalInfo));
             }
@@ -145,39 +112,6 @@ namespace Planetarium.Handlers {
 
             return activities;
         }
-
-        public List<EducationalActivityModel> GetAllOnRevisionActivities() {
-            string query = "SELECT DISTINCT F.nombre+ ' ' + F.apellido 'publicador',"
-                            + " AE.tituloPK,"
-                            + " AE.descripcion,"
-                            + " AE.fechaInicioPK,"
-                            + " AE.duracion,"
-                            + " AE.capacidadMaxima,"
-                            + " AE.precio,"
-                            + " AE.nivelComplejidad,"
-                            + " AE.estado,"
-                            + " AE.tipo,"
-                            + " AE.enlace,"
-                            + " AE.banderaVirtual,"
-                            + " T.categoria"
-                            + " FROM Funcionario F  JOIN ActividadEducativa AE"
-                            + " ON F.cedulaPK  = AE.cedulaFK "
-                            + " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
-                            + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
-                            + " JOIN Idioma I ON I.cedulaPK = AE.cedulaFK "
-                            + " WHERE AE.estado = 0 "
-                            + " ORDER BY AE.fechaInicioPK ";
-            DataTable resultingTable = CreateTableFromQuery(query);
-            List<EducationalActivityModel> activities = new List<EducationalActivityModel>();
-
-            foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
-                activities.Add(CreateInstanceEducationalActivity(rawEducationalInfo));
-            }
-            LinkAllTargetAudience(activities);
-            LinkAllTopics(activities);
-
-            return activities;
-        }*/
 
         private EducationalActivityModel CreateInstanceEducationalActivity(DataRow rawEducationalInfo) {
             return new EducationalActivityModel {
