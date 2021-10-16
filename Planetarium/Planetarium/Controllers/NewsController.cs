@@ -86,7 +86,7 @@ namespace Planetarium.Controllers {
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
-                } 
+                }
             } catch (Exception e) {
                 TempData["Error"] = true;
                 TempData["WarningMessage"] = e.ToString();
@@ -98,7 +98,7 @@ namespace Planetarium.Controllers {
 
         private void LoadNewsWithForm(NewsModel news) {
             news.Category = Request.Form["Category"].Replace(" ", "_");
-            news.Topics = ContentParser.GetTopicsFromString(Request.Form["inputTopicString"]);
+            news.Topics = ContentParser.GetListFromString(Request.Form["inputTopicString"]);
             news.Title = Request.Form["title"];
             news.Author = Request.Form["author"];
             news.Description = Request.Form["description"];

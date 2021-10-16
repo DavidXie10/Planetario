@@ -121,7 +121,7 @@ namespace Planetarium.Handlers {
             success = DatabaseQuery(queryCommand);
             success = InsertNewsTopics(news);
 
-            if (news.ImagesRef != null) {
+            if (news.ImagesRef.Count > 0) {
                 success = InsertImages(news);
             }
 
