@@ -77,7 +77,9 @@
         for (var activity in activities) {
             matching = match(activities[activity].Title, text)
                 || match(activities[activity].Category, text)
-                || matchTopics(activities[activity].Topics, text);
+                || matchList(activities[activity].Topics, text)
+                || match(activities[activity].ComplexityLevel, text)
+                || matchList(activities[activity].TargetAudience, text);
             if (text == "")
                 show(activities[activity].Title)
             else if (matching)
@@ -88,10 +90,10 @@
         return matching;
     }
 
-    function matchTopics(topics, word) {
+    function matchList(list, word) {
         var matching = new Boolean(false);
-        for (var topic in topics) {
-            matching = match(topics[topic], word);
+        for (var element in list) {
+            matching = match(list[element], word);
             if (matching)
                 return matching;
         }

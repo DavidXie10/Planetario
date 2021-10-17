@@ -99,7 +99,7 @@ namespace Planetarium.Handlers {
                             + " JOIN ActividadEducativaPerteneceATopico AEPT ON (AE.tituloPK = AEPT.tituloPKFK"
                             + " AND AE.fechaInicioPK = AEPT.fechaInicioPKFK)"
                             + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
-                            + " JOIN Idioma I ON I.cedulaPK = AE.cedulaFK "
+                            + " JOIN Idioma I ON I.cedulaPKFK = AE.cedulaFK "
                             + " WHERE AE.estadoRevision = " + state
                             + " ORDER BY AE.fechaInicioPK ";
 
