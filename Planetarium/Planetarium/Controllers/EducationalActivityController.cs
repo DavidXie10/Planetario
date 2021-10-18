@@ -98,7 +98,7 @@ namespace Planetarium.Controllers {
 
             MailboxAddress from = new MailboxAddress("Coordinador", "mauricio.rojassegnini@ucr.ac.cr");
             message.From.Add(from);
-            MailboxAddress to = new MailboxAddress("Educador", "juan.pachecocastro@ucr.ac.cr");
+            MailboxAddress to = new MailboxAddress("Educador", "carlos.espinozaperaza@ucr.ac.cr");
             message.To.Add(to);
 
             message.Subject = BASE_SUBJECT;
@@ -112,7 +112,7 @@ namespace Planetarium.Controllers {
 
             SmtpClient client = new SmtpClient();
             client.Connect("smtp.ucr.ac.cr", 587);
-            client.Authenticate("mauricio.rojassegnini@ucr.ac.cr", "password");
+            client.Authenticate("mauricio.rojassegnini@ucr.ac.cr", "mauuam1771.");
 
             client.Send(message);
             client.Disconnect(true);
