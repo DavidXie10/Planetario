@@ -56,8 +56,8 @@ namespace Planetarium.Controllers {
                 countries.Add(new SelectListItem { Text = country, Value = country });
             }
 
-            foreach(var langage in JsonContentLanguages) {
-                string name = langage.Value["name"].ToString();
+            foreach(var language in JsonContentLanguages) {
+                string name = language.Value["name"].ToString();
                 languages.Add(new SelectListItem { Value = name, Text = name });
             }
 

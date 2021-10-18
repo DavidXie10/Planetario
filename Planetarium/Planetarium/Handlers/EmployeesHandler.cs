@@ -44,7 +44,7 @@ namespace Planetarium.Handlers {
         private void LinkAllEmployeeWithLanguages(List<EmployeeModel> employees) {
             foreach (EmployeeModel employee in employees) {
                 DataTable resultingTableOfEmployeeWithTheirLanguage = GetEmployeeWithLanguagesTable(employee.Dni);
-                LinkScoopWithLanguages(employee, resultingTableOfEmployeeWithTheirLanguage);
+                LinkEmployeeWithLanguages(employee, resultingTableOfEmployeeWithTheirLanguage);
             }
         }
 
@@ -56,10 +56,9 @@ namespace Planetarium.Handlers {
             return CreateTableFromQuery(query);
         }
 
-        private void LinkScoopWithLanguages(EmployeeModel employee, DataTable resultingTable) {
+        private void LinkEmployeeWithLanguages(EmployeeModel employee, DataTable resultingTable) {
             employee.Languages = new List<string>();
-            foreach (DataRow column in resultingTable.Rows)
-            {
+            foreach (DataRow column in resultingTable.Rows) {
                 var tempLanguage = Convert.ToString(column["idiomaPK"]);
                 employee.Languages.Add(tempLanguage);
             }

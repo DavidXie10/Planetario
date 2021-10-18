@@ -46,14 +46,11 @@ namespace Planetarium.Controllers {
         public ActionResult SendEducationalMaterialForm(EducationalMaterialModel educationalMaterial) {
             ActionResult view = RedirectToAction("Success", "Home");
             educationalMaterial.EducationalMaterialFileNames = ContentParser.GetListFromString(Request.Form["filesString"]);
-
             for (int i = 0; i < educationalMaterial.EducationalMaterialFileNames.Count; i++) {
                 educationalMaterial.EducationalMaterialFileNames[i] = educationalMaterial.EducationalMaterialFileNames[i].Replace(" ", "-").Replace(" ", "-");
             }
-
-
             educationalMaterial.Category = Request.Form["Category"].Replace(" ", "_");
-            educationalMaterial.Topics = ContentParser.GetTopicsFromString(Request.Form["inputTopicString"]);
+            educationalMaterial.Topics = ContentParser.GetListFromString(Request.Form["inputTopicString"]);
             ViewBag.SuccessOnCreation = false;
             try {
                 ViewBag.SuccessOnCreation = this.DataAccess.InsertEducationalMaterial(educationalMaterial);
@@ -62,7 +59,6 @@ namespace Planetarium.Controllers {
                     view = RedirectToAction("Success", "Home");
                 }
             } catch {
-                //TODO: Cambiar el e.ToString()
                 TempData["Error"] = true;
                 TempData["WarningMessage"] = "Algo salio mal";
                 view = RedirectToAction("SubmitEducationalMaterial", "EducationalMaterial");

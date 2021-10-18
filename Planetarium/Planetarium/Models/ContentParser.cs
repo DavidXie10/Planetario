@@ -9,11 +9,6 @@ using System.Text;
 
 namespace Planetarium.Models {
     public class ContentParser {
-
-        public ContentParser() {
-        }
-
-
         private string[] ExtractRawContent(string fileName) {
             return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName));
         }
@@ -48,21 +43,6 @@ namespace Planetarium.Models {
                 }
             }
             return listFromContent;
-        }
-
-        public List<string> GetTopicsFromString(string topics)
-        {
-            List<string> topicsParsed = new List<string>();
-            string[] topicsList = topics.Split('|');
-            foreach (string topic in topicsList)
-            {
-                if (topic != "")
-                {
-                    topicsParsed.Add(topic.Replace("_", " "));
-                }
-
-            }
-            return topicsParsed;
         }
     }
 }

@@ -10,6 +10,8 @@ using static Planetarium.Handlers.DatabaseHandler;
 
 namespace Planetarium.Handlers {
     public class EducationalActivityHandler : DatabaseClassificationsHandler {
+        const int ON_REVIEW = 0;
+        const int APPROVED = 1;
 
         public bool ProposeEducationalActivity(EducationalActivityModel educationalActivity) {
             bool success = false;
@@ -37,10 +39,8 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@nivelComplejidad", educationalActivity.ComplexityLevel);
             queryCommand.Parameters.AddWithValue("@modalidad", educationalActivity.ActivityType);
             queryCommand.Parameters.AddWithValue("@enlace", educationalActivity.Link);
-
             int virtualFlag = educationalActivity.TypeOfAssistance == "Virtual" ? 1 : 0;
             int onSiteFlag = educationalActivity.TypeOfAssistance == "Virtual" ? 0 : 1;
-
             queryCommand.Parameters.AddWithValue("@banderaVirtual", virtualFlag);
             queryCommand.Parameters.AddWithValue("@banderaPresencial", onSiteFlag);
         }
@@ -70,11 +70,11 @@ namespace Planetarium.Handlers {
         }
 
         public List<EducationalActivityModel> GetAllOnRevisionActivities() {
-            return GetAllActivitiesFromState(0);
+            return GetAllActivitiesFromState(ON_REVIEW);
         }
 
         public List<EducationalActivityModel> GetAllApprovedActivities() {
-            return GetAllActivitiesFromState(1);
+            return GetAllActivitiesFromState(APPROVED);
         }
 
         public List<EducationalActivityModel> GetAllActivitiesFromState(int state) {

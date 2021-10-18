@@ -12,21 +12,15 @@ namespace Planetarium.Controllers {
 
         public NewsHandler DataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
-        public List<string> ImagesNames { get; set; }
 
         public NewsController() {
             DataAccess = new NewsHandler();
             ContentParser = new ContentParser();
-            ImagesNames = new List<string>();
         }
 
         public ActionResult ListNews() {
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
-            return View();
-        }
-
-        public ActionResult EditNews() {
             return View();
         }
 
@@ -50,24 +44,20 @@ namespace Planetarium.Controllers {
 
         public JsonResult GetTopicsList(string category) {
             List<SelectListItem> topicsList = new List<SelectListItem>();
-
             List<string> topicsFromCategory = DataAccess.GetTopicsByCategory(category);
 
             foreach (string topic in topicsFromCategory) {
                 topicsList.Add(new SelectListItem { Text = topic, Value = topic });
             }
-
             return Json(new SelectList(topicsList, "Value", "Text"));
         }
         
         private List<SelectListItem> LoadCategories() {
             List<string> categories = DataAccess.GetAllCategories();
-
             List<SelectListItem> dropdownCategories = new List<SelectListItem>();
             foreach (string category in categories) {
                 dropdownCategories.Add(new SelectListItem { Text = category, Value = category });
             }
-
             return dropdownCategories;
         }
 
@@ -87,12 +77,11 @@ namespace Planetarium.Controllers {
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            } catch (Exception e) {
+            } catch {
                 TempData["Error"] = true;
-                TempData["WarningMessage"] = e.ToString();
+                TempData["WarningMessage"] = "Algo salió mal";
                 view = RedirectToAction("SubmitNewsForm", "News");
             }
-
             return view;
         }
 
@@ -112,7 +101,6 @@ namespace Planetarium.Controllers {
                 string filePath = file.FileName.Replace("_", "-").Replace(" ", "-");
                 file.SaveAs(Path.Combine(Server.MapPath("~/images/news"), filePath));
             }
-
             return Json("Files uploaded successfully");
         }
     }

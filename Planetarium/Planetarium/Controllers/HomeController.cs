@@ -45,16 +45,6 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        public ActionResult ActivitiesDescription() {
-            ViewBag.Message = "Our activities.";
-
-            return View();
-        }
-
-        public ActionResult Educative() {
-            return View();
-        }
-
         public ActionResult Success() {
             ViewBag.Message = "Su información ha sido agregada exitosamente";
             ViewBag.Title = "Success";

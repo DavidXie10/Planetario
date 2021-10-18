@@ -39,9 +39,9 @@ namespace Planetarium.Handlers {
         }
 
         protected void LinkAllFeatureWithTopics(Dictionary<string[], List<string>> featureTopicList) {
-            foreach (string[] featureTitle in featureTopicList.Keys) {
-                DataTable resultingTableOfFeatureWithItsTopics = GetFeatureWithTopicsTable(featureTitle);
-                LinkFeatureWithTopics(featureTopicList[featureTitle], resultingTableOfFeatureWithItsTopics);
+            foreach (string[] featureKeys in featureTopicList.Keys) {
+                DataTable resultingTableOfFeatureWithItsTopics = GetFeatureWithTopicsTable(featureKeys);
+                LinkFeatureWithTopics(featureTopicList[featureKeys], resultingTableOfFeatureWithItsTopics);
             }
         }
 

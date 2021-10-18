@@ -96,13 +96,11 @@ namespace Planetarium.Handlers {
 
         private bool InsertNewsTopics(NewsModel news) {
             bool success = false;
-
             foreach (string topic in news.Topics) {
                 string query = "INSERT INTO NoticiaPerteneceATopico " +
                         "VALUES ('" + news.Title + "','" + topic + "')";
                 success = DatabaseQuery(query);
             }
-
             return success;
         }
 
@@ -112,19 +110,15 @@ namespace Planetarium.Handlers {
                            "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'202210135',@contenido,@autor)";
             SqlCommand queryCommand = new SqlCommand(query, connection);
             //TO-DO: Cambiar cedula quemada
-
             queryCommand.Parameters.AddWithValue("@tituloPK", news.Title);
             queryCommand.Parameters.AddWithValue("@resumen", news.Description);
             queryCommand.Parameters.AddWithValue("@contenido", news.Content);
             queryCommand.Parameters.AddWithValue("@autor", news.Author);
-
             success = DatabaseQuery(queryCommand);
             success = InsertNewsTopics(news);
-
             if (news.ImagesRef.Count > 0) {
                 success = InsertImages(news);
             }
-
             return success;
         }
     }

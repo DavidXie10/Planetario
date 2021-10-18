@@ -242,9 +242,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\WhoWeAre.cshtml" />
-    <Content Include="Views\Home\Educative.cshtml" />
     <Content Include="Views\Home\FindUs.cshtml" />
-    <Content Include="Views\Home\ActivitiesDescription.cshtml" />
     <Content Include="Views\News\ListNews.cshtml" />
     <Content Include="Views\News\News.cshtml" />
     <Content Include="Views\EducationalActivity\ActivitiesApprobation.cshtml" />

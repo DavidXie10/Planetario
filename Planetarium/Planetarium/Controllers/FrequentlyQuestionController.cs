@@ -54,13 +54,11 @@ namespace Planetarium.Controllers {
 
             ViewBag.SuccessOnCreation = false;
             try {
-                if (ModelState.IsValid) {
-                    ViewBag.SuccessOnCreation = this.dataAccess.CreateFrequentlyAskedQuestion(faq);
-                    if (ViewBag.SuccessOnCreation) {
-                        view = RedirectToAction("Success", "Home");
-                        ViewBag.Message = "La pregunta " + "\"" + faq.Question + " \" fue creada con éxito";
-                        ModelState.Clear();
-                    }
+                ViewBag.SuccessOnCreation = this.dataAccess.CreateFrequentlyAskedQuestion(faq);
+                if (ViewBag.SuccessOnCreation) {
+                    view = RedirectToAction("Success", "Home");
+                    ViewBag.Message = "La pregunta " + "\"" + faq.Question + " \" fue creada con éxito";
+                    ModelState.Clear();
                 }
             } catch {
                 ViewBag.Message = "Algo salió mal y no fue posible crear la pregunta";

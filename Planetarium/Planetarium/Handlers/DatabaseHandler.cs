@@ -11,8 +11,6 @@ namespace Planetarium.Handlers {
 
         protected SqlConnection connection;
         protected string connectionRoute;
-
-        //Connection name used in web.config
         protected const string CONNECTION_NAME = "PlanetariumConnection";
 
         public DatabaseHandler() {

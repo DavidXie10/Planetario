@@ -31,17 +31,6 @@ namespace Planetarium.Controllers {
             return Json(new SelectList(topicsList, "Value", "Text"));
         }
 
-        private List<SelectListItem> LoadCategories() {
-            List<string> categories = DataAccess.GetAllCategories();
-
-            List<SelectListItem> dropdownCategories = new List<SelectListItem>();
-            foreach (string category in categories) {
-                dropdownCategories.Add(new SelectListItem { Text = category, Value = category });
-            }
-
-            return dropdownCategories;
-        }
-
         private List<SelectListItem> GetDropdown(string[] options) {
             List<SelectListItem> dropdown = new List<SelectListItem>();
 
@@ -66,7 +55,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ProposeEducationalActivity() {
-            ViewData["category"] = LoadCategories();
+            ViewData["category"] = GetDropdown(DataAccess.GetAllCategories().ToArray());
             LoadDropDownList();
             return View();
         }
@@ -130,41 +119,34 @@ namespace Planetarium.Controllers {
             client.Dispose();
         }
 
-        private string WordUsageDependingOnState(string baseMessage, int state){
+        private string WordUsageDependingOnState(string baseMessage, int state) {
             return baseMessage +( (state == 0) ? "pasada a revisión." : (state == 1) ? "aprobada." : "rechazada.");    
         }
 
-        public ActionResult ListActivities()
-        {
+        public ActionResult ListActivities() {
             ViewBag.activities = DataAccess.GetAllApprovedActivities();
             return View();
         }
 
-        public ActionResult ActivitiesApprobation()
-        {
+        public ActionResult ActivitiesApprobation() {
             ViewBag.activities = DataAccess.GetAllOnRevisionActivities();
             return View();
         }
 
         [HttpPost]
-        public ActionResult SubmitApprobation()
-        {
+        public ActionResult SubmitApprobation() {
             ActionResult view = RedirectToAction("ActivitiesApprobation", "EducationalActivity");
             int state = Convert.ToInt32(Request.Form["status"]);
             string title = Request.Form["myTitle"];
 
             ViewBag.SuccessOnCreation = false;
-            try
-            {   
+            try {   
                 ViewBag.SuccessOnCreation = DataAccess.UpdateActivityState(title, state);
-                if (ViewBag.SuccessOnCreation)
-                {
+                if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
                     SendEmail(state);
                 }
-            }
-            catch
-            {
+            } catch {
                 TempData["Error"] = true;
                 TempData["WarningMessage"] = "Algo salio mal";
             }
