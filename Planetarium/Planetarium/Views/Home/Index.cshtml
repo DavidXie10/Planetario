@@ -24,8 +24,8 @@
         <div class="imageActivities">
             <img src="~/images/PlanetariumUCR/activitiesImageHomePage.jpg" class="img-fluid" alt="Responsive image">
 
-            <div class="image__overlay image__overlay--primary">
-                <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities")</div>
+            <div class="image__overlay image__overlay--light">
+                <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities", null, new { @class = "text-dark", @style = "text-decoration: underline;" })</div>
                 <p class="image__description">
                     Aquí podés encontrar las próximas actividades
                 </p>
@@ -45,18 +45,21 @@
     <div class="row" style="margin-top: 40px;">
         @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
             <div class="col-sm">
-                <div class="card bg-primary">
-                    <div class="card-text" style="padding: 0;">
-                        @if (ViewBag.News[index].ImagesRef.Count > 0) {
-                            <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid" />
-                        }
+                <div class="card h-100 bg-primary">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <div class="embed-responsive-item">
+                            @if (ViewBag.News[index].ImagesRef.Count > 0) {
+                                <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100"/>
+                            }
+                            
+                        </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
                         <p class="card-text">
                             @ViewBag.News[index].Title
                         </p>
 
-                        @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-start align-self-left btn btn-info", @style = "margin-top: auto; "})
                     </div>
                 </div>
             </div>

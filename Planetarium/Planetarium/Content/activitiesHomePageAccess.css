@@ -33,13 +33,17 @@
     background: #0094ff;
 }
 
-.image__overlay > * {
-    transform: translateY(20px);
-    transition: transform 0.25s;
+.image__overlay--light {
+    background: #adb5bd;
 }
 
+    .image__overlay > * {
+        transform: translateY(20px);
+        transition: transform 0.25s;
+    }
+
 .image__overlay:hover {
-    opacity: 1;
+    opacity: 0.96;
 }
 
 .image__overlay:hover > * {
