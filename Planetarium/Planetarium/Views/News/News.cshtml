@@ -14,17 +14,17 @@
             <hr/>
             <h4> @ViewBag.News.Author </h4>
             <p class="card-text"> @ViewBag.News.Date </p>
-            <p class="card-text">Categoría: @ViewBag.News.Category </p>
-            <p class="card-text">
+            <p class="card-text" style="font-size: 22px">Categoría: @ViewBag.News.Category </p>
+            <p class="card-text" style="font-size: 22px">
                 Tópicos:
                 @foreach (var topic in @ViewBag.News.Topics) {
-                <a class="badge rounded-pill bg-info"> @topic </a>
+                    <a class="badge rounded-pill bg-info"> @topic </a>
                 }
             </p>
         </div>
         <div class="card col-md">
             <div class="card-body">
-                <p class="card-text">@ViewBag.News.Content</p>
+                <p class="card-text"><h5>@ViewBag.News.Content</h5></p>
             </div>
         </div>
 

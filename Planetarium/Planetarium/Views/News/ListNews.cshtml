@@ -2,10 +2,10 @@
     <hr />
     <h3 class="text-start">
         <i class="fas fa-user-edit"></i>
-        @Html.ActionLink("Agregar noticia", "/SubmitNewsForm", new { @class = "btn btn-info" })
+        @Html.ActionLink("Agregar noticia o anuncio", "/SubmitNewsForm", new { @class = "btn btn-info" })
     </h3>
     <hr />
-    <h1 style="margin:10px 0 20px 0;">Noticias Planetario</h1>
+    <h1 style="margin:10px 0 20px 0;">Noticias y Anuncios del Planetario</h1>
 
     @foreach (var news in @ViewBag.News)
     {

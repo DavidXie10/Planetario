@@ -88,17 +88,18 @@ namespace Planetarium.Handlers {
         private void AddParametersToQueryCommand(SqlCommand queryCommand, EmployeeModel employee) {
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
             queryCommand.Parameters.AddWithValue("@ocupacion", employee.Occupation);
-            queryCommand.Parameters.AddWithValue("@titulosAcademicos", employee.AcademicDegree);
-            queryCommand.Parameters.AddWithValue("@correo", employee.Mail);
+            queryCommand.Parameters.AddWithValue("@titulosAcademicos", employee.AcademicDegree == null ? "" : employee.AcademicDegree);
+            queryCommand.Parameters.AddWithValue("@correo", employee.Mail == null ? "" : employee.Mail );
+            
             queryCommand.Parameters.AddWithValue("@nombre", employee.FirstName);
             queryCommand.Parameters.AddWithValue("@apellido", employee.LastName);
-            queryCommand.Parameters.AddWithValue("@frase", employee.Phrase);
-            queryCommand.Parameters.AddWithValue("@genero", employee.Gender);
+            queryCommand.Parameters.AddWithValue("@frase", employee.Phrase == null ? "" : employee.Phrase);
+            queryCommand.Parameters.AddWithValue("@genero", employee.Gender == 'N' ? 'O' : employee.Gender);
             queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.DateOfBirth);
-            queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber);
-            queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea);
-            queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address);
-            queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry);
+            queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber == 0 ? 0 : employee.PhoneNumber);
+            queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea == null ? "" : employee.ExpertiseArea);
+            queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address == null ? "" : employee.Address);
+            queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry == null ? "" : employee.NativeCountry);
             queryCommand.Parameters.AddWithValue("@rutaFotoPerfil", employee.PhotoFile.FileName.Replace(" ", "-").Replace("_", "-"));
         }
 

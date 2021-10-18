@@ -112,7 +112,7 @@ namespace Planetarium.Controllers {
 
             SmtpClient client = new SmtpClient();
             client.Connect("smtp.ucr.ac.cr", 587);
-            client.Authenticate("mauricio.rojassegnini", "password");
+            client.Authenticate("mauricio.rojassegnini@ucr.ac.cr", "mauuam1771.");
 
             client.Send(message);
             client.Disconnect(true);

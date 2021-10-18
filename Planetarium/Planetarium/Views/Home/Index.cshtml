@@ -37,7 +37,7 @@
 
     <hr />
     <h3 class="text-start">
-        <a href="/News/ListNews">Noticias</a>
+        <a href="/News/ListNews">Noticias y Anuncios</a>
     </h3>
     <h6 class="text-start">
         Todo lo que tenés que saber respecto a temas sobre planetas, galaxias, nuevas tecnologías y muchos temas más.
@@ -56,7 +56,7 @@
                             @ViewBag.News[index].Title
                         </p>
 
-                        @Html.ActionLink("Ver Noticia", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "btn btn-info" })
                     </div>
                 </div>
             </div>
