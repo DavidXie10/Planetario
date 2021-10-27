@@ -76,19 +76,11 @@
                                 @Html.LabelFor(model => model.Dni)
                                 @Html.TextBoxFor(model => model.Dni, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger", @placeholder = "#########" })
-
                             </div>
 
                             <div class="col">
                                 @Html.LabelFor(model => model.NativeCountry)
                                 @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-control" })
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-top: 15px;">
-                            <div class="col">
-                                @Html.LabelFor(model => model.Address)
-                                @Html.TextBoxFor(model => model.Address, new { @class = "form-control" })
                             </div>
                         </div>
 
@@ -102,14 +94,6 @@
                                 @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @placeholder = "00000000" })
                             </div>
                         </div>
-
-                        <div class="row" style="margin-top: 15px;">
-                            <div class="col">
-                                @Html.LabelFor(model => model.Phrase)
-                                @Html.TextBoxFor(model => model.Phrase, new { @class = "form-control", @placeholder = "¡Me encantan la atmósfera, me deja respirar!" })
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>

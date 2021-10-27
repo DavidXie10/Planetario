@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
-using System.IO;
+using Planetarium.Models;
 
 namespace Planetarium.Handlers {
     abstract public class DatabaseClassificationsHandler : DatabaseHandler {
+        public ContentParser ContentParser { get; set; }
+
+        public DatabaseClassificationsHandler() {
+            ContentParser = new ContentParser();
+        }
 
         public List<string> GetAllCategories() {
             List<string> categories = new List<string>();

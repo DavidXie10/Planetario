@@ -31,18 +31,12 @@ namespace Planetarium.Models {
         [Display(Name = "Área de expertiz")]
         public string ExpertiseArea { get; set; }
 
-        [Display(Name = "Lugar de residencia")]
-        public string Address { get; set; }
-
         [Display(Name = "Títulos académicos")]
         public string AcademicDegree { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese la ocupación")]
         [Display(Name = "Ocupación")]
         public string Occupation { get; set; }
-
-        [Display(Name = "Si lo desea agregue una frase")]
-        public string Phrase { get; set; }
 
         [Display(Name = "País de origen")]
         public string NativeCountry { get; set; }

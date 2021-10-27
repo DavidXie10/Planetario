@@ -145,13 +145,12 @@
     <Compile Include="Handlers\DatabaseClassificationsHandler.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
-    <Compile Include="Handlers\EducationalMaterialHandler.cs" />
     <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Handlers\EmployeesHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
+    <Compile Include="Models\EducationalActivityEventModel.cs" />
     <Compile Include="Models\EducationalActivityModel.cs" />
-    <Compile Include="Models\EducationalMaterialModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
@@ -255,7 +254,6 @@
     <Content Include="Views\Employees\Employee.cshtml" />
     <Content Include="Views\Employees\ListEmployees.cshtml" />
     <Content Include="Views\Employees\CreateEmployee.cshtml" />
-    <Content Include="Views\EducationalMaterial\ListEducationalMaterial.cshtml" />
     <Content Include="Views\EducationalMaterial\SubmitEducationalMaterial.cshtml" />
   </ItemGroup>
   <ItemGroup>

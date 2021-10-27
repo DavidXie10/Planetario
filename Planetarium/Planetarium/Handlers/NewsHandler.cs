@@ -10,13 +10,12 @@ using System.Linq;
 
 namespace Planetarium.Handlers {
     public class NewsHandler : DatabaseClassificationsHandler {
-
         public List<NewsModel> GetAllNews() {
-            string query = "SELECT DISTINCT N.tituloPK, N.resumen, N.fechaPublicacion, N.cedulaFK, N.contenido, N.autor, T.categoria " +
+            string query = "SELECT DISTINCT N.tituloPK, N.resumen, N.fechaPublicacion, N.cedulaFK, N.contenido, T.categoria " +
                            "FROM Noticia N " +
-                           "INNER JOIN NoticiaPerteneceATopico NPAT ON NPAT.tituloPKFK = N.tituloPK " +
+                           "INNER JOIN NoticiaPerteneceATopico NPAT ON NPAT.tituloNoticiaPKFK = N.tituloPK " +
                            "INNER JOIN Topico T ON T.nombrePK = NPAT.nombreTopicoPKFK " +
-                           "ORDER BY fechaPublicacion DESC ";
+                           "ORDER BY N.fechaPublicacion DESC ";
             DataTable resultingNewsTable = CreateTableFromQuery(query);
             List<NewsModel> news = CreateNewsFromDataTable(resultingNewsTable);
             LinkAllFeatureWithTopics(CreateDictionary(news));
@@ -47,51 +46,32 @@ namespace Planetarium.Handlers {
                 Content = Convert.ToString(scoopRawInfo["contenido"]),
                 PublisherId = Convert.ToString(scoopRawInfo["cedulaFK"]),
                 Description = Convert.ToString(scoopRawInfo["resumen"]),
-                Author = Convert.ToString(scoopRawInfo["autor"]),
                 Category = Convert.ToString(scoopRawInfo["categoria"])
             };
         }
 
         override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
             string query = "SELECT * FROM Noticia " +
-                        "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloPKFK  " +
+                        "INNER JOIN NoticiaPerteneceATopico ON Noticia.tituloPK = NoticiaPerteneceATopico.tituloNoticiaPKFK  " +
                         "WHERE tituloPK = '" + keys[0] + "' ";
             return CreateTableFromQuery(query);
         }
 
         private void LinkAllNewsWithImages(List<NewsModel> news) {
             foreach (NewsModel scoop in news) {
-                DataTable resultingTableOfNewsWithTheirImages = GetNewsWithImagesTable(scoop.Title);
-                if (resultingTableOfNewsWithTheirImages != null)
-                    LinkScoopWithImages(scoop, resultingTableOfNewsWithTheirImages);
+                DataTable newsImages = GetNewsWithImagesTable(scoop.Title);
+                if (newsImages != null)
+                    LinkScoopWithImages(scoop, newsImages);
             }
         }
         private DataTable GetNewsWithImagesTable(string scoopTitle) {
-            string query = "SELECT * FROM Noticia " +
-                        "INNER JOIN ImagenPerteneceANoticia ON Noticia.tituloPK = ImagenPerteneceANoticia.tituloPKFK  " +
+            string query = "SELECT rutasImagenes FROM Noticia " +
                         "WHERE tituloPK = '" + scoopTitle + "' ";
             return CreateTableFromQuery(query);
         }
 
-        private void LinkScoopWithImages(NewsModel scoop, DataTable resultingTable) {
-            scoop.ImagesRef = new List<string>();
-            foreach (DataRow column in resultingTable.Rows) {
-                var tempImageRef = Convert.ToString(column["referenciaImagenPK"]);
-                scoop.ImagesRef.Add(tempImageRef);
-            }
-        }
-
-        private bool InsertImages(NewsModel news) {
-            bool success = false;
-
-            foreach (string imageRef in news.ImagesRef) {
-                
-                string query = "INSERT INTO ImagenPerteneceANoticia " +
-                        "VALUES ('" + news.Title + "','" + imageRef.Replace("_", "-").Replace(" ", "-") + "')";
-                success = DatabaseQuery(query);
-            }
-
-            return success;
+        private void LinkScoopWithImages(NewsModel scoop, DataTable newsImages) {
+            scoop.ImagesRef = ContentParser.GetListFromString(Convert.ToString(newsImages.Rows[0]["rutasImagenes"]));
         }
 
         private bool InsertNewsTopics(NewsModel news) {
@@ -106,19 +86,23 @@ namespace Planetarium.Handlers {
 
         public bool PublishNews(NewsModel news) {
             bool success = false;
-            string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, autor) " +
-                           "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ) ,'202210135',@contenido,@autor)";
+            string query = "INSERT INTO Noticia (tituloPK, resumen, fechaPublicacion, cedulaFK, contenido, rutasImagenes)" +
+                           "VALUES(@tituloPK,@resumen, CAST( GETDATE() AS Date ),'202210135',@contenido,@rutasImagenes)";
             SqlCommand queryCommand = new SqlCommand(query, connection);
             //TO-DO: Cambiar cedula quemada
+            string imagesRef = "";
+
+            if (news.ImagesRef.Count > 0) {
+                imagesRef = ContentParser.GetStringFromList(news.ImagesRef);
+            }
+
+            queryCommand.Parameters.AddWithValue("@rutasImagenes", imagesRef);
             queryCommand.Parameters.AddWithValue("@tituloPK", news.Title);
             queryCommand.Parameters.AddWithValue("@resumen", news.Description);
             queryCommand.Parameters.AddWithValue("@contenido", news.Content);
-            queryCommand.Parameters.AddWithValue("@autor", news.Author);
             success = DatabaseQuery(queryCommand);
             success = InsertNewsTopics(news);
-            if (news.ImagesRef.Count > 0) {
-                success = InsertImages(news);
-            }
+
             return success;
         }
     }
