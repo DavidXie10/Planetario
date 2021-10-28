@@ -19,14 +19,22 @@
 
 
 .navbar {
-    padding: 0 30px 0 50px !important;
+    padding: 0 30px 0 20px !important;
 }
 
-a{
+footer {
+    color: white;
+}
+
+a {
     text-decoration: none;
 }
 
-    a:hover {
-        text-decoration: underline;
-    }
+a.badge:hover {
+    color: white;
+}
+
+a.btn:hover {
+    text-decoration: none;
+}
 
