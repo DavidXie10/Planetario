@@ -16,49 +16,52 @@
         <input type="text" id="search" class="form-control" placeholder="Buscar por palabras claves, categorías o tópicos" autocomplete="off" />
         <i class="glyphicon glyphicon-user form-control-feedback"></i>
     </div>
-    @foreach (var activity in ViewBag.activities) {
-        if (activity.State == "1") {
-
-            <div id="@activity.Title" class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
-                <div class="card-body">
-                    <br>
-                    <h2 class="text-start">@activity.Title  </h2>
-                    <h4>Impartido por: @activity.Publisher </h4>
-                    <br />
-                    <h9>Fecha: @activity.Date</h9><br>
-                    <h9>Duración: @activity.Duration minutos</h9><br>
-                    @{
-                        string price = (@activity.Price == 0) ? "Gratis" : "₡" + @activity.Price;
-                    }
-                    <h9>Precio:  @price </h9><br>
-                    <h9>Capacidad: @activity.MaximumCapacity personas</h9><br>
-                    <h9>Tipo: @activity.ActivityType</h9><br>
-                    <h9>Nivel de complejidad: @activity.ComplexityLevel</h9>
-                    <span>
-                        <h5>Categoría: <a class=" btn btn-group-sm btn-success"> @activity.Category</a></h5>
-                        <h5>
-                            Tópicos:
-                            @foreach (var topic in activity.Topics) {
-                                <a class="badge rounded-pill bg-info"> @topic</a>
+    <div class="row d-flex">
+        @foreach (var activity in ViewBag.activities) {
+            if (activity.State == "1") {
+                <div id="@activity.Title " class="col-4 d-flex justify-content-evenly">
+                    <div id="@activity.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
+                        <div class="card-body">
+                            <br>
+                            <h2 class="text-start">@activity.Title  </h2>
+                            <h4>Impartido por: @activity.Publisher </h4>
+                            <br />
+                            <h9>Fecha: @activity.Date</h9><br>
+                            <h9>Duración: @activity.Duration minutos</h9><br>
+                            @{
+                                string price = (@activity.Price == 0) ? "Gratis" : "₡" + @activity.Price;
                             }
-                        </h5>
+                            <h9>Precio:  @price </h9><br>
+                            <h9>Capacidad: @activity.MaximumCapacity personas</h9><br>
+                            <h9>Tipo: @activity.ActivityType</h9><br>
+                            <h9>Nivel de complejidad: @activity.ComplexityLevel</h9>
+                            <span>
+                                <h5>Categoría: <a class="badge rounded-pill bg-success"> @activity.Category</a></h5>
+                                <h5>
+                                    Tópicos:
+                                    @foreach (var topic in activity.Topics) {
+                                        <a class="badge rounded-pill bg-info"> @topic</a>
+                                    }
+                                </h5>
 
-                    </span>
-                    <h5>
-                        Publicos Meta:
-                        @foreach (var targetAudienceInstance in activity.TargetAudience) {
-                            <a class="badge bg-info"> @targetAudienceInstance</a>
-                        }
-                    </h5>
-                    <p class="card-text" style="margin-top: 15px;">
-                        @activity.Description
-                    </p>
+                            </span>
+                            <h5>
+                                Publicos Meta:
+                                @foreach (var targetAudienceInstance in activity.TargetAudience) {
+                                    <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
+                                }
+                            </h5>
+                            <p class="card-text" style="margin-top: 15px;">
+                                @activity.Description
+                            </p>
 
-
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         }
-    }
+    </div>
+    
 </div>
 <script>
     async function main() {
