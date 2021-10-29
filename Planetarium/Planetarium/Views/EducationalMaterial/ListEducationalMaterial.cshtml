@@ -24,8 +24,8 @@
         <div id="filter-message"></div>
 
         @foreach (var educationalMaterials in @ViewBag.EducationalMaterials) {
-            <div id="@educationalMaterials.Title" class="card rounded-3 bg-dark" style="margin: 15px 0 15px 0;">
-                <div class="card-body">
+            <div id="@educationalMaterials.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
+                <div class="card-body ">
                     <h2 class="text-start">@educationalMaterials.Title </h2>
                     <h5>Autor: @educationalMaterials.Author</h5>
                     <h9>Fecha de publicación: @educationalMaterials.PublicationDate</h9>

@@ -34,7 +34,7 @@
 }
 
 .image__overlay--light {
-    background: #adb5bd;
+    background: #1f5b83;
 }
 
     .image__overlay > * {
@@ -53,6 +53,7 @@
 .image__title {
     font-size: 2em;
     font-weight: bold;
+    color:white;
 }
 
 .image__description {
