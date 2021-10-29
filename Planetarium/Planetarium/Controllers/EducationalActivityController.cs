@@ -153,9 +153,64 @@ namespace Planetarium.Controllers {
             return view;
         }
 
+        private List<SelectListItem> loadLanguages() {
+            dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
+            string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
+
+            List<SelectListItem> countries = new List<SelectListItem>();
+            foreach (string country in countriesFromJson) {
+                countries.Add(new SelectListItem { Text = country, Value = country });
+            }
+
+            return countries;
+        }
+
+        private List<SelectListItem> loadEducationalLevels() {
+            dynamic JsonContentCountries = ContentParser.ParseFromJSON("EducationalActivity.json");
+            string[] educationalLevelsFromJson = JsonContentCountries.NivelEducativo.ToObject<string[]>();
+
+            List<SelectListItem> educationalLevels = new List<SelectListItem>();
+            foreach (string educationalLevel in educationalLevelsFromJson) {
+                educationalLevels.Add(new SelectListItem { Text = educationalLevel, Value = educationalLevel });
+            }
+
+            return educationalLevels;
+        }
+
+        public ActionResult ActivityInscription(string activityTitle, string activityDate) {
+            ViewBag.Countries = loadLanguages();
+            //ViewData["activity"] = activity;
+            ViewBag.ActivityTitle = activityTitle;
+            ViewBag.ActivityDate = activityDate;
+            ViewBag.EducationalLevels = loadEducationalLevels();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SubmitActivityInscription(VisitorModel visitor) {
+            ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity");
+            visitor.Gender = Request.Form["gender"].ElementAt(0);
+            string date = Request.Form["date"];
+            string title = Request.Form["title"];
+            ViewBag.SuccessOnCreation = false;
+            ViewBag.Message = "Algo salió mal";
+
+            try {
+                ViewBag.SuccessOnCreation = DataAccess.RegisterVisitor(visitor, title, date);
+                if (ViewBag.SuccessOnCreation) {
+                    ModelState.Clear();
+                    ViewBag.Message = "Inscripción exitosa";
+                    view = RedirectToAction("Success", "Home");
+                } 
+            } catch {
+                ViewBag.Message = "Algo salió mal";
+            }
+
+            return view;
+        }
 
 
-        
 
     }
 }
