@@ -132,14 +132,11 @@ namespace Planetarium.Handlers {
 
             LinkAllTargetAudience(activities);
             LinkAllFeatureWithTopics(CreateDictionary(activities));
-
-            //Link educational material.
             LinkAllMaterialWithActivity(activities);
 
             return activities;
         }
 
-        // TODO: Cambiar TypeOfAssistance de la vista
         private EducationalActivityEventModel CreateInstanceEducationalActivity(DataRow rawEducationalInfo) {
             return new EducationalActivityEventModel {
                 Title = Convert.ToString(rawEducationalInfo["tituloPK"]),
@@ -218,13 +215,16 @@ namespace Planetarium.Handlers {
 
 
         public bool UpdateActivityState(string activityTitle, int state) {
-            string query = "UPDATE ActividadEducativa SET estadoRevision = " + state + " WHERE tituloPK = '" + activityTitle + "' ";
+            string query = "UPDATE EventoActividadEducativa SET estadoRevision = " + state + " WHERE tituloPK = '" + activityTitle + "' ";
             return DatabaseQuery(query);
         }
 
         public List<string> GetAllActivities() {
             List<string> activitiesTitles = new List<string>();
-            string query = "SELECT * FROM ActividadEducativa WHERE estadoRevision = 1";
+            string query = "SELECT * " +
+                           "FROM EventoActividadEducativa EAE " +
+                           "INNER JOIN ActividadEducativa AE ON EAE.tituloPKFK = AE.tituloPK " +
+                           "WHERE EAE.estadoRevision = 1";
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
                 activitiesTitles.Add(Convert.ToString(column["tituloPK"]));
