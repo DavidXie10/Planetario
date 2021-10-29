@@ -28,34 +28,32 @@
 
                     <a class="nav-link" href="/Home/Index"><i class="fas fa-home"></i> Inicio</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" href="/News/ListNews"><i class="far fa-newspaper"></i> Noticias y Anuncios</a>
+                    <a class="nav-link" href="/Home/FindUs"><i class="fas fa-map-marked-alt"></i> Encuéntrenos</a>
                 </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Actividades
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="nav-link" href="/EducationalActivity/ListActivities"><i class="fas fa-meteor"></i> Lista de Actividades</a>
-                        <a class="dropdown-item" href="/EducationalMaterial/ListEducationalMaterial"><i class="fas fa-list"></i> Lista de Materiales</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Home/WhoWeAre">¿Quienes Somos?</a>
                 </li>
-
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Nosotros
+                        Funcionarios
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/Employees/ListEmployees"><i class="fas fa-user-astronaut"></i> Funcionarios</a>
                         <a class="dropdown-item" href="/Employees/CreateEmployee"><i class="fas fa-user-plus"></i> Agregar funcionario</a>
-                        <a class="dropdown-item" href="/Home/FindUs"><i class="fas fa-map-marked-alt"></i> Encuéntrenos</a>
-                        <a class="dropdown-item" href="/Home/WhoWeAre"><i class="fas fa-users"></i> ¿Quienes Somos?</a>
                     </div>
-
+                    
                 </li>
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Eventos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/EducationalActivity/ListActivities"><i class='fas fa-meteor'></i> Actividades</a>
+                        <a class="dropdown-item" href="/News/ListNews"><i class="far fa-newspaper"></i> Noticias y Anuncios</a>
+                        <a class="dropdown-item" href="/EducationalMaterial/ListEducationalMaterial"><i class="fas fa-list"></i> Lista de Materiales</a>
+                    </div>
+                </li>
                 <li class="nav-item">
 
                     <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true"><i class="fas fa-question-circle"></i> FAQ</a>
@@ -70,11 +68,12 @@
 
     </div>
 
+    <hr />
     <footer>
-        <div class="card-footer bg-primary" style="padding:20px; margin-top: 45px;">
+        <div class="card-footer" style="padding:40px;">
             <div class="d-flex align-items-center" href="/">
-                <a href="https://www.ucr.ac.cr/">
-                    <img src="~/images/firma-ucr-ico.png" width="190" height="100" class="d-inline-block" alt="" style="margin-right: 10px;">
+                <a href="/Home/Index">
+                    <img src="~/images/logo.svg" width="90" height="100" class="d-inline-block" alt="" style="margin-right: 10px;">
                 </a>
                 <p class="d-inline-block">
                     Planetario de San Jose, <br />
@@ -83,7 +82,7 @@
             </div>
 
             <div class="row">
-                <div class="col-2">
+                <div class="col-sm">
                     <div class="card-body">
                         <p class="card-title">
                             <i class="fas fa-phone"></i>
@@ -94,7 +93,7 @@
                             2233-9485 <br />
                             8493-3022 <br />
                         </p>
-                        <p class="card-title" style="margin-top: 30px;">
+                        <p class="card-title">
                             <i class="fas fa-envelope"></i>
                             <strong> Correo</strong> <br />
                         </p>
@@ -105,7 +104,7 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-sm">
                     <div class="card-body">
                         <p class="card-title">
                             <i class="fas fa-map-marker-alt"></i>
@@ -118,22 +117,20 @@
                     </div>
                 </div>
 
-                <div class="col-2">
+                <div class="col-sm">
                     <div class="card-body">
                         <p class="card-title">
                             <i class="fas fa-calendar"></i>
                             <strong> Horarios</strong> <br />
                         </p>
                         <p class="card-text">
-                            L - V: <br />
-                            9:00am - 8:00pm <br />
-                            S y D:  <br />
-                            9:00am - 4:00pm
+                            L - V: 9:00am - 8:00pm <br />
+                            S y D: 9:00am - 4:00pm
                         </p>
                     </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-sm">
                     <div class="card-body">
                         <a class="nav-link" href="/Home/WhoWeAre">
                             <i class="fas fa-space-shuttle"></i>
@@ -146,6 +143,11 @@
                         </a>
                     </div>
                 </div>
+            </div>
+
+            <hr class="dropdown-divider" />
+            <div class="d-flex justify-content-center">
+                <img src="~/images/firma-ucr-ico.png" width="150" height="75" alt="Alternate Text" />
             </div>
 
         </div>

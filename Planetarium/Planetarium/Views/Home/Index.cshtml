@@ -8,41 +8,15 @@
 
 
 <div class="container">
+    <hr />
+    <h3 class="text-start">
+        @Html.ActionLink("Quiénes somos", "/WhoWeAre")
+    </h3>
+
     <div id="container">
         @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
     </div>
-    <hr />
-    <div class="card" style="margin-top: 25px;">
-        <h3 class="card-header">
-            <a href="/News/ListNews" class="display-6 text-primary">Noticias y Anuncios</a>
-        </h3>
-        <div class="card-body">
-            <div class="row">
-                @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
-                    <div class="col-sm">
-                        <div class="card h-100 bg-light">
-                            <div class="embed-responsive embed-responsive-4by3">
-                                <div class="embed-responsive-item">
-                                    @if (ViewBag.News[index].ImagesRef.Count > 0) {
-                                        <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
-                                    }
 
-                                </div>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <p class="card-text">
-                                    @ViewBag.News[index].Title
-                                </p>
-
-                                @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-start align-self-left btn btn-info", @style = "margin-top: auto; " })
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-
-    </div>
 
     <hr />
     <div class="d-flex justify-content-center">
@@ -60,4 +34,35 @@
     </div>
 
 
+
+    <hr />
+    <h3 class="text-start">
+        <a href="/News/ListNews">Noticias y Anuncios</a>
+    </h3>
+    <h6 class="text-start">
+        Todo lo que tenés que saber respecto a temas sobre planetas, galaxias, nuevas tecnologías y muchos temas más.
+    </h6>
+    <div class="row" style="margin-top: 40px;">
+        @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
+            <div class="col-sm">
+                <div class="card h-100 bg-primary">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <div class="embed-responsive-item">
+                            @if (ViewBag.News[index].ImagesRef.Count > 0) {
+                                <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100"/>
+                            }
+                            
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <p class="card-text">
+                            @ViewBag.News[index].Title
+                        </p>
+
+                        @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-start align-self-left btn btn-info", @style = "margin-top: auto; "})
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
