@@ -1,13 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>¿Quiénes somos?</title>
+    <title>Estadísticas</title>
 </head>
 <body>
     <div class="container">
         <h1 style="margin:10px 0 20px 0;">Estadísticas de Involucramiento</h1>
 
-        <h4>Días</h4>
+        <h5>Seleccione los días</h5>
         <div class="list-inline list-group-horizontal btn-group">
             <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this)">Lunes</button>
             <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this)">Martes</button>
@@ -17,47 +17,46 @@
             <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this)">Sábado</button>
             <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this)">Domingo</button>
 
-            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllDays('checkboxesDays')">Todos</button>
-            <button class="btn btn-secondary" value="0" onclick="clearAllDays('checkboxesDays')">Limpiar</button>
-
+            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllButtonsFromRow('checkboxesDays')">Todos</button>
+            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesDays')">Limpiar</button>
         </div>
 
         <br />
         <br />
-        <h4>Niveles de complejidad</h4>
+        <h5>Seleccione los niveles de complejidad</h5>
         <div class="list-inline list-group-horizontal btn-group">
-            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this)">Infantil</button>
-            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this)">Juvenil</button>
-            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this)">Miércoles</button>
+            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this)">Básico</button>
+            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this)">Intermedio</button>
+            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this)">Avanzado</button>
 
-            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllDays('checkboxesComplexityLevel')">Todos</button>
-            <button class="btn btn-secondary" value="0" onclick="clearAllDays('checkboxesComplexityLevel')">Limpiar</button>
-
+            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllButtonsFromRow('checkboxesComplexityLevel')">Todos</button>
+            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesComplexityLevel')">Limpiar</button>
         </div>
 
         <br />
         <br />
-        <h4>Públicos meta</h4>
-        <div class="form-check list-inline list-group-horizontal btn-group" role="group" data-toggle="buttons">
-            <label class="btn btn-light">
-                <input type="checkbox" class="form-check list-group-item">Infantil
-            </label>
-            <label class="btn btn-light">
-                <input type="checkbox" class="form-check list-group-item">Juvenil
-            </label>
-            <label class="btn btn-light">
-                <input type="checkbox" class="form-check list-group-item">Adulto
-            </label>
-            <label class="btn btn-light">
-                <input type="checkbox" class="form-check list-group-item">Adulto mayor
-            </label>
-            <label style="margin-left: 20px" class="btn btn btn-outline-success">
-                <input type="checkbox" class="form-check list-group-item">Todos
-            </label>
-            <label class="btn btn-light">
-                <input type="checkbox" class="form-check list-group-item">Limpiar
-            </label>
+        <h5>Seleccione los públicos meta</h5>
+        <div class="list-inline list-group-horizontal btn-group">
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this)">Infantil</button>
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this)">Juvenil</button>
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this)">Adulto</button>
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this)">Adulto mayor</button>
+
+            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllButtonsFromRow('checkboxesTargetAudiences')">Todos</button>
+            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesTargetAudiences')">Limpiar</button>
         </div>
+        <hr />
+        <div style="text-align:right; margin-right: 40px">
+            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesTargetAudiences')">Limpiar todo</button>
+        </div>
+        <hr />
+        <div class="card text-white bg-success mb-3 text-center" style="margin:40px; max-width: 80rem; ">
+            <div class="card-body">
+                <h4 class="card-title"><strong>Asistencia al planetario</strong></h4>
+                <p class="card-text">100 personas</p>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -65,8 +64,7 @@
         let checkboxesTypes = {};
         checkboxesTypes["checkboxesDays"] = document.getElementsByClassName("checkItemDay");
         checkboxesTypes["checkboxesComplexityLevel"] = document.getElementsByClassName("checkItemComplexityLevel");;
-        checkboxesTypes["checkboxesTargetAudience"] = "value2";
-
+        checkboxesTypes["checkboxesTargetAudiences"] = document.getElementsByClassName("checkItemTargetAudience");
 
         function activeCheck(target) {
             if (target.value == "0") {
@@ -80,38 +78,21 @@
             }
         }
 
-        function activeAllDays(checkboxType) {
+        function activeAllButtonsFromRow(checkboxType) {
             let checkboxes = checkboxesTypes[checkboxType];
             for (let checkbox = 0; checkbox < checkboxes.length; ++checkbox) {
                 checkboxes[checkbox].value = "0";
                 activeCheck(checkboxes[checkbox]);
-                /*
-                checkboxes[checkbox].classList.remove("btn-outline-success");
-                checkboxes[checkbox].classList.remove("btn-success");
-                checkboxes[checkbox].classList.add("btn-success");
-                checkboxes[checkbox].value = "1";
-                 */
-
-
             }
-
         }
 
-        function clearAllDays(checkboxType) {
+        function clearAllButtonsFromRow(checkboxType) {
             let checkboxes = checkboxesTypes[checkboxType];
             for (let checkbox = 0; checkbox < checkboxes.length; ++checkbox) {
                 checkboxes[checkbox].value = "1";
                 activeCheck(checkboxes[checkbox]);
-                /*
-                checkboxes[checkbox].classList.remove("btn-outline-success");
-                checkboxes[checkbox].classList.remove("btn-success");
-                checkboxes[checkbox].classList.add("btn-outline-success");
-                checkboxes[checkbox].value = "0";*/
             }
         }
-
-
-
     </script>
 </body>
 
