@@ -11,18 +11,20 @@ using MimeKit;
 
 namespace Planetarium.Controllers {
     public class EducationalActivityController : Controller {
-        public EducationalActivityHandler DataAccess { get; set; }
+        public EducationalActivityHandler ActivityDataAccess { get; set; }
+        public VisitorHandler VisitorDataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
         public EducationalActivityController() {
-            DataAccess = new EducationalActivityHandler();
+            ActivityDataAccess = new EducationalActivityHandler();
+            VisitorDataAccess = new VisitorHandler();
             ContentParser = new ContentParser();
         }
 
         public JsonResult GetTopicsList(string category) {
             List<SelectListItem> topicsList = new List<SelectListItem>();
 
-            List<string> topicsFromCategory = DataAccess.GetTopicsByCategory(category);
+            List<string> topicsFromCategory = ActivityDataAccess.GetTopicsByCategory(category);
 
             foreach (string topic in topicsFromCategory) {
                 topicsList.Add(new SelectListItem { Text = topic, Value = topic });
@@ -55,7 +57,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ProposeEducationalActivity() {
-            ViewData["category"] = GetDropdown(DataAccess.GetAllCategories().ToArray());
+            ViewData["category"] = GetDropdown(ActivityDataAccess.GetAllCategories().ToArray());
             LoadDropDownList();
             return View();
         }
@@ -66,7 +68,7 @@ namespace Planetarium.Controllers {
             LoadEducationalActivityWithForm(educationalActivity);
             ViewBag.SuccessOnCreation = false;
             try {
-                ViewBag.SuccessOnCreation = this.DataAccess.ProposeEducationalActivity(educationalActivity);
+                ViewBag.SuccessOnCreation = this.ActivityDataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
                     SendEmail(0);
                     ModelState.Clear();
@@ -124,12 +126,12 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ListActivities() {
-            ViewBag.activities = DataAccess.GetAllApprovedActivities();
+            ViewBag.activities = ActivityDataAccess.GetAllApprovedActivities();
             return View();
         }
 
         public ActionResult ActivitiesApprobation() {
-            ViewBag.activities = DataAccess.GetAllOnRevisionActivities();
+            ViewBag.activities = ActivityDataAccess.GetAllOnRevisionActivities();
             return View();
         }
 
@@ -141,7 +143,7 @@ namespace Planetarium.Controllers {
 
             ViewBag.SuccessOnCreation = false;
             try {   
-                ViewBag.SuccessOnCreation = DataAccess.UpdateActivityState(title, state);
+                ViewBag.SuccessOnCreation = ActivityDataAccess.UpdateActivityState(title, state);
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
                     SendEmail(state);
@@ -177,9 +179,53 @@ namespace Planetarium.Controllers {
             return educationalLevels;
         }
 
-        public ActionResult ActivityInscription(string activityTitle, string activityDate) {
+        public ActionResult ActivityInscription(string activityTitle, string activityDate, int register = 0) {
+            Dictionary<int, string> errorMessages = new Dictionary<int, string>();
+            errorMessages[0] = "";
+            errorMessages[1] = "Cédula no registrada. Por favor, intente de nuevo";
+            errorMessages[2] = "Ya está registrado en la actividad";
+            ViewBag.ActivityTitle = activityTitle;
+            ViewBag.ActivityDate = activityDate;
+            ViewBag.Register = register;
+            ViewBag.ErrorMessages = errorMessages;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SubmitActivityInscription(VisitorModel visitor) {
+            string date = Request.Form["date"];
+            string title = Request.Form["title"];
+            ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date});
+          
+            ViewBag.SuccessOnCreation = false;
+            TempData["Error"] = true;
+            TempData["WarningMessage"] = "Algo salió mal";
+
+            try {
+                int register = VisitorDataAccess.CheckVisitor(visitor.Dni)? (VisitorDataAccess.CheckVisitor(visitor.Dni, title, date)?2:0) :1;
+                 
+                if (register == 0) {
+                    ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor, title, date);
+                    if (ViewBag.SuccessOnCreation) {
+                        ModelState.Clear();
+                        TempData["Error"] = false;
+                        TempData["SuccessMessage"] = "Inscripción exitosa";
+                        view = RedirectToAction("Success", "Home");
+                    }    
+                } else {
+                    TempData["Error"] = false;
+                    view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date, register = register });
+                }
+            } catch {
+                TempData["WarningMessage"] = "Algo salió mal";
+            }
+
+            return view;
+        }
+
+        public ActionResult ActivityInscriptionForm(string activityTitle, string activityDate) {
             ViewBag.Countries = loadLanguages();
-            //ViewData["activity"] = activity;
             ViewBag.ActivityTitle = activityTitle;
             ViewBag.ActivityDate = activityDate;
             ViewBag.EducationalLevels = loadEducationalLevels();
@@ -188,29 +234,28 @@ namespace Planetarium.Controllers {
         }
 
         [HttpPost]
-        public ActionResult SubmitActivityInscription(VisitorModel visitor) {
+        public ActionResult SubmitActivityInscriptionForm(VisitorModel visitor) {
             ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity");
             visitor.Gender = Request.Form["gender"].ElementAt(0);
             string date = Request.Form["date"];
             string title = Request.Form["title"];
             ViewBag.SuccessOnCreation = false;
-            ViewBag.Message = "Algo salió mal";
+            TempData["Error"] = true;
+            TempData["WarningMessage"] = "Algo salió mal";
 
             try {
-                ViewBag.SuccessOnCreation = DataAccess.RegisterVisitor(visitor, title, date);
+                ViewBag.SuccessOnCreation = VisitorDataAccess.RegisterVisitor(visitor, title, date);
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
-                    ViewBag.Message = "Inscripción exitosa";
+                    TempData["Error"] = false;
+                    TempData["SuccessMessage"] = "Inscripción exitosa";
                     view = RedirectToAction("Success", "Home");
-                } 
+                }
             } catch {
-                ViewBag.Message = "Algo salió mal";
+                TempData["WarningMessage"] = "Algo salió mal";
             }
 
             return view;
         }
-
-
-
     }
 }

@@ -24,26 +24,24 @@
             if (activity.State == "1") {
                 <div id="@activity.Title " class="col-4 d-flex justify-content-evenly">
                     <div id="@activity.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
-                        <div class="card-body">
-                            <br>
+                        <div class="card-body d-flex flex-column">
                             <h2 class="text-start">@activity.Title  </h2>
-                            <h4>Impartido por: @activity.Publisher </h4>
-                            <br />
-                            <h9>Fecha: @activity.Date</h9><br>
-                            <h9>Duración: @activity.Duration minutos</h9><br>
+                            <h4>Impartido por: @activity.Publisher </h4>                            
+                            <h9>Fecha: @activity.Date</h9>
+                            <h9>Duración: @activity.Duration minutos</h9>
                             @{
                                 string price = (@activity.Price == 0) ? "Gratis" : "₡" + @activity.Price;
                             }
-                            <h9>Precio:  @price </h9><br>
-                            <h9>Capacidad: @activity.MaximumCapacity personas</h9><br>
-                            <h9>Tipo: @activity.ActivityType</h9><br>
-                            <h9>Nivel de complejidad: @activity.ComplexityLevel</h9>
+                            <h9>Precio:  @price </h9>
+                            <h9>Capacidad: @activity.MaximumCapacity personas</h9>
+                            <h9>Tipo: @activity.ActivityType</h9>
+                            <h9>Nivel de complejidad: @activity.ComplexityLevel</h9><br />
                             <span>
                                 <h5>Categoría: <a class="badge rounded-pill bg-success"> @activity.Category</a></h5>
                                 <h5>
                                     Tópicos:
                                     @foreach (var topic in activity.Topics) {
-                                    <a class="badge rounded-pill bg-info"> @topic</a>
+                                        <a class="badge rounded-pill bg-info"> @topic</a>
                                     }
                                 </h5>
 
@@ -51,28 +49,24 @@
                             <h5>
                                 Publicos Meta:
                                 @foreach (var targetAudienceInstance in activity.TargetAudience) {
-                                <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
+                                    <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
                                 }
                             </h5>
                             <p class="card-text" style="margin-top: 15px;">
                                 @activity.Description
                             </p>
 
-                            @if (activity.RefEducationalMaterial.Count > 0 ) {
-                            <p class="card-text" style="margin-top: 15px;">
-                                <h5>Materiales: </h5>
-                                @foreach (var material in activity.RefEducationalMaterial) {
-                                <a href="~/Educational_Material/@material" download="@material"> <i class="fas fa-download"></i> @material</a>
-                                <br />
+                            @if (activity.RefEducationalMaterial.Count > 0) {
+                                <p class="card-text" style="margin-top: 15px;">
+                                    <h5>Materiales: </h5>
+                                    @foreach (var material in activity.RefEducationalMaterial) {
+                                        <a href="~/Educational_Material/@material" download="@material"> <i class="fas fa-download"></i> @material</a>
+                                        <br />
                                     }
-                            </p>
+                                </p>
                             }
-                             
-                            <!-- TODO: Poner el boton al final de la cartita a la derecha-->
-                            <div>
-                                @Html.ActionLink("Inscribirme", "../EducationalActivity/ActivityInscription", new { activityTitle = @activity.Title, activityDate = @activity.Date }, new { @class = "align-self-start align-self-left btn btn-info", @style = "margin-top: auto; " })
-                            </div>
 
+                            @Html.ActionLink("Inscribirme", "../EducationalActivity/ActivityInscription", new { activityTitle = @activity.Title, activityDate = @activity.Date }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
                         </div>
                     </div>
                 </div>

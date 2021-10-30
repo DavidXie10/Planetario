@@ -230,34 +230,5 @@ namespace Planetarium.Handlers {
             }
             return activitiesTitles;
         }
-
-        public bool RegisterVisitor(VisitorModel visitor, string activityTitle, string activityDate) { 
-            bool success = false;
-            
-            string query = "INSERT INTO Visitante (cedulaPK, nombreCompleto, correo, nivelEducativo, fechaNacimiento, genero, paisOrigen)" +
-                           " VALUES (@cedula, @nombre, @correo, @nivelEducativo, @fechaNacimiento, @genero, @paisOrigen)";
-
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            AddParametersToQueryCommand(queryCommand, visitor);
-            success = DatabaseQuery(queryCommand);
-
-            query = "INSERT INTO Inscribirse (cedulaPKFK, tituloPKFK, fechaInicioPKFK)" +
-                    " VALUES ('" + visitor.Dni +"', '" + activityTitle + "', '" + activityDate + "')";
-
-            queryCommand = new SqlCommand(query, connection);
-            success = DatabaseQuery(queryCommand);
-
-            return success;
-        }
-
-        private void AddParametersToQueryCommand(SqlCommand queryCommand, VisitorModel visitor) {
-            queryCommand.Parameters.AddWithValue("@cedula", visitor.Dni);
-            queryCommand.Parameters.AddWithValue("@nombre", visitor.FullName);
-            queryCommand.Parameters.AddWithValue("@correo", visitor.Mail);
-            queryCommand.Parameters.AddWithValue("@nivelEducativo", visitor.EducationalLevel);
-            queryCommand.Parameters.AddWithValue("@fechaNacimiento", visitor.DateOfBirth );
-            queryCommand.Parameters.AddWithValue("@genero", visitor.Gender);
-            queryCommand.Parameters.AddWithValue("@paisOrigen", visitor.NativeCountry);
-        }
     }
 }
