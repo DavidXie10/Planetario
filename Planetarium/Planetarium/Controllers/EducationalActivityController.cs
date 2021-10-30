@@ -153,9 +153,10 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-
-
-        
+        public ActionResult ShowStatistics() {
+            ViewBag.activities = DataAccess.GetAllApprovedActivities();
+            return View();
+        }
 
     }
 }
