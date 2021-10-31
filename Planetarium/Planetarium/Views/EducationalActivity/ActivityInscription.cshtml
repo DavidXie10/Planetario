@@ -22,7 +22,7 @@
 
                 <h2 style="margin: 20px 0 30px 0; text-align:center"><strong>@ViewBag.ActivityTitle</strong></h2>
 
-                <div class="card justify-content-center" style="max-width: 30rem;">
+                <div class="card justify-content-center" style="max-width: 30rem; padding: 0px;">
                     <div class="card-header">
                         <h4 class="text-success text-center">Inscripción</h4>
                     </div>
@@ -32,14 +32,16 @@
                             @Html.TextBoxFor(model => model.Dni, new { @class = "form-control", @placeholder = "#########" })
                             @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger" })
                         </div>
+                        <div class="text-center" style="margin-top: 1rem">
+                            @if (ViewBag.Register != 0) {
+                                 <p style="color:red;">@ViewBag.ErrorMessages[ViewBag.Register]</p>
+                            }
+                        </div>
                     </div>
 
                     <div class="text-center">
-                        <input type="submit" id="inputDni" class="btn btn-success  btn-block" style="width:93%; margin: 10px" value="Inscribirme" />
-                        @if (ViewBag.Register != 0) {
-                            <p style="color:red;">@ViewBag.ErrorMessages[ViewBag.Register]</p>
-                        }
-                        @Html.ActionLink("¿No está registrado? Regístrese aquí", "../EducationalActivity/ActivityInscriptionForm", new { activityTitle = @ViewBag.ActivityTitle, activityDate = @ViewBag.ActivityDate}, new { @class = "btn btn-secondary", @style = "margin-top: 10px; width:93%; margin-bottom: 10px " })
+                        <input type="submit" id="inputDni" class="btn btn-success btn-block" style="width:93%; margin: 10px; margin-top:5px" value="Inscribirme" />
+                        @Html.ActionLink("¿No está registrado? Regístrese aquí", "../EducationalActivity/ActivityInscriptionForm", new { activityTitle = @ViewBag.ActivityTitle, activityDate = @ViewBag.ActivityDate}, new { @class = "btn btn-secondary", @style = "margin-top: 5px; width:93%; margin-bottom: 10px " })
 
                         <br />
                     </div>

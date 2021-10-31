@@ -9,6 +9,7 @@ namespace Planetarium.Models {
     public class VisitorModel {
         [Required(ErrorMessage = "Es necesario que ingrese su nombre completo")]
         [Display(Name = "Nombre completo")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "No puede ingresar números")]
         public string FullName { get; set; }
 
         [Display(Name = "Correo")]

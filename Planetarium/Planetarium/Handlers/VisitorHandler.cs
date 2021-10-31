@@ -77,6 +77,5 @@ namespace Planetarium.Handlers {
 
             return Convert.ToInt32(resultingTable.Rows[0]["RowsCount"]) > 0;
         }
-
     }
 }

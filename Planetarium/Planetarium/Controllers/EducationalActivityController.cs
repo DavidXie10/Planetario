@@ -15,6 +15,10 @@ namespace Planetarium.Controllers {
         public VisitorHandler VisitorDataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
+        private const int DEFAULT = 0;
+        private const int NOT_REGISTERED = 1;
+        private const int REGISTERED = 2;
+
         public EducationalActivityController() {
             ActivityDataAccess = new EducationalActivityHandler();
             VisitorDataAccess = new VisitorHandler();
@@ -179,11 +183,10 @@ namespace Planetarium.Controllers {
             return educationalLevels;
         }
 
-        public ActionResult ActivityInscription(string activityTitle, string activityDate, int register = 0) {
-            Dictionary<int, string> errorMessages = new Dictionary<int, string>();
-            errorMessages[0] = "";
-            errorMessages[1] = "Cédula no registrada. Por favor, intente de nuevo";
-            errorMessages[2] = "Ya está registrado en la actividad";
+        public ActionResult ActivityInscription(string activityTitle, string activityDate, int register = DEFAULT) {
+            Dictionary<int, string> errorMessages = new Dictionary<int, string>() {
+                {DEFAULT, "" } , {NOT_REGISTERED, "Cédula no registrada. Por favor, intente de nuevo o regístrese"}, {REGISTERED, "Ya está registrado en la actividad" }
+            };
             ViewBag.ActivityTitle = activityTitle;
             ViewBag.ActivityDate = activityDate;
             ViewBag.Register = register;
@@ -200,17 +203,16 @@ namespace Planetarium.Controllers {
           
             ViewBag.SuccessOnCreation = false;
             TempData["Error"] = true;
-            TempData["WarningMessage"] = "Algo salió mal";
+            TempData["WarningMessage"] = "";
 
             try {
-                int register = VisitorDataAccess.CheckVisitor(visitor.Dni)? (VisitorDataAccess.CheckVisitor(visitor.Dni, title, date)?2:0) :1;
+                int register = VisitorDataAccess.CheckVisitor(visitor.Dni) ? (VisitorDataAccess.CheckVisitor(visitor.Dni, title, date) ? REGISTERED : DEFAULT) : NOT_REGISTERED;
                  
-                if (register == 0) {
+                if (register == DEFAULT) {
                     ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor, title, date);
                     if (ViewBag.SuccessOnCreation) {
                         ModelState.Clear();
                         TempData["Error"] = false;
-                        TempData["SuccessMessage"] = "Inscripción exitosa";
                         view = RedirectToAction("Success", "Home");
                     }    
                 } else {
@@ -241,14 +243,13 @@ namespace Planetarium.Controllers {
             string title = Request.Form["title"];
             ViewBag.SuccessOnCreation = false;
             TempData["Error"] = true;
-            TempData["WarningMessage"] = "Algo salió mal";
+            TempData["WarningMessage"] = "";
 
             try {
                 ViewBag.SuccessOnCreation = VisitorDataAccess.RegisterVisitor(visitor, title, date);
                 if (ViewBag.SuccessOnCreation) {
-                    ModelState.Clear();
                     TempData["Error"] = false;
-                    TempData["SuccessMessage"] = "Inscripción exitosa";
+                    ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
             } catch {

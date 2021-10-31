@@ -9,6 +9,7 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Content/styles.css" type="text/css"/>
 </head>
 <body>
     <div class="container">
@@ -68,10 +69,10 @@
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top: 15px; margin-left: 2px;">
-                        @Html.LabelFor(model => model.DateOfBirth)
+                    <div class="row" style="margin-top: 15px; margin-left: 2px">
+                        @Html.LabelFor(model => model.DateOfBirth, new { @style = "padding-left:0px" })
                         <br />
-                        @Html.EditorFor(model => model.DateOfBirth, new { @type = "date", @class = "form-control", @style = "margin-right: 50% !important; width: 100%" })
+                        @Html.EditorFor(model => model.DateOfBirth, new { @type = "date"})
                         @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
 
                     </div>
@@ -97,5 +98,7 @@
     let currentDate = new Date();
     let month = currentDate.getMonth() + 1;
     document.getElementById("DateOfBirth").setAttribute("max", currentDate.getFullYear() + "-" + month + "-" + currentDate.getDate());
-   /* document.getElementById("DateOfBirth").setAttribute("style", "width: 526px");*/
+    document.getElementById("DateOfBirth").setAttribute("style", "width: 38.5rem;");
+    document.getElementById("DateOfBirth").setAttribute("class", "form-control");
+
 </script>
