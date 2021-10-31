@@ -154,7 +154,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ShowStatistics() {
-            ViewBag.activities = DataAccess.GetAllApprovedActivities();
+            ViewBag.activities = DataAccess.GetAllActivitiesParticipants();
             return View();
         }
 

@@ -232,5 +232,38 @@ namespace Planetarium.Handlers {
             return activitiesTitles;
         }
 
+        public List<EducationalActivityEventModel> GetAllActivitiesParticipants() {
+
+            List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
+
+            string query =  " SELECT DISTINCT AE.tituloPK, EAE.fechaInicioPK," +
+                            " AE.nivelComplejidad, COUNT(*) AS 'Participantes'" +
+                            " FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK = AE.cedulaFK" +
+                            " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK" +
+                            " JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK" +
+                            " JOIN Inscribirse I ON(I.tituloPKFK = AE.tituloPK AND EAE.fechaInicioPK = I.fechaInicioPKFK)" +
+                            " WHERE EAE.estadoRevision = 1" +
+                            " GROUP BY AE.tituloPK, EAE.fechaInicioPK, AE.nivelComplejidad" +
+                            " ORDER BY EAE.fechaInicioPK DESC";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
+                activities.Add(CreateInstanceEducationalParticipants(rawEducationalInfo));
+            }
+
+            LinkAllTargetAudience(activities);
+
+            return activities;
+        }
+
+        private EducationalActivityEventModel CreateInstanceEducationalParticipants(DataRow rawEducationalInfo) {
+            return new EducationalActivityEventModel {
+                Title = Convert.ToString(rawEducationalInfo["tituloPK"]),
+                DateFormat = Convert.ToString(rawEducationalInfo["fechaInicioPK"]),
+                ComplexityLevel = Convert.ToString(rawEducationalInfo["nivelComplejidad"]),
+                RegisteredParticipants = Convert.ToInt32(rawEducationalInfo["Participantes"])
+            };
+        }
+
     }
 }
