@@ -259,7 +259,7 @@ namespace Planetarium.Handlers {
         private EducationalActivityEventModel CreateInstanceEducationalParticipants(DataRow rawEducationalInfo) {
             return new EducationalActivityEventModel {
                 Title = Convert.ToString(rawEducationalInfo["tituloPK"]),
-                DateFormat = Convert.ToString(rawEducationalInfo["fechaInicioPK"]),
+                StatisticsDate = Convert.ToString(rawEducationalInfo["fechaInicioPK"]),
                 ComplexityLevel = Convert.ToString(rawEducationalInfo["nivelComplejidad"]),
                 RegisteredParticipants = Convert.ToInt32(rawEducationalInfo["Participantes"])
             };

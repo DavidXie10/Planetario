@@ -9,7 +9,7 @@ namespace Planetarium.Models {
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
-        public String DateFormat { get; set; }
+        public String StatisticsDate { get; set; }
 
         [Required(ErrorMessage = "Es necesario que seleccione un precio de la actividad")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]

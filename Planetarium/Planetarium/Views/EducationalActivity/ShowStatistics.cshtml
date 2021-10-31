@@ -8,7 +8,7 @@
         <h1 style="margin:10px 0 20px 0;">Estadísticas de Involucramiento</h1>
 
         <h5>Seleccione los días</h5>
-        <div class="list-inline list-group-horizontal btn-group">
+        <div class="btn-group">
             <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Lunes</button>
             <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Martes</button>
             <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Miércoles</button>
@@ -24,7 +24,7 @@
         <br />
         <br />
         <h5>Seleccione los niveles de complejidad</h5>
-        <div class="list-inline list-group-horizontal btn-group">
+        <div class="btn-group">
             <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this, 1)">Básico</button>
             <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this, 1)">Intermedio</button>
             <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this, 1)">Avanzado</button>
@@ -36,7 +36,7 @@
         <br />
         <br />
         <h5>Seleccione los públicos meta</h5>
-        <div class="list-inline list-group-horizontal btn-group">
+        <div class="btn-group">
             <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this, 1)">Infantil</button>
             <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this, 1)">Juvenil</button>
             <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this, 1)">Adulto</button>
@@ -48,11 +48,11 @@
         <br />
         <br />
         <div style="text-align:left; margin-right: 40px">
-            <button class="btn btn-success" value="0" onclick="activeAllButtonsFromRow('checkboxesTargetAudiences'),activeAllButtonsFromRow('checkboxesComplexityLevel'),activeAllButtonsFromRow('checkboxesDays')">Seleccionar todo</button>
-            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesTargetAudiences'),clearAllButtonsFromRow('checkboxesComplexityLevel'),clearAllButtonsFromRow('checkboxesDays')">Limpiar todo</button>
+            <button class="btn btn-success" value="0" onclick="executeAllCheckboxesTypes(activeAllButtonsFromRow)">Seleccionar todo</button>
+            <button class="btn btn-secondary" value="0" onclick="executeAllCheckboxesTypes(clearAllButtonsFromRow)">Limpiar todo</button>
         </div>
         <hr />
-        <div class="card text-white bg-success mb-3 text-center" style="margin:40px; max-width: 80rem; ">
+        <div class="card text-white bg-success mb-3 text-center" style="margin:40px; max-width: 80rem;">
             <div class="card-body">
                 <p class="card-title" style="font-size: 4rem"><strong>Asistencia al planetario</strong></p>
                 <p id="result" class="card-text" style="font-size: 4rem"></p>
@@ -60,136 +60,7 @@
         </div>
 
     </div>
-
-    <script>
-        let activities = @Html.Raw(Json.Encode(ViewBag.activities));
-        let checkboxes = document.getElementsByClassName("checkItemDay");
-        let checkboxesTypes = {};
-        checkboxesTypes["checkboxesDays"] = document.getElementsByClassName("checkItemDay");
-        checkboxesTypes["checkboxesComplexityLevel"] = document.getElementsByClassName("checkItemComplexityLevel");;
-        checkboxesTypes["checkboxesTargetAudiences"] = document.getElementsByClassName("checkItemTargetAudience");
-
-        function activeCheck(target, index) {
-            if (target.value == "0") {
-                target.classList.remove("btn-outline-success");
-                target.classList.add("btn-success");
-                target.value = "1";
-            } else {
-                target.classList.remove("btn-success");
-                target.classList.add("btn-outline-success");
-                target.value = "0";
-            }
-            if (index == 1) {
-                updateStatistics();
-            }
-        }
-
-        function getDayName(inputDate, locale) {
-            let date = new Date(inputDate);
-            let dateStr = date.toLocaleDateString(locale, { weekday: 'long' });
-            return dateStr.charAt(0).toUpperCase() + dateStr.substring(1);
-        }
-
-        function formatDate(timestamp) {
-            let x = new Date(timestamp);
-            let dd = x.getDate();
-            let mm = x.getMonth() + 1;
-            let yy = x.getFullYear();
-            return dd + "/" + mm + "/" + yy;
-        }
-
-        function updateStatistics() {
-            let result = 0;
-
-            result = getActivitiesParticipants(getListSelectedOptions("checkboxesDays"), getListSelectedOptions("checkboxesComplexityLevel"), getListSelectedOptions("checkboxesTargetAudiences"));
-            document.getElementById('result').innerHTML = result + " personas";
-        }
-
-        function getActivitiesParticipants(selectedDays, selectedComplexityLevels, selectedTargetAudiences) {
-            let participants = 0;
-
-            if (selectedDays.length != 0 || selectedComplexityLevels.length != 0 || selectedTargetAudiences != 0) {
-                for (let activity in activities) {
-                    let existsDay = false;
-                    let existsComplexityLevel = false;
-                    let existsTargetAudience = false;
-                
-                    let activityDate = getDayName(activities[activity].DateFormat, 'es-ES');
-                    existsDay = selectedDays.length == 0 || selectedDays.includes(activityDate);
-                    if (existsDay) {
-                        existsComplexityLevel = selectedComplexityLevels.length == 0 || selectedComplexityLevels.includes(activities[activity].ComplexityLevel);
-                        if (existsComplexityLevel) {
-                            let targetAudiences = activities[activity].TargetAudience;
-                            let targetAudiencesCount = targetAudiences.length;
-                            let targetElement = 0;
-                            if (selectedTargetAudiences.length != 0) {
-                                while (!existsTargetAudience && targetElement < targetAudiencesCount) {
-                                    existsTargetAudience = selectedTargetAudiences.includes(targetAudiences[targetElement]);
-                                    ++targetElement;
-                                }
-                            } else {
-                                existsTargetAudience = true;
-                            }
-                        }
-                    }
-                    participants += existsDay && existsComplexityLevel && existsTargetAudience ? activities[activity].RegisteredParticipants : 0;
-                }
-            }
-            return participants;
-        }
-
-        function getListSelectedOptions(checkboxType) {
-            let selected = [];
-            let checkboxes = checkboxesTypes[checkboxType];
-            for (let checkbox = 0; checkbox < checkboxes.length; ++checkbox) {
-                if (checkboxes[checkbox].value == '1' ) {
-                    selected.push(checkboxes[checkbox].innerHTML);
-                }
-            }
-            return selected;
-        }
-
-        function activeAllButtonsFromRow(checkboxType) {
-            let checkboxes = checkboxesTypes[checkboxType];
-            for (let checkbox = 0; checkbox < checkboxes.length; ++checkbox) {
-                checkboxes[checkbox].value = "0";
-                activeCheck(checkboxes[checkbox], 0);
-            }
-            updateStatistics();
-        }
-
-        function clearAllButtonsFromRow(checkboxType) {
-            let checkboxes = checkboxesTypes[checkboxType];
-            for (let checkbox = 0; checkbox < checkboxes.length; ++checkbox) {
-                checkboxes[checkbox].value = "1";
-                activeCheck(checkboxes[checkbox], 0);
-            }
-            updateStatistics();
-        }
-    </script>
+    <script>let activities = @Html.Raw(Json.Encode(ViewBag.activities));</script>
+    <script src="~/Scripts/Statistics.js" type="text/javascript"></script>
 </body>
-
 </html>
-
-<style>
-    .list-group-horizontal .list-group-item {
-        display: inline-block;
-    }
-
-    .list-group-horizontal .list-group-item {
-        margin-bottom: 0;
-        margin-left: -4px;
-        margin-right: 0;
-    }
-
-    .form-check label {
-        padding: .75rem 1.25rem;
-        border-radius: 15px !important;
-        margin: 3px;
-        /* border: 1px solid black;*/
-    }
-
-        .form-check label input[type="checkbox"] {
-            opacity: 0; /* Para quitar el checkbox */
-        }
-</style>
