@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using Planetarium.Models;
 using static Planetarium.Handlers.DatabaseHandler;
+using System.Diagnostics;
 
 namespace Planetarium.Handlers {
     public class EducationalActivityHandler : DatabaseClassificationsHandler {
@@ -177,5 +178,20 @@ namespace Planetarium.Handlers {
             string query = "UPDATE ActividadEducativa SET estadoRevision = " + state + " WHERE tituloPK = '" + activityTitle + "' ";
             return DatabaseQuery(query);
         }
+
+        public List<EventModel> GetEventsForCalendar(List<EventModel> events) {
+            List<EducationalActivityModel> appActivities = this.GetAllApprovedActivities();
+            foreach(EducationalActivityModel activity in appActivities) {
+                events.Add(new EventModel {
+                    Title = activity.Title,
+                    Description = activity.Description,
+                    Link = activity.Link,
+                    Date = activity.Date.ToString("yyyy-MM-dd")
+                }); 
+            }
+            return events;
+        }
+
+
     }
 }

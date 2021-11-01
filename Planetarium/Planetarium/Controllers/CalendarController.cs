@@ -12,6 +12,7 @@ namespace Planetarium.Controllers
     {
 
         public RssFeedHandler eventHandler = new RssFeedHandler();
+        public EducationalActivityHandler activityHandler = new EducationalActivityHandler();
 
         public ActionResult Calendar()
         {
@@ -21,6 +22,7 @@ namespace Planetarium.Controllers
         public JsonResult GetEventsForCalendar() {
             List<EventModel> eventsList = new List<EventModel>();
             eventsList = eventHandler.TestHTML();
+            eventsList = activityHandler.GetEventsForCalendar(eventsList);
             return Json(eventsList, JsonRequestBehavior.AllowGet);
         }
     }
