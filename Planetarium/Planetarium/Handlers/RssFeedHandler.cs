@@ -67,14 +67,13 @@ namespace Planetarium.Handlers {
                     string title = innerText.Split(':')[1];
                     string description = node.ChildNodes[2].InnerText;
                     string link = "https://www.timeanddate.com/" +  node.ChildNodes[0].ChildNodes[1].GetAttributeValue("href", string.Empty);
-
                     if (!date.Contains("-")) {
                         events.Add(new EventModel {
                             Title = title,
                             Description = description,
                             Date = date.Replace("/", "-"),
                             Link = link,
-                            ImgURL = ""
+                            ImgURL = "",
                         });
                     }
                         

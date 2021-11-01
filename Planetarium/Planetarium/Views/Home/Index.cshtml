@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <!--TODO: Borrar código, ya está integrado en la vista de noticias-->
     <div class="container">
         <div class="card">
             <div class="card-header">RSS FEED</div>
@@ -32,9 +33,11 @@
         </div>
 
         <div class="card">
+            <!--TODO: Borrar código, ya está integrado en la vista de Actividades-->
             <div class="card-header">RSS Calendar</div>
             <div class="row">
-                @foreach (var element in ViewBag.EventsToCal) {
+                @foreach (var element in ViewBag.EventsToCal)
+                {
                     <div class="col-4">
                         <div class="card" style="margin: 15px;">
                             <div class="card-header">@element.Title</div>
