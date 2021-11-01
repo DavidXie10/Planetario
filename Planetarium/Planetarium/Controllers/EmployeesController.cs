@@ -75,8 +75,8 @@ namespace Planetarium.Controllers {
         public ActionResult PostCreateEmployee(EmployeeModel employee) {
             
             ActionResult view = RedirectToAction("Success", "Home");
-            employee.Gender = Request.Form["gender"].ElementAt(0);
-            employee.Languages = ContentParser.GetListFromString(Request.Form["defaultInputString"]);
+            employee.Gender = Request.Form["gender"].ElementAt(0); 
+            employee.Languages = ContentParser.GetListFromString(Request.Form["defaultInputString"]);                  
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {

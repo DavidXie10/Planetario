@@ -4,60 +4,119 @@
 
 <head>
     <link rel="stylesheet" href="~/Content/activitiesHomePageAccess.css">
+    <link rel="stylesheet" href="~/Libs/fullCalendar-5.0.1/main.css" />
+    <script src="~/Libs/fullCalendar-5.0.1/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+            });
+            calendar.render();
+        });
+
+    </script>
 </head>
 
-
-<div class="container">
-    <div id="container">
-        @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
-    </div>
-    <hr />
-    <div class="card" style="margin-top: 25px;">
-        <h3 class="card-header">
-            <a href="/News/ListNews" class="display-6 text-primary">Noticias y Anuncios</a>
-        </h3>
-        <div class="card-body">
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">RSS FEED</div>
             <div class="row">
-                @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
-                    <div class="col-sm">
-                        <div class="card h-100 bg-light">
-                            <div class="embed-responsive embed-responsive-4by3">
-                                <div class="embed-responsive-item">
-                                    @if (ViewBag.News[index].ImagesRef.Count > 0) {
-                                        <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
-                                    }
-
-                                </div>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <p class="card-text">
-                                    @ViewBag.News[index].Title
+                @foreach (var element in ViewBag.Events) {
+                    <div class="col-4">
+                        <div class="card" style="margin: 15px;">
+                            <div class="card-header">@element.Title</div>
+                            <div class="card-body">
+                                <p>
+                                    <img src="@element.ImgURL" alt="Alternate Text" class="img-fluid" />
+                                    @element.Description <br />
+                                    @element.Date
+                                    <a href="@element.Link" class="btn btn-info">Ir a Noticia</a>
                                 </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
 
-                                @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-start align-self-left btn btn-info", @style = "margin-top: auto; " })
+        </div>
+
+        <div class="card">
+            <div class="card-header">RSS Calendar</div>
+            <div class="row">
+                @foreach (var element in ViewBag.EventsToCal) {
+                    <div class="col-4">
+                        <div class="card" style="margin: 15px;">
+                            <div class="card-header">@element.Title</div>
+                            <div class="card-body">
+                                <p>
+                                    @element.Description <br />
+                                    Fecha: @element.Date <br />
+                                    <a href="@element.Link" class="btn btn-info">Ir a Noticia</a>
+                                </p>
                             </div>
                         </div>
                     </div>
                 }
             </div>
         </div>
+        <div id="container">
+            @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
+        </div>
+        <hr />
+        <div class="card" style="margin-top: 25px;">
+            <h3 class="card-header">
+                <a href="/News/ListNews" class="display-6 text-primary">Noticias y Anuncios</a>
+            </h3>
+            <div class="card-body">
+                <div class="row">
+                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
+                        <div class="col-sm">
+                            <div class="card h-100 bg-light">
+                                <div class="embed-responsive embed-responsive-4by3">
+                                    <div class="embed-responsive-item">
+                                        @if (ViewBag.News[index].ImagesRef.Count > 0) {
+                                            <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
+                                        }
 
-    </div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <p class="card-text">
+                                        @ViewBag.News[index].Title
+                                    </p>
 
-    <hr />
-    <div class="d-flex justify-content-center">
+                                    @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-start align-self-left btn btn-info", @style = "margin-top: auto; " })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
 
-        <div class="imageActivities">
-            <img src="~/images/PlanetariumUCR/activitiesImageHomePage.jpg" class="img-fluid" alt="Responsive image">
+        </div>
 
-            <div class="image__overlay image__overlay--light">
-                <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities")</div>
-                <p class="image__description">
-                    Aquí podés encontrar las próximas actividades
-                </p>
+        <hr />
+        <div class="d-flex justify-content-center">
+
+            <div class="imageActivities">
+                <img src="~/images/PlanetariumUCR/activitiesImageHomePage.jpg" class="img-fluid" alt="Responsive image">
+
+                <div class="image__overlay image__overlay--light">
+                    <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities")</div>
+                    <p class="image__description">
+                        Aquí podés encontrar las próximas actividades
+                    </p>
+                </div>
             </div>
         </div>
+        <hr />
+
+        <div id="calendar"></div>
+        <button id="addCalendarBtn" class="btn btn-info" style="margin-top: 10px;">Agregar un Evento</button>
+
     </div>
 
 
-</div>
+</body>
