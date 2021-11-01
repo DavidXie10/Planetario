@@ -1,38 +1,70 @@
 ﻿<div class="container">
-    <hr />
-    <h3 class="text-start">
-        <i class="fas fa-user-edit"></i>
-        @Html.ActionLink("Agregar noticia o anuncio", "/SubmitNewsForm", new { @class = "btn btn-info" })
-    </h3>
-    <hr />
-    <h1 style="margin:10px 0 20px 0;">Noticias y Anuncios del Planetario</h1>
-    <div class="row d-flex">
-        @foreach (var news in @ViewBag.News)
-        {
-         <div class="col-4 d-flex">
-            <div class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
-                <div class="card-body d-flex flex-column">
-                    <h2 class="text-start">@news.Title </h2>
-                    <h4>@news.Author</h4>
-                    <br />
-                    <h9>@news.Date</h9>
-                    <span>
-                        <h5>Categoría: <a class="badge rounded-pill bg-success"> @news.Category</a></h5>
-                        <h5>
-                            Tópicos:
-                            @foreach (var topic in @news.Topics) {
-                            <a class="badge rounded-pill bg-info"> @topic</a>
-                                }
-                        </h5>
-                    </span>
-                    <p class="card-text" style="margin-top: 15px;">
-                        @news.Description
-                    </p>
-                    @Html.ActionLink("Seguir leyendo", "News", new { title = news.Title }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
+
+    <div class="card">    
+        <div class="card-header"> <h3>Noticias y Anuncios del Planetario</h3>
+        <p class="text-start">
+            <i class="fas fa-user-edit"></i>@Html.ActionLink("Agregar noticia o anuncio", "/SubmitNewsForm", new { @class = "btn btn-info" })
+        </p>
+        </div>
+    
+        <div class="row d-flex">
+            @foreach (var news in @ViewBag.News)
+            {
+                <div class="col-4 d-flex">
+                    <div class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
+                        <div class="card-body d-flex flex-column">
+                            <span style="float:right">
+                                <p class="align-text-top">@news.Date.ToString("dd/MM/yyyy")</p>
+                            </span>
+                            <h4 class="text-start"><strong>@news.Title </strong></h4>
+                            <h5 class="text-right">~@news.Author~</h5>
+                            <br />
+                            <span>
+                                <h4>Categoría: <a class="badge rounded-pill bg-success"> @news.Category</a></h4>
+                                <h4>
+                                    Tópicos:
+                                    @foreach (var topic in @news.Topics)
+                                    {
+                                        <a class="badge rounded-pill bg-info"> @topic</a>
+                                    }
+                                </h4>
+                            </span>
+                            <p class="card-text" style="margin-top: 15px;">
+                                @news.Description
+                            </p>
+                            @Html.ActionLink("Seguir leyendo", "News", new { title = news.Title }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
+                        </div>
+                    </div>
                 </div>
+            }
+        </div>
+    </div>
+
+    <div>
+        <div class="card">
+            <div class="card-header"> <h3>Otras noticias</h3></div>
+            <div class="row d-flex">
+                @foreach (var element in ViewBag.NewsFromInternet)
+                {
+                    <div class="col-4 d-flex">
+                        <div class="card rounded-3 bg-light" style="margin: 15px;">
+                            <div class="card-header"><strong>@element.Title</strong></div>
+                            <div class="card-body">
+                                <p>
+                                    <img src="@element.ImgURL" alt="Alternate Text" class="img-fluid" />
+                                    @element.Description <br />
+                                    @element.Date
+                                </p>
+                                <div class="align-self-end align-self-right">
+                                    <a href="@element.Link" class="btn btn-info">Ir a Noticia</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-         </div>
-        }
+
+        </div>
     </div>
 
 </div>
