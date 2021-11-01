@@ -54,7 +54,7 @@ namespace Planetarium.Handlers {
             return feed;
         }
 
-        public List<EventModel> TestHTML(string url = "davidXie.com") {
+        public List<EventModel> TestHTML(string url = "https://www.timeanddate.com/astronomy/sights-to-see.html") {
             List<EventModel> events = new List<EventModel>();
 
             var webPage = new HtmlWeb();
@@ -68,13 +68,16 @@ namespace Planetarium.Handlers {
                     string description = node.ChildNodes[2].InnerText;
                     string link = "https://www.timeanddate.com/" +  node.ChildNodes[0].ChildNodes[1].GetAttributeValue("href", string.Empty);
 
-                    events.Add(new EventModel {
-                        Title = title,
-                        Description = description,
-                        Date = date,
-                        Link = link,
-                        ImgURL = ""
-                    });
+                    if (!date.Contains("-")) {
+                        events.Add(new EventModel {
+                            Title = title,
+                            Description = description,
+                            Date = date.Replace("/", "-"),
+                            Link = link,
+                            ImgURL = ""
+                        });
+                    }
+                        
                 }
             }
 
@@ -105,11 +108,11 @@ namespace Planetarium.Handlers {
             }
 
             //Check the year of the event
-            if (month >= currentMonth && dayToInt > currentDay) {
-                formatedDate = day.Replace("/", "-") + "/" + month + "/" + currentYear;
+            if (month >= currentMonth) {
+                formatedDate = currentYear + "/" + month + "/" + day.Replace("/", "-");
             }
             else {
-                formatedDate = day.Replace("/", "-") + "/" + month + "/" + (currentYear + 1);
+                formatedDate = (currentYear + 1) + "/" + month + "/" + day.Replace("/", "-");
             }
             
             return formatedDate;
