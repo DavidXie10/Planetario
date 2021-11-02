@@ -164,6 +164,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\homePageAccess.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -212,6 +213,7 @@
     <Content Include="images\news\saturn-54999-640.jpg" />
     <Content Include="images\news\stringTheory.jpg" />
     <Content Include="images\PlanetariumUCR\activitiesImageHomePage.jpg" />
+    <Content Include="images\PlanetariumUCR\calendario.png" />
     <Content Include="images\PlanetariumUCR\planetarioUCR.jpg" />
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
