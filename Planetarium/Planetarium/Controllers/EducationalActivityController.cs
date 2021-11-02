@@ -158,5 +158,17 @@ namespace Planetarium.Controllers {
             return View();
         }
 
+        public ActionResult ShowStatisticsInvolvement() {
+            List<string> categories = DataAccess.GetAllCategories();
+            Dictionary<string, string[]> topicsByCategory = new Dictionary<string, string[]>();
+            string[] topics = {};
+            foreach (string category in categories) {
+                topics = DataAccess.GetTopicsByCategory(category).ToArray();
+                topicsByCategory.Add(category, topics);
+            }
+            
+            ViewBag.TopicsByCategory = topicsByCategory;
+            return View();
+        }
     }
 }
