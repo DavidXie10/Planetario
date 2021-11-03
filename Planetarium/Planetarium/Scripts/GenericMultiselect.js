@@ -89,6 +89,12 @@ function addTopicButton(element) {
     }
 }
 
+function addCategoryButton(element) {
+    if (element != "") {
+        multiSelectCategory.addButton(element);
+    }
+}
+
 function addAudienceButton(element) {
     if (element != "") {
         multiSelectTargetAudience.addButton(element);

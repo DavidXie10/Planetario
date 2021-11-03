@@ -168,6 +168,10 @@ namespace Planetarium.Controllers {
             }
             
             ViewBag.TopicsByCategory = topicsByCategory;
+            Dictionary<string, int> categoriesRank = DataAccess.FillRank("categoria","Categoria");
+            Dictionary<string, int> topicsRank = DataAccess.FillRank("nombrePK", "Topico");
+            ViewBag.TopicsRank = topicsRank;
+            ViewBag.CategoriesRank = categoriesRank;
             return View();
         }
     }

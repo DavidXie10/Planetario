@@ -1,4 +1,4 @@
-﻿@model Planetarium.Models.EducationalActivityModel
+﻿@model Planetarium.Models.EducationalActivityEventModel
 @{
     ViewBag.Title = "Agregar actividad educacional";
     List<SelectListItem> ActivitiesTypesItems = ViewBag.ActivitiesTypes;
@@ -117,11 +117,6 @@
                                 @Html.LabelFor(model => model.MaximumCapacity)
                                 @Html.TextBoxFor(model => model.MaximumCapacity, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.MaximumCapacity, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col">
-                                @Html.LabelFor(model => model.TypeOfAssistance)
-                                @Html.DropDownListFor(model => model.TypeOfAssistance, AssistancesItems, "Seleccione el tipo de asistencia", new { @class = "form-control", onchange = "isVirtual(this.value)" })
-                                @Html.ValidationMessageFor(model => model.TypeOfAssistance, "", new { @class = "text-danger" })
                             </div>
                         </div>
 

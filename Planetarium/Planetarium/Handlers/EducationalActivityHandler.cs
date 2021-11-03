@@ -265,5 +265,19 @@ namespace Planetarium.Handlers {
             };
         }
 
+        public Dictionary<string, int> FillRank(string columnName, string methodName ) {
+            Dictionary<string, int> categoriesRank = new Dictionary<string, int>();
+
+            string query = "SELECT * " +
+                           "FROM rankingInvolucramiento" + methodName + "()";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
+                categoriesRank.Add(Convert.ToString(rawEducationalInfo[columnName]), Convert.ToInt32(rawEducationalInfo["Inscritos"]));
+            }
+
+            return categoriesRank;
+        }
+
     }
 }
