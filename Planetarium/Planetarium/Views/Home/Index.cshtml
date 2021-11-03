@@ -2,9 +2,9 @@
     ViewBag.Title = "Home Page";
 }
 
-<head>
-    <link rel="stylesheet" href="~/Content/homePageAccess.css"> 
-</head>
+    <head>
+        <link rel="stylesheet" href="~/Content/homePageAccess.css">
+    </head>
 
 <body>
     <!--TODO: Borrar código, ya está integrado en la vista de noticias-->
@@ -49,21 +49,33 @@
         <hr />
         <div class="d-flex justify-content-center">
             <div class="imageHomePage">
+                <h3>Actividades</h3>
                 <img src="~/images/PlanetariumUCR/activitiesImageHomePage.jpg" class="img_squareImg" alt="Responsive image">
                 <div class="image__overlay image__overlay--light">
                     <div class="image__title">@Html.ActionLink("Actividades", "../EducationalActivity/ListActivities")</div>
-                    <p class="image__description">
+                    <h5 class="image__description">
                         Aquí podés encontrar las próximas actividades
-                    </p>
+                    </h5>
                 </div>
             </div>
             <div class="imageHomePage">
+                <h3>Calendario</h3>
                 <img src="~/images/PlanetariumUCR/calendario.png" class="img_squareImg" alt="Responsive image">
                 <div class="image__overlay image__overlay--light">
                     <div class="image__title">@Html.ActionLink("Calendario", "../Calendar/Calendar")</div>
-                    <p class="image__description">
-                        Ver las próximas actividades
-                    </p>
+                    <h5 class="image__description">
+                        Fechas importantes
+                    </h5>
+                </div>
+            </div>
+            <div class="imageHomePage">
+                <h3>Cuestionarios</h3>
+                <img src="~/images/PlanetariumUCR/galileoEstudiando.jpg" class="img_squareImg" alt="Responsive image">
+                <div class="image__overlay image__overlay--light">
+                    <div class="image__title">@Html.ActionLink("Cuestionarios", "#")</div>
+                    <h5 class="image__description">
+                        Poné a prueba tus conocimientos
+                    </h5>
                 </div>
             </div>
         </div>
