@@ -73,10 +73,10 @@
         let isInString = true;
 
         //Parsing value
-        let parsedValue = String(value).replace(" ", "_");
-        parsedValue += "|";
+        let parsedValue = String(value) + "|";
 
         if (!this.defaultInputString.value.includes(parsedValue)) {
+            console.log("FALSE");
             isInString = false;
         }
 
