@@ -1,6 +1,12 @@
 ﻿$(document).ready(function () {
     let calendarGeneral = $("#calendarioGeneral").fullCalendar({
+        themeSystem: 'bootstrap',
         initialView: 'dayGridMonth',
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay,list'
+        },
         events: function (start, end, timezone, callback) {
             $.ajax({
                 url: $("#controllerURLGeneral").data("request-url"),
@@ -27,6 +33,12 @@
 
     let calendarphenomenon = $("#calendarioFenomenos").fullCalendar({
         initialView: 'dayGridMonth',
+        header:
+        {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay,list'
+        },
         events: function (start, end, timezone, callback) {
             $.ajax({
                 url: $("#controllerURLPhenomenon").data("request-url"),
