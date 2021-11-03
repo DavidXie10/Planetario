@@ -1,9 +1,9 @@
 ﻿.imageHomePage {
     position: relative;
-    width: 400px;
+    width: 100%;
 }
 .img_squareImg {
-    width: 400px;
+    width:100%;
     height: 300px;
 }
 
