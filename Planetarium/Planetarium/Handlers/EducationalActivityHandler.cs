@@ -265,5 +265,18 @@ namespace Planetarium.Handlers {
             };
         }
 
+        public List<EventModel> GetEventsForCalendar(List<EventModel> events) {
+            List<EducationalActivityEventModel> appActivities = this.GetAllApprovedActivities();
+            foreach (EducationalActivityEventModel activity in appActivities) {
+                events.Add(new EventModel {
+                    Title = activity.Title,
+                    Description = activity.Description,
+                    Link = activity.Link,
+                    Date = activity.Date.ToString("yyyy-MM-dd")
+                });
+            }
+            return events;
+        }
+
     }
 }
