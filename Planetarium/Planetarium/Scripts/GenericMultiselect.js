@@ -73,10 +73,13 @@
         let isInString = true;
 
         //Parsing value
-        let parsedValue = String(value) + "|";
+        let parsedValue = String(value).replace(" ", "_");
+        parsedValue += "|";
+        //let parsedValue = String(value) + "|";
+        //console.log("Imprimiendo");
+        //console.log(this.defaultInputString.value);
 
         if (!this.defaultInputString.value.includes(parsedValue)) {
-            console.log("FALSE");
             isInString = false;
         }
 

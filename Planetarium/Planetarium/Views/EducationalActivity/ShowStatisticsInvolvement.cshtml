@@ -13,7 +13,7 @@
                 <select class="form-select" id="categorySelect" onchange="addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)">
                     <option value="">Seleccione la(s) categoría(s)</option>
                     @foreach (var category in ViewBag.TopicsByCategory) {
-                        <option value="@category.Key">@category.Key</option>
+                        <option value="@category.Key.Replace(' ', '_')">@category.Key</option>
                     }
                 </select>
 
@@ -36,7 +36,7 @@
                     <option value="">Seleccione los tópicos</option>
                     @foreach (var category in ViewBag.TopicsByCategory) {
                         foreach (var topic in category.Value) {
-                            <option value="@topic">@topic</option>
+                            <option value="@topic.Replace(' ', '_')">@topic</option>
                         }
                     }
                 </select>
