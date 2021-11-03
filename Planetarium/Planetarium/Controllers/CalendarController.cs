@@ -19,10 +19,15 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public JsonResult GetEventsForCalendar() {
+        public JsonResult GetEventsForGeneralCalendar() {
+            List<EventModel> eventsList = new List<EventModel>();
+            eventsList = activityHandler.GetEventsForCalendar(eventsList);
+            return Json(eventsList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetEventsForPhenomenonCalendar() {
             List<EventModel> eventsList = new List<EventModel>();
             eventsList = eventHandler.TestHTML();
-            eventsList = activityHandler.GetEventsForCalendar(eventsList);
             return Json(eventsList, JsonRequestBehavior.AllowGet);
         }
     }
