@@ -52,15 +52,9 @@
                             <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
                         </div>
                         <div class="row" style="margin-top: 15px;">
-                            <div class="col">
-                                @Html.LabelFor(model => model.Title)
-                                @Html.TextAreaFor(model => model.Title, new { @class = "form-control", @rows = "5" })
-                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col">
-                                @Html.LabelFor(model => model.Author)
-                                @Html.TextAreaFor(model => model.Author, new { @class = "form-control", @rows = "5" })
-                            </div>
+                            @Html.LabelFor(model => model.Title)
+                            @Html.TextAreaFor(model => model.Title, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                         </div>
                         <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
                             @Html.LabelFor(model => model.Description)

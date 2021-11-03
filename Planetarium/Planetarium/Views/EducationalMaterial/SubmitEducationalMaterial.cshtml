@@ -1,4 +1,4 @@
-﻿@model Planetarium.Models.EducationalMaterialModel
+﻿@model Planetarium.Models.EducationalActivityModel
 @{
     ViewBag.Title = "Agregar material educacional";
     List<SelectListItem> educationalDropDownNamesList = ViewBag.DropDownActivitiesNames;
@@ -17,7 +17,6 @@
         </div>
     }
 
-    <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "EducationalMaterial")"></div>
     <div class="container">
         <h1>Formulario para agregar material educativo</h1>
         @using (Html.BeginForm("SendEducationalMaterialForm", "EducationalMaterial", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -29,50 +28,12 @@
                         <h4 class="text-success text-center">NUEVO MATERIAL EDUCATIVO</h4>
                     </div>
                     <div class="card-body">
-                        <div class="row" style="margin-top: 15px;">
-                            <div class="col">
-                                @Html.LabelFor(model => model.Title)
-                                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col">
-                                @Html.LabelFor(model => model.ActivityTitle)
-                                @Html.DropDownListFor(model => model.ActivityTitle, educationalDropDownNamesList, "- Sin selección -", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ActivityTitle, "", new { @class = "text-danger" })
-                            </div>
+                        <div class="col">
+                            @Html.LabelFor(model => model.Title)
+                            @Html.DropDownListFor(model => model.Title, educationalDropDownNamesList, "- Sin selección -", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                @Html.LabelFor(model => model.Category, new { @class = "card-text" })
-                                <br />
-                                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-                            </div>
-                            <div class="col">
-                                @Html.LabelFor(model => model.Topics)
-                                <br />
-                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value)" })
-                                @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="card" style="margin: 10px 0 10px 0;">
-                            <div class="card-header">
-                                <h4 class="text-success">Topicos seleccionados</h4>
-                            </div>
-                            <div class="card-body" id="topicsContainer">
-                            </div>
-                            <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
-                        </div>
-
-                        <div class="row" style="margin-top: 15px;">
-                            <div class="col">
-                                @Html.LabelFor(model => model.Author)
-                                @Html.TextBoxFor(model => model.Author, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
                         <div class="row" style="margin-top: 15px;">
                             <div>
                                 <h5>Arrastre los archivos</h5>
@@ -86,18 +47,15 @@
                             <input type="text" id="filesString" name="filesString" style="display:none;" />
                         </div>
                     </div>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-success w-25" style="padding: 5px 55px 5px 55px; margin: 20px" value="Guardar" />
+                    </div>
                 </div>
-                <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Proponer" />
+
             </div>
         }
     </div>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/GenericMultiselect.js"></script>
-    <script type="text/javascript" src="~/Scripts/categoriesAndTopics.js"></script>
-    <script type="text/javascript">
-        let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
-    </script>
-
     </body>
 </html>
 <style>

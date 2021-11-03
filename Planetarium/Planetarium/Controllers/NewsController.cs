@@ -92,7 +92,6 @@ namespace Planetarium.Controllers {
             news.Category = Request.Form["Category"].Replace(" ", "_");
             news.Topics = ContentParser.GetListFromString(Request.Form["inputTopicString"]);
             news.Title = Request.Form["title"];
-            news.Author = Request.Form["author"];
             news.Description = Request.Form["description"];
             news.Content = Request.Form["content"];
             news.ImagesRef = ContentParser.GetListFromString(Request.Form["imagesString"]);

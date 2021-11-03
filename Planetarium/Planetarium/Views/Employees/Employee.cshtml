@@ -34,12 +34,6 @@
                     @ViewBag.Employee.LastName
                 </h1>
 
-                <div class="row m-5">
-                    <div class="col-sm-12 my-auto">
-                        <h5> "@ViewBag.Employee.Phrase"</ </h5>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="card col-md">
                         <div class="card-header">
@@ -50,7 +44,6 @@
                                 Cédula: @ViewBag.Employee.Dni <br>
                                 Fecha de nacimiento: @ViewBag.Employee.DateOfBirth <br>
                                 País de origen: @ViewBag.Employee.NativeCountry<br>
-                                Lugar de residencia: @ViewBag.Employee.Address <br>
                             </p>
                         </div>
                     </div>
@@ -67,7 +60,7 @@
                                 Idiomas:
                                 @foreach (var language in @ViewBag.Employee.Languages)
                                 {
-                                <a class="badge rounded-pill bg-info"> @language </a>
+                                    <a class="badge rounded-pill bg-info"> @language </a>
                                 }
                                 <br>
                             </p>

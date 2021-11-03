@@ -22,9 +22,6 @@ namespace Planetarium.Models {
 
         public string PublisherId { get; set; }
 
-        [Display(Name = "Autor")]
-        public string Author { get; set; }
-
         [Required(ErrorMessage = "Es necesario que seleccione una categoría")]
         [Display(Name = "Seleccione la categoría")]
         public string Category { get; set; }

@@ -61,7 +61,7 @@ namespace Planetarium.Controllers {
         }
 
         [HttpPost]
-        public ActionResult UploadEducationalActivity(EducationalActivityModel educationalActivity) {
+        public ActionResult UploadEducationalActivity(EducationalActivityEventModel educationalActivity) {
             ActionResult view = RedirectToAction("Success", "Home");
             LoadEducationalActivityWithForm(educationalActivity);
             ViewBag.SuccessOnCreation = false;
@@ -81,7 +81,7 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-        private void LoadEducationalActivityWithForm(EducationalActivityModel educationalActivity) {
+        private void LoadEducationalActivityWithForm(EducationalActivityEventModel educationalActivity) {
             educationalActivity.Duration = int.Parse(Request.Form["Duration"]);
             educationalActivity.TargetAudience = ContentParser.GetListFromString(Request.Form["inputAudienceString"]);
             educationalActivity.Topics = ContentParser.GetListFromString(Request.Form["inputTopicString"]);
@@ -155,5 +155,11 @@ namespace Planetarium.Controllers {
             }
             return view;
         }
+
+        public ActionResult ShowStatistics() {
+            ViewBag.activities = DataAccess.GetAllActivitiesParticipants();
+            return View();
+        }
+
     }
 }

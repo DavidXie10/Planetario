@@ -44,5 +44,16 @@ namespace Planetarium.Models {
             }
             return listFromContent;
         }
+        
+        public string GetStringFromList(List<string> listContent) {
+            string content = "";
+
+            foreach (string element in listContent) {
+                content += element.Replace(" ", "_") + "|";
+            }
+
+            return content;
+        }
+
     }
 }

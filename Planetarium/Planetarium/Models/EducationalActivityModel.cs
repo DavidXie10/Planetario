@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Planetarium.Models
-{
-    public class EducationalActivityModel
-    {
+namespace Planetarium.Models {
+    public class EducationalActivityModel {
         [Required(ErrorMessage = "Es necesario que tenga un título")]
         [Display(Name = "Título")]
         public string Title { get; set; }
@@ -38,36 +33,13 @@ namespace Planetarium.Models
         [Display(Name = "Duración (Minutos)")]
         public int Duration { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que seleccione la fecha de inicio de la actividad")]
-        [Display(Name = "Seleccione fecha de inicio")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
-
         [Required(ErrorMessage = "Es necesario que describa la actividad")]
         [Display(Name = "Descripción")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que seleccione un precio de la actividad")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
-        [Display(Name = "Introduzca el precio en colones")]
-        public double Price { get; set; }
-
-        [Required(ErrorMessage = "Es necesario que introduzca la capacidad máxima")]
-        [Display(Name = "Capacidad máxima")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar un número")]
-        public int MaximumCapacity { get; set; }
-
-        [Required(ErrorMessage = "Es necesario que seleccione el tipo de asistencia con la que va a contar")]
-        [Display(Name = "Tipo de asistencia")]
-        public string TypeOfAssistance { get; set; }
-
-        public string State { get; set; }
-
-        [Display(Name = "Enlace a la actividad")]
-        public string Link { get; set; }
-
         public string Publisher { get; set; }
+
+        public List<string> RefEducationalMaterial { get; set; }
 
     }
 }

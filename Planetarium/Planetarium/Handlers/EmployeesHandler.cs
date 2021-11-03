@@ -33,10 +33,8 @@ namespace Planetarium.Handlers {
                 PhoneNumber = Convert.ToInt32(employeeRawInfo["telefono"]),
                 Gender = Convert.ToChar(employeeRawInfo["genero"]),
                 ExpertiseArea = Convert.ToString(employeeRawInfo["areaExpertiz"]),
-                Address = Convert.ToString(employeeRawInfo["lugarDeResidencia"]),
                 NativeCountry = Convert.ToString(employeeRawInfo["paisOrigen"]),
                 DateOfBirth = Convert.ToDateTime(employeeRawInfo["fechaNacimiento"]),
-                Phrase = Convert.ToString(employeeRawInfo["frase"]),
                 PhotoPath = Convert.ToString(employeeRawInfo["rutaFotoPerfil"])
             };
         }
@@ -66,8 +64,8 @@ namespace Planetarium.Handlers {
 
         public bool CreateEmployee(EmployeeModel employee) {
             bool employeeCreated = false;
-            string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,correo,nombre,apellido, frase, genero,fechaInicioEmpleo,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,lugarDeResidencia,paisOrigen, rutaFotoPerfil)" +
-              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@correo,@nombre,@apellido, @frase, @genero,'2000-02-02',@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@lugarDeResidencia,@paisOrigen,@rutaFotoPerfil) ";
+            string query = "INSERT INTO Funcionario(cedulaPK,ocupacion,titulosAcademicos,correo,nombre,apellido, genero,fechaNacimiento,telefono,banderaColaborador,areaExpertiz,banderaCoordinador,banderaEducador,paisOrigen, rutaFotoPerfil)" +
+              "VALUES(@cedula,@ocupacion,@titulosAcademicos,@correo,@nombre,@apellido, @genero,@fechaNacimiento,@telefono,1,@areaExpertiz,0,0,@paisOrigen,@rutaFotoPerfil) ";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
@@ -90,15 +88,12 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@ocupacion", employee.Occupation);
             queryCommand.Parameters.AddWithValue("@titulosAcademicos", employee.AcademicDegree == null ? "" : employee.AcademicDegree);
             queryCommand.Parameters.AddWithValue("@correo", employee.Mail == null ? "" : employee.Mail );
-            
             queryCommand.Parameters.AddWithValue("@nombre", employee.FirstName);
             queryCommand.Parameters.AddWithValue("@apellido", employee.LastName);
-            queryCommand.Parameters.AddWithValue("@frase", employee.Phrase == null ? "" : employee.Phrase);
             queryCommand.Parameters.AddWithValue("@genero", employee.Gender == 'N' ? 'O' : employee.Gender);
             queryCommand.Parameters.AddWithValue("@fechaNacimiento", employee.DateOfBirth);
             queryCommand.Parameters.AddWithValue("@telefono", employee.PhoneNumber == 0 ? 0 : employee.PhoneNumber);
             queryCommand.Parameters.AddWithValue("@areaExpertiz", employee.ExpertiseArea == null ? "" : employee.ExpertiseArea);
-            queryCommand.Parameters.AddWithValue("@lugarDeResidencia", employee.Address == null ? "" : employee.Address);
             queryCommand.Parameters.AddWithValue("@paisOrigen", employee.NativeCountry == null ? "" : employee.NativeCountry);
             queryCommand.Parameters.AddWithValue("@rutaFotoPerfil", employee.PhotoFile.FileName.Replace(" ", "-").Replace("_", "-"));
         }

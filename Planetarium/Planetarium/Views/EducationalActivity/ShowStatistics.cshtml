@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Estadísticas</title>
+</head>
+<body>
+    <div class="container">
+        <h1 style="margin:10px 0 20px 0;">Estadísticas de Involucramiento</h1>
+
+        <h5>Seleccione los días</h5>
+        <div class="btn-group">
+            <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Lunes</button>
+            <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Martes</button>
+            <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Miércoles</button>
+            <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Jueves</button>
+            <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Viernes</button>
+            <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Sábado</button>
+            <button class="btn btn-outline-success checkItemDay" value="0" onclick="activeCheck(this, 1)">Domingo</button>
+
+            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllButtonsFromRow('checkboxesDays')">Todos</button>
+            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesDays')">Limpiar</button>
+        </div>
+
+        <br />
+        <br />
+        <h5>Seleccione los niveles de complejidad</h5>
+        <div class="btn-group">
+            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this, 1)">Básico</button>
+            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this, 1)">Intermedio</button>
+            <button class="btn btn-outline-success checkItemComplexityLevel" value="0" onclick="activeCheck(this, 1)">Avanzado</button>
+
+            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllButtonsFromRow('checkboxesComplexityLevel')">Todos</button>
+            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesComplexityLevel')">Limpiar</button>
+        </div>
+
+        <br />
+        <br />
+        <h5>Seleccione los públicos meta</h5>
+        <div class="btn-group">
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this, 1)">Infantil</button>
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this, 1)">Juvenil</button>
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this, 1)">Adulto</button>
+            <button class="btn btn-outline-success checkItemTargetAudience" value="0" onclick="activeCheck(this, 1)">Adulto Mayor</button>
+
+            <button style="margin-left: 20px" class="btn btn-success" value="0" onclick="activeAllButtonsFromRow('checkboxesTargetAudiences')">Todos</button>
+            <button class="btn btn-secondary" value="0" onclick="clearAllButtonsFromRow('checkboxesTargetAudiences')">Limpiar</button>
+        </div>
+        <br />
+        <br />
+        <div style="text-align:left; margin-right: 40px">
+            <button class="btn btn-success" value="0" onclick="executeAllCheckboxesTypes(activeAllButtonsFromRow)">Seleccionar todo</button>
+            <button class="btn btn-secondary" value="0" onclick="executeAllCheckboxesTypes(clearAllButtonsFromRow)">Limpiar todo</button>
+        </div>
+        <hr />
+        <div class="card text-white bg-success mb-3 text-center" style="margin:40px; max-width: 80rem;">
+            <div class="card-body">
+                <p class="card-title" style="font-size: 4rem"><strong>Asistencia al planetario</strong></p>
+                <p id="result" class="card-text" style="font-size: 4rem"></p>
+            </div>
+        </div>
+
+    </div>
+    <script>let activities = @Html.Raw(Json.Encode(ViewBag.activities));</script>
+    <script src="~/Scripts/Statistics.js" type="text/javascript"></script>
+</body>
+</html>
