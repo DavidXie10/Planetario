@@ -10,24 +10,24 @@
         <div class="row">
             <div class="col">
                 <h5>Seleccione las categorías</h5>
-                <select class="form-select" id="categorySelect" onchange="addCategoryButton(this.value)">
+                <select class="form-select" id="categorySelect" onchange="addCategoryButton(this.value), updateCategoryChart()">
                     <option value="">Seleccione la(s) categoría(s)</option>
                     @foreach (var category in ViewBag.TopicsByCategory) {
-                    <option value="@category.Key">@category.Key</option>
+                        <option value="@category.Key">@category.Key</option>
                     }
                 </select>
 
                 <br />
                 <br />
-                <div class="card" style="margin: 10px 0 10px 0">
+                <div class="card" style="margin: 10px 0 10px 0" >
                     <div class="card-header">
                         <h4 class="text-success text-center">Categorías seleccionadas</h4>
                     </div>
-                    <div class="card-body" id="categoryContainer">
+                    <div class="card-body" id="categoryContainer" onclick="updateCategoryChart()">
                     </div>
-                    <input type="text" name="inputCategoryString" id="inputCategoryString" value="" style="display: none;" />
+                    <input type="text" name="inputCategoryString" id="inputCategoryString" value="" style="display: none;"/>
                 </div>
-                <div id="categoriesChart" style="height: 500px; width: 500px;"></div>
+                <div id="categoriesChart" style="height: 500px; width: 100%;"></div>
             </div>
 
             <div class="col">
@@ -36,7 +36,7 @@
                     <option value="">Seleccione los tópicos</option>
                     @foreach (var category in ViewBag.TopicsByCategory) {
                         foreach (var topic in category.Value) {
-                    <option value="@topic">@topic</option>
+                            <option value="@topic">@topic</option>
                         }
                     }
                 </select>
@@ -51,7 +51,7 @@
                     </div>
                     <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
                 </div>
-                <div id="topicsChart" style="height: 500px; width: 500px;"></div>
+                <div id="topicsChart" style="height: 500px; width: 100%;"></div>
             </div>   
         </div>
         
@@ -64,40 +64,76 @@
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
     </script>
 
-    <script>
-        anychart.onDocumentReady(function () {
-            let categoriesRank = @Html.Raw(Json.Encode(ViewBag.CategoriesRank));
-            //let categoriesRows = "{rows: [";
-            //for (let category in categoriesRank) {
-            //    categoriesRows += "[\"" + category + "\", " + categoriesRank[category] + "],";
-            //}
-            //categoriesRows = categoriesRows.substring(0, categoriesRows.length - 1) + "]}";
-            //console.log(categoriesRows);
+    <script type="text/javascript">
+        //let input = document.getElementById('inputCategoryString')
 
-            var data = {
-                rows: [
-                    ["San-Francisco (1906)", 1500],
-                    ["Messina (1908)", 87000],
-                    ["Ashgabat (1948)", 175000],
-                    ["Chile (1960)", 10000],
-                    ["Tian Shan (1976)", 242000],
-                    ["Armenia (1988)", 25000],
-                    ["Iran (1990)", 50000]
-                ]
-            };
+        //input.onchange = dummy;
 
-            var categoriesChart = anychart.column();
-            categoriesChart.data.loadJsonFile(categoriesRank, function (data)){ };
-            categoriesChart.title("Categories Chart Example");
-            categoriesChart.container("categoriesChart");
-            categoriesChart.draw();
+        function callMeMaybe() {
+            console.log("Me estan llamando");
+        }
 
-            var topicsChart = anychart.column();
-            topicsChart.data.loadJsonFile(categoriesRank, function (data)){ };
-            topicsChart.title("Topics Chart Example");
-            topicsChart.container("topicsChart");
-            topicsChart.draw();
+        let categoriesRank = @Html.Raw(Json.Encode(ViewBag.CategoriesRank));
+
+        let items = Object.keys(categoriesRank).map(function (key) {
+            return [key, categoriesRank[key]];
         });
+
+        let categoriesChart = anychart.bar();
+        let data = anychart.data.set(items);
+
+        categoriesChart.bar(data);
+        categoriesChart.title("Categories Chart Example");
+        categoriesChart.container("categoriesChart");
+        categoriesChart.draw();
+
+        let topicsRank = @Html.Raw(Json.Encode(ViewBag.TopicsRank));
+
+        let items2 = Object.keys(topicsRank).map(function (key) {
+            return [key, topicsRank[key]];
+        });
+
+        var topicsChart = anychart.bar();
+        topicsChart.bar(items2);
+        topicsChart.title("Topic Chart Example");
+        topicsChart.container("topicsChart");
+        topicsChart.draw();
+
+        //document.getElementById("inputCategoryString").value = "";
+        
+        function updateCategoryChart() {
+            let selectedCategories = document.getElementById("inputCategoryString").value;
+
+            selectedCategories = sortElements(selectedCategories);
+            selectedCategories = selectedCategories.substring(0, selectedCategories.length - 1);
+            removeAll();
+
+            console.log(selectedCategories);
+            let words = selectedCategories.split('|');
+            let counter = 0;
+
+            for (let word of words) {
+                console.log("Word: " + word);
+                data.insert({ x: word, value: categoriesRank[word] }, counter++);
+            }
+        }
+
+        function removeAll() {
+            for (let element = 0; element < 4; ++element ) {
+                data.remove(0);
+            }
+        }
+
+        function sortElements(selectedCategories) {
+            let rankedCategories = "";
+            for (let category in categoriesRank) {
+                if (selectedCategories.search(category) != -1) {
+                    rankedCategories += category + "|";
+                }
+            }
+            return rankedCategories;
+        }
+
     </script>
 
 </body>
