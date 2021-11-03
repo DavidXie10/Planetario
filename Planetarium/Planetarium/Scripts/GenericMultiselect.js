@@ -7,52 +7,39 @@
     }
 
     addButton(value) {
+        if (!this.isValueInString(value)) {
+            //Card Element
+            let button = document.createElement("a");
 
-        //Card Element
-        let button = document.createElement("a");
+            //Button properties
+            button.textContent = String(value).replace("_", " ");
+            button.classList.add("btn", "btn-success");
+            button.style.margin = "2px";
 
-        //Button properties
-        button.textContent = String(value).replace("_", " ");
-        button.classList.add("btn", "btn-success");
-        button.style.margin = "2px";
+            //Removing element onClick
+            button.addEventListener("click", (triggeredEvent) => {
 
-        //Removing element onClick
-        button.addEventListener("click", (triggeredEvent) => {
+                //Button to delete
+                let buttonToDelete = triggeredEvent.target;
 
-            //Button to delete
-            let buttonToDelete = triggeredEvent.target;
+                //Value (string) to delete
+                let value = buttonToDelete.textContent;
 
-            //Value (string) to delete
-            let value = buttonToDelete.textContent;
+                //Deleting the value from the string container
+                this.deleteElementString(value);
 
-            //Deleting the value from the string container
-            this.deleteElementString(value);
+                //Deleting from document
+                buttonToDelete.parentNode.removeChild(buttonToDelete);
 
-            //Deleting from document
-            buttonToDelete.parentNode.removeChild(buttonToDelete);
+            });
 
-        });
+            //Adding custom button to card
+            this.defaultButtonContainer.appendChild(button);
 
-        //Adding custom button to card
-        this.defaultButtonContainer.appendChild(button);
+            //Adding button value to string
+            this.addElementToArray(String(value));
+        }
 
-        //Adding button value to string
-        this.addElementToArray(String(value));
-    }
-
-    deleteOnEvent(triggeredEvent) {
-
-        //Button to delete
-        let buttonToDelete = triggeredEvent.target;
-
-        //Value (string) to delete
-        let value = buttonToDelete.textContent;
-
-        //Deleting the value from the string container
-        this.deleteElementString(String(value));
-
-        //Deleting from document
-        buttonToDelete.parentNode.removeChild(buttonToDelete);
     }
 
     addElementToArray(value) {
@@ -80,6 +67,20 @@
         //Updating the string
         this.defaultInputString.value = newValues;
 
+    }
+
+    isValueInString(value) {
+        let isInString = true;
+
+        //Parsing value
+        let parsedValue = String(value).replace(" ", "_");
+        parsedValue += "|";
+
+        if (!this.defaultInputString.value.includes(parsedValue)) {
+            isInString = false;
+        }
+
+        return isInString;
     }
 }
 
