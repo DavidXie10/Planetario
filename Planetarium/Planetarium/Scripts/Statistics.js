@@ -19,8 +19,26 @@ function activeCheck(target, index) {
         target.value = "0";
     }
     if (index == 1) {
+        toggleDisplay();
         updateStatistics();
     }
+}
+
+function toggleDisplay() {
+    if (checkIfDaysAreOff()) {
+        hide('complexityLevels');
+        hide('targetAudiences');
+        hide('assistance');
+    } else {
+        show('complexityLevels');
+        show('targetAudiences');
+        show('assistance');
+    }
+}
+
+function checkIfDaysAreOff() {
+    let selectedDays = getListSelectedOptions("checkboxesDays");
+    return selectedDays.length == 0;
 }
 
 function getDayName(inputDate, locale) {
@@ -80,7 +98,7 @@ function getActivitiesParticipants(selectedDays, selectedComplexityLevels, selec
             let existsTargetAudience = false;
 
             let activityDate = getDayName(activities[activity].StatisticsDate, 'es-ES');
-            existsDay = selectedDays.length == 0 || selectedDays.includes(activityDate);
+            existsDay = selectedDays.includes(activityDate);
             if (existsDay) {
                 existsComplexityLevel = selectedComplexityLevels.length == 0 || selectedComplexityLevels.includes(activities[activity].ComplexityLevel);
 
@@ -99,7 +117,7 @@ function getActivitiesParticipants(selectedDays, selectedComplexityLevels, selec
                 }
             }
 
-            if (selectedDays.includes(activityDate)) {
+            if (existsDay) {
                 participants[activityDate] += (existsDay && existsComplexityLevel && existsTargetAudience ? activities[activity].RegisteredParticipants : 0);
             }
         }
@@ -133,6 +151,7 @@ function toggleButtons(checkboxType, value) {
         checkboxes[checkbox].value = value;
         activeCheck(checkboxes[checkbox], 0);
     }
+    toggleDisplay();
     updateStatistics();
 }
 
