@@ -45,10 +45,8 @@ namespace Planetarium.Controllers {
         
         public ActionResult CreateEmployee() {
             List<SelectListItem> countries = new List<SelectListItem>();
-            List<SelectListItem> languages = new List<SelectListItem>();
 
             dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
-            dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
 
             string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
 
@@ -56,15 +54,22 @@ namespace Planetarium.Controllers {
                 countries.Add(new SelectListItem { Text = country, Value = country });
             }
 
+            ViewBag.Countries = countries;
+            ViewBag.Languages = loadLanguages();
+
+            return View();
+        }
+
+        public List<SelectListItem> loadLanguages(){
+            List<SelectListItem> languages = new List<SelectListItem>();
+            dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
+
             foreach(var language in JsonContentLanguages) {
                 string name = language.Value["name"].ToString();
                 languages.Add(new SelectListItem { Value = name, Text = name });
             }
 
-            ViewBag.Countries = countries;
-            ViewBag.Languages = languages;
-
-            return View();
+            return languages;
         }
 
         public void UploadPhoto(HttpPostedFileBase file) {
@@ -92,6 +97,19 @@ namespace Planetarium.Controllers {
                 ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
                 return view; 
             }
+        }
+
+        public ActionResult ShowEmployeesIdiomsStatistics() {
+            List<string> languages = new List<string>();
+            dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
+
+            foreach(var language in JsonContentLanguages) {
+                languages.Add(language.Value["name"].ToString());
+            }
+            
+            ViewBag.Languages = languages;
+
+            return View();
         }
     }
 }

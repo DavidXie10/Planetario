@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Idiomas de los colaboradores";
+
+    List<SelectListItem> Languanges = ViewBag.Languages;
+}
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="container">
+        @*<div class="row" style="margin-top: 15px;">
+            <div class="col">
+                @Html.DropDownList("languageSelect", Languanges, "-Seleccione los idiomas-", new { @class = "form-control", @onchange = "addLanguageButton(this.value)" })
+            </div>
+        </div>*@
+
+        <h1 style="margin:10px 0 20px 0;">Idiomas de los colaboradores</h1>
+        <div class="row">
+            <h5>Seleccione los idiomas</h5>
+            <select class="form-select" id="languageSelect" onchange="addCategoryButton(this.value), updateIdiomsList('inputLanguageString')">
+                <option value=""> Seleccione los idiomas</option>
+                @foreach (var language in ViewBag.Languages) {
+                    <option value="@language">@language</option>
+                }
+            </select>
+            <br />
+            <br />
+            <div class="card" style="margin: 10px 0 10px 0">
+                <div class="card-header">
+                    <h4 class="text-success text-center">Idiomas Seleccionados</h4>
+                </div>
+
+                <div class="card-body" id="languagesContainer" onclick="updateIdiomsList('inputLanguageString')">
+                </div>
+
+                <input type="text" name="inputLanguageString" id="inputLanguageString" value="" style="display: none;" />
+            </div>
+        </div>
+        <hr />
+        <div class="row" id="resultsContainer" style="display:none" > 
+            <div class="col">
+                <ul id="listColumn1"></ul>
+            </div>
+            <div class="col">
+                <ul id="listColumn2"></ul>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/GenericMultiselect.js"></script>
+    <script type="text/javascript">
+        let multiSelectLanguages = new GenericMultiSelect("#languageSelect", "#languagesContainer", "#inputLanguageString");
+    </script>
+    <script type="text/javascript"> 
+        const RESULTS_PLACE_CONTAINER = 'resultsContainer';
+
+        function updateIdiomsList(inputIdiomString){
+            // removeAll()
+            // cantidad de idiomas seleccionados para hacer length % 2   
+            // 2 for para tirar las listas 
+                // recuperar # de empleados que hablan X idioma
+                // agregar el elemento a la lista 
+                // agregar boton dinamico de Ver Funcionarios
+                // Asociar el modal con el boton
+        }
+
+        function removeAll() {
+            document.getElementById('listColumn1').innerHTML = "";
+            document.getElementById('listColumn2').innerHTML = "";
+        }
+    </script>
+
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>
