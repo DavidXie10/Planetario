@@ -1,4 +1,7 @@
-﻿let checkboxes = document.getElementsByClassName("checkItemDay");
+﻿
+const BASE_ID_COUNT = '_count';
+
+let checkboxes = document.getElementsByClassName("checkItemDay");
 let checkboxesTypes = {};
 
 checkboxesTypes["checkboxesDays"] = document.getElementsByClassName("checkItemDay");
@@ -27,16 +30,48 @@ function getDayName(inputDate, locale) {
 }
 
 function updateStatistics() {
-    let result = 0;
+    let result = {};
     let selectedDays = getListSelectedOptions("checkboxesDays");
     let selectedComplexityLevels = getListSelectedOptions("checkboxesComplexityLevel");
     let selectedTargetAudiences = getListSelectedOptions("checkboxesTargetAudiences");
     result = getActivitiesParticipants(selectedDays, selectedComplexityLevels, selectedTargetAudiences);
-    document.getElementById('result').innerHTML = result + (result != 1 ? " personas" : " persona");
+    hideAll();
+    displayCards(result);
+
+    // document.getElementById('result').innerHTML = result + (result != 1 ? " personas" : " persona");
 }
 
+function displayCards(selectedCards) {
+    for (const [key, value] of Object.entries(selectedCards)) {
+        show(key);
+        document.getElementById(key + BASE_ID_COUNT).innerHTML = value;
+    }
+}
+
+
+function show(id){
+    document.getElementById(id).style.display = "block";
+}
+
+function hide(id){
+    document.getElementById(id).style.display = "none";
+}
+
+function hideAll() {
+    hide('Lunes');
+    hide('Martes');
+    hide('Miércoles');
+    hide('Jueves');
+    hide('Viernes');
+    hide('Sábado');
+    hide('Domingo');
+} 
+
 function getActivitiesParticipants(selectedDays, selectedComplexityLevels, selectedTargetAudiences) {
-    let participants = 0;
+    let participants = {};
+    for (let day = 0; day < selectedDays.length; ++day) {
+        participants[selectedDays[day]] = 0;
+    }
 
     if (selectedDays.length != 0 || selectedComplexityLevels.length != 0 || selectedTargetAudiences != 0) {
         for (let activity in activities) {
@@ -63,9 +98,13 @@ function getActivitiesParticipants(selectedDays, selectedComplexityLevels, selec
                     }
                 }
             }
-            participants += existsDay && existsComplexityLevel && existsTargetAudience ? activities[activity].RegisteredParticipants : 0;
+
+            if (selectedDays.includes(activityDate)) {
+                participants[activityDate] += (existsDay && existsComplexityLevel && existsTargetAudience ? activities[activity].RegisteredParticipants : 0);
+            }
         }
     }
+
     return participants;
 }
 
