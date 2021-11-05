@@ -69,8 +69,8 @@
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top: 15px; margin-left: 2px">
-                        @Html.LabelFor(model => model.DateOfBirth, new { @style = "padding-left:0px" })
+                    <div class="row" style="margin-top: 15px;">
+                        @Html.LabelFor(model => model.DateOfBirth, new { @style = "padding-left:1rem" })
                         <br />
                         @Html.EditorFor(model => model.DateOfBirth, new { @type = "date"})
                         @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
