@@ -159,7 +159,7 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-        private List<SelectListItem> loadLanguages() {
+        private List<SelectListItem> LoadLanguages() {
             dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
             string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
 
@@ -171,7 +171,7 @@ namespace Planetarium.Controllers {
             return countries;
         }
 
-        private List<SelectListItem> loadEducationalLevels() {
+        private List<SelectListItem> LoadEducationalLevels() {
             dynamic JsonContentCountries = ContentParser.ParseFromJSON("EducationalActivity.json");
             string[] educationalLevelsFromJson = JsonContentCountries.NivelEducativo.ToObject<string[]>();
 
@@ -226,11 +226,20 @@ namespace Planetarium.Controllers {
             return view;
         }
 
+        private List<SelectListItem> LoadGenders() {
+            List<SelectListItem> genders = new List<SelectListItem>();
+            genders.Add(new SelectListItem { Text = "Hombre", Value = "M" });
+            genders.Add(new SelectListItem { Text = "Mujer", Value = "F" });
+            genders.Add(new SelectListItem { Text = "Prefiero no decir", Value = "O" });
+            return genders;
+        }
+
         public ActionResult ActivityInscriptionForm(string activityTitle, string activityDate) {
-            ViewBag.Countries = loadLanguages();
+            ViewBag.Countries = LoadLanguages();
             ViewBag.ActivityTitle = activityTitle;
             ViewBag.ActivityDate = activityDate;
-            ViewBag.EducationalLevels = loadEducationalLevels();
+            ViewBag.EducationalLevels = LoadEducationalLevels();
+            ViewBag.GenderOptions = LoadGenders();
 
             return View();
         }
@@ -238,7 +247,6 @@ namespace Planetarium.Controllers {
         [HttpPost]
         public ActionResult SubmitActivityInscriptionForm(VisitorModel visitor) {
             ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity");
-            visitor.Gender = Request.Form["gender"].ElementAt(0);
             string date = Request.Form["date"];
             string title = Request.Form["title"];
             ViewBag.SuccessOnCreation = false;
@@ -252,8 +260,8 @@ namespace Planetarium.Controllers {
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            } catch {
-                TempData["WarningMessage"] = "Algo salió mal";
+            } catch (Exception e) {
+                TempData["WarningMessage"] = e;
             }
 
             return view;

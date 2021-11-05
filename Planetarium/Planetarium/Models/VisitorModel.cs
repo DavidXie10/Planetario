@@ -9,22 +9,26 @@ namespace Planetarium.Models {
     public class VisitorModel {
         [Required(ErrorMessage = "Es necesario que ingrese su nombre completo")]
         [Display(Name = "Nombre completo")]
-        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "No puede ingresar números")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Por favor, solo ingrese letras")]
         public string FullName { get; set; }
 
         [Display(Name = "Correo")]
         public string Mail { get; set; }
 
+        [Required(ErrorMessage = "Es necesario que ingrese su género")]
         [Display(Name = "Seleccione el género")]
         public char Gender { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese el número de cédula")]
         [Display(Name = "Número de cédula")]
+        [MaxLength(15, ErrorMessage = "La cédula debe tener un máximo de 15 caracteres")]
         public string Dni { get; set; }
 
+        [Required(ErrorMessage = "Es necesario que ingrese el país de origen")]
         [Display(Name = "País de origen")]
         public string NativeCountry { get; set; }
 
+        [Required(ErrorMessage = "Es necesario que ingrese su nivel educativo")]
         [Display(Name = "Nivel educativo")]
         public string EducationalLevel { get; set; }
 
