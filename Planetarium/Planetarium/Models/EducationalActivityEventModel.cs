@@ -9,6 +9,8 @@ namespace Planetarium.Models {
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
+        public String StatisticsDate { get; set; }
+
         [Required(ErrorMessage = "Es necesario que seleccione un precio de la actividad")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
         [Display(Name = "Introduzca el precio en colones")]
@@ -28,5 +30,7 @@ namespace Planetarium.Models {
         public string Link { get; set; }
 
         public string State { get; set; }
+
+        public int RegisteredParticipants { get; set; }
     }
 }

@@ -216,6 +216,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
+    <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -259,6 +260,7 @@
     <Content Include="Views\EducationalMaterial\SubmitEducationalMaterial.cshtml" />
     <Content Include="Views\EducationalActivity\ActivityInscription.cshtml" />
     <Content Include="Views\EducationalActivity\ActivityInscriptionForm.cshtml" />
+    <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
