@@ -1,5 +1,8 @@
 ﻿
 const BASE_ID_COUNT = '_count';
+const DAYS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+const COMPLEXITY_LEVELS = ["", "Básico", "Intermedio", "Avanzado"];
+const TARGET_AUDIENCES = ["", "Infantil", "Juvenil", "Adulto", "Adulto Mayor"];
 
 let checkboxes = document.getElementsByClassName("checkItemDay");
 let checkboxesTypes = {};
@@ -52,15 +55,87 @@ function updateStatistics() {
     let selectedDays = getListSelectedOptions("checkboxesDays");
     let selectedComplexityLevels = getListSelectedOptions("checkboxesComplexityLevel");
     let selectedTargetAudiences = getListSelectedOptions("checkboxesTargetAudiences");
-    result = getActivitiesParticipants(selectedDays, selectedComplexityLevels, selectedTargetAudiences);
+    result = loadActivitiesParticipants(selectedComplexityLevels, selectedTargetAudiences);
     hideAll();
-    displayCards(result);
+    displayCards(result, selectedDays, selectedComplexityLevels, selectedTargetAudiences);
 }
 
-function displayCards(selectedCards) {
-    for (const [key, value] of Object.entries(selectedCards)) {
-        show(key);
-        document.getElementById(key + BASE_ID_COUNT).innerHTML = value;
+function displayCards(result, selectedDays, selectedComplexityLevels, selectedTargetAudiences) {
+    let innerStr = "";
+    for (const [key, value] of Object.entries(result)) {
+        innerStr = "";
+        if (selectedDays.includes(key)) {
+            show(key);
+            if (selectedComplexityLevels.length != 0 && selectedTargetAudiences != 0) {
+                for (const [key2, value2] of Object.entries(value)) {
+                    if (selectedComplexityLevels.includes(key2)) {
+                        for (const [key3, value3] of Object.entries(value2)) {
+                            if (value3 > 0) {
+                                let listItemElement = "<li>";
+                                listItemElement += key2 + " - " + key3 + ": " + value3;
+                                listItemElement += "</li>";
+                                innerStr += listItemElement;
+                            }
+                        }
+                    }
+                }
+            } else if (selectedComplexityLevels.length != 0) {
+                let sum = {}
+                for (const [key2, value2] of Object.entries(value)) {
+                    if (key2 != "") {
+                        let totalAnyTargetAudience = 0;
+                        for (const [key3, value3] of Object.entries(value2)) {
+                            totalAnyTargetAudience += value3;
+                        }
+                        sum[key2] = totalAnyTargetAudience;
+                    }
+                }
+                for (const [key2, value2] of Object.entries(sum)) {
+                    if (value2 > 0) {
+                        let listItemElement = "<li>";
+                        listItemElement += key2 + ": " + value2;
+                        listItemElement += "</li>";
+                        innerStr += listItemElement;
+                    }
+                }
+            } else if (selectedTargetAudiences != 0) {
+                let sum = {};
+                for (const [key2, value2] of Object.entries(value)) {
+                    for (const [key3, value3] of Object.entries(value2)) {
+                        sum[key3] = 0
+                    }
+                }
+                for (const [key2, value2] of Object.entries(value)) {
+                    for (const [key3, value3] of Object.entries(value2)) {
+                        if (value3 > 0) {
+                            sum[key3] += value3;
+                            console.log(key3);
+                            console.log(value3);
+                        }
+                    }
+                }
+                for (const [key2, value2] of Object.entries(sum)) {
+                    if (value2 > 0) {
+                        let listItemElement = "<li>";
+                        listItemElement += key2 + ": " + value2;
+                        listItemElement += "</li>";
+                        innerStr += listItemElement;
+                    }
+                }
+            } else {
+                let totalDay = 0;
+                for (const [key2, value2] of Object.entries(value)) {
+                    for (const [key3, value3] of Object.entries(value2)){
+                        totalDay += value3;
+                    }
+                }
+                let listItemElement = "<li>";
+                listItemElement += totalDay;
+                listItemElement += "</li>";
+                innerStr += listItemElement;
+            }
+            document.getElementById(key + BASE_ID_COUNT).innerHTML = innerStr;
+        }
     }
 }
 
@@ -73,75 +148,48 @@ function hide(id){
 }
 
 function hideAll() {
-    hide('Lunes');
-    hide('Martes');
-    hide('Miércoles');
-    hide('Jueves');
-    hide('Viernes');
-    hide('Sábado');
-    hide('Domingo');
+    for (let day of DAYS) {
+        hide(day);
+        document.getElementById(day + BASE_ID_COUNT).innerHTML = "";
+    }
 } 
 
-function getActivitiesParticipants(selectedDays, selectedComplexityLevels, selectedTargetAudiences) {
+function loadActivitiesParticipants(selectedComplexityLevels, selectedTargetAudiences) {
     
     let participants = {};
 
-    const COMPLEXITY_LEVELS = ["", "Básico", "Intermedio", "Avanzado"];
-    const TARGET_AUDIENCES = ["", "Infantil", "Juvenil", "Adulto", "Adulto Mayor"];
-
-    //Diccionario <Lunes, Diccionario <Basico, Diccionario <Infantil, 3>>> 
-    for (let day = 0; day < selectedDays.length; ++day) {
-        participants[selectedDays[day]] = {};
+    for (let day = 0; day < 7; ++day) {
+        participants[DAYS[day]] = {};
         for (let complexityLevel = 0; complexityLevel < 4; ++complexityLevel) {
-            participants[selectedDays[day]][COMPLEXITY_LEVELS[complexityLevel]] = {};
+            participants[DAYS[day]][COMPLEXITY_LEVELS[complexityLevel]] = {};
             for (let targetAudience = 0; targetAudience < 5; ++targetAudience) {
-                participants[selectedDays[day]][COMPLEXITY_LEVELS[complexityLevel]][TARGET_AUDIENCES[targetAudience]] = 0;
+                participants[DAYS[day]][COMPLEXITY_LEVELS[complexityLevel]][TARGET_AUDIENCES[targetAudience]] = 0;
             }
         }
     }
+ 
+    for (let activity of activities) {
+        let activityDate = getDayName(activity.StatisticsDate, 'es-ES');
+        let activityComplexityLevel = activity.ComplexityLevel;
 
-    //1. Lunes
-    //2. Lunes -> Basico
-    //3. Lunes -> Basico -> Infantil
-    //4. Lunes -> Infantil
-    if (selectedDays.length != 0) {
-        for (let activity in activities) {
-            let activityDate = getDayName(activities[activity].StatisticsDate, 'es-ES');
-            let activityComplexityLevel = activities[activity].ComplexityLevel;
+        activityComplexityLevel = selectedComplexityLevels.length == 0 ? "" : activityComplexityLevel;
+        activityComplexityLevel = selectedComplexityLevels.includes(activityComplexityLevel) ? activityComplexityLevel : "";
 
-            activityComplexityLevel = selectedComplexityLevels.length == 0 ? "" : activityComplexityLevel;
-            activityComplexityLevel = selectedComplexityLevels.includes(activityComplexityLevel) ? activityComplexityLevel : "";
+        let counter = 0;
+        let sum = 0;
+        let targetAudience = "";
 
-            let counter = 0;
-            let sum = 0;
-            let targetAudience = "";
-
-            if (selectedTargetAudiences.length > 0) {
-                while (counter < selectedTargetAudiences.length) {
-                    console.log("En el while");
-                    let selectedTarget = selectedTargetAudiences[counter];
-                    console.log(activityDate);
-                    console.log(activityComplexityLevel);
-                    console.log(selectedTarget);
-                    console.log(activities[activity].RegisteredParticipants[selectedTarget]);
-
-                    participants[activityDate][activityComplexityLevel][selectedTarget] += activities[activity].RegisteredParticipants[selectedTarget];
-                    console.log(participants);
-                    ++counter;
-                }
-            } else {
-                sum = getTotalParticipants(activities[activity].RegisteredParticipants);
-                participants[activityDate][activityComplexityLevel][targetAudience] += sum;
+        if (selectedTargetAudiences.length > 0) {
+            while (counter < selectedTargetAudiences.length) {
+                let selectedTarget = selectedTargetAudiences[counter];
+                participants[activityDate][activityComplexityLevel][selectedTarget] += activity.RegisteredParticipants[selectedTarget];
+                ++counter;
             }
-            console.log("Saliendooooo de iteracion de for");
-            console.log("123");
-
+        } else {
+            sum = getTotalParticipants(activity.RegisteredParticipants);
+            participants[activityDate][activityComplexityLevel][targetAudience] += sum;
         }
-        console.log("Saliendooooo de for");
-    }
-    console.log("Saliendooooo");
-    console.log(participants);
-    
+    }  
     return participants;
 }
 
