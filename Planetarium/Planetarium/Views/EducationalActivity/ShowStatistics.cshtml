@@ -41,17 +41,17 @@
         <hr />
         <h2 id="assistance" style="margin:10px 0 20px 0; display: none">Asistencia al planetario</h2>
 
-        <div class="row text-center">
-            <div id="Lunes" class="col-3 justify-content-evenly" style="display:none">
+        <div class="row text-center" id="cards-container">
+            <div id="Lunes" class="col-3 justify-content-evenly">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Lunes</div>
                     <div class="card-body">
-                        <ul id="Lunes_count" style="min-height:7rem">
+                        <ul id="Lunes_count">
                         </ul>
                     </div>
                 </div>
             </div>
-            <div id="Martes" class="col-3 justify-content-evenly" style="display:none">
+            <div id="Martes" class="col-3 justify-content-evenly">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Martes</div>
                     <div class="card-body">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div id="Miércoles" class="col-3 justify-content-evenly" style="display:none">
+            <div id="Miércoles" class="col-3 justify-content-evenly">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Miércoles</div>
                     <div class="card-body">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div id="Jueves" class="col-3 justify-content-evenly" style="display:none">
+            <div id="Jueves" class="col-3 justify-content-evenly">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Jueves</div>
                     <div class="card-body">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div id="Viernes" class="col-3 justify-content-evenly" style="display:none">
+            <div id="Viernes" class="col-3 justify-content-evenly">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Viernes</div>
                     <div class="card-body">
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div id="Sábado" class="col-3 justify-content-evenly" style="display:none">
+            <div id="Sábado" class="col-3 justify-content-evenly">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Sábado</div>
                     <div class="card-body">
@@ -96,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            <div id="Domingo" class="col-3 justify-content-evenly" style="display:none">
+            <div id="Domingo" class="col-3 justify-content-evenly">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Domingo</div>
                     <div class="card-body">
@@ -111,3 +111,21 @@
     <script src="~/Scripts/Statistics.js" type="text/javascript"></script>
 </body>
 </html>
+<style>
+    #cards-container .card-body {
+        text-align: left;
+        font-size: 1.1rem;
+    }
+
+    .card {
+        min-height: 18rem;
+    }
+
+    .col-3 {
+        display: none;
+    }
+
+    #cards-container .col-3 .card .card-header {
+        font-size: 1.8rem;
+    }
+</style>

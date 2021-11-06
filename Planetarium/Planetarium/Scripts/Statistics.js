@@ -1,11 +1,11 @@
 ﻿
 const BASE_ID_COUNT = '_count';
 const DAYS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
-const COMPLEXITY_LEVELS = ["", "Básico", "Intermedio", "Avanzado"];
-const TARGET_AUDIENCES = ["", "Infantil", "Juvenil", "Adulto", "Adulto Mayor"];
+const COMPLEXITY_LEVELS = ["Básico", "Intermedio", "Avanzado"];
+const TARGET_AUDIENCES = ["Infantil", "Juvenil", "Adulto", "Adulto Mayor"];
 
-let checkboxes = document.getElementsByClassName("checkItemDay");
 let checkboxesTypes = {};
+let result = loadActivitiesParticipants();
 
 checkboxesTypes["checkboxesDays"] = document.getElementsByClassName("checkItemDay");
 checkboxesTypes["checkboxesComplexityLevel"] = document.getElementsByClassName("checkItemComplexityLevel");
@@ -51,92 +51,111 @@ function getDayName(inputDate, locale) {
 }
 
 function updateStatistics() {
-    let result = {};
     let selectedDays = getListSelectedOptions("checkboxesDays");
     let selectedComplexityLevels = getListSelectedOptions("checkboxesComplexityLevel");
     let selectedTargetAudiences = getListSelectedOptions("checkboxesTargetAudiences");
-    result = loadActivitiesParticipants(selectedComplexityLevels, selectedTargetAudiences);
     hideAll();
-    displayCards(result, selectedDays, selectedComplexityLevels, selectedTargetAudiences);
+    displayCards(selectedDays, selectedComplexityLevels, selectedTargetAudiences);
 }
 
-function displayCards(result, selectedDays, selectedComplexityLevels, selectedTargetAudiences) {
+function displayCards(selectedDays, selectedComplexityLevels, selectedTargetAudiences) {
     let innerStr = "";
-    for (const [key, value] of Object.entries(result)) {
+    for (const [day, valueDay] of Object.entries(result)) {
         innerStr = "";
-        if (selectedDays.includes(key)) {
-            show(key);
-            if (selectedComplexityLevels.length != 0 && selectedTargetAudiences != 0) {
-                for (const [key2, value2] of Object.entries(value)) {
-                    if (selectedComplexityLevels.includes(key2)) {
-                        for (const [key3, value3] of Object.entries(value2)) {
-                            if (value3 > 0) {
-                                let listItemElement = "<li>";
-                                listItemElement += key2 + " - " + key3 + ": " + value3;
-                                listItemElement += "</li>";
-                                innerStr += listItemElement;
-                            }
-                        }
-                    }
-                }
+        if (selectedDays.includes(day)) {
+            show(day);
+            if (selectedComplexityLevels.length != 0 && selectedTargetAudiences.length != 0) {
+                innerStr = getTotalByAllFilters(valueDay, selectedComplexityLevels, selectedTargetAudiences);
             } else if (selectedComplexityLevels.length != 0) {
-                let sum = {}
-                for (const [key2, value2] of Object.entries(value)) {
-                    if (key2 != "") {
-                        let totalAnyTargetAudience = 0;
-                        for (const [key3, value3] of Object.entries(value2)) {
-                            totalAnyTargetAudience += value3;
-                        }
-                        sum[key2] = totalAnyTargetAudience;
-                    }
-                }
-                for (const [key2, value2] of Object.entries(sum)) {
-                    if (value2 > 0) {
-                        let listItemElement = "<li>";
-                        listItemElement += key2 + ": " + value2;
-                        listItemElement += "</li>";
-                        innerStr += listItemElement;
-                    }
-                }
-            } else if (selectedTargetAudiences != 0) {
-                let sum = {};
-                for (const [key2, value2] of Object.entries(value)) {
-                    for (const [key3, value3] of Object.entries(value2)) {
-                        sum[key3] = 0
-                    }
-                }
-                for (const [key2, value2] of Object.entries(value)) {
-                    for (const [key3, value3] of Object.entries(value2)) {
-                        if (value3 > 0) {
-                            sum[key3] += value3;
-                            console.log(key3);
-                            console.log(value3);
-                        }
-                    }
-                }
-                for (const [key2, value2] of Object.entries(sum)) {
-                    if (value2 > 0) {
-                        let listItemElement = "<li>";
-                        listItemElement += key2 + ": " + value2;
-                        listItemElement += "</li>";
-                        innerStr += listItemElement;
-                    }
-                }
+                innerStr = getTotalByComplexityLevel(valueDay, selectedComplexityLevels);
+            } else if (selectedTargetAudiences.length != 0) {
+                innerStr = getTotalByTargetAudience(valueDay, selectedTargetAudiences);
             } else {
-                let totalDay = 0;
-                for (const [key2, value2] of Object.entries(value)) {
-                    for (const [key3, value3] of Object.entries(value2)){
-                        totalDay += value3;
-                    }
-                }
-                let listItemElement = "<li>";
-                listItemElement += totalDay;
-                listItemElement += "</li>";
-                innerStr += listItemElement;
+                innerStr = getTotalByDay(valueDay);
             }
-            document.getElementById(key + BASE_ID_COUNT).innerHTML = innerStr;
+            document.getElementById(day + BASE_ID_COUNT).innerHTML = innerStr;
         }
     }
+}
+
+function getTotalByAllFilters(valueDay, selectedComplexityLevels, selectedTargetAudiences) {
+    let innerStr = "";
+    for (const [complexityLevel, valueComplexityLevel] of Object.entries(valueDay)) {
+        if (selectedComplexityLevels.includes(complexityLevel)) {
+            for (const [targetAudience, valueTargetAudience] of Object.entries(valueComplexityLevel)) {
+                if (valueTargetAudience > 0 && selectedTargetAudiences.includes(targetAudience)) {
+                    innerStr += addToList(valueTargetAudience, { complexityLevel, targetAudience });
+                }
+            }
+        }
+    }
+    return innerStr;
+}
+
+function getTotalByDay(valueDay) {
+    let totalDay = 0;
+    let innerStr = "";
+    for (const [complexityLevel, valueComplexityLevel] of Object.entries(valueDay)) {
+        for (const [targetAudience, valueTargetAudience] of Object.entries(valueComplexityLevel)) {
+            totalDay += valueTargetAudience;
+        }
+    }
+    innerStr = addToList(totalDay, {total : "Total"});
+    return innerStr;
+}
+
+function getTotalByTargetAudience(valueDay, selectedTargetAudiences) {
+    let personsPerTargetAudience = {};
+    let innerStr = "";
+    for (const [complexityLevel, valueComplexityLevel] of Object.entries(valueDay)) {
+        for (const [targetAudience, valueTargetAudience] of Object.entries(valueComplexityLevel)) {
+            personsPerTargetAudience[targetAudience] = 0
+        }
+    }
+    for (const [complexityLevel, valueComplexityLevel] of Object.entries(valueDay)) {
+        for (const [targetAudience, valueTargetAudience] of Object.entries(valueComplexityLevel)) {
+            if (selectedTargetAudiences.includes(targetAudience)) {
+                if (valueTargetAudience > 0) {
+                    personsPerTargetAudience[targetAudience] += valueTargetAudience;
+                }
+            }
+        }
+    }
+    for (const [targetAudience, valueTargetAudience] of Object.entries(personsPerTargetAudience)) {
+        if (valueTargetAudience > 0) {
+            innerStr += addToList(valueTargetAudience, { targetAudience });
+        }
+    }
+    return innerStr;
+}
+
+function getTotalByComplexityLevel(valueDay, selectedComplexityLevels) {
+    let innerStr = "";
+    for (const [complexityLevel, valueComplexityLevel] of Object.entries(valueDay)) {
+        if (complexityLevel != "" && selectedComplexityLevels.includes(complexityLevel)) {
+            let totalAnyTargetAudience = 0;
+            for (const [targetAudience, valueTargetAudience] of Object.entries(valueComplexityLevel)) {
+                totalAnyTargetAudience += valueTargetAudience;
+            }
+            if (totalAnyTargetAudience > 0) {
+                innerStr += addToList(totalAnyTargetAudience, { complexityLevel });
+            }
+        }
+    }
+    return innerStr;
+}
+
+function addToList(value, filters) {
+    let listItemElement = "<li>";
+    if (filters != null) {
+        for (const [nameFilter, valueFilter] of Object.entries(filters)) {
+            listItemElement += valueFilter + " - ";
+        }
+        listItemElement = listItemElement.substring(0, listItemElement.length - 3);
+        listItemElement += ": ";
+    }
+    listItemElement += value + "</li>";
+    return listItemElement
 }
 
 function show(id){
@@ -154,7 +173,7 @@ function hideAll() {
     }
 } 
 
-function loadActivitiesParticipants(selectedComplexityLevels, selectedTargetAudiences) {
+function loadActivitiesParticipants() {
     
     let participants = {};
 
@@ -172,24 +191,15 @@ function loadActivitiesParticipants(selectedComplexityLevels, selectedTargetAudi
         let activityDate = getDayName(activity.StatisticsDate, 'es-ES');
         let activityComplexityLevel = activity.ComplexityLevel;
 
-        activityComplexityLevel = selectedComplexityLevels.length == 0 ? "" : activityComplexityLevel;
-        activityComplexityLevel = selectedComplexityLevels.includes(activityComplexityLevel) ? activityComplexityLevel : "";
-
         let counter = 0;
-        let sum = 0;
-        let targetAudience = "";
 
-        if (selectedTargetAudiences.length > 0) {
-            while (counter < selectedTargetAudiences.length) {
-                let selectedTarget = selectedTargetAudiences[counter];
-                participants[activityDate][activityComplexityLevel][selectedTarget] += activity.RegisteredParticipants[selectedTarget];
-                ++counter;
-            }
-        } else {
-            sum = getTotalParticipants(activity.RegisteredParticipants);
-            participants[activityDate][activityComplexityLevel][targetAudience] += sum;
+        while (counter < 4) {
+            let selectedTarget = TARGET_AUDIENCES[counter];
+            participants[activityDate][activityComplexityLevel][selectedTarget] += activity.RegisteredParticipants[selectedTarget];
+            ++counter;
         }
-    }  
+    }
+
     return participants;
 }
 
