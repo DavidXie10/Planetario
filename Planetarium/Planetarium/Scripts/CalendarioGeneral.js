@@ -15,6 +15,13 @@ $(document).ready(function () {
             center: 'title',
             right: 'month,agendaWeek,agendaDay,list'
         },
+        buttonText: {
+            today: 'Hoy',
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día',
+            list: 'Lista'
+        },
         events: function (start, end, timezone, callback) {
             $.ajax({
                 url: $("#controllerURLGeneral").data("request-url"),
@@ -55,6 +62,13 @@ $(document).ready(function () {
             left: 'prev,next today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay,list'
+        },
+        buttonText: {
+            today: 'Hoy',
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día',
+            list: 'Lista'
         },
         events: function (start, end, timezone, callback) {
             $.ajax({
