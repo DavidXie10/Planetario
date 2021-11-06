@@ -12,7 +12,7 @@
             <div class="col">
                 <h5>Seleccione las categorías</h5>
                 <br />
-                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control", @onchange="addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)" })
+                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control", @onchange = "addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)" })
 
                 <br />
                 <br />
@@ -25,6 +25,16 @@
                     <input type="text" name="inputCategoryString" id="inputCategoryString" value="" style="display: none;" />
                 </div>
                 <div id="categoriesChart" style="height: 500px; width: 100%; display: none"></div>
+
+
+                <br />
+                <br />
+                <div class="card" style="margin: 10px 0 10px 0">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">Las 5 categorías menos seleccionadas</h4>
+                    </div>
+                    <div class="card-body" id="categoryDown"></div>
+                </div>
             </div>
 
             <div class="col">
@@ -43,6 +53,15 @@
                     <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
                 </div>
                 <div id="topicsChart" style="height: 500px; width: 100%; display: none"></div>
+
+                <br />
+                <br />
+                <div class="card" style="margin: 10px 0 10px 0">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">Los 5 tópicos menos seleccionadas</h4>
+                    </div>
+                    <div class="card-body" id="topicDown"></div>
+                </div>
             </div>
         </div>
 
@@ -72,6 +91,7 @@
             let chart = anychart.bar();
             let data = anychart.data.set(items);
 
+            chart.labels(true);
             chart.bar(data);
             chart.title(title);
             chart.container(idChartContainer);
@@ -119,6 +139,22 @@
             }
             return rankedElements;
         }
+
+        function downCategories() {
+            console.log('hola mundo');
+            document.getElementById('categoryDown').innerHTML = addToListLast(categoriesRank, 2);
+            document.getElementById('topicDown').innerHTML = addToListLast(topicsRank, 5);
+        }
+
+        function addToListLast(dictionary, down) {
+            let listElements = "";
+            for (var i = Object.keys(dictionary).length - 1; i >= (Object.keys(dictionary).length - down); --i) {
+                listElements += "<li>" + Object.keys(dictionary)[i] + ": " + Object.values(dictionary)[i] + "</li>";
+            }
+            return listElements;
+        }
+
+        downCategories();
 
     </script>
 </body>

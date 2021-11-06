@@ -37,6 +37,7 @@
             this.defaultButtonContainer.appendChild(button);
 
             //Adding button value to string
+            console.log("Strings generic multiselect");
             this.addElementToArray(String(value));
         }
 
@@ -90,8 +91,11 @@ function addTopicButton(element) {
     }
 }
 
-function addCategoryButton(element) {
-    if (element != "") {
+function addCategoryButton(element, index) {
+    if (element != "" && index != 1) {
+        multiSelectCategory.addButton(element);
+    } else {
+        //cambiar variable metidisima
         multiSelectCategory.addButton(element);
     }
 }
