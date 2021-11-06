@@ -16,6 +16,7 @@
                                 title: event.Title,
                                 description: event.Description,
                                 start: event.Date
+                                color: event.Color
                             });
                     })
                     callback(loadedEvents);
