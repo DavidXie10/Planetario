@@ -12,6 +12,7 @@ namespace Planetarium.Handlers {
     public class EducationalActivityHandler : DatabaseClassificationsHandler {
         const int ON_REVIEW = 0;
         const int APPROVED = 1;
+        public string[] TARGET_AUDIENCES = { "Infantil", "Juvenil", "Adulto", "Adulto Mayor" };
 
         public bool ProposeEducationalActivity(EducationalActivityEventModel educationalActivity) {
             bool success = false;
@@ -232,18 +233,20 @@ namespace Planetarium.Handlers {
             return activitiesTitles;
         }
 
+        /*
         public List<EducationalActivityEventModel> GetAllActivitiesParticipants() {
 
             List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
 
             string query =  " SELECT DISTINCT AE.tituloPK, EAE.fechaInicioPK," +
-                            " AE.nivelComplejidad, COUNT(*) AS 'Participantes'" +
+                            " AE.nivelComplejidad, V.fechaNacimiento, COUNT(*) AS 'Participantes'" +
                             " FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK = AE.cedulaFK" +
                             " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK" +
                             " JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK" +
                             " JOIN Inscribirse I ON(I.tituloPKFK = AE.tituloPK AND EAE.fechaInicioPK = I.fechaInicioPKFK)" +
+                            " JOIN Visitante V ON V.cedulaPK = I.cedulaPKFK " +
                             " WHERE EAE.estadoRevision = 1" +
-                            " GROUP BY AE.tituloPK, EAE.fechaInicioPK, AE.nivelComplejidad" +
+                            " GROUP BY AE.tituloPK, EAE.fechaInicioPK, AE.nivelComplejidad, V.fechaNacimiento" +
                             " ORDER BY EAE.fechaInicioPK DESC";
 
             DataTable resultingTable = CreateTableFromQuery(query);
@@ -255,14 +258,48 @@ namespace Planetarium.Handlers {
 
             return activities;
         }
+        */
+
+        public List<EducationalActivityEventModel> GetAllActivitiesParticipants() {
+
+            List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
+
+            string query = "SELECT DISTINCT EAE.tituloPKFK, EAE.fechaInicioPK, AE.nivelComplejidad, " +
+                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) BETWEEN 0 AND 12 THEN 1 ELSE 0 END) AS 'Infantil', " +
+                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) BETWEEN 13 AND 21 THEN 1 ELSE 0 END) AS 'Juvenil', " +
+                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) BETWEEN 22 AND 60 THEN 1 ELSE 0 END) AS 'Adulto', " +
+                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) > 60 THEN 1 ELSE 0 END) AS 'Adulto Mayor' " +
+                "FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK = AE.cedulaFK " +
+                "JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK " +
+                "JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK " +
+                "JOIN Inscribirse I ON(I.tituloPKFK = AE.tituloPK AND EAE.fechaInicioPK = I.fechaInicioPKFK) " +
+                "JOIN Visitante V ON V.cedulaPK = I.cedulaPKFK " +
+                "WHERE EAE.estadoRevision = 1 " +
+                "GROUP BY EAE.tituloPKFK, EAE.fechaInicioPK, AE.nivelComplejidad; ";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
+                activities.Add(CreateInstanceEducationalParticipants(rawEducationalInfo));
+            }
+            return activities;
+        }
 
         private EducationalActivityEventModel CreateInstanceEducationalParticipants(DataRow rawEducationalInfo) {
             return new EducationalActivityEventModel {
-                Title = Convert.ToString(rawEducationalInfo["tituloPK"]),
+                Title = Convert.ToString(rawEducationalInfo["tituloPKFK"]),
                 StatisticsDate = Convert.ToString(rawEducationalInfo["fechaInicioPK"]),
                 ComplexityLevel = Convert.ToString(rawEducationalInfo["nivelComplejidad"]),
-                RegisteredParticipants = Convert.ToInt32(rawEducationalInfo["Participantes"])
+                RegisteredParticipants = LinkRegisteredParticipants(rawEducationalInfo)
             };
+        }
+
+        public Dictionary<string, int> LinkRegisteredParticipants(DataRow rawEducationalInfo) {
+            Dictionary<string, int> registeredParticipants = new Dictionary<string, int>();
+            foreach (string targetAudience in TARGET_AUDIENCES) {
+                registeredParticipants[targetAudience] = Convert.ToInt32(rawEducationalInfo[targetAudience]);
+            }
+
+            return registeredParticipants;
         }
 
         public Dictionary<string, int> FillRank(string columnName, string methodName ) {

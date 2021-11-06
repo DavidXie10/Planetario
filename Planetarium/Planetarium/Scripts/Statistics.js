@@ -55,8 +55,6 @@ function updateStatistics() {
     result = getActivitiesParticipants(selectedDays, selectedComplexityLevels, selectedTargetAudiences);
     hideAll();
     displayCards(result);
-
-    // document.getElementById('result').innerHTML = result + (result != 1 ? " personas" : " persona");
 }
 
 function displayCards(selectedCards) {
@@ -65,7 +63,6 @@ function displayCards(selectedCards) {
         document.getElementById(key + BASE_ID_COUNT).innerHTML = value;
     }
 }
-
 
 function show(id){
     document.getElementById(id).style.display = "block";
@@ -86,44 +83,76 @@ function hideAll() {
 } 
 
 function getActivitiesParticipants(selectedDays, selectedComplexityLevels, selectedTargetAudiences) {
+    
     let participants = {};
+
+    const COMPLEXITY_LEVELS = ["", "Básico", "Intermedio", "Avanzado"];
+    const TARGET_AUDIENCES = ["", "Infantil", "Juvenil", "Adulto", "Adulto Mayor"];
+
+    //Diccionario <Lunes, Diccionario <Basico, Diccionario <Infantil, 3>>> 
     for (let day = 0; day < selectedDays.length; ++day) {
-        participants[selectedDays[day]] = 0;
-    }
-
-    if (selectedDays.length != 0 || selectedComplexityLevels.length != 0 || selectedTargetAudiences != 0) {
-        for (let activity in activities) {
-            let existsDay = false;
-            let existsComplexityLevel = false;
-            let existsTargetAudience = false;
-
-            let activityDate = getDayName(activities[activity].StatisticsDate, 'es-ES');
-            existsDay = selectedDays.includes(activityDate);
-            if (existsDay) {
-                existsComplexityLevel = selectedComplexityLevels.length == 0 || selectedComplexityLevels.includes(activities[activity].ComplexityLevel);
-
-                if (existsComplexityLevel) {
-                    let targetAudiences = activities[activity].TargetAudience;
-                    let targetAudiencesCount = targetAudiences.length;
-                    let targetElement = 0;
-                    if (selectedTargetAudiences.length != 0) {
-                        while (!existsTargetAudience && targetElement < targetAudiencesCount) {
-                            existsTargetAudience = selectedTargetAudiences.includes(targetAudiences[targetElement]);
-                            ++targetElement;
-                        }
-                    } else {
-                        existsTargetAudience = true;
-                    }
-                }
-            }
-
-            if (existsDay) {
-                participants[activityDate] += (existsDay && existsComplexityLevel && existsTargetAudience ? activities[activity].RegisteredParticipants : 0);
+        participants[selectedDays[day]] = {};
+        for (let complexityLevel = 0; complexityLevel < 4; ++complexityLevel) {
+            participants[selectedDays[day]][COMPLEXITY_LEVELS[complexityLevel]] = {};
+            for (let targetAudience = 0; targetAudience < 5; ++targetAudience) {
+                participants[selectedDays[day]][COMPLEXITY_LEVELS[complexityLevel]][TARGET_AUDIENCES[targetAudience]] = 0;
             }
         }
     }
 
+    //1. Lunes
+    //2. Lunes -> Basico
+    //3. Lunes -> Basico -> Infantil
+    //4. Lunes -> Infantil
+    if (selectedDays.length != 0) {
+        for (let activity in activities) {
+            let activityDate = getDayName(activities[activity].StatisticsDate, 'es-ES');
+            let activityComplexityLevel = activities[activity].ComplexityLevel;
+
+            activityComplexityLevel = selectedComplexityLevels.length == 0 ? "" : activityComplexityLevel;
+            activityComplexityLevel = selectedComplexityLevels.includes(activityComplexityLevel) ? activityComplexityLevel : "";
+
+            let counter = 0;
+            let sum = 0;
+            let targetAudience = "";
+
+            if (selectedTargetAudiences.length > 0) {
+                while (counter < selectedTargetAudiences.length) {
+                    console.log("En el while");
+                    let selectedTarget = selectedTargetAudiences[counter];
+                    console.log(activityDate);
+                    console.log(activityComplexityLevel);
+                    console.log(selectedTarget);
+                    console.log(activities[activity].RegisteredParticipants[selectedTarget]);
+
+                    participants[activityDate][activityComplexityLevel][selectedTarget] += activities[activity].RegisteredParticipants[selectedTarget];
+                    console.log(participants);
+                    ++counter;
+                }
+            } else {
+                sum = getTotalParticipants(activities[activity].RegisteredParticipants);
+                participants[activityDate][activityComplexityLevel][targetAudience] += sum;
+            }
+            console.log("Saliendooooo de iteracion de for");
+            console.log("123");
+
+        }
+        console.log("Saliendooooo de for");
+    }
+    console.log("Saliendooooo");
+    console.log(participants);
+    
     return participants;
+}
+
+
+function getTotalParticipants(targetAudiencesParticipants) {
+    let total = 0;
+    for (const [key, value] of Object.entries(targetAudiencesParticipants)) {
+        total += value;
+    }
+
+    return total;
 }
 
 function getListSelectedOptions(checkboxType) {

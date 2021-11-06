@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Planetarium.Models {
@@ -31,6 +32,6 @@ namespace Planetarium.Models {
 
         public string State { get; set; }
 
-        public int RegisteredParticipants { get; set; }
+        public Dictionary<string, int> RegisteredParticipants { get; set; }
     }
 }
