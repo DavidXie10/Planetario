@@ -1,7 +1,15 @@
-﻿$(document).ready(function () {
+﻿
+
+$(document).ready(function () {
     let calendarGeneral = $("#calendarioGeneral").fullCalendar({
+        //TODO: Fijarse si funciona en Chrome, en Edge si sale en español
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
         themeSystem: 'bootstrap',
         initialView: 'dayGridMonth',
+        
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -20,7 +28,8 @@
                             {
                                 title: event.Title,
                                 description: event.Description,
-                                start: event.Date
+                                start: event.Date,
+                                color: event.Color
                             });
                     })
                     callback(loadedEvents);
@@ -29,10 +38,18 @@
             })
         }
     })
+
+ 
     
 
     let calendarphenomenon = $("#calendarioFenomenos").fullCalendar({
+
+        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
         initialView: 'dayGridMonth',
+
         header:
         {
             left: 'prev,next today',
@@ -52,7 +69,8 @@
                             {
                                 title: event.Title,
                                 description: event.Description,
-                                start: event.Date
+                                start: event.Date,
+                                color: event.Color
                             });
                     })
                     callback(loadedEvents);

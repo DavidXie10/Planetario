@@ -222,6 +222,8 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CalendarioFenomenos.js" />
+    <Content Include="Scripts\CalendarioGeneral.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
@@ -267,6 +269,7 @@
     <Content Include="Views\EducationalMaterial\SubmitEducationalMaterial.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
     <Content Include="Views\Calendar\Calendar.cshtml" />
+    <Content Include="Views\Calendar\CreateEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
