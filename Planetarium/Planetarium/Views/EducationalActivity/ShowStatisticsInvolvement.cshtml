@@ -20,7 +20,7 @@
                     <div class="card-header">
                         <h4 class="text-success text-center">Categorías seleccionadas</h4>
                     </div>
-                    <div class="card-body" id="categoryContainer" onclick="updateChart('inputCategoryString', 'categoriesChart', 1)">
+                    <div class="card-body" id="categoryContainer" onclick="deleteTopics(), updateChart('inputCategoryString', 'categoriesChart', 1)">
                     </div>
                     <input type="text" name="inputCategoryString" id="inputCategoryString" value="" style="display: none;" />
                 </div>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="col">
-                <h5>Seleccione los topicos</h5>
+                <h5>Seleccione los tópicos</h5>
                 <br />
                 @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value), updateChart('inputTopicString', 'topicsChart', 0)" })
 
@@ -74,7 +74,6 @@
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
     </script>
     <script type="text/javascript">
-
         let categoriesRank = @Html.Raw(Json.Encode(@ViewBag.CategoriesRank));
         let topicsRank = @Html.Raw(Json.Encode(@ViewBag.TopicsRank));
 
@@ -101,22 +100,19 @@
         function updateChart(inputElementString, idChartContainer, rankingType) {
             let selectedElements = document.getElementById(inputElementString).value;
             selectedElements = String(selectedElements).replaceAll('_', ' ');
-            console.log(selectedElements);
             let chartData = (rankingType == 1) ? categoriesData : topicsData;
             let elementsRank = (rankingType == 1) ? categoriesRank : topicsRank;
 
             selectedElements = sortElements(selectedElements, elementsRank).substring(0, selectedElements.length - 1);
-            console.log("Elements: "selectedElements);
-
             removeAll(chartData, Object.keys(elementsRank).length);
 
             let words = selectedElements.split('|');
             let counter = 0;
-            console.log(words);
 
             for (let word of words) {
-                console.log("Word: " + word);
-                chartData.insert({ x: word, value: elementsRank[word] }, counter++);
+                if (word != "") {
+                    chartData.insert({ x: word, value: elementsRank[word] }, counter++);
+                }
             }
 
             if (chartData.getRowsCount() == 0) {
@@ -161,7 +157,7 @@
 
                     success: function (topics) {
                         $.each(topics, function (i, topic) {
-                            $("#topicSelect").append('<option value=' + topic.Value.replace(" ", "_") + '_(' + value.replace(" ", "_") + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
+                            $("#topicSelect").append('<option class="' + String(value) + '" value=' + topic.Value.replace(" ", "_") + '_(' + String(value.replaceAll(" ", "_")) + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
                         });
                     },
                     error: function (ex) {
@@ -181,7 +177,16 @@
             return listElements;
         }
 
-        downCategories();
+        function deleteTopics() {
+            let selectedElements = document.getElementById('inputCategoryString').value.replaceAll("_", " ");
+            console.log(selectedElements);
+            for (const [category, value] of Object.entries(categoriesRank)) {
+                if (!selectedElements.includes(category)) {
+                    console.log(category);
+                    document.querySelectorAll("." + category).forEach(e => e.remove());
+                }
+            }
+        }
 
     </script>
 </body>
