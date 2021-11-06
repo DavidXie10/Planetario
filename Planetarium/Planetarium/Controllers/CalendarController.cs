@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
 
+
 namespace Planetarium.Controllers
 {
     public class CalendarController : Controller
@@ -35,5 +36,6 @@ namespace Planetarium.Controllers
         public ActionResult CreateEvent() {
             return View();
         }
+
     }
 }

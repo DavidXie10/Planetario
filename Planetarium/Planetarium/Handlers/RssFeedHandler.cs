@@ -8,7 +8,7 @@ using HtmlAgilityPack;
 using Planetarium.Models;
 
 namespace Planetarium.Handlers {
-    public class RssFeedHandler {
+    public class RssFeedHandler : DatabaseHandler {
 
         static Dictionary<string, int> MONTH = new Dictionary<string, int> {
             {"Jan", 1},
@@ -31,7 +31,7 @@ namespace Planetarium.Handlers {
         };
 
 
-    public List<EventModel> getRssFeed(string url = "defaultURL") {
+        public List<EventModel> getRssFeed(string url = "defaultURL") {
             List<EventModel> feed = new List<EventModel>();
             try {
                 XPathDocument doc = new XPathDocument("https://www.space.com/feeds/all");
@@ -116,6 +116,6 @@ namespace Planetarium.Handlers {
             }
             
             return formatedDate;
-        }
+        } 
     }
 }

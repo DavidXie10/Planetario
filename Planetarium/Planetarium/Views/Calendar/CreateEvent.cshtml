@@ -25,7 +25,7 @@
                 </div>
             }
         }
-        @using (Html.BeginForm("CreateEvent", "Calendar", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("PostCreateEvent", "Calendar", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <h1 style="margin: 20px 0 30px 0;">Añadir un evento al calendario</h1>
