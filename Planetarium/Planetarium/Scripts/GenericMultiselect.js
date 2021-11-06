@@ -24,7 +24,6 @@
 
                 //Value (string) to delete
                 let value = buttonToDelete.textContent;
-
                 //Deleting the value from the string container
                 this.deleteElementString(value);
 
@@ -62,7 +61,7 @@
         let currentValue = this.defaultInputString.value;
 
         //Deleting the value
-        let newValues = String(currentValue).replaceAll(value + "|", "");
+        let newValues = String(currentValue).replaceAll(value.replaceAll(" ", "_") + "|", "");
 
         //Updating the string
         this.defaultInputString.value = newValues;

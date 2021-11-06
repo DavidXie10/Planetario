@@ -145,13 +145,15 @@
 
         function deleteTopics() {
             let selectedElements = document.getElementById('inputCategoryString').value.replaceAll("_", " ");
+            console.group("Delete topics");
             console.log(selectedElements);
             for (const [category, value] of Object.entries(categoriesRank)) {
                 if (!selectedElements.includes(category)) {
                     console.log(category);
-                    document.querySelectorAll("." + category).forEach(e => e.remove());
+                    document.querySelectorAll("." + String(category)).forEach(e => e.remove());
                 }
             }
+            console.groupEnd();
         }
 
     </script>
