@@ -91,6 +91,9 @@ function addTopicButton(element) {
 }
 
 function addCategoryButton(element) {
+    console.log(element);
+    element = String(element).replace(" ", "_");
+    console.log(element);
     if (element != "") {
         multiSelectCategory.addButton(element);
     }

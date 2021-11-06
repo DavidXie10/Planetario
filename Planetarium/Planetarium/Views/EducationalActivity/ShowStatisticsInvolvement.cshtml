@@ -12,7 +12,7 @@
             <div class="col">
                 <h5>Seleccione las categorías</h5>
                 <br />
-                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control", @onchange="addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)" })
+                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoría", new { @class = "form-control", @onchange = "callAjax(this.value), addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)" })
 
                 <br />
                 <br />
@@ -36,7 +36,7 @@
                 <br />
                 <div class="card" style="margin: 10px 0 10px 0">
                     <div class="card-header">
-                        <h4 class="text-success text-center">Topicos seleccionados</h4>
+                        <h4 class="text-success text-center">Tópicos seleccionados</h4>
                     </div>
                     <div class="card-body" id="topicsContainer" onclick="updateChart('inputTopicString', 'topicsChart', 0)">
                     </div>
@@ -50,7 +50,8 @@
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/GenericMultiselect.js"></script>
-    <script src="~/Scripts/categoriesAndTopicsMultiselectCascade.js"></script>
+    <!--    <script src="~/Scripts/categoriesAndTopicsMultiselectCascade.js"></script>
+    -->
     <script type="text/javascript">
         let multiSelectCategory = new GenericMultiSelect("#Category", "#categoryContainer", "#inputCategoryString");
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
@@ -62,7 +63,6 @@
 
         let categoriesData = createChart(categoriesRank, "Ranking de Categorías", "categoriesChart");
         let topicsData = createChart(topicsRank, "Ranking de Tópicos", "topicsChart");
-
 
         function createChart(elementsRank, title, idChartContainer) {
             let items = Object.keys(elementsRank).map(function (key) {
@@ -81,8 +81,8 @@
         }
 
         function updateChart(inputElementString, idChartContainer, rankingType) {
-            console.log("Update");
             let selectedElements = document.getElementById(inputElementString).value;
+            selectedElements = String(selectedElements).replace('_', ' ');
             let chartData = (rankingType == 1) ? categoriesData : topicsData;
             let elementsRank = (rankingType == 1) ? categoriesRank : topicsRank;
 
@@ -118,6 +118,33 @@
                 }
             }
             return rankedElements;
+        }
+
+        function callAjax(value) {
+            //let inputCategoryString = document.getElementById('inputCategoryString').value.replace(" ", "_");
+            let inputCategoryString = document.getElementById('inputCategoryString').value.replace(/ /g, '_');
+            value = String(value).replace(' ', '_');
+            
+            if (value != '' && !inputCategoryString.includes(value)) {
+                $.ajax({
+                    type: 'POST',
+                    url: $("#controllerURL").data("request-url"),
+                    dataType: 'json',
+
+                    data: { category: value },
+
+                    success: function (topics) {
+                        $.each(topics, function (i, topic) {
+                            $("#topicSelect").append('<option value=' + topic.Value.replace(" ", "_") + '>' + topic.Text + '(' + value + ')' + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Fallo en la recuperación de tópicos' + ex);
+                    }
+
+                });
+                return false;
+            } 
         }
 
     </script>
