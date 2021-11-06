@@ -5,17 +5,14 @@
     <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
 </head>
 <body>
+    <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "EducationalActivity")"></div>
     <div class="container">
         <h1 style="margin:10px 0 20px 0;">Estadísticas de Involucramiento</h1>
         <div class="row">
             <div class="col">
                 <h5>Seleccione las categorías</h5>
-                <select class="form-select" id="categorySelect" onchange="addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)">
-                    <option value="">Seleccione la(s) categoría(s)</option>
-                    @foreach (var category in ViewBag.TopicsByCategory) {
-                        <option value="@category.Key">@category.Key</option>
-                    }
-                </select>
+                <br />
+                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control", @onchange="addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)" })
 
                 <br />
                 <br />
@@ -32,14 +29,8 @@
 
             <div class="col">
                 <h5>Seleccione los topicos</h5>
-                <select class="form-select" id="topicSelect" onchange="addTopicButton(this.value), updateChart('inputTopicString', 'topicsChart', 0)">
-                    <option value="">Seleccione los tópicos</option>
-                    @foreach (var category in ViewBag.TopicsByCategory) {
-                        foreach (var topic in category.Value) {
-                            <option value="@topic">@topic</option>
-                        }
-                    }
-                </select>
+                <br />
+                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value), updateChart('inputTopicString', 'topicsChart', 0)" })
 
                 <br />
                 <br />
@@ -59,8 +50,9 @@
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/GenericMultiselect.js"></script>
+    <script src="~/Scripts/categoriesAndTopicsMultiselectCascade.js"></script>
     <script type="text/javascript">
-        let multiSelectCategory = new GenericMultiSelect("#categorySelect", "#categoryContainer", "#inputCategoryString");
+        let multiSelectCategory = new GenericMultiSelect("#Category", "#categoryContainer", "#inputCategoryString");
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
     </script>
     <script type="text/javascript">
@@ -89,8 +81,7 @@
         }
 
         function updateChart(inputElementString, idChartContainer, rankingType) {
-            console.log("HE ENTRADO");
-
+            console.log("Update");
             let selectedElements = document.getElementById(inputElementString).value;
             let chartData = (rankingType == 1) ? categoriesData : topicsData;
             let elementsRank = (rankingType == 1) ? categoriesRank : topicsRank;
@@ -100,8 +91,6 @@
             removeAll(chartData, Object.keys(elementsRank).length);
 
             let words = selectedElements.split('|');
-           // words.pop();
-            console.log(words);
             let counter = 0;
 
             for (let word of words) {
@@ -116,9 +105,6 @@
         }
 
         function removeAll(chartData, length) {
-            console.log(chartData);
-            console.log("removing");
-            console.log(length);
             for (let element = 0; element < length; ++element ) {
                 chartData.remove(0);
             }

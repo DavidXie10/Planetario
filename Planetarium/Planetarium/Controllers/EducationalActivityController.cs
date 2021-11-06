@@ -166,7 +166,9 @@ namespace Planetarium.Controllers {
                 topics = DataAccess.GetTopicsByCategory(category).ToArray();
                 topicsByCategory.Add(category, topics);
             }
-            
+
+            ViewData["category"] = GetDropdown(DataAccess.GetAllCategories().ToArray());
+
             ViewBag.TopicsByCategory = topicsByCategory;
             Dictionary<string, int> categoriesRank = DataAccess.FillRank("categoria","Categoria");
             Dictionary<string, int> topicsRank = DataAccess.FillRank("nombrePK", "Topico");
