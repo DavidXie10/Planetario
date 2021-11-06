@@ -58,8 +58,8 @@
                                 @activity.Description
                             </p>
 
-                            
-                            @if (activity.RefEducationalMaterial.Count > 0 ) {
+
+                            @if (activity.RefEducationalMaterial.Count > 0) {
                                 <p class="card-text" style="margin-top: 15px;">
                                     <h5>Materiales: </h5>
                                     @foreach (var material in activity.RefEducationalMaterial) {
@@ -75,7 +75,28 @@
             }
         }
     </div>
-    
+
+    <div class="card">
+        <div class="card-header"><h3>Otras actividades </h3></div>
+        <div class="row d-flex">
+            @foreach (var element in ViewBag.EventsToCal) {
+                <div class="col-4 d-flex">
+                    <div class="card rounded-3 bg-light" style="margin: 15px;">
+                        <div class="card-header">@element.Date | <strong>@element.Title</strong>  <br /></div>
+                        <div class="card-body">
+                            <p>
+                                @element.Description <br />
+                            </p>
+                            <div class="align-self-end align-self-right">
+                                <a href="@element.Link" class="btn btn-info">Ir a Noticia</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
 </div>
 <script>
     async function main() {
