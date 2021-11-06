@@ -12,7 +12,7 @@
             let button = document.createElement("a");
 
             //Button properties
-            button.textContent = String(value).replace("_", " ");
+            button.textContent = String(value).replaceAll("_", " ");
             button.classList.add("btn", "btn-success");
             button.style.margin = "2px";
 
@@ -62,7 +62,7 @@
         let currentValue = this.defaultInputString.value;
 
         //Deleting the value
-        let newValues = String(currentValue).replace(value + "|", "");
+        let newValues = String(currentValue).replaceAll(value + "|", "");
 
         //Updating the string
         this.defaultInputString.value = newValues;
@@ -73,7 +73,7 @@
         let isInString = true;
 
         //Parsing value
-        let parsedValue = String(value).replace(" ", "_");
+        let parsedValue = String(value).replaceAll(" ", "_");
         parsedValue += "|";
 
         if (!this.defaultInputString.value.includes(parsedValue)) {
@@ -91,9 +91,7 @@ function addTopicButton(element) {
 }
 
 function addCategoryButton(element) {
-    console.log(element);
-    element = String(element).replace(" ", "_");
-    console.log(element);
+    element = String(element).replaceAll(" ", "_");
     if (element != "") {
         multiSelectCategory.addButton(element);
     }
