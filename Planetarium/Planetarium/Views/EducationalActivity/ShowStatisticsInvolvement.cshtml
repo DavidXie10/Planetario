@@ -20,7 +20,7 @@
                     <div class="card-header">
                         <h4 class="text-success text-center">Categorías seleccionadas</h4>
                     </div>
-                    <div class="card-body" id="categoryContainer" onclick="updateChart('inputCategoryString', 'categoriesChart', 1)">
+                    <div class="card-body" id="categoryContainer" onclick="deleteTopics(), updateChart('inputCategoryString', 'categoriesChart', 1)">
                     </div>
                     <input type="text" name="inputCategoryString" id="inputCategoryString" value="" style="display: none;" />
                 </div>
@@ -55,7 +55,6 @@
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
     </script>
     <script type="text/javascript">
-
         let categoriesRank = @Html.Raw(Json.Encode(@ViewBag.CategoriesRank));
         let topicsRank = @Html.Raw(Json.Encode(@ViewBag.TopicsRank));
 
@@ -132,7 +131,7 @@
 
                     success: function (topics) {
                         $.each(topics, function (i, topic) {
-                            $("#topicSelect").append('<option value=' + topic.Value.replace(" ", "_") + '_(' + String(value.replaceAll(" ", "_")) + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
+                            $("#topicSelect").append('<option class="' + String(value) + '" value=' + topic.Value.replace(" ", "_") + '_(' + String(value.replaceAll(" ", "_")) + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
                         });
                     },
                     error: function (ex) {
@@ -142,6 +141,17 @@
                 });
                 return false;
             } 
+        }
+
+        function deleteTopics() {
+            let selectedElements = document.getElementById('inputCategoryString').value.replaceAll("_", " ");
+            console.log(selectedElements);
+            for (const [category, value] of Object.entries(categoriesRank)) {
+                if (!selectedElements.includes(category)) {
+                    console.log(category);
+                    document.querySelectorAll("." + category).forEach(e => e.remove());
+                }
+            }
         }
 
     </script>
