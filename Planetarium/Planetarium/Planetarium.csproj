@@ -215,10 +215,15 @@
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
+    <Content Include="Libs\fontawesome-5.15.4\all.css" />
+    <Content Include="Libs\fullCalendar-5.0.1\main.css" />
+    <Content Include="Libs\fullCalendar-5.0.1\main.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CalendarioFenomenos.js" />
+    <Content Include="Scripts\CalendarioGeneral.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
@@ -264,6 +269,7 @@
     <Content Include="Views\EducationalMaterial\SubmitEducationalMaterial.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
     <Content Include="Views\Calendar\Calendar.cshtml" />
+    <Content Include="Views\Calendar\CreateEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

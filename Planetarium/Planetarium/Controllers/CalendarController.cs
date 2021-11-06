@@ -21,6 +21,7 @@ namespace Planetarium.Controllers
 
         public JsonResult GetEventsForGeneralCalendar() {
             List<EventModel> eventsList = new List<EventModel>();
+            eventsList = eventHandler.TestHTML();
             eventsList = activityHandler.GetEventsForCalendar(eventsList);
             return Json(eventsList, JsonRequestBehavior.AllowGet);
         }
@@ -29,6 +30,10 @@ namespace Planetarium.Controllers
             List<EventModel> eventsList = new List<EventModel>();
             eventsList = eventHandler.TestHTML();
             return Json(eventsList, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CreateEvent() {
+            return View();
         }
     }
 }

@@ -74,6 +74,7 @@ namespace Planetarium.Handlers {
                             Date = date.Replace("/", "-"),
                             Link = link,
                             ImgURL = "",
+                            Color = "#13967d"
                         });
                     }
                         

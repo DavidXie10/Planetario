@@ -1,29 +1,36 @@
 ﻿<html>
 <head>
-    
+
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js'></script>
     <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" />
-    
 </head>
 <body>
-    <div id="controllerURLGeneral" data-request-url="@Url.Action("GetEventsForGeneralCalendar", "Calendar")" style="display: none;"></div>
-    <div id="controllerURLPhenomenon" data-request-url="@Url.Action("GetEventsForPhenomenonCalendar", "Calendar")" style="display: none;"></div>
-    <div class="container" style="padding: 20px 0 20px 0;">
-
-        <button id="generalCalToggle" class="btn btn-primary" onclick="changeCalendar(this)">Calendario General</button>
-        <button id="phenomenomCalToggle" class="btn btn-secondary" onclick="changeCalendar(this)">Calendario Fenomenos</button>
-        <hr />
-        <div id="generalContainer">
-            <div id='calendarioGeneral'></div>
-        </div>
-
-        <div id="phenomenonContainer" >
-            <div id='calendarioFenomenos'></div>
-        </div>
-
+    <div class="container" style="padding-top:10px">
+        <a class="align-self-end align-self-right btn btn-primary" href="/Calendar/CreateEvent" style="margin-top: auto; ">Añadir evento</a>
     </div>
-    
+
+    <div>
+        <div id="controllerURLGeneral" data-request-url="@Url.Action("GetEventsForGeneralCalendar", "Calendar")" style="display: none;"></div>
+        <div id="controllerURLPhenomenon" data-request-url="@Url.Action("GetEventsForPhenomenonCalendar", "Calendar")" style="display: none;"></div>
+        <div class="container" style="padding: 20px 0 20px 0;">
+
+            <button id="generalCalToggle" class="btn btn-primary" style="background-color:#3a87ad" onclick="changeCalendar(this)">General</button>
+            <button id="phenomenomCalToggle" class="btn btn-secondary" style="background-color:#13967d" onclick="changeCalendar(this)">
+                Calendario Fenómenos
+            </button>
+            <hr />
+            <div id="generalContainer">
+                <div id='calendarioGeneral'></div>
+            </div>
+
+            <div id="phenomenonContainer">
+                <div id='calendarioFenomenos'></div>
+            </div>
+
+        </div>
+    </div>
+
     <script src="~/Scripts/CalendarioGeneral.js"></script>
 </body>
 </html>

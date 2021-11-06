@@ -20,7 +20,8 @@
                             {
                                 title: event.Title,
                                 description: event.Description,
-                                start: event.Date
+                                start: event.Date,
+                                color: event.Color
                             });
                     })
                     callback(loadedEvents);
@@ -52,7 +53,8 @@
                             {
                                 title: event.Title,
                                 description: event.Description,
-                                start: event.Date
+                                start: event.Date,
+                                color: event.Color
                             });
                     })
                     callback(loadedEvents);
