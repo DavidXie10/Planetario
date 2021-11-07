@@ -178,27 +178,26 @@
         }
 
         function deleteTopics() {
+            console.log('hello world')
             let selectedElements = document.getElementById('inputCategoryString').value.replaceAll("_", " ");
             let containerChildren = document.getElementById('topicsContainer').children;
-            console.log(containerChildren);
 
             for (const [category, value] of Object.entries(categoriesRank)) {
                 if (!selectedElements.includes(category)) {
-                    console.log(category);
                     document.querySelectorAll("." + String(category.replaceAll(" ", "_"))).forEach(e => e.remove());
                     let count = containerChildren.length;
-                    for (let index = 0; index < count; ++index) {
-                        let button = containerChildren[0];
-                        console.log("Boton: " + button);
-                        console.log("Tagname: " + button.tagName);
-
+                    let index = 0;
+                    while (index < count) {
+                        let button = containerChildren[index];
                         if (button.tagName == "A") {
-                            console.log("Soy a");
-                            console.log("Boton innerHtml: " + button.innerHTML);
+                            console.log("Button innerhtml: " + button.innerHTML);
+                            console.log("Category: " + category);
                             if (button.innerHTML.includes(category)) {
-                                button.remove();
+                                button.click()
+                                --index;
                             }
                         }
+                        ++index;
                     }
                 }
 
