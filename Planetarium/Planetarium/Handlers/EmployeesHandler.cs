@@ -107,5 +107,19 @@ namespace Planetarium.Handlers {
             }
             return success;
         }
+
+        public List<string> GetEmployeesLanguages() {
+            List<string> languages = new List<string>();
+            string languageQuery = "SELECT DISTINCT I.idiomaPK " +
+                                    "FROM Idioma AS I " +
+                                    "ORDER BY I.idiomaPK; ";
+            DataTable resultingTable = CreateTableFromQuery(languageQuery);
+            
+            foreach (DataRow column in resultingTable.Rows) {
+                languages.Add(Convert.ToString(column["idiomaPK"]));
+            }
+
+            return languages;
+        }
     }
 }

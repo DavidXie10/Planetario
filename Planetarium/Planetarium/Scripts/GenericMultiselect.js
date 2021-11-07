@@ -103,6 +103,7 @@ function addAudienceButton(element) {
 }
 
 function addLanguageButton(element) {
+    element = String(element).replaceAll(" ", "_");
     if (element != "") {
         multiSelectLanguages.addButton(element);
     }
