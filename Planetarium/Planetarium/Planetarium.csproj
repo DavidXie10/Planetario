@@ -259,6 +259,7 @@
     <Content Include="Views\EducationalMaterial\SubmitEducationalMaterial.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatisticsInvolvement.cshtml" />
+    <Content Include="Views\Employees\ShowEmployeesIdiomsStatistics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

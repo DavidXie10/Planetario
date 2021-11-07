@@ -8,27 +8,21 @@
 </head>
 <body>
     <div class="container">
-        @*<div class="row" style="margin-top: 15px;">
-            <div class="col">
-                @Html.DropDownList("languageSelect", Languanges, "-Seleccione los idiomas-", new { @class = "form-control", @onchange = "addLanguageButton(this.value)" })
-            </div>
-        </div>*@
-
         <h1 style="margin:10px 0 20px 0;">Idiomas de los colaboradores</h1>
         <div class="row">
             <h5>Seleccione los idiomas</h5>
             <div class="row">
                 <div class="col-6">
-                    <select class="form-select" id="languageSelect" onchange="addLanguageButton(this.value), updateIdiomsList('inputLanguageString')">
-                        <option value=""> Seleccione los idiomas</option>
+                    <select class="form-select" id="languageSelect" onchange="addLanguageButton(this.value), updateIdiomsList()">
+                        <option value="">Seleccione los idiomas</option>
                         @foreach (var language in ViewBag.Languages) {
                             <option value="@language">@language</option>
                         }
                     </select>
                 </div>
                 <div class="col-3 btn-group">
-                    <button style="height: 2.4rem" class="btn btn-success" value="0" onclick="displayAllLanguages()">Todos</button>
-                    <button style="height: 2.4rem" class="btn btn-secondary" value="0" onclick="hideAllLanguages()">Limpiar</button>
+                    <button style="height: 2.4rem" class="btn btn-success" value="0" onclick="displayAllIdioms()">Todos</button>
+                    <button style="height: 2.4rem" class="btn btn-secondary" value="0" onclick="hideAllIdioms()">Limpiar</button>
                 </div>
             </div>
             <br />
@@ -39,56 +33,186 @@
                 <h4 class="text-success text-center">Idiomas Seleccionados</h4>
             </div>
 
-            <div class="card-body" id="languagesContainer" onclick="updateIdiomsList('inputLanguageString')">
+            <div class="card-body" id="languagesContainer" onclick="updateIdiomsList()">
             </div>
 
             <input type="text" name="inputLanguageString" id="inputLanguageString" value="" style="display: none;" />
         </div>
         <hr />
-        <div class="row" id="resultsContainer" style="display:none">
-            <div class="col">
-                <ul id="listColumn1"></ul>
+        <div class="row" id="allIdiomsListContainer" style="display:none">
+            <div class="card col" style="margin: 10px 0 10px 0">
+                <div class="card-body">
+                    <ul id="leftColumn"></ul>
+                </div>
             </div>
-            <div class="col">
-                <ul id="listColumn2"></ul>
+            <div class="card col" style="margin: 10px 0 10px 0">
+                <div class="card-body">
+                    <ul id="rightColumn"></ul>
+                </div>
             </div>
         </div>
+        <div style="display:none" id="idiomsIntersectionContainer">
+            <button style="height: 2.4rem" id="idiomsIntersectionButton" class="btn btn-success" value="0" data-toggle="modal" data-target="#employeesModal">Ver funcionarios <span id="count"></span> </button>
+        </div>
+        <div id="notFoundMessage">
+            <p style="color: black; text-align: center; font-size: 1.5rem; display:none">¡No existen funcionarios que hablen todos los idiomas seleccionados!</p>
+        </div>
+        <div class="modal fade" id="employeesModal" tabindex="-1" role="dialog" aria-labelledby="employeesModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLongTitle"><strong>Funcionarios</strong></h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="employees-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script src="~/Scripts/GenericMultiselect.js"></script>
     <script type="text/javascript">
         let multiSelectLanguages = new GenericMultiSelect("#languageSelect", "#languagesContainer", "#inputLanguageString");
     </script>
-    <script type="text/javascript"> 
-        const RESULTS_PLACE_CONTAINER = 'resultsContainer';
+    <script type="text/javascript">
+        const ALL_IDIOMS_LIST_CONTAINER = 'allIdiomsListContainer';
+        const LEFT_COLUMN_LIST = 'leftColumn';
+        const RIGHT_COLUMN_LIST = 'rightColumn';
+        const EMPLOYEES_MODAL = 'employeesModal';
+        const EMPLOYEES_MODAL_BODY = 'employees-list';
+        const INPUT_IDIOMS = 'inputLanguageString';
+        const NOT_FOUND_MESSAGE = 'notFoundMessage';
+        const IDIOMS_INTERSECTION_CONTAINER = 'idiomsIntersectionContainer';
+        const IDIOMS_INTERSECTION_BUTTON = 'idiomsIntersectionButton';
+        const SPAN_COUNT = 'count';
 
-        function updateIdiomsList(inputIdiomString){
-            // removeAll()
-            // cantidad de idiomas seleccionados para hacer length % 2   
-            // 2 for para tirar las listas 
-                // recuperar # de empleados que hablan X idioma
-                // agregar el elemento a la lista 
-                // agregar boton dinamico de Ver Funcionarios
-                // Asociar el modal con el boton
+        let allEmployees = @Html.Raw(Json.Encode(@ViewBag.employees));
+        let languagesCount = @Html.Raw(Json.Encode(@ViewBag.LanguagesCount));
+        let allIdioms = @Html.Raw(Json.Encode(@ViewBag.Languages));
+
+        function updateIdiomsList() {
+            let selectedIdioms = document.getElementById(INPUT_IDIOMS).value;
+            selectedIdioms = String(selectedIdioms).replaceAll('_', ' ').substring(0, selectedIdioms.length - 1);
+            let idioms = selectedIdioms.split('|');
+            let employeesBySelectedIdioms = getEmployeesByIdioms(idioms);
+            let employeesCount = employeesBySelectedIdioms.length;
+
+            if (idioms.length != languagesCount) {
+                if (employeesCount > 0) {
+                    hide(NOT_FOUND_MESSAGE);
+                    show(IDIOMS_INTERSECTION_CONTAINER);
+                    document.getElementById(SPAN_COUNT).innerHTML = '';
+                    document.getElementById(SPAN_COUNT).innerHTML = ' (' + employeesCount + ')';
+                    setModal(employeesBySelectedIdioms);
+                } else {
+                    hide(IDIOMS_INTERSECTION_CONTAINER);
+                    show(NOT_FOUND_MESSAGE);
+                }
+            } else {
+                displayAllIdioms();
+                console.log("Oh no");
+            }
         }
 
-        function removeAll() {
-            document.getElementById('listColumn1').innerHTML = "";
-            document.getElementById('listColumn2').innerHTML = "";
+        function getEmployeesByIdioms(idioms) {
+            let checkedEmployees = [];
+            for (let employee of allEmployees) {
+                if (checkEmployeeIdioms(employee, idioms)) {
+                    checkedEmployees.push(employee.FirstName + ' ' + employee.LastName);
+                }
+            }
+            return checkedEmployees;
         }
 
-        function displayAllLanguages() {
+        function setModal(employeesBySelectedIdioms) {
+            let employeesList = document.getElementById(EMPLOYEES_MODAL_BODY);
+            employeesList.innerHTML = "";
+            let list = document.createElement('ul');
 
+            for (let employee of employeesBySelectedIdioms) {
+                let listItem = document.createElement("li");
+                listItem.innerHTML = '<a href="Employees/Employee' +  + '">' + employee + '</a>'
+                list.appendChild(listItem);
+            }
+
+            employeesList.appendChild(list);
         }
 
-        function hideAllLanguages() {
+        function checkEmployeeIdioms(employee, idioms) {
+            let counter = 0;
+            for (let idiom of idioms) {
+                counter += employee.Languages.includes(idiom) ? 1 : 0;
+            }
+            return counter == idioms.length;
+        }
 
+        function displayAllIdioms() {
+            show(ALL_IDIOMS_LIST_CONTAINER);
+            let half = Math.ceil(languagesCount / 2);
+            console.log(half);
+            let index = 0;
+            index = displayColumList(0, half, LEFT_COLUMN_LIST);
+            index = displayColumList(index, languagesCount, RIGHT_COLUMN_LIST);
+        }
+
+        function displayColumList(initialIndex, lastIndex, column) {
+            let index = 0;
+            for (index = initialIndex; index < lastIndex; ++index) {
+                let listItem = document.createElement("li");
+                let employeesByLanguage = getEmployeesByIdiom(allIdioms[index]);
+                let innerContent = allIdioms[index] + ': ' + getButton(allIdioms[index], employeesByLanguage.length);
+                listItem.innerHTML = innerContent;
+                document.getElementById(column).appendChild(listItem);
+            }
+
+            return index;
+        }
+
+        function getEmployeesByIdiom(idiom) {
+            let employees = [];
+            for (let employee of allEmployees) {
+                if (employee.Languages.includes(idiom)) {
+                    employees.push(employee.FirstName + employee.LastName);
+                }
+            }
+            return employees;
+        }
+
+        function getButton(id, employeesCount) {
+            let button = '<button type="button" id="' + id + '" class="btn btn-success" onclick="changeModal(this.id)" data-toggle="modal" data-target="#exampleModalCenter">Ver funcionarios (' + employeesCount + ') </button>';
+            return button;
+        }
+
+        function hideallIdioms() {
+            document.getElementById(LEFT_COLUMN_LIST).innerHTML = "";
+            document.getElementById(RIGHT_COLUMN_LIST).innerHTML = "";
+        }
+
+        function changeModal(id) {
+            let employeesByLanguage = getEmployeesByIdiom(id);
+            setModal(employeesByLanguage);
+        }
+
+        function show(id) {
+            document.getElementById(id).style.display = "block";
+        }
+
+        function hide(id) {
+            document.getElementById(id).style.display = "none";
         }
 
     </script>
 
 </body>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 </html>
+<style>
+    li {
+        padding: 0.2rem;
+    }
+</style>
