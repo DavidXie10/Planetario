@@ -4,11 +4,8 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 
-namespace Planetarium.Models
-{
-    public class EventModel
-    {
-
+namespace Planetarium.Models { 
+    public class EventModel {
         [Required(ErrorMessage = "Es necesario que ingrese el título")]
         [Display(Name = "Título")]
         public string Title { get; set; }

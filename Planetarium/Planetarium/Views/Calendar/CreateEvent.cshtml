@@ -1,4 +1,4 @@
-﻿@model Planetarium.Models.EventModel
+﻿@model Planetarium.Models.EducationalActivityEventModel
 @{
     ViewBag.Title = "Añadir evento";
 
@@ -46,7 +46,7 @@
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
 
-                                @Html.LabelFor(model => model.TypeOfEvent)
+                                @Html.LabelFor(model => model.ActivityType)
                                 <br />
                                 <select name="typeOfEvent" class="form-control">
                                     <option value="N" selected>Tipo de evento</option>
@@ -64,6 +64,14 @@
                                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
 
                             </div>
+
+
+                        </div>
+
+                        <div class="row" style="margin-top: 15px; margin-left: 2px; margin-right: 2px;">
+                            @Html.LabelFor(model => model.Description)
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "3" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
@@ -77,4 +85,15 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
 </html>
+
+<script type="text/javascript">
+    let currentDate = new Date();
+    let month = currentDate.getMonth() + 1;
+    let currentDay = currentDate.getDate();
+    let day = currentDay / 10 >= 1 ? '' : '0';
+    day += currentDay;
+    document.getElementById("Date").setAttribute("min", currentDate.getFullYear() + "-" + month + "-" + day);
+    document.getElementById("Date").setAttribute("class", "form-control");
+</script>

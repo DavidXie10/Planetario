@@ -125,7 +125,7 @@ namespace Planetarium.Controllers {
 
         public ActionResult ListActivities() {
             RssFeedHandler rssHandler = new RssFeedHandler();
-            List<EventModel> eventFeed = rssHandler.TestHTML("https://www.timeanddate.com/astronomy/sights-to-see.html");
+            List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             ViewBag.EventsToCal = eventFeed;
             ViewBag.activities = DataAccess.GetAllApprovedActivities();
             return View();

@@ -54,7 +54,7 @@ namespace Planetarium.Handlers {
             return feed;
         }
 
-        public List<EventModel> TestHTML(string url = "https://www.timeanddate.com/astronomy/sights-to-see.html") {
+        public List<EventModel> GetEventsFromFeed(string url = "https://www.timeanddate.com/astronomy/sights-to-see.html") {
             List<EventModel> events = new List<EventModel>();
 
             var webPage = new HtmlWeb();

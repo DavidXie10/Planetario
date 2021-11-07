@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Planetarium.Models {
@@ -21,9 +22,9 @@ namespace Planetarium.Models {
         [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar un número")]
         public int MaximumCapacity { get; set; }
 
-        public int VirtualAssistance { get; set; }
-
-        public int OnSiteAssistance { get; set; }
+        [Required(ErrorMessage = "Es necesario que indique el tipo de asistencia")]
+        [Display(Name = "Tipo de asistencia")]
+        public String TypeOfAssistance { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese el enlace de la actividad")]
         [Display(Name = "Enlace a la actividad")]
