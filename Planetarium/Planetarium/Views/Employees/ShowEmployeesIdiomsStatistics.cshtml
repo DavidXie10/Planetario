@@ -98,12 +98,13 @@
             selectedIdioms = String(selectedIdioms).replaceAll('_', ' ').substring(0, selectedIdioms.length - 1);
             let idioms = selectedIdioms.split('|');
             let employeesBySelectedIdioms = getEmployeesByIdioms(idioms);
-            let employeesCount = employeesBySelectedIdioms.length;
+            let employeesCount = Object.keys(employeesBySelectedIdioms).length;
 
             if (idioms.length != languagesCount) {
                 if (employeesCount > 0) {
                     hide(NOT_FOUND_MESSAGE);
                     show(IDIOMS_INTERSECTION_CONTAINER);
+                    console.log("Despues del modal")
                     document.getElementById(SPAN_COUNT).innerHTML = '';
                     document.getElementById(SPAN_COUNT).innerHTML = ' (' + employeesCount + ')';
                     setModal(employeesBySelectedIdioms);
@@ -118,10 +119,10 @@
         }
 
         function getEmployeesByIdioms(idioms) {
-            let checkedEmployees = [];
+            let checkedEmployees = {};
             for (let employee of allEmployees) {
                 if (checkEmployeeIdioms(employee, idioms)) {
-                    checkedEmployees.push(employee.FirstName + ' ' + employee.LastName);
+                    checkedEmployees[employee.FirstName + ' ' + employee.LastName] = employee.Dni;
                 }
             }
             return checkedEmployees;
@@ -132,9 +133,9 @@
             employeesList.innerHTML = "";
             let list = document.createElement('ul');
 
-            for (let employee of employeesBySelectedIdioms) {
+            for (const [name, dni] of Object.entries(employeesBySelectedIdioms)) {
                 let listItem = document.createElement("li");
-                listItem.innerHTML = '<a href="Employees/Employee' +  + '">' + employee + '</a>'
+                listItem.innerHTML = '<a href="Employees/Employee?dni=' + dni + '" >' + employee + '</a>';
                 list.appendChild(listItem);
             }
 
