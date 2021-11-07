@@ -1,11 +1,6 @@
 ﻿$(document).ready(function () {
     $("#Category").change(function () {
-        //$("#topicSelect").empty();
-        //Solo se quiere agregar
-        //$("#topicsContainer").empty();
-        //$("#inputTopicString").val("");
-
-        if ($("#Category").val() != '' && $("#inputCategoryString").val().includes($("#Category").val().replace(" ", "_"))) {
+        if ($("#Category").val() != '') {
             $.ajax({
                 type: 'POST',
                 url: $("#controllerURL").data("request-url"),
