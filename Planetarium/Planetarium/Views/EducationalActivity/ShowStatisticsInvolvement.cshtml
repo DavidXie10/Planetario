@@ -120,6 +120,7 @@
         }
 
         function removeAll(chartData, length) {
+            console.log(length);
             for (let element = 0; element < length; ++element ) {
                 chartData.remove(0);
             }
@@ -186,9 +187,7 @@
                     let index = 0;
                     while (index < count) {
                         let button = containerChildren[index];
-                        if (button.tagName == "A") {
-                            console.log("Button innerhtml: " + button.innerHTML);
-                            console.log("Category: " + category);
+                        if (button && button.tagName == "A") {
                             if (button.innerHTML.includes(category)) {
                                 button.click()
                                 --index;
