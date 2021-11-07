@@ -131,7 +131,7 @@
 
                     success: function (topics) {
                         $.each(topics, function (i, topic) {
-                            $("#topicSelect").append('<option class="' + String(value) + '" value=' + topic.Value.replace(" ", "_") + '_(' + String(value.replaceAll(" ", "_")) + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
+                            $("#topicSelect").append('<option class="' + String(value.replaceAll(" ", "_")) + '" value=' + topic.Value.replace(" ", "_") + '_(' + String(value.replaceAll(" ", "_")) + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
                         });
                     },
                     error: function (ex) {
@@ -145,15 +145,34 @@
 
         function deleteTopics() {
             let selectedElements = document.getElementById('inputCategoryString').value.replaceAll("_", " ");
-            console.group("Delete topics");
-            console.log(selectedElements);
+            let containerChildren = document.getElementById('topicsContainer').children;
+            console.log(containerChildren);
+
             for (const [category, value] of Object.entries(categoriesRank)) {
                 if (!selectedElements.includes(category)) {
                     console.log(category);
-                    document.querySelectorAll("." + String(category)).forEach(e => e.remove());
+                    document.querySelectorAll("." + String(category.replaceAll(" ", "_"))).forEach(e => e.remove());
+                    let count = containerChildren.length;
+                    for (let index = 0; index < count; ++index) {
+                        let button = containerChildren[0];
+                        console.log("Boton: " + button);
+                        console.log("Tagname: " + button.tagName);
+
+                        if (button.tagName == "A") {
+                            console.log("Soy a");
+                            console.log("Boton innerHtml: " + button.innerHTML);
+                            if (button.innerHTML.includes(category)) {
+                                button.remove();
+                            }
+                        }
+                    }
                 }
+
+
             }
-            console.groupEnd();
+
+
+
         }
 
     </script>
