@@ -84,16 +84,13 @@
             let items = Object.keys(elementsRank).map(function (key) {
                 return [key, elementsRank[key]];
             });
-
             let chart = anychart.bar();
             let data = anychart.data.set(items);
-
             chart.labels(true);
             chart.bar(data);
             chart.title(title);
             chart.container(idChartContainer);
             chart.draw();
-
             return data;
         }
 
@@ -139,10 +136,11 @@
         }
 
         function downCategories() {
-            console.log('hola mundo');
             document.getElementById('categoryDown').innerHTML = addToListLast(categoriesRank, 2);
             document.getElementById('topicDown').innerHTML = addToListLast(topicsRank, 5);
         }
+
+        downCategories();
 
         function updateTopics(value) {
             let inputCategoryString = document.getElementById('inputCategoryString').value.replaceAll('_', ' ');
@@ -178,7 +176,6 @@
         }
 
         function deleteTopics() {
-            console.log('hello world')
             let selectedElements = document.getElementById('inputCategoryString').value.replaceAll("_", " ");
             let containerChildren = document.getElementById('topicsContainer').children;
 
@@ -200,12 +197,7 @@
                         ++index;
                     }
                 }
-
-
             }
-
-
-
         }
 
     </script>
