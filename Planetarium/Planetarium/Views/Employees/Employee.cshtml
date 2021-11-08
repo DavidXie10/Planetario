@@ -1,20 +1,17 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-
 <head>
     <title>Empleado </title>
 </head>
-
 <body>
-    <div class="container">
+    <div class="container" style="height: 100vh">
         <br>
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <img class="passaport-Img" width="165" height="200" src="~/images/EmployeesProfilePhotos/@ViewBag.Employee.PhotoPath" alt="an employee profile photo">
             </div>
             <br>
-            <div class="col-md-3">
+            <div class="col" style="display: flex; align-items: center;">
                 <h1>
                     @ViewBag.Employee.FirstName
                     @ViewBag.Employee.LastName
@@ -23,19 +20,7 @@
         </div>
 
         <div class="row">
-            <div class="card col-md-3">
-                <div class="card-header">
-                    Información de contacto
-                </div>
-                <div class="card-body">
-                    <p class="card-text">
-                        Teléfono: @ViewBag.Employee.PhoneNumber <br>
-                        Correo: @ViewBag.Employee.Mail <br>
-                    </p>
-                </div>
-            </div>
-
-            <div class="card col-md-4">
+            <div class="card col-md-4 employee-info">
                 <div class="card-header">
                     Información personal
                 </div>
@@ -48,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="card col-md-4">
+            <div class="card col-md-4 employee-info">
                 <div class="card-header">
                     Información acádemica
                 </div>
@@ -59,16 +44,32 @@
                         Títulos acádemicos: @ViewBag.Employee.AcademicDegree <br>
                         Idiomas:
                         @foreach (var language in @ViewBag.Employee.Languages) {
-                            <a class="badge rounded-pill bg-info"> @language </a>
-                        }
+            <a class="badge rounded-pill bg-info"> @language </a>}
                         <br>
                     </p>
                 </div>
+
             </div>
-
-
+            <div class="card col-md-3 employee-info">
+                <div class="card-header">
+                    Información de contacto
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Teléfono: @ViewBag.Employee.PhoneNumber <br>
+                        Correo: <a href="mailto:@ViewBag.Employee.Mail">@ViewBag.Employee.Mail</a> <br>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </body>
 
 </html>
+<style>
+    .employee-info {
+        margin: 0.5rem;
+        margin-top: 1rem;
+        padding: 0;
+    }
+</style>
