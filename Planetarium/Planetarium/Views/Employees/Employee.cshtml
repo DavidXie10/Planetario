@@ -10,64 +10,63 @@
     <div class="container">
         <br>
         <div class="row">
-            <div class="col-md-3">
-                <div class="col-md-4">
-                    <img class="passaport-Img" width="165" height="200" src="~/images/EmployeesProfilePhotos/@ViewBag.Employee.PhotoPath" alt="an employee profile photo">
-                </div>
-                <br>
-                <div class="card col-md">
-                    <div class="card-header">
-                        Información de contacto
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            Teléfono: @ViewBag.Employee.PhoneNumber <br>
-                            Correo: @ViewBag.Employee.Mail <br>
-                        </p>
-                    </div>
-                </div>
+            <div class="col-md-2">
+                <img class="passaport-Img" width="165" height="200" src="~/images/EmployeesProfilePhotos/@ViewBag.Employee.PhotoPath" alt="an employee profile photo">
             </div>
-
-            <div class="col-md-8">
+            <br>
+            <div class="col-md-3">
                 <h1>
                     @ViewBag.Employee.FirstName
                     @ViewBag.Employee.LastName
                 </h1>
+            </div>
+        </div>
 
-                <div class="row">
-                    <div class="card col-md">
-                        <div class="card-header">
-                            Información personal
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Cédula: @ViewBag.Employee.Dni <br>
-                                Fecha de nacimiento: @ViewBag.Employee.DateOfBirth <br>
-                                País de origen: @ViewBag.Employee.NativeCountry<br>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="card col-md">
-                        <div class="card-header">
-                            Información acádemica
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">
-                                Ocupación: @ViewBag.Employee.Occupation<br>
-                                Área de expertiz: @ViewBag.Employee.ExpertiseArea <br>
-                                Títulos acádemicos: @ViewBag.Employee.AcademicDegree <br>
-                                Idiomas:
-                                @foreach (var language in @ViewBag.Employee.Languages)
-                                {
-                                    <a class="badge rounded-pill bg-info"> @language </a>
-                                }
-                                <br>
-                            </p>
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="card col-md-3">
+                <div class="card-header">
+                    Información de contacto
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Teléfono: @ViewBag.Employee.PhoneNumber <br>
+                        Correo: @ViewBag.Employee.Mail <br>
+                    </p>
                 </div>
             </div>
+
+            <div class="card col-md-4">
+                <div class="card-header">
+                    Información personal
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Cédula: @ViewBag.Employee.Dni <br>
+                        Fecha de nacimiento: @ViewBag.Employee.DateOfBirth <br>
+                        País de origen: @ViewBag.Employee.NativeCountry<br>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card col-md-4">
+                <div class="card-header">
+                    Información acádemica
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Ocupación: @ViewBag.Employee.Occupation<br>
+                        Área de expertiz: @ViewBag.Employee.ExpertiseArea <br>
+                        Títulos acádemicos: @ViewBag.Employee.AcademicDegree <br>
+                        Idiomas:
+                        @foreach (var language in @ViewBag.Employee.Languages) {
+                            <a class="badge rounded-pill bg-info"> @language </a>
+                        }
+                        <br>
+                    </p>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </body>
