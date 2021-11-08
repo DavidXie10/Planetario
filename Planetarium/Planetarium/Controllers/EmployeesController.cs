@@ -55,12 +55,12 @@ namespace Planetarium.Controllers {
             }
 
             ViewBag.Countries = countries;
-            ViewBag.Languages = loadLanguages();
+            ViewBag.Languages = LoadLanguages();
 
             return View();
         }
 
-        public List<SelectListItem> loadLanguages(){
+        public List<SelectListItem> LoadLanguages(){
             List<SelectListItem> languages = new List<SelectListItem>();
             dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
 
@@ -99,15 +99,12 @@ namespace Planetarium.Controllers {
             }
         }
 
-        public ActionResult ShowEmployeesIdiomsStatistics() {
-            List<string> languages = new List<string>();
-            dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
+        public ActionResult ShowEmployeesIdiomsStatistics() {            
+            List<string> languages = DataAccess.GetEmployeesLanguages();
 
-            foreach(var language in JsonContentLanguages) {
-                languages.Add(language.Value["name"].ToString());
-            }
-            
             ViewBag.Languages = languages;
+            ViewBag.LanguagesCount = languages.Count;
+            ViewBag.employees = DataAccess.GetAllEmployees();
 
             return View();
         }
