@@ -9,10 +9,11 @@
 <body>
     <div class="container">
         <h1 style="margin:10px 0 20px 0;">Idiomas de los colaboradores</h1>
-
-        <h5>Seleccione los idiomas</h5>
+        <p style="margin:5px 0 15px 0;">Acá puede conocer los funcionarios que hablan los idiomas seleccionados.</p>
+        
         <div class="row">
             <div class="col">
+                <h5>Seleccione los idiomas</h5>
                 <select class="form-select" id="languageSelect" onchange="addLanguageButton(this.value), updateIdiomsList()">
                     <option value="">Seleccione los idiomas</option>
                     @foreach (var language in ViewBag.Languages) {
@@ -32,36 +33,30 @@
 
             <input type="text" name="inputLanguageString" id="inputLanguageString" value="" style="display: none;" />
         </div>
-        <div style="display:none" id="idiomsIntersectionContainer">
-            <hr />
-            <button style="height: 2.4rem" id="idiomsIntersectionButton" class="btn btn-success" onclick="changeModalByIdiomsIntersection()" value="0" data-toggle="modal" data-target="#employeesModal">Ver funcionarios <span id="count"></span> </button>
+
+        <div class="text-center" style="display:none" id="idiomsIntersectionContainer">
+            <button style="height: 3rem; width: 15rem; font-size: 1.3rem;" id="idiomsIntersectionButton" class="btn btn-success" onclick="changeModalByIdiomsIntersection()" value="0" data-toggle="modal" data-target="#employeesModal"> Ver funcionarios <span id="count"></span> </button>
         </div>
+
         <hr />
 
-        <div class="row">
-            <div class="col-4 ">
-                <h4> Lista de funcionarios por idioma </h4>
+        <div class="row card">
+            <div class="col card-header">
+                <h4 class="text-center"> Estadísticas de idiomas del planetario </h4>
             </div>
-            <div class="col-2 btn-group">
-                <button style="height: 2.4rem" class="btn btn-success" value="0" onclick="displayAllIdioms()"> Ver</button>
-                <button style="height: 2.4rem" class="btn btn-secondary" value="0" onclick="hideAllIdioms()"> Ocultar</button>
-            </div>
-        </div>
 
-        <div class="row" id="allIdiomsListContainer" style="display: none; margin: 10px 0 0 0;">
-            <div class="card col-6">
-                <div class="card-body">
+            <div class="row card-body" id="allIdiomsListContainer" style="margin: 10px 0 0 0;" >
+                <div class="col-6">
                     <ul id="leftColumn"></ul>
                 </div>
-            </div>
 
-            <div class="card col-6">
-                <div class="card-body">
+                <div class="col-6">
                     <ul id="rightColumn"></ul>
                 </div>
             </div>
-
         </div>
+
+        
 
         <div id="notFoundMessage">
             <p style="color: black; text-align: center; font-size: 1.5rem; display:none">¡No existen funcionarios que hablen todos los idiomas seleccionados!</p>
@@ -156,8 +151,6 @@
         }
 
         function displayAllIdioms() {
-            hideAllIdioms();
-            show(ALL_IDIOMS_LIST_CONTAINER);
             let half = Math.ceil(languagesCount / 2);
             let index = 0;
             index = displayColumList(0, half, LEFT_COLUMN_LIST);
@@ -218,6 +211,8 @@
         function hide(id) {
             document.getElementById(id).style.display = "none";
         }
+
+        displayAllIdioms();
     </script>
 </body>
 
