@@ -1,54 +1,54 @@
 {
     "af":{
-        "name":"Afrikaans",
+        "name":"Africaans",
         "nativeName":"Afrikaans"
     },
     "sq":{
-        "name":"Albanian",
+        "name":"Albanés",
         "nativeName":"Shqip"
     },
     "ar":{
-        "name":"Arabic",
+        "name":"Árabe",
         "nativeName":"العربية"
     },
     "hy":{
-        "name":"Armenian",
+        "name":"Armenio",
         "nativeName":"Հայերեն"
     },
     "be":{
-        "name":"Belarusian",
+        "name":"Bielorruso",
         "nativeName":"Беларуская"
     },
     "bs":{
-        "name":"Bosnian",
+        "name":"Bosnio",
         "nativeName":"bosanski jezik"
     },
     "bg":{
-        "name":"Bulgarian",
+        "name":"Búlgaro",
         "nativeName":"български език"
     },
     "ca":{
-        "name":"Catalan",
+        "name":"Catalán",
         "nativeName":"Català"
     },
     "zh":{
-        "name":"Chinese",
+        "name":"Chino",
         "nativeName":"中文 (Zhōngwén), 汉语, 漢語"
     },
     "hr":{
-        "name":"Croatian",
+        "name":"Croata",
         "nativeName":"hrvatski"
     },
     "cs":{
-        "name":"Czech",
+        "name":"Checo",
         "nativeName":"česky, čeština"
     },
     "da":{
-        "name":"Danish",
+        "name":"Danés",
         "nativeName":"dansk"
     },
     "en":{
-        "name":"English",
+        "name":"Inglés",
         "nativeName":"English"
     },
     "eo":{
@@ -56,39 +56,39 @@
         "nativeName":"Esperanto"
     },
     "et":{
-        "name":"Estonian",
+        "name":"Estonio",
         "nativeName":"eesti, eesti keel"
     },
     "fo":{
-        "name":"Faroese",
+        "name":"Feroés",
         "nativeName":"føroyskt"
     },
     "fr":{
-        "name":"French",
+        "name":"Francés",
         "nativeName":"français, langue française"
     },
     "gl":{
-        "name":"Galician",
+        "name":"Gallego",
         "nativeName":"Galego"
     },
     "ka":{
-        "name":"Georgian",
+        "name":"Georgiano",
         "nativeName":"ქართული"
     },
     "de":{
-        "name":"German",
+        "name":"Alemán",
         "nativeName":"Deutsch"
     },
     "el":{
-        "name":"Greek",
+        "name":"Griego",
         "nativeName":"Ελληνικά"
     },
     "ht":{
-        "name":"Haitian",
+        "name":"Haitiano",
         "nativeName":"Kreyòl ayisyen"
     },
     "he":{
-        "name":"Hebrew",
+        "name":"Hebreo",
         "nativeName":"עברית"
     },
     "hz":{
@@ -96,31 +96,31 @@
         "nativeName":"Otjiherero"
     },
     "hu":{
-        "name":"Hungarian",
+        "name":"Húngaro",
         "nativeName":"Magyar"
     },
     "id":{
-        "name":"Indonesian",
+        "name":"Indonesio",
         "nativeName":"Bahasa Indonesia"
     },
     "ga":{
-        "name":"Irish",
+        "name":"Irlandés",
         "nativeName":"Gaeilge"
     },
     "is":{
-        "name":"Icelandic",
+        "name":"Islandés",
         "nativeName":"Íslenska"
     },
     "it":{
-        "name":"Italian",
+        "name":"Italiano",
         "nativeName":"Italiano"
     },
     "ja":{
-        "name":"Japanese",
+        "name":"Japonés",
         "nativeName":"日本語 (にほんご／にっぽんご)"
     },
     "jv":{
-        "name":"Javanese",
+        "name":"Javanés",
         "nativeName":"basa Jawa"
     },
     "kg":{
@@ -128,15 +128,15 @@
         "nativeName":"KiKongo"
     },
     "ko":{
-        "name":"Korean",
+        "name":"Coreano",
         "nativeName":"한국어 (韓國語), 조선말 (朝鮮語)"
     },
     "la":{
-        "name":"Latin",
+        "name":"Latín",
         "nativeName":"latine, lingua latina"
     },
     "lb":{
-        "name":"Luxembourgish",
+        "name":"Luxemburgués",
         "nativeName":"Lëtzebuergesch"
     },
     "lo":{
@@ -144,19 +144,19 @@
         "nativeName":"ພາສາລາວ"
     },
     "lt":{
-        "name":"Lithuanian",
+        "name":"Lituano",
         "nativeName":"lietuvių kalba"
     },
     "mk":{
-        "name":"Macedonian",
+        "name":"Macedónio",
         "nativeName":"македонски јазик"
     },
     "mg":{
-        "name":"Malagasy",
+        "name":"Madagascarí",
         "nativeName":"Malagasy fiteny"
     },
     "mt":{
-        "name":"Maltese",
+        "name":"Maltés",
         "nativeName":"Malti"
     },
     "mr":{
@@ -164,79 +164,79 @@
         "nativeName":"मराठी"
     },
     "mh":{
-        "name":"Marshallese",
+        "name":"Marshalés",
         "nativeName":"Kajin M̧ajeļ"
     },
     "mn":{
-        "name":"Mongolian",
+        "name":"Mongol",
         "nativeName":"монгол"
     },
     "ne":{
-        "name":"Nepali",
+        "name":"Nepalí",
         "nativeName":"नेपाली"
     },
     "no":{
-        "name":"Norwegian",
+        "name":"Noruego",
         "nativeName":"Norsk"
     },
     "fa":{
-        "name":"Persian",
+        "name":"Persa",
         "nativeName":"فارسی"
     },
     "pl":{
-        "name":"Polish",
+        "name":"Polaco",
         "nativeName":"polski"
     },
     "pt":{
-        "name":"Portuguese",
+        "name":"Portugués",
         "nativeName":"Português"
     },
     "ro":{
-        "name":"Romanian",
+        "name":"Romano",
         "nativeName":"română"
     },
     "ru":{
-        "name":"Russian",
+        "name":"Ruso",
         "nativeName":"русский язык"
     },
     "sr":{
-        "name":"Serbian",
+        "name":"Serbio",
         "nativeName":"српски језик"
     },
     "sl":{
-        "name":"Slovene",
+        "name":"Esloveno",
         "nativeName":"slovenščina"
     },
     "es":{
-        "name":"Spanish",
+        "name":"Español",
         "nativeName":"español"
     },
     "su":{
-        "name":"Sundanese",
+        "name":"Sundanés",
         "nativeName":"Basa Sunda"
     },
     "sv":{
-        "name":"Swedish",
+        "name":"Sueco",
         "nativeName":"svenska"
     },
     "th":{
-        "name":"Thai",
+        "name":"Tailandés",
         "nativeName":"ไทย"
     },
     "tr":{
-        "name":"Turkish",
+        "name":"Turco",
         "nativeName":"Türkçe"
     },
     "ty":{
-        "name":"Tahitian",
+        "name":"Tahitiano",
         "nativeName":"Reo Tahiti"
     },
     "uk":{
-        "name":"Ukrainian",
+        "name":"Ucraniano",
         "nativeName":"українська"
     },
     "vi":{
-        "name":"Vietnamese",
+        "name":"Vietnamita",
         "nativeName":"Tiếng Việt"
     }
 }
