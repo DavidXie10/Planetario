@@ -31,9 +31,9 @@
                 <br />
                 <div class="card" style="margin: 10px 0 10px 0">
                     <div class="card-header">
-                        <h4 class="text-success text-center">Las 5 categorías menos seleccionadas</h4>
+                        <h4 class="text-success text-center">Las 2 categorías con menos involucrados</h4>
                     </div>
-                    <div class="card-body" id="categoryDown"></div>
+                    <ul class="card-body" id="categoryDown"></ul>
                 </div>
             </div>
 
@@ -58,9 +58,9 @@
                 <br />
                 <div class="card" style="margin: 10px 0 10px 0">
                     <div class="card-header">
-                        <h4 class="text-success text-center">Los 5 tópicos menos seleccionadas</h4>
+                        <h4 class="text-success text-center">Los 5 tópicos con menos involucrados</h4>
                     </div>
-                    <div class="card-body" id="topicDown"></div>
+                    <ul class="card-body" id="topicDown"></ul>
                 </div>
             </div>
         </div>
@@ -141,6 +141,14 @@
             document.getElementById('topicDown').innerHTML = addToListLast(topicsRank, 5);
         }
 
+        function addToListLast(dictionary, down) {
+            let listElements = "";
+            for (var i = Object.keys(dictionary).length - 1; i >= (Object.keys(dictionary).length - down); --i) {
+                listElements += "<li>" + Object.keys(dictionary)[i] + ": " + Object.values(dictionary)[i] + "</li>";
+            }
+            return listElements;
+        }
+
         downCategories();
 
         function updateTopics(value) {
@@ -168,13 +176,6 @@
             } 
         }
 
-        function addToListLast(dictionary, down) {
-            let listElements = "";
-            for (var i = Object.keys(dictionary).length - 1; i >= (Object.keys(dictionary).length - down); --i) {
-                listElements += "<li>" + Object.keys(dictionary)[i] + ": " + Object.values(dictionary)[i] + "</li>";
-            }
-            return listElements;
-        }
 
         function deleteTopics() {
             let selectedElements = document.getElementById('inputCategoryString').value.replaceAll("_", " ");
@@ -202,3 +203,8 @@
     </script>
 </body>
 </html>
+<style>
+    li{
+        margin-left: 1rem;
+    }
+</style>
