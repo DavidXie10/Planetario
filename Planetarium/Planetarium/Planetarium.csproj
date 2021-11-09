@@ -265,6 +265,7 @@
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
     <Content Include="Views\Quiz\Quizzes.cshtml" />
     <Content Include="Views\Quiz\NewQuiz.cshtml" />
+    <Content Include="Views\Quiz\Quiz.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -28,7 +28,12 @@
                             </p>
                         </div>
                         <div class="card-footer text-center">
-                            <a href="@quiz.Link" class="btn btn-info ">Ir a Cuestionario</a>
+                            @Html.ActionLink(
+  "Ir a Cuestionario",
+  "Quiz",                         // controller action
+  "Quiz",        // controller
+  new { url = quiz.Link },         // action parameters aka route values
+  new { @class = "btn btn-info" }) 
                         </div>
                     
                     </div>
