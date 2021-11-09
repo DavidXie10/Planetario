@@ -1,6 +1,11 @@
-﻿.imageActivities {
+﻿﻿.imageHomePage {
     position: relative;
-    width: 500px;
+    width: 100%;
+}
+
+.img_squareImg {
+    width: 100%;
+    height: 300px;
 }
 
 .image__imageActivities {
@@ -10,10 +15,10 @@
 
 .image__overlay {
     position: absolute;
-    top: 0;
+    top: 46px;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 300px;
     background: rgba(0, 0, 0, 0.6);
     color: #ffffff;
     font-family: 'Quicksand', sans-serif;
@@ -37,10 +42,10 @@
     background: #1f5b83;
 }
 
-    .image__overlay > * {
-        transform: translateY(20px);
-        transition: transform 0.25s;
-    }
+.image__overlay > * {
+    transform: translateY(20px);
+    transition: transform 0.25s;
+}
 
 .image__overlay:hover {
     opacity: 0.96;
@@ -53,7 +58,7 @@
 .image__title {
     font-size: 2em;
     font-weight: bold;
-    color:white;
+    color: white;
 }
 
 .image__description {

@@ -13,7 +13,7 @@
     max-height: 300px;
 }
 
-.p{
+.p {
     margin-bottom: 0;
 }
 
@@ -30,11 +30,10 @@ a {
     text-decoration: none;
 }
 
-a.badge:hover {
-    color: white;
-}
+    a.badge:hover {
+        color: white;
+    }
 
-a.btn:hover {
-    text-decoration: none;
-}
-
+    a.btn:hover {
+        text-decoration: none;
+    }
