@@ -158,8 +158,11 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        public ActionResult ShowStatisticsInvolvement() {
-            List<string> categories = DataAccess.GetAllCategories();
+        public ActionResult ShowStatisticsInvolvement() {            
+            Dictionary<string, int> categoriesRank = DataAccess.FillRank("categoria","Categoria");
+            Dictionary<string, int> topicsRank = DataAccess.FillRank("nombrePK", "Topico");
+
+            List<string> categories = categoriesRank.Keys.ToList<string>();
             Dictionary<string, string[]> topicsByCategory = new Dictionary<string, string[]>();
             string[] topics = {};
             foreach (string category in categories) {
@@ -167,13 +170,11 @@ namespace Planetarium.Controllers {
                 topicsByCategory.Add(category, topics);
             }
 
-            ViewData["category"] = GetDropdown(DataAccess.GetAllCategories().ToArray());
-
-            ViewBag.TopicsByCategory = topicsByCategory;
-            Dictionary<string, int> categoriesRank = DataAccess.FillRank("categoria","Categoria");
-            Dictionary<string, int> topicsRank = DataAccess.FillRank("nombrePK", "Topico");
             ViewBag.TopicsRank = topicsRank;
             ViewBag.CategoriesRank = categoriesRank;
+            ViewData["category"] = GetDropdown(categories.ToArray());
+            ViewBag.TopicsByCategory = topicsByCategory;
+
             return View();
         }
     }

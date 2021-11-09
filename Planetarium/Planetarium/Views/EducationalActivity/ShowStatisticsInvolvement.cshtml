@@ -6,13 +6,13 @@
 </head>
 <body>
     <div id="controllerURL" data-request-url="@Url.Action("GetTopicsList", "EducationalActivity")"></div>
-    <div class="container">
+    <div class="container" style="">
         <h1 style="margin:10px 0 20px 0;">Estadísticas de Involucramiento</h1>
         <div class="row">
             <div class="col">
                 <h5>Seleccione las categorías</h5>
                 <br />
-                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoría", new { @class = "form-control", @onchange = "updateTopics(this.value), addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1)" })
+                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoría", new { @class = "form-control", @onchange = "updateTopics(this.value), addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1), hideTopicsChart()" })
 
                 <br />
                 <br />
@@ -20,21 +20,21 @@
                     <div class="card-header">
                         <h4 class="text-success text-center">Categorías seleccionadas</h4>
                     </div>
-                    <div class="card-body" id="categoryContainer" onclick="deleteTopics(), updateChart('inputCategoryString', 'categoriesChart', 1)">
+                    <div class="card-body" id="categoryContainer" onclick="deleteTopics(), updateChart('inputCategoryString', 'categoriesChart', 1), showTopicsChart()">
                     </div>
                     <input type="text" name="inputCategoryString" id="inputCategoryString" value="" style="display: none;" />
                 </div>
-                <div id="categoriesChart" style="height: 500px; width: 100%; display: none"></div>
+                <div id="categoriesChart" style="height: 500px; width: 100%; display: block"></div>
 
 
-                <br />
+                @*<br />
                 <br />
                 <div class="card" style="margin: 10px 0 10px 0">
                     <div class="card-header">
                         <h4 class="text-success text-center">Las 2 categorías con menos involucrados</h4>
                     </div>
                     <ul class="card-body" id="categoryDown"></ul>
-                </div>
+                </div>*@
             </div>
 
             <div class="col">
@@ -52,16 +52,16 @@
                     </div>
                     <input type="text" name="inputTopicString" id="inputTopicString" value="" style="display: none;" />
                 </div>
-                <div id="topicsChart" style="height: 500px; width: 100%; display: none"></div>
+                <div id="topicsChart" style="height: 500px; width: 100%; display: block"></div>
 
-                <br />
+                @*<br />
                 <br />
                 <div class="card" style="margin: 10px 0 10px 0">
                     <div class="card-header">
                         <h4 class="text-success text-center">Los 5 tópicos con menos involucrados</h4>
                     </div>
                     <ul class="card-body" id="topicDown"></ul>
-                </div>
+                </div>*@
             </div>
         </div>
 
@@ -76,6 +76,10 @@
     <script type="text/javascript">
         let categoriesRank = @Html.Raw(Json.Encode(@ViewBag.CategoriesRank));
         let topicsRank = @Html.Raw(Json.Encode(@ViewBag.TopicsRank));
+
+        console.log(categoriesRank);
+        console.log(topicsRank);
+        console.log(@Html.Raw(Json.Encode(@ViewData["category"])));
 
         let categoriesData = createChart(categoriesRank, "Ranking de Categorías", "categoriesChart");
         let topicsData = createChart(topicsRank, "Ranking de Tópicos", "topicsChart");
@@ -96,6 +100,7 @@
 
         function updateChart(inputElementString, idChartContainer, rankingType) {
             let selectedElements = document.getElementById(inputElementString).value;
+
             selectedElements = String(selectedElements).replaceAll('_', ' ');
             let chartData = (rankingType == 1) ? categoriesData : topicsData;
             let elementsRank = (rankingType == 1) ? categoriesRank : topicsRank;
@@ -103,7 +108,10 @@
             selectedElements = sortElements(selectedElements, elementsRank).substring(0, selectedElements.length - 1);
             removeAll(chartData, Object.keys(elementsRank).length);
 
-            let words = selectedElements.split('|');
+            let words = (document.getElementById(inputElementString).value == "" && rankingType == 1) ? Object.keys(categoriesRank).map(function (key) {
+                return key;
+            }) : selectedElements.split('|');
+
             let counter = 0;
 
             for (let word of words) {
@@ -120,7 +128,6 @@
         }
 
         function removeAll(chartData, length) {
-            console.log(length);
             for (let element = 0; element < length; ++element ) {
                 chartData.remove(0);
             }
@@ -136,24 +143,9 @@
             return rankedElements;
         }
 
-        function downCategories() {
-            document.getElementById('categoryDown').innerHTML = addToListLast(categoriesRank, 2);
-            document.getElementById('topicDown').innerHTML = addToListLast(topicsRank, 5);
-        }
-
-        function addToListLast(dictionary, down) {
-            let listElements = "";
-            for (var i = Object.keys(dictionary).length - 1; i >= (Object.keys(dictionary).length - down); --i) {
-                listElements += "<li>" + Object.keys(dictionary)[i] + ": " + Object.values(dictionary)[i] + "</li>";
-            }
-            return listElements;
-        }
-
-        downCategories();
-
         function updateTopics(value) {
             let inputCategoryString = document.getElementById('inputCategoryString').value.replaceAll('_', ' ');
-            
+
             if (value != '' && !inputCategoryString.includes(value)) {
                 $.ajax({
                     type: 'POST',
@@ -164,7 +156,9 @@
 
                     success: function (topics) {
                         $.each(topics, function (i, topic) {
-                            $("#topicSelect").append('<option class="' + String(value.replaceAll(" ", "_")) + '" value=' + topic.Value.replace(" ", "_") + '_(' + String(value.replaceAll(" ", "_")) + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
+                            if (topicsRank[topic.Value]) {
+                                $("#topicSelect").append('<option class="' + String(value.replaceAll(" ", "_")) + '" value=' + topic.Value.replace(" ", "_") + '_(' + String(value.replaceAll(" ", "_")) + ')' + '>' + topic.Text + ' (' + value + ') ' + '</option>');
+                            }
                         });
                     },
                     error: function (ex) {
@@ -173,7 +167,7 @@
 
                 });
                 return false;
-            } 
+            }
         }
 
 
@@ -198,6 +192,33 @@
                     }
                 }
             }
+        }
+
+        function hideTopicsChart() {
+            let topicString = document.getElementById("inputTopicString").value;
+            console.log(topicString);
+            if (topicString == "") {
+                hide("topicsChart");
+            }
+        }
+
+        function hide(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function showTopicsChart() {
+            let topicString = document.getElementById("inputTopicString").value;
+            let categoryString = document.getElementById("inputCategoryString").value;
+
+            if (topicString == "" && categoryString == "") {
+                document.getElementById("topicsChart").innerHTML = "";
+                topicsData = createChart(topicsRank, "Ranking de Tópicos", "topicsChart");
+                show("topicsChart");
+            }
+        }
+
+        function show(id) {
+            document.getElementById(id).style.display = "block";
         }
 
     </script>

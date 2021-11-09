@@ -310,7 +310,9 @@ namespace Planetarium.Handlers {
 
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
-                categoriesRank.Add(Convert.ToString(rawEducationalInfo[columnName]), Convert.ToInt32(rawEducationalInfo["Inscritos"]));
+                if (Convert.ToInt32(rawEducationalInfo["Inscritos"]) > 0) {
+                    categoriesRank.Add(Convert.ToString(rawEducationalInfo[columnName]), Convert.ToInt32(rawEducationalInfo["Inscritos"]));
+                }
             }
 
             return categoriesRank;
