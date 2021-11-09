@@ -42,7 +42,14 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        
+        private List<SelectListItem> LoadGenders() {
+            List<SelectListItem> genders = new List<SelectListItem>();
+            genders.Add(new SelectListItem { Text = "Hombre", Value = "M" });
+            genders.Add(new SelectListItem { Text = "Mujer", Value = "F" });
+            genders.Add(new SelectListItem { Text = "Prefiero no decir", Value = "O" });
+            return genders;
+        }
+
         public ActionResult CreateEmployee() {
             List<SelectListItem> countries = new List<SelectListItem>();
 
@@ -54,6 +61,7 @@ namespace Planetarium.Controllers {
                 countries.Add(new SelectListItem { Text = country, Value = country });
             }
 
+            ViewBag.GenderOptions = LoadGenders();
             ViewBag.Countries = countries;
             ViewBag.Languages = LoadLanguages();
 

@@ -5,6 +5,7 @@
 
     List<SelectListItem> Countries = ViewBag.Countries;
     List<SelectListItem> Languanges = ViewBag.Languages;
+    List<SelectListItem> GenderOptions = ViewBag.GenderOptions;
 }
 <html>
 <head>
@@ -68,20 +69,15 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.PhoneNumber)
                                 @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @placeholder = "00000000" })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
-
+                            
                             <div class="col">
-
                                 @Html.LabelFor(model => model.Gender)
-                                <br />
-                                <select name="gender" class="form-control">
-                                    <option value="N" selected>- Sin selección -</option>
-                                    <option value="M">Hombre</option>
-                                    <option value="F">Mujer</option>
-                                    <option value="O">Prefiero no decir</option>
-                                </select>
-
+                                @Html.DropDownListFor(model => model.Gender, GenderOptions, "- Sin selección - ", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                             </div>
+                            
                         </div>
 
                         <div class="row" style="margin-top: 15px;">
@@ -93,6 +89,7 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.NativeCountry)
                                 @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -156,10 +153,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                <input type="submit" style="margin-top: 20px;" class="btn btn-success w-25" value="Crear Funcionario" />
+                <div class="text-center">
+                    <input type="submit" style="margin-top: 20px;height: 3rem" class="btn btn-success w-25 " value="Guardar Funcionario" />
+                </div>
             </div>
         }
     </div>
