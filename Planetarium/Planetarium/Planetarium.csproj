@@ -139,6 +139,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -154,6 +155,7 @@
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +196,7 @@
     <Content Include="Educational_Material\actividad1.pdf" />
     <Content Include="Educational_Material\actividad_telescopiada.pdf" />
     <Content Include="Educational_Material\andalucia-innova-astronomia-100-preguntas-100-respuestas.pdf" />
+    <Content Include="Data_Files\Quizzes.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
@@ -260,6 +263,8 @@
     <Content Include="Views\Employees\CreateEmployee.cshtml" />
     <Content Include="Views\EducationalMaterial\SubmitEducationalMaterial.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
+    <Content Include="Views\Quiz\Quizzes.cshtml" />
+    <Content Include="Views\Quiz\NewQuiz.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,20 @@
+{
+  "1": {
+    "Titulo": "Cuestionario Planetas #1",
+    "Descripcion": "Esta es una pequena descripcion",
+    "Dificultad": "Nivel Básico",
+    "Link": "https://docs.google.com/forms/d/e/1FAIpQLSf5L3rcLD6MNIbkjprZdxSKRbaq_VvGSjsmd9qSeeo_ow7iyA/viewform?embedded=true"
+  },
+  "2": {
+    "Titulo": "Cuestionario de astronomía #2",
+    "Descripcion": "Esta es una pequena descripcion",
+    "Dificultad": "Nivel Básico",
+    "Link": "https://docs.google.com/forms/d/e/1FAIpQLSfhKr4VI93_4A2Y2sRT2jUYw_QN_2G3TeBR0sCt74lZP1YhaA/viewform?embedded=true"
+  },
+  "3": {
+    "Titulo": "Cuestionario de astronomía",
+    "Descripcion": "Esta es una pequena descripcion",
+    "Dificultad": "Nivel avanzado",
+    "Link": "https://docs.google.com/forms/d/e/1FAIpQLSeFYdGmtrJPNONvzh7ZDQ_BCKXCUfQB972ZXUhV33OCgY648A/viewform?embedded=true"
+  }
+}

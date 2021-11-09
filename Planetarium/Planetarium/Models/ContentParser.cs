@@ -55,5 +55,33 @@ namespace Planetarium.Models {
             return content;
         }
 
+
+        public List<QuizModel> GetQuizzes(string jsonFile) {
+            List<QuizModel> quizzes = new List<QuizModel>();
+            try {
+                string[] rawContent = ExtractRawContent(jsonFile);
+                string jsonString = ParseRawJson(rawContent);
+                dynamic jsonCollection = JsonConvert.DeserializeObject(jsonString);
+                quizzes = GetQuizzesFromJson(jsonCollection);
+            } catch (Exception e) {
+                Console.WriteLine(e.ToString());
+                quizzes = null;
+            }
+            return quizzes;
+        }
+
+        public List<QuizModel> GetQuizzesFromJson(dynamic jsonCollection) {
+            List<QuizModel> quizzes = new List<QuizModel>();
+            foreach(var element in jsonCollection) {
+                quizzes.Add(new QuizModel {
+                    Titulo = element.Value["Titulo"].ToString(),
+                    Descripcion = element.Value["Descripcion"].ToString(),
+                    Dificultad = element.Value["Dificultad"].ToString(),
+                    Link = element.Value["Link"].ToString(),
+                });
+            }
+            return quizzes;
+        }
+
     }
 }

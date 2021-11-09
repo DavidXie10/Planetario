@@ -1,0 +1,41 @@
+﻿
+@{ 
+    ViewBag.Title = "Cuestionarios";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container" style="height: 100vh;">
+
+        <h1 class="text-start">Cuestionarios</h1>
+        <div class="card" style="padding: 15px;">
+            <div class="row">
+                @foreach (var quiz in ViewBag.Quizzes) {
+                <div class="col">
+                    <div class="card d-flex " style="margin: 25px 0 25px 0;">
+                        <div class="card-header">
+                            @quiz.Titulo <a href="#" class="badge rounded-pill bg-secondary">@quiz.Dificultad</a>
+                        </div>
+
+                        <div class="card-body">
+                            <p>
+                                @quiz.Descripcion <br />
+                            
+                            
+                            </p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="@quiz.Link" class="btn btn-info ">Ir a Cuestionario</a>
+                        </div>
+                    
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+        
+</body>
