@@ -18,6 +18,11 @@ namespace Planetarium.Controllers
             return View();
         }
 
+        public ActionResult Quiz(string url) {
+            ViewBag.Link = url;
+            return View();
+        }
+
         public ActionResult NewQuiz() {
             return View();
         }
