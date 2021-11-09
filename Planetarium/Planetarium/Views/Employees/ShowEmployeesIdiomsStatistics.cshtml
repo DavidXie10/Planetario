@@ -10,7 +10,7 @@
     <div class="container">
         <h1 style="margin:10px 0 20px 0;">Idiomas de los colaboradores</h1>
         <p style="margin:5px 0 15px 0;">Acá puede conocer los funcionarios que hablan los idiomas seleccionados.</p>
-        
+
         <div class="row">
             <div class="col">
                 <h5>Seleccione los idiomas</h5>
@@ -35,7 +35,10 @@
         </div>
 
         <div class="text-center" style="display:none" id="idiomsIntersectionContainer">
-            <button style="height: 3rem; width: 15rem; font-size: 1.3rem;" id="idiomsIntersectionButton" class="btn btn-success" onclick="changeModalByIdiomsIntersection()" value="0" data-toggle="modal" data-target="#employeesModal"> Ver funcionarios <span id="count"></span> </button>
+            <button style="height: 3rem; width: 25%; font-size: 1.3rem;" id="idiomsIntersectionButton" class="btn btn-success" onclick="changeModalByIdiomsIntersection()" value="0" data-toggle="modal" data-target="#employeesModal"> Ver funcionarios <span id="count"></span> </button>
+        </div>
+        <div id="notFoundMessage" style="display: none;">
+            <p style="color: black; text-align: center; font-size: 1.5rem">¡No existen funcionarios que hablen todos los idiomas seleccionados!</p>
         </div>
 
         <hr />
@@ -45,7 +48,7 @@
                 <h4 class="text-center"> Estadísticas de idiomas del planetario </h4>
             </div>
 
-            <div class="row card-body" id="allIdiomsListContainer" style="margin: 10px 0 0 0;" >
+            <div class="row card-body" id="allIdiomsListContainer" style="margin: 10px 0 0 0;">
                 <div class="col-6">
                     <ul id="leftColumn"></ul>
                 </div>
@@ -56,11 +59,6 @@
             </div>
         </div>
 
-        
-
-        <div id="notFoundMessage">
-            <p style="color: black; text-align: center; font-size: 1.5rem; display:none">¡No existen funcionarios que hablen todos los idiomas seleccionados!</p>
-        </div>
         <div class="modal fade" id="employeesModal" tabindex="-1" role="dialog" aria-labelledby="employeesModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -87,35 +85,33 @@
         const ALL_IDIOMS_LIST_CONTAINER = 'allIdiomsListContainer';
         const LEFT_COLUMN_LIST = 'leftColumn';
         const RIGHT_COLUMN_LIST = 'rightColumn';
-        const EMPLOYEES_MODAL = 'employeesModal';
         const EMPLOYEES_MODAL_BODY = 'employees-list';
         const INPUT_IDIOMS = 'inputLanguageString';
         const NOT_FOUND_MESSAGE = 'notFoundMessage';
         const IDIOMS_INTERSECTION_CONTAINER = 'idiomsIntersectionContainer';
-        const IDIOMS_INTERSECTION_BUTTON = 'idiomsIntersectionButton';
         const SPAN_COUNT = 'count';
 
-        let allEmployees = @Html.Raw(Json.Encode(@ViewBag.employees));
+        let allEmployees = @Html.Raw(Json.Encode(@ViewBag.Employees));
         let languagesCount = @Html.Raw(Json.Encode(@ViewBag.LanguagesCount));
         let allIdioms = @Html.Raw(Json.Encode(@ViewBag.Languages));
 
-        function updateIdiomsList() {
-            let selectedIdioms = document.getElementById(INPUT_IDIOMS).value;
-            selectedIdioms = String(selectedIdioms).replaceAll('_', ' ').substring(0, selectedIdioms.length - 1);
-            let idioms = selectedIdioms.split('|');
+        function updateIdiomsList() {            
+            let idioms = getSelectedIdioms();
             let employeesBySelectedIdioms = getEmployeesByIdioms(idioms);
             let employeesCount = Object.keys(employeesBySelectedIdioms).length;
-
+ 
             if (employeesCount > 0) {
                 hide(NOT_FOUND_MESSAGE);
                 show(IDIOMS_INTERSECTION_CONTAINER);
 
-                document.getElementById(SPAN_COUNT).innerHTML = '';
                 document.getElementById(SPAN_COUNT).innerHTML = ' (' + employeesCount + ')';
                 setModal(employeesBySelectedIdioms);
-            } else {
+            } else if (document.getElementById(INPUT_IDIOMS).value != "") {
                 hide(IDIOMS_INTERSECTION_CONTAINER);
                 show(NOT_FOUND_MESSAGE);
+            } else {
+                hide(IDIOMS_INTERSECTION_CONTAINER);
+                hide(NOT_FOUND_MESSAGE);
             }
         }
 
@@ -162,7 +158,7 @@
             for (index = initialIndex; index < lastIndex; ++index) {
                 let listItem = document.createElement("li");
                 let employeesByLanguage = getEmployeesByIdiom(allIdioms[index]);
-                let innerContent = allIdioms[index] + ': ' + getButton(allIdioms[index], Object.entries(employeesByLanguage).length);
+                let innerContent = '<p style="display: inline-block; width: 25%;">' + allIdioms[index] + ': ' + "</p>" + getButton(allIdioms[index], Object.entries(employeesByLanguage).length);
                 listItem.innerHTML = innerContent;
                 document.getElementById(column).appendChild(listItem);
             }
@@ -197,12 +193,16 @@
         }
 
         function changeModalByIdiomsIntersection() {
-            let selectedIdioms = document.getElementById(INPUT_IDIOMS).value;
-            selectedIdioms = String(selectedIdioms).replaceAll('_', ' ').substring(0, selectedIdioms.length - 1);
-            let idioms = selectedIdioms.split('|');
+            let idioms = getSelectedIdioms();
             setModal(getEmployeesByIdioms(idioms));
         }
 
+        function getSelectedIdioms() {
+            let selectedIdioms = document.getElementById(INPUT_IDIOMS).value;
+            selectedIdioms = String(selectedIdioms).replaceAll('_', ' ').substring(0, selectedIdioms.length - 1);
+            let idioms = selectedIdioms.split('|');
+            return idioms;
+        }
 
         function show(id) {
             document.getElementById(id).style.display = "block";

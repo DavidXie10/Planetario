@@ -82,7 +82,6 @@ namespace Planetarium.Handlers {
             return employeeCreated;
         }
 
-
         private void AddParametersToQueryCommand(SqlCommand queryCommand, EmployeeModel employee) {
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
             queryCommand.Parameters.AddWithValue("@ocupacion", employee.Occupation);

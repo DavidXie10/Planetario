@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Planetarium.Handlers;
 using Planetarium.Models;
 using System.IO;
@@ -112,7 +109,7 @@ namespace Planetarium.Controllers {
 
             ViewBag.Languages = languages;
             ViewBag.LanguagesCount = languages.Count;
-            ViewBag.employees = DataAccess.GetAllEmployees();
+            ViewBag.Employees = DataAccess.GetAllEmployees();
 
             return View();
         }
