@@ -9,22 +9,19 @@
 
 <body>
     <div class="container" style="height: 100vh;">
-
         <h1 class="text-start">Cuestionarios</h1>
         <div class="card" style="padding: 15px;">
-            <div class="row">
+            <div class="row d-flex">
                 @foreach (var quiz in ViewBag.Quizzes) {
-                <div class="col">
-                    <div class="card d-flex " style="margin: 25px 0 25px 0;">
+                <div class="col d-flex">
+                    <div class="card rounded-3  w-100 " style="margin:15px;">
                         <div class="card-header">
-                            @quiz.Titulo <a href="#" class="badge rounded-pill bg-secondary">@quiz.Dificultad</a>
+                            <h4><strong>@quiz.Titulo </strong>  </h4> <a href="#" class="badge rounded-pill bg-secondary">@quiz.Dificultad</a>
                         </div>
 
                         <div class="card-body">
                             <p>
                                 @quiz.Descripcion <br />
-                            
-                            
                             </p>
                         </div>
                         <div class="card-footer text-center">
