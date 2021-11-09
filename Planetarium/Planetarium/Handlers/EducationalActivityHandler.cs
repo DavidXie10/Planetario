@@ -233,33 +233,6 @@ namespace Planetarium.Handlers {
             return activitiesTitles;
         }
 
-        /*
-        public List<EducationalActivityEventModel> GetAllActivitiesParticipants() {
-
-            List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
-
-            string query =  " SELECT DISTINCT AE.tituloPK, EAE.fechaInicioPK," +
-                            " AE.nivelComplejidad, V.fechaNacimiento, COUNT(*) AS 'Participantes'" +
-                            " FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK = AE.cedulaFK" +
-                            " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK" +
-                            " JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK" +
-                            " JOIN Inscribirse I ON(I.tituloPKFK = AE.tituloPK AND EAE.fechaInicioPK = I.fechaInicioPKFK)" +
-                            " JOIN Visitante V ON V.cedulaPK = I.cedulaPKFK " +
-                            " WHERE EAE.estadoRevision = 1" +
-                            " GROUP BY AE.tituloPK, EAE.fechaInicioPK, AE.nivelComplejidad, V.fechaNacimiento" +
-                            " ORDER BY EAE.fechaInicioPK DESC";
-
-            DataTable resultingTable = CreateTableFromQuery(query);
-            foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
-                activities.Add(CreateInstanceEducationalParticipants(rawEducationalInfo));
-            }
-
-            LinkAllTargetAudience(activities);
-
-            return activities;
-        }
-        */
-
         public List<EducationalActivityEventModel> GetAllActivitiesParticipants() {
 
             List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
