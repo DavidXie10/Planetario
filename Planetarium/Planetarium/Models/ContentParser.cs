@@ -9,6 +9,21 @@ using System.Text;
 
 namespace Planetarium.Models {
     public class ContentParser {
+        //Write Methods
+        public bool WriteToJsonFile(string fileName, QuizModel quiz) {
+            bool success = false;
+            string jsonString = JoinNewData(fileName, quiz);
+            try {
+                File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName), jsonString);
+                success = true;
+            } catch(Exception e) {
+                Debug.WriteLine("Error occurred");
+            }
+            return success;
+        }
+               
+
+        //Read Methods
         private string[] ExtractRawContent(string fileName) {
             return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName));
         }
@@ -74,14 +89,36 @@ namespace Planetarium.Models {
             List<QuizModel> quizzes = new List<QuizModel>();
             foreach(var element in jsonCollection) {
                 quizzes.Add(new QuizModel {
-                    Titulo = element.Value["Titulo"].ToString(),
-                    Descripcion = element.Value["Descripcion"].ToString(),
-                    Dificultad = element.Value["Dificultad"].ToString(),
-                    Link = element.Value["Link"].ToString(),
+                    Titulo = element.Titulo,
+                    Descripcion = element.Descripcion,
+                    Dificultad = element.Dificultad,
+                    Link = element.Link
                 });
             }
             return quizzes;
         }
+
+        public string JoinNewData(string fileName, QuizModel quiz) {
+            string resultingJson = "";
+            try {
+                //Extracting the old values from the file
+                string[] rawJson = ExtractRawContent(fileName);
+                string json = ParseRawJson(rawJson);
+                dynamic jsonCollection = JsonConvert.DeserializeObject(json);
+                List<QuizModel> previousQuizzes = GetQuizzesFromJson(jsonCollection);
+
+                //Adding the new one
+                previousQuizzes.Add(quiz);
+
+                //Parsing the list to json
+                resultingJson = JsonConvert.SerializeObject(previousQuizzes);
+
+            } catch(Exception e) {
+                
+            }
+            return resultingJson;
+        }
+
 
     }
 }

@@ -13,7 +13,7 @@
         <div class="card" style="padding: 15px;">
             <div class="row d-flex">
                 @foreach (var quiz in ViewBag.Quizzes) {
-                <div class="col d-flex">
+                <div class="col-4 d-flex">
                     <div class="card rounded-3  w-100 " style="margin:15px;">
                         <div class="card-header">
                             <h4><strong>@quiz.Titulo </strong>  </h4> <a href="#" class="badge rounded-pill bg-secondary">@quiz.Dificultad</a>
@@ -25,12 +25,7 @@
                             </p>
                         </div>
                         <div class="card-footer text-center">
-                            @Html.ActionLink(
-  "Ir a Cuestionario",
-  "Quiz",                         // controller action
-  "Quiz",        // controller
-  new { url = quiz.Link },         // action parameters aka route values
-  new { @class = "btn btn-info" }) 
+                            @Html.ActionLink("Ir a Cuestionario", "Quiz", "Quiz", new { url = quiz.Link }, new { @class = "btn btn-info" })
                         </div>
                     
                     </div>

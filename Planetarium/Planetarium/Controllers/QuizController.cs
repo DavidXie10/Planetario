@@ -26,5 +26,24 @@ namespace Planetarium.Controllers
         public ActionResult NewQuiz() {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult SubmitQuiz(QuizModel quiz) {
+            ActionResult view = RedirectToAction("NewQuiz", "Quiz");
+            quiz.Dificultad = Request.Form["dificulty"];
+            ViewBag.SuccessOnCreation = false;
+            try {
+                ViewBag.SuccessOnCreation = parser.WriteToJsonFile("Quizzes.json", quiz);
+                if (ViewBag.SuccessOnCreation) {
+                    view = RedirectToAction("Success", "Home");
+                    ViewBag.Message = "El cuestionario fue agregado con exito";
+                    ModelState.Clear();
+                }
+            } catch {
+                ViewBag.Message = "Algo salió mal y no fue posible crear el formulario";
+            }
+            return view;
+        }
+
     }
 }
