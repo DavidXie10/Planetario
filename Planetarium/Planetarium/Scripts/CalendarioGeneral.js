@@ -35,7 +35,8 @@ $(document).ready(function () {
                                 title: event.Title,
                                 description: event.Description,
                                 start: event.Date,
-                                color: event.Color
+                                color: event.Color,
+                                link: event.Link
                             });
                     })
                     callback(loadedEvents);
@@ -53,26 +54,33 @@ $(document).ready(function () {
         console.log(event);
 
         //Initial id
-        let modalId = "#calendarEventModal";
         let titleContainerId = "#calendarEventLongTitle";
         let descriptionContainerId = "#calendarEventDescription";
+        let linkButtonId = "#linkButton";
         let buttonId = "#modalToggle";
 
         //Html elements
-        let modal = document.querySelector(modalId);
         let title = document.querySelector(titleContainerId);
         let description = document.querySelector(descriptionContainerId);
+        let linkButton = document.querySelector(linkButtonId);
         let button = document.querySelector(buttonId);
 
         //Adding info to modal
-        title.childNodes[0].textContent = event.title;
-        description.textContent = event.description;
-
+        title.innerHTML = "<strong>" + event.title + "</strong> <br /> <h5>" + event.start._i + "</h5>";
+        description.innerHTML = verifyField(event.description, "Sin descripción");
+        linkButton.setAttribute("href", verifyField(event.link, "/EducationalActivity/ListActivities"));
         //show modal
         button.click();
     }
 
- 
+    function verifyField(fieldValue, defaultValue) {
+        console.log("Field Value: " + fieldValue);
+        let verifiedField = fieldValue;
+        if (verifiedField == "" || verifiedField == null) {
+            verifiedField = defaultValue;
+        }
+        return verifiedField;
+    }
     
 
     let calendarphenomenon = $("#calendarioFenomenos").fullCalendar({
@@ -127,9 +135,6 @@ $(document).ready(function () {
 })
 
 
-function eventClicked(target) {
-    console.log(target);
-}
 
 
 function changeCalendar(target) {

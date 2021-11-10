@@ -137,10 +137,10 @@ namespace Planetarium.Handlers {
                             + " EAE.banderaVirtual,"
                             + " EAE.banderaPresencial,"
                             + " T.categoria"
-                            + " FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK  = AE.cedulaFK "
-                            + " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
-                            + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
-                            + " JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK"
+                            + " FROM Funcionario F RIGHT JOIN ActividadEducativa AE ON F.cedulaPK  = AE.cedulaFK "
+                            + " LEFT JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
+                            + " LEFT JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
+                            + " RIGHT JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK"
                             + " WHERE EAE.estadoRevision = " + state
                             + " ORDER BY EAE.fechaInicioPK DESC";
             

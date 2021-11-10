@@ -62,7 +62,6 @@ namespace Planetarium.Handlers {
             foreach (HtmlNode node in DOM.DocumentNode.SelectNodes("//article")) {
                 string innerText = node.ChildNodes[0].InnerText;
                 if (innerText.Contains(':')) {
-
                     string date = FormatDate(innerText.Split(':')[0]);
                     string title = innerText.Split(':')[1];
                     string description = node.ChildNodes[2].InnerText;
