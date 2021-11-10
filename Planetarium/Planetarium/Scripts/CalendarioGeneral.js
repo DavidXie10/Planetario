@@ -43,6 +43,9 @@ $(document).ready(function () {
                 }
                 
             })
+        },
+        eventClick: function clicked(event) {
+            alert("Titulo: " + event.title + "\n" + "Descripcion: " + event.description);
         }
     })
 
@@ -98,6 +101,10 @@ $(document).ready(function () {
 })
 
 
+function eventClicked(target) {
+    console.log(target);
+}
+
 
 function changeCalendar(target) {
 
@@ -133,7 +140,7 @@ function showInitialCalendar() {
 }
 
 function activeButton(button) {
-    button.classList.remove("bt");
+    button.classList.remove("btn-prima");
     button.classList.remove("btn-secondary");
     button.classList.add("btn-primary");
 }

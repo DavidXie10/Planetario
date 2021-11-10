@@ -222,7 +222,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\CalendarioFenomenos.js" />
+    <Content Include="Scripts\CalendarTest.js" />
     <Content Include="Scripts\CalendarioGeneral.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
     <Content Include="Scripts\Statistics.js" />
@@ -270,6 +270,7 @@
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
     <Content Include="Views\Calendar\Calendar.cshtml" />
     <Content Include="Views\Calendar\CreateEvent.cshtml" />
+    <Content Include="Views\Calendar\CalendarTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
