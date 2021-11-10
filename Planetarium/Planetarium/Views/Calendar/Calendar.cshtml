@@ -29,8 +29,31 @@
             </div>
         </div>
 
-        <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: auto; ">Añadir evento</a>
+        <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: auto; ">Añadir evento</a> <br />
+
+        <button style="display: none;" id="modalToggle" class="btn btn-success" onclick="" value="0" data-toggle="modal" data-target="#calendarEventModal"> Ver funcionarios <span id="count"></span> </button>
+
+        <div class="modal fade" id="calendarEventModal" tabindex="-1" role="dialog" aria-labelledby="calendarEventModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="calendarEventLongTitle">
+                            <strong>
+                                    
+                            </strong>
+                        </h3>
+                        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="calendarEventDescription">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    
 
     <script src="~/Scripts/CalendarioGeneral.js"></script>
 </body>

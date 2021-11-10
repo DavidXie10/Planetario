@@ -1,5 +1,4 @@
 ﻿
-
 $(document).ready(function () {
     let calendarGeneral = $("#calendarioGeneral").fullCalendar({
         //TODO: Fijarse si funciona en Chrome, en Edge si sale en español
@@ -45,9 +44,33 @@ $(document).ready(function () {
             })
         },
         eventClick: function clicked(event) {
-            alert("Titulo: " + event.title + "\n" + "Descripcion: " + event.description);
+            eventClicked(event);
         }
     })
+
+    function eventClicked(event) {
+
+        console.log(event);
+
+        //Initial id
+        let modalId = "#calendarEventModal";
+        let titleContainerId = "#calendarEventLongTitle";
+        let descriptionContainerId = "#calendarEventDescription";
+        let buttonId = "#modalToggle";
+
+        //Html elements
+        let modal = document.querySelector(modalId);
+        let title = document.querySelector(titleContainerId);
+        let description = document.querySelector(descriptionContainerId);
+        let button = document.querySelector(buttonId);
+
+        //Adding info to modal
+        title.childNodes[0].textContent = event.title;
+        description.textContent = event.description;
+
+        //show modal
+        button.click();
+    }
 
  
     
@@ -94,6 +117,9 @@ $(document).ready(function () {
                 }
 
             })
+        },
+        eventClick: function clicked(event) {
+            eventClicked(event);
         }
 
     })
