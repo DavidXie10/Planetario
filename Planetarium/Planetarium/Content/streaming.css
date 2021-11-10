@@ -1,0 +1,60 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: url("../images/PlanetariumUCR/streaming.jpg") no-repeat;
+    background-size: cover;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.contacto {
+    width: 80%;
+    background: rgb(0, 0, 0, 0.4);
+    margin: 0 auto;
+    margin-top: 4%;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.contacto h1 {
+    font-size: 30px;
+    letter-spacing: 3px;
+    font-weight: 100;
+    margin: 30px 0 20px;
+}
+
+.contacto h2 {
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: 100;
+    margin: 30px 0 50px;
+}
+
+.contacto p {
+    text-align: justify;
+}
+
+.contacto ul {
+    list-style: none;
+    margin-top: 20px;
+}
+
+    .contacto ul li {
+        display: inline-block;
+    }
+
+        .contacto ul li a {
+            color: white;
+            font-size: 50px;
+            padding: 10px 15px;
+        }
+
+            .contacto ul li a :hover {
+                color: #b9b9b9;
+            }
+
+.inicio {
+    font-size: 20px;
+    color: white;
+}

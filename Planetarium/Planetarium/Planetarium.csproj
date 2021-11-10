@@ -139,6 +139,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\StreamingController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -166,6 +167,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
     <Content Include="Data_Files\Vision.txt" />
@@ -208,6 +210,7 @@
     <Content Include="images\news\stringTheory.jpg" />
     <Content Include="images\PlanetariumUCR\activitiesImageHomePage.jpg" />
     <Content Include="images\PlanetariumUCR\planetarioUCR.jpg" />
+    <Content Include="images\PlanetariumUCR\streaming.jpg" />
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
@@ -261,6 +264,7 @@
     <Content Include="Views\EducationalActivity\ActivityInscription.cshtml" />
     <Content Include="Views\EducationalActivity\ActivityInscriptionForm.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
+    <Content Include="Views\Streaming\Streaming.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

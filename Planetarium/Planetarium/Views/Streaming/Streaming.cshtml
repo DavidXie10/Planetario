@@ -1,0 +1,52 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Required meta tags -->
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>En vivo</title>
+    <script src="https://kit.fontawesome.com/33782c52ea.js"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="~/Content/streaming.css" />
+</head>
+<body>
+    <section class="contacto">
+        <div>
+            <h1>Charla sobre planetas</h1>
+            <video id="vid" autoplay style="width: 65%; height: 30%"></video>
+            <script>
+                navigator.mediaDevices
+                    .getUserMedia({
+                        video: true,
+                        audio: false,
+                    })
+                    .then((stream) => {
+                        document.getElementById("vid").srcObject = stream;
+                    });
+            </script>
+        </div>
+        <ul>
+            <li>
+                <a href="https://www.facebook.com/MauricioRojasSegnini"
+                   target="_blank">
+                    <i class="fab fa-facebook-square"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/mauro_segnini17/?hl=es"
+                   target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="mailto: mauricio.rojassegnini@ucr.ac.cr" target="_blank">
+                    <i class="far fa-envelope"></i>
+                </a>
+            </li>
+        </ul>
+    </section>
+</body>
+</html>
