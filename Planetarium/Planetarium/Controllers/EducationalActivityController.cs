@@ -264,11 +264,12 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-        public ActionResult EducationalActivity(string activityTitle, List<string> activityTopics) {
+        public ActionResult EducationalActivity(string tempActivity) {
             ActionResult view;
             try {
-                EducationalActivityEventModel educationalActivity = ActivityDataAccess.GetAllApprovedActivities().Find(smodel => String.Equals(smodel.Title, activityTitle));
-                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activityTitle, activityTopics);
+                EducationalActivityEventModel activity = System.Web.Helpers.Json.Decode<EducationalActivityEventModel>(tempActivity);
+                EducationalActivityEventModel educationalActivity = ActivityDataAccess.GetAllApprovedActivities().Find(smodel => String.Equals(smodel.Title, activity.Title));
+                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activity.Title, activity.Topics);
                 if (educationalActivity == null) {
                     view = RedirectToAction("ListActivities");
                 } else {

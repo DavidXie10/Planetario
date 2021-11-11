@@ -86,19 +86,8 @@
                             <div id="@activity.Title " class="col-4 d-flex justify-content-evenly">
                                 <div id="@activity.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
                                     <div class="card-body d-flex flex-column">
-                                        <h2 class="text-start">@activity.Title  </h2>
-                                        <h9>Fecha: @activity.Date</h9>
-                                        <h4>Impartido por: @activity.Publisher </h4>
-                                        <p class="card-text" style="margin-top: 15px;">
-                                            @activity.Description
-                                        </p>
-                                        <h5>
-                                            Publicos Meta:
-                                            @foreach (var targetAudienceInstance in activity.TargetAudience) {
-                                                <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
-                                            }
-                                        </h5>
-                                        @Html.ActionLink("Ver más", "EducationalActivity", new { activityTitle = @activity.Title, activityTopics = activity.Topics }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
+                                        @{string tempTitle = activity.Title; }
+                                        @Html.ActionLink(tempTitle, "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
                                     </div>
                                 </div>
                             </div>
