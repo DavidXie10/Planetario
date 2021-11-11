@@ -8,14 +8,14 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="margin-bottom:15%; margin-top:5%">
         @using (Html.BeginForm("SubmitStreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div class="form">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="text-success text-center">Ingrese el link del Streaming</h4>
+                        <h4 class="text-success text-center">Ingrese el enlace del evento en vivo</h4>
                     </div>
                     <div class="card-body">     
                         <div class="row">
@@ -27,7 +27,9 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+                <div  style="text-align:right; margin-top:2%">
+                    <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+                </div>
             </div>
         }
     </div>
