@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.ModelBinding;
+using System.Web.Mvc;
 
 namespace Planetarium.Models {
     public class EducationalActivityEventModel : EducationalActivityModel {
@@ -34,3 +39,4 @@ namespace Planetarium.Models {
         public int RegisteredParticipants { get; set; }
     }
 }
+

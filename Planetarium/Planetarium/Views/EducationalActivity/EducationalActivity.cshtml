@@ -98,7 +98,7 @@
                                                 <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
                                             }
                                         </h5>
-                                        @Html.ActionLink("Ver más", "EducationalActivity", new { activityTitle = @activity.Title }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
+                                        @Html.ActionLink("Ver más", "EducationalActivity", new { activityTitle = @activity.Title, activityTopics = activity.Topics }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
                                     </div>
                                 </div>
                             </div>

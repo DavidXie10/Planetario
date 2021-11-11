@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using Planetarium.Models;
-using static Planetarium.Handlers.DatabaseHandler;
 
 namespace Planetarium.Handlers {
     public class EducationalActivityHandler : DatabaseClassificationsHandler {
@@ -135,7 +131,7 @@ namespace Planetarium.Handlers {
             return activities;
         }
 
-        public List<EducationalActivityEventModel> GetAllSimilarActivities(string title) {
+        public List<EducationalActivityEventModel> GetAllSimilarActivities(string title, List<string> topics) {
             List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
             List<EducationalActivityEventModel> similarActivities = new List<EducationalActivityEventModel>();
 
@@ -143,22 +139,33 @@ namespace Planetarium.Handlers {
 
             string[] compareWords = title.Split(' ');
             foreach (EducationalActivityEventModel activity in activities) {
-                if (activity.Title != title && CheckWords(compareWords, activity.Title)) {
-                    similarActivities.Add(activity);
+                if (activity.Title != title) { 
+                    if (CheckWords(compareWords, activity.Title)) {
+                        similarActivities.Add(activity);
+                    } else if (FindOneElementInCommon(activity.Topics, topics)) {
+                        similarActivities.Add(activity);
+                    }
                 }
             }
-
             return similarActivities;
         }
 
-        private bool CheckWords(string[] compareWords, string activityTitle) {
-            bool contains = false;
-            foreach (string word in compareWords) {
-                if (activityTitle.Contains(word) && (!IsArticle(word))) {
-                    contains = true;
+        private bool FindOneElementInCommon(List<string> listA, List<string> listB) {
+            foreach (string element in listA) {
+                if (listB.Contains(element)) {
+                    return true;
                 }
             }
-            return contains;
+            return false;
+        }
+
+        private bool CheckWords(string[] compareWords, string activityTitle) {
+            foreach (string word in compareWords) {
+                if (activityTitle.Contains(word) && (!IsArticle(word))) {
+                    return true;
+                }
+            }
+            return false;
         }
             
 

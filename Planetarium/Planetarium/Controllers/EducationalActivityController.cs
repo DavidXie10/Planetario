@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
-using System.IO;
 using MailKit.Net.Smtp;
 using MimeKit;
 
@@ -267,11 +264,11 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-        public ActionResult EducationalActivity(string activityTitle) {
+        public ActionResult EducationalActivity(string activityTitle, List<string> activityTopics) {
             ActionResult view;
             try {
                 EducationalActivityEventModel educationalActivity = ActivityDataAccess.GetAllApprovedActivities().Find(smodel => String.Equals(smodel.Title, activityTitle));
-                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activityTitle);
+                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activityTitle, activityTopics);
                 if (educationalActivity == null) {
                     view = RedirectToAction("ListActivities");
                 } else {
