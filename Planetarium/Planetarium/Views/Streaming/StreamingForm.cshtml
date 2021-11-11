@@ -9,7 +9,7 @@
 
 <body>
     <div class="container">
-        @using (Html.BeginForm("StreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("SubmitStreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div class="form">
