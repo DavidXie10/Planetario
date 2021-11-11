@@ -33,8 +33,6 @@ namespace Planetarium.Handlers {
             AddParametersToQueryCommandEvent(queryCommand, educationalActivity);
             success = DatabaseQuery(queryCommand);
 
-
-
             //TODO: hacer validaciones
             return success;
         }
@@ -64,8 +62,8 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@capacidad", educationalActivity.MaximumCapacity);
             queryCommand.Parameters.AddWithValue("@precio", educationalActivity.Price);
             queryCommand.Parameters.AddWithValue("@enlace", educationalActivity.Link);
-            queryCommand.Parameters.AddWithValue("@banderaVirtual", educationalActivity.VirtualAssistance);
-            queryCommand.Parameters.AddWithValue("@banderaPresencial", educationalActivity.OnSiteAssistance);
+            queryCommand.Parameters.AddWithValue("@banderaVirtual", educationalActivity.TypeOfAssistance != null && (educationalActivity.TypeOfAssistance == "Mixto" && educationalActivity.TypeOfAssistance == "Virtual"));
+            queryCommand.Parameters.AddWithValue("@banderaPresencial", educationalActivity.TypeOfAssistance != null && (educationalActivity.TypeOfAssistance == "Mixto" &&  educationalActivity.TypeOfAssistance == "Presencial"));
         }
 
         private bool InsertActivitiesTopics(EducationalActivityModel educationalActivity) {
@@ -118,13 +116,13 @@ namespace Planetarium.Handlers {
                             + " EAE.banderaVirtual,"
                             + " EAE.banderaPresencial,"
                             + " T.categoria"
-                            + " FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK  = AE.cedulaFK "
-                            + " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
-                            + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
-                            + " JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK"
+                            + " FROM Funcionario F RIGHT JOIN ActividadEducativa AE ON F.cedulaPK  = AE.cedulaFK "
+                            + " LEFT JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
+                            + " LEFT JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
+                            + " RIGHT JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK"
                             + " WHERE EAE.estadoRevision = " + state
                             + " ORDER BY EAE.fechaInicioPK DESC";
-            
+
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
                 activities.Add(CreateInstanceEducationalActivity(rawEducationalInfo));
@@ -135,6 +133,37 @@ namespace Planetarium.Handlers {
             LinkAllMaterialWithActivity(activities);
 
             return activities;
+        }
+
+        public List<EducationalActivityEventModel> GetAllSimilarActivities(string title) {
+            List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
+            List<EducationalActivityEventModel> similarActivities = new List<EducationalActivityEventModel>();
+
+            activities = GetAllApprovedActivities();
+
+            string[] compareWords = title.Split(' ');
+            foreach (EducationalActivityEventModel activity in activities) {
+                if (activity.Title != title && CheckWords(compareWords, activity.Title)) {
+                    similarActivities.Add(activity);
+                }
+            }
+
+            return similarActivities;
+        }
+
+        private bool CheckWords(string[] compareWords, string activityTitle) {
+            bool contains = false;
+            foreach (string word in compareWords) {
+                if (activityTitle.Contains(word) && (!IsArticle(word))) {
+                    contains = true;
+                }
+            }
+            return contains;
+        }
+            
+
+        private bool IsArticle(string word) {
+            return (word == "de" || word == "en" || word == "la" || word == "y" || word == "el" || word == "del");
         }
 
         private EducationalActivityEventModel CreateInstanceEducationalActivity(DataRow rawEducationalInfo) {
@@ -148,12 +177,15 @@ namespace Planetarium.Handlers {
                 Price = Convert.ToInt32(rawEducationalInfo["precio"]),
                 ComplexityLevel = Convert.ToString(rawEducationalInfo["nivelComplejidad"]),
                 State = Convert.ToString(rawEducationalInfo["estadoRevision"]),
-                VirtualAssistance = Convert.ToInt32(rawEducationalInfo["banderaVirtual"]),
-                OnSiteAssistance = Convert.ToInt32(rawEducationalInfo["banderaPresencial"]),           
+                TypeOfAssistance = GetTypeOfAssistence(Convert.ToBoolean(rawEducationalInfo["banderaVirtual"]), Convert.ToBoolean(rawEducationalInfo["banderaPresencial"])),
                 Link = Convert.ToString(rawEducationalInfo["enlace"]),
                 Publisher = Convert.ToString(rawEducationalInfo["publicador"]),
                 Category = Convert.ToString(rawEducationalInfo["categoria"])
             };
+        }
+
+        private string GetTypeOfAssistence(bool virtualFlag, bool onSiteFlag) {
+            return (virtualFlag && onSiteFlag) ? "Mixto" : (virtualFlag) ? "Virtual" : "Presencial";
         }
 
         private void LinkAllTargetAudience(List<EducationalActivityEventModel> activities) {

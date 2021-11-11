@@ -261,6 +261,7 @@
     <Content Include="Views\EducationalActivity\ActivityInscription.cshtml" />
     <Content Include="Views\EducationalActivity\ActivityInscriptionForm.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
+    <Content Include="Views\EducationalActivity\EducationalActivity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

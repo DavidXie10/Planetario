@@ -266,5 +266,23 @@ namespace Planetarium.Controllers {
 
             return view;
         }
+
+        public ActionResult EducationalActivity(string activityTitle) {
+            ActionResult view;
+            try {
+                EducationalActivityEventModel educationalActivity = ActivityDataAccess.GetAllApprovedActivities().Find(smodel => String.Equals(smodel.Title, activityTitle));
+                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activityTitle);
+                if (educationalActivity == null) {
+                    view = RedirectToAction("ListActivities");
+                } else {
+                    ViewBag.Activity = educationalActivity;
+                    ViewBag.SimilarActivities = similarActivities;
+                    view = View(educationalActivity);
+                }
+            } catch {
+                view = RedirectToAction("ListActivities");
+            }
+            return view;
+        }
     }
 }
