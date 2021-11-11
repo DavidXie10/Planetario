@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "liveStream";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="margin: 15px 0 15px 0;">Llene el siguiente cuestionario</h1>
+        <div class="card text-center">
+            @for (int index = 0; index < ViewBag.Streamings.Count && index < ViewBag.length; ++index)
+            {
+                <iframe width="560" height="315" src="@ViewBag.Streamings[index].Link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            }
+            </div>
+    </div>
+</body>

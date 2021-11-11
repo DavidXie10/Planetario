@@ -1,0 +1,34 @@
+﻿@model Planetarium.Models.StreamingModel
+@{
+    ViewBag.Title = "Agregar Streaming";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container">
+        @using (Html.BeginForm("StreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">Ingrese el link del Streaming</h4>
+                    </div>
+                    <div class="card-body">     
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Link)
+                                @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+            </div>
+        }
+    </div>
+</body>

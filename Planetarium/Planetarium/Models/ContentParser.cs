@@ -55,5 +55,62 @@ namespace Planetarium.Models {
             return content;
         }
 
+        public List<Model> GetContentsFromJson<Model>(string jsonFile, Func<dynamic, List<Model>> GetModelsFromJson) {
+            List<Model> models = new List<Model>();
+            try
+            {
+                string[] rawContent = ExtractRawContent(jsonFile);
+                string jsonString = ParseRawJson(rawContent);
+                dynamic jsonCollection = JsonConvert.DeserializeObject(jsonString);
+                models = GetModelsFromJson(jsonCollection);               
+            } catch{
+                models = null;
+            }
+            return models;
+        }
+
+        public List<StreamingModel> GetLiveStreamLinksFromJson(dynamic jsonCollection) {
+            List<StreamingModel> streamings = new List<StreamingModel>();
+            foreach (var element in jsonCollection) {
+                streamings.Add(new StreamingModel {
+                    Link = element.Link
+                });
+            }
+            return streamings;
+        }
+
+        public bool WriteToJsonFile<Model>(string fileName, Model model, Func<dynamic, List<Model>> GetModelsFromJson) {
+            bool success = false;
+            string jsonString = JoinNewData<Model>(fileName, model, GetModelsFromJson);
+            try {
+                File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName), jsonString);
+                success = true;
+            } catch {
+                Debug.WriteLine("Error occurred");
+            }
+            return success;
+        }
+
+        public string JoinNewData<Model>(string fileName, Model model, Func<dynamic, List<Model>> GetModelsFromJson) {
+            string resultingJson = "";
+            try {
+                //Extracting the old values from the file
+                string[] rawJson = ExtractRawContent(fileName);
+                string json = ParseRawJson(rawJson);
+                dynamic jsonCollection = JsonConvert.DeserializeObject(json);
+                List<Model> previousModels = GetModelsFromJson(jsonCollection);
+
+                //Adding the new one
+                previousModels.Add(model);
+
+                //Parsing the list to json
+                resultingJson = JsonConvert.SerializeObject(previousModels);
+
+            } catch {
+
+            }
+            return resultingJson;
+        }
+
     }
 }
