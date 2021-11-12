@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    
     <div class="container" style="margin-bottom:15%; margin-top:5%">
         @using (Html.BeginForm("SubmitStreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -15,9 +16,13 @@
             <div class="form">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="text-success text-center">Ingrese el enlace del evento en vivo</h4>
+                        <h4 class="text-success text-center">Ingrese el enlace del evento en vivo 
+                            <button type="button" class="btn btn-outline-primary alig" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </h4>
                     </div>
-                    <div class="card-body">     
+                    <div class="card-body">
                         <div class="row">
                             <div class="col">
                                 @Html.LabelFor(model => model.Link)
@@ -26,11 +31,35 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div  style="text-align:right; margin-top:2%">
-                    <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+                    <div style="text-align:right;">
+                        <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+                    </div>
                 </div>
             </div>
         }
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Agregar el enlace de la actividad en vivo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        El formulario acepta enlaces de transmisiones en vivo de la plataforma YouTube
+                    </p>
+                    <p>
+                        Puedes encontrar el tutorial en el siguiente enlace:
+                        <a href="~/Data_Files/Tutorial para agregar enlace a actividad en vivo.pdf" target="blank">Tutorial para agregar enlace a actividad en vivo.pdf</a>
+                    </p>
+                </div>
+                
+            </div>
+        </div>
     </div>
 </body>
