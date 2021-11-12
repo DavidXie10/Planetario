@@ -31,6 +31,7 @@
                             <p class="card-text" style="margin-top: 15px;">
                                 @activity.Description
                             </p>
+
                             <h5>
                                 Publicos Meta:
                                 @foreach (var targetAudienceInstance in activity.TargetAudience) {
@@ -47,25 +48,22 @@
     
 </div>
 <script>
-    function convertToString() {
-        let topics "|"
-    }
-
     async function main() {
         document.getElementById("search").addEventListener("keyup", search);
     }
 
     function search() {
         let text = document.getElementById("search").value;      
-        var activities = @Html.Raw(Json.Encode(ViewBag.activities))
-        matchAllTitles(activities, text)
+        var activities = @Html.Raw(Json.Encode(ViewBag.activities));
+        matchAllTitles(activities, text);
     }
+
     function matchAllTitles(activities,text) {
         var matching = new Boolean(false);
+        console.log("Text: " + text);
         for (var activity in activities) {
             matching = match(activities[activity].Title, text)
                 || match(activities[activity].Category, text)
-                || matchList(activities[activity].Topics, text)
                 || match(activities[activity].ComplexityLevel, text)
                 || matchList(activities[activity].TargetAudience, text);
             if (text == "")

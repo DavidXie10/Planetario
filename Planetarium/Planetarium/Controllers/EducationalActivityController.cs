@@ -269,7 +269,7 @@ namespace Planetarium.Controllers {
             try {
                 EducationalActivityEventModel activity = System.Web.Helpers.Json.Decode<EducationalActivityEventModel>(tempActivity);
                 EducationalActivityEventModel educationalActivity = ActivityDataAccess.GetAllApprovedActivities().Find(smodel => String.Equals(smodel.Title, activity.Title));
-                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activity.Title, activity.Topics);
+                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activity.Title, activity.Topics, activity.Category);
                 if (educationalActivity == null) {
                     view = RedirectToAction("ListActivities");
                 } else {

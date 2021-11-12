@@ -131,7 +131,7 @@ namespace Planetarium.Handlers {
             return activities;
         }
 
-        public List<EducationalActivityEventModel> GetAllSimilarActivities(string title, List<string> topics) {
+        public List<EducationalActivityEventModel> GetAllSimilarActivities(string title, List<string> topics, string category) {
             List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
             List<EducationalActivityEventModel> similarActivities = new List<EducationalActivityEventModel>();
 
@@ -140,9 +140,7 @@ namespace Planetarium.Handlers {
             string[] compareWords = title.Split(' ');
             foreach (EducationalActivityEventModel activity in activities) {
                 if (activity.Title != title) { 
-                    if (CheckWords(compareWords, activity.Title)) {
-                        similarActivities.Add(activity);
-                    } else if (FindOneElementInCommon(activity.Topics, topics)) {
+                    if (CheckWords(compareWords, activity.Title) || FindOneElementInCommon(activity.Topics, topics) || (activity.Category == category)) {
                         similarActivities.Add(activity);
                     }
                 }
