@@ -1,4 +1,4 @@
-﻿﻿.imageHomePage {
+﻿.imageHomePage {
     position: relative;
     width: 100%;
 }
@@ -11,7 +11,6 @@
 .image__imageActivities {
     display: block;
     width: 100%;
-
 }
 
 .image__overlay {
@@ -52,9 +51,9 @@
     opacity: 0.96;
 }
 
-.image__overlay:hover > * {
-    transform: translateY(0);
-}
+    .image__overlay:hover > * {
+        transform: translateY(0);
+    }
 
 .image__title {
     font-size: 2em;
