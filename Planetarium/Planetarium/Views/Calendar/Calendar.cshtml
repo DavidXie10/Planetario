@@ -1,64 +1,72 @@
-﻿<html>
-<head>
+﻿@{
+    string dataOriginGeneral = Url.Content("~/Calendar/GetEventsForGeneralCalendar");
+    string dataOriginPhenomenom = Url.Content("~/Calendar/GetEventsForPhenomenonCalendar");
+}
 
-    <script src="https://momentjs.com/downloads/moment.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.js'></script>
-    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css" />
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8' />
+    <link href='~/Libs/fullCalendar-5.0.1/main.css' rel='stylesheet' />
+
 </head>
 <body>
-    <div class="container" style="padding-top:10px">
+    <div class="container">
+        <div class="container" style="margin: 15px 0 0 0;">
+            <button id="generalCalToggle" class="btn btn-primary" style="background-color:#3a87ad" onclick="changeCalendar(this)">General</button>
+            <button id="phenomenomCalToggle" class="btn btn-secondary" style="background-color:#13967d" onclick="changeCalendar(this)">
+                Calendario Fenómenos
+            </button>
+            <hr />
+            <div id="generalContainer">
+                <div id='generalCalendar'></div>
+            </div>
 
-        <div>
-            <div id="controllerURLGeneral" data-request-url="@Url.Action("GetEventsForGeneralCalendar", "Calendar")" style="display: none;"></div>
-            <div id="controllerURLPhenomenon" data-request-url="@Url.Action("GetEventsForPhenomenonCalendar", "Calendar")" style="display: none;"></div>
-            <div class="container" style="padding: 20px 0 20px 0;">
+            <div id="phenomenonContainer">
+                <div id='phenomenomCalendar'></div>
+            </div>
 
-                <button id="generalCalToggle" class="btn btn-primary" style="background-color:#3a87ad" onclick="changeCalendar(this)">General</button>
-                <button id="phenomenomCalToggle" class="btn btn-secondary" style="background-color:#13967d" onclick="changeCalendar(this)">
-                    Calendario Fenómenos
-                </button>
-                <hr />
-                <div id="generalContainer">
-                    <div id='calendarioGeneral'></div>
+            <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: 10px; ">Añadir evento</a> <br />
+
+            <button style="display: none;" id="modalToggle" class="btn btn-success" onclick="" value="0" data-toggle="modal" data-target="#calendarEventModal"> Ver funcionarios <span id="count"></span> </button>
+
+            <div class="modal fade" id="calendarEventModal" tabindex="-1" role="dialog" aria-labelledby="calendarEventModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="calendarEventLongTitle">
+                                <strong>
+
+                                </strong>
+                            </h3>
+                            <button type="button" class="close btn btn-danger" style="margin: 1px;" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="calendarEventDescription">
+                        </div>
+                        <div class="card-footer text-center">
+                            <a id="linkButton" class="btn btn-success" href="#">Ver más</a>
+                        </div>
+
+                    </div>
                 </div>
-
-                <div id="phenomenonContainer">
-                    <div id='calendarioFenomenos'></div>
-                </div>
-
             </div>
         </div>
 
-        <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: auto; ">Añadir evento</a> <br />
-
-        <button style="display: none;" id="modalToggle" class="btn btn-success" onclick="" value="0" data-toggle="modal" data-target="#calendarEventModal"> Ver funcionarios <span id="count"></span> </button>
-
-        <div class="modal fade" id="calendarEventModal" tabindex="-1" role="dialog" aria-labelledby="calendarEventModalTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="calendarEventLongTitle">
-                            <strong>
-                                    
-                            </strong>
-                        </h3>
-                        <button type="button" class="close btn btn-danger" style="margin: 1px;" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body" id="calendarEventDescription">
-                    </div>
-                    <div class="card-footer text-center">
-                        <a id="linkButton" class="btn btn-success" href="#">Ver más</a>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
     </div>
 
-    
 
-    <script src="~/Scripts/CalendarioGeneral.js"></script>
+
+
+    <script src='~/Libs/fullCalendar-5.0.1/main.js'></script>
+    <script src="~/Libs/fullCalendar-5.0.1/es-us.js"></script>
+    <script src="~/Libs/fullCalendar-5.0.1/GeneralCalendar.js"></script>
+
+    <script>
+        const calendarInit = new CalendarInitializer("@dataOriginGeneral", "@dataOriginPhenomenom");
+    </script>
+
 </body>
 </html>

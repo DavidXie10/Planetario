@@ -30,6 +30,18 @@ namespace Planetarium.Handlers {
             {"Dec", 12}
         };
 
+        static Dictionary<int, string> DAYS = new Dictionary<int, string> {
+            {1, "01" },
+            {2, "02" },
+            {3, "03" },
+            {4, "04" },
+            {5, "05" },
+            {6, "06" },
+            {7, "07" },
+            {8, "08" },
+            {9, "09" }
+        };
+
 
         public List<EventModel> getRssFeed(string url = "defaultURL") {
             List<EventModel> feed = new List<EventModel>();
@@ -104,6 +116,12 @@ namespace Planetarium.Handlers {
                 dayToInt = Convert.ToInt32(day.Split('/')[1]);
             } else {
                 dayToInt = Convert.ToInt32(day);
+            }
+
+            if(dayToInt < 10) {
+                day = DAYS[dayToInt];
+            } else {
+                day = dayToInt.ToString();
             }
 
             //Check the year of the event

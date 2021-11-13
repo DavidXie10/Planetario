@@ -16,14 +16,6 @@ namespace Planetarium.Controllers  {
             return View();
         }
 
-        public ActionResult CalendarTest() {
-            /**
-             * Esta es la prueba del calendario. Si ven este comentario pueden quitar
-             * esta View sin ningun problema
-            */
-
-            return View();
-        }
 
         public JsonResult GetEventsForGeneralCalendar() {
             List<EventModel> eventsList = eventHandler.GetEventsFromFeed();
