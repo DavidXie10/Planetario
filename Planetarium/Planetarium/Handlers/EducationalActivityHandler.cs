@@ -163,7 +163,7 @@ namespace Planetarium.Handlers {
             string[] compareWords = title.Split(' ');
             foreach (EducationalActivityEventModel activity in activities) {
                 if (activity.Title != title) { 
-                    if (CheckWords(compareWords, activity.Title) || FindOneElementInCommon(activity.Topics, topics) || (activity.Category == category)) {
+                    if ((activity.ActivityType == "Charla" || activity.ActivityType == "Taller") && (CheckWords(compareWords, activity.Title) || FindOneElementInCommon(activity.Topics, topics) || (activity.Category == category))) {
                         similarActivities.Add(activity);
                     }
                 }

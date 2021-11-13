@@ -21,7 +21,7 @@
     </div>
     <div class="row d-flex">
         @foreach (var activity in ViewBag.activities) {
-            if (activity.ActivityType == "Charla" || activity.ActivityType == "Taller") {
+            if (activity.State == "1" && (activity.ActivityType == "Charla" || activity.ActivityType == "Taller")) {
                 <div id="@activity.Title " class="col-4 d-flex justify-content-evenly">
                     <div id="@activity.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
                         <div class="card-body d-flex flex-column">
@@ -38,28 +38,13 @@
                                     <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
                                 }
                             </h5>
-                            <p class="card-text" style="margin-top: 15px;">
-                                @activity.Description
-                            </p>
-
-
-                            @if (activity.RefEducationalMaterial.Count > 0) {
-                                <p class="card-text" style="margin-top: 15px;">
-                                    <h5>Materiales: </h5>
-                                    @foreach (var material in activity.RefEducationalMaterial) {
-                                        <a href="~/Educational_Material/@material" download="@material"> <i class="fas fa-download"></i> @material</a>
-                                        <br />
-                                    }
-                                </p>
-                            }
-
+                            @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
                         </div>
                     </div>
                 </div>
             }
         }
     </div>
-    
 
     <div class="card" style="margin: 50px 0 50px 0;">
         <div class="card-header">
@@ -68,7 +53,7 @@
         <div class="card-body">
             <div class="row">
                 @foreach (var activity in ViewBag.activities) {
-                    if (activity.ActivityType != "charla" && activity.ActivityType != "taller") {
+                    if (activity.ActivityType != "Charla" && activity.ActivityType != "Taller") {
                         <div id="@activity.Title" class="col-6 ">
                             <div id="@activity.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
                                 <div class="card-header text-center">
@@ -91,27 +76,6 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-header"><h3>Otras actividades </h3></div>
-        <div class="row d-flex">
-            @foreach (var element in ViewBag.EventsToCal) {
-                <div class="col-4 d-flex">
-                    <div class="card rounded-3 bg-light" style="margin: 15px;">
-                        <div class="card-header">@element.Date | <strong>@element.Title</strong>  <br /></div>
-                        <div class="card-body ">
-                            <p>
-                                @element.Description
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="@element.Link" class="btn btn-info">Ir a Actividad</a>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-
 </div>
 <script>
     async function main() {
@@ -119,7 +83,7 @@
     }
 
     function search() {
-        let text = document.getElementById("search").value;      
+        let text = document.getElementById("search").value;
         var activities = @Html.Raw(Json.Encode(ViewBag.activities));
         matchAllTitles(activities, text);
     }
@@ -137,7 +101,7 @@
             else if (matching)
                 show(activities[activity].Title)
             else
-                hide(activities[activity].Title)       
+                hide(activities[activity].Title)
         }
         return matching;
     }
