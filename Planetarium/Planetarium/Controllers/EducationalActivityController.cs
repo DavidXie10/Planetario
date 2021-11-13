@@ -5,6 +5,7 @@ using Planetarium.Handlers;
 using Planetarium.Models;
 using MailKit.Net.Smtp;
 using MimeKit;
+using System.Linq;
 
 namespace Planetarium.Controllers {
     public class EducationalActivityController : Controller {
@@ -290,14 +291,14 @@ namespace Planetarium.Controllers {
             return view;
         }
         public ActionResult ShowStatisticsInvolvement() {            
-            Dictionary<string, int> categoriesRank = DataAccess.FillRank("categoria","Categoria");
-            Dictionary<string, int> topicsRank = DataAccess.FillRank("nombrePK", "Topico");
+            Dictionary<string, int> categoriesRank = ActivityDataAccess.FillRank("categoria","Categoria");
+            Dictionary<string, int> topicsRank = ActivityDataAccess.FillRank("nombrePK", "Topico");
 
             List<string> categories = categoriesRank.Keys.ToList<string>();
             Dictionary<string, string[]> topicsByCategory = new Dictionary<string, string[]>();
             string[] topics = {};
             foreach (string category in categories) {
-                topics = DataAccess.GetTopicsByCategory(category).ToArray();
+                topics = ActivityDataAccess.GetTopicsByCategory(category).ToArray();
                 topicsByCategory.Add(category, topics);
             }
 
@@ -310,7 +311,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ShowStatistics() {
-            ViewBag.activities = DataAccess.GetAllActivitiesParticipants();
+            ViewBag.activities = ActivityDataAccess.GetAllActivitiesParticipants();
             return View();
         }
     }
