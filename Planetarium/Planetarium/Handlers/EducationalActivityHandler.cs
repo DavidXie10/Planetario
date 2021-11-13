@@ -26,7 +26,7 @@ namespace Planetarium.Handlers {
             }
 
             string query = "INSERT INTO EventoActividadEducativa (tituloPKFK, fechaInicioPK, capacidadMaxima, precio, estadoRevision, banderaVirtual, enlace, banderaPresencial) " +
-                    "VALUES(@tituloPK,@fecha, @capacidad, @precio, @estado, @banderaVirtual, @enlace, @banderaPresencial)";
+                            "VALUES(@tituloPK,@fecha, @capacidad, @precio, @estado, @banderaVirtual, @enlace, @banderaPresencial)";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
@@ -47,17 +47,9 @@ namespace Planetarium.Handlers {
             AddParametersToQueryCommand(queryCommand, educationalActivity);
 
             success = DatabaseQuery(queryCommand);
-            success = InsertActivitiesTopics(educationalActivity);
-            success = InsertActivitiesAudiences(educationalActivity);
-
-            query = "INSERT INTO EventoActividadEducativa (tituloPKFK, fechaInicioPK, capacidadMaxima, precio, estadoRevision, banderaVirtual, enlace, banderaPresencial) " +
-                    "VALUES(@tituloPK,@fecha, @capacidad, @precio, @estado, @banderaVirtual, @enlace, @banderaPresencial)";
-            queryCommand = new SqlCommand(query, connection);
-            AddParametersToQueryCommandEvent(queryCommand, educationalActivity);
-            success = DatabaseQuery(queryCommand);
 
             //TODO: hacer validaciones
-            if(educationalActivity.ActivityType == "charla" || educationalActivity.ActivityType == "taller") {
+            if(educationalActivity.ActivityType == "Charla" || educationalActivity.ActivityType == "Taller") {
                 success = InsertActivitiesTopics(educationalActivity);
                 success = InsertActivitiesAudiences(educationalActivity);
             }
@@ -85,7 +77,7 @@ namespace Planetarium.Handlers {
         private void AddParametersToQueryCommandEvent(SqlCommand queryCommand, EducationalActivityEventModel educationalActivity) {
             queryCommand.Parameters.AddWithValue("@tituloPK", educationalActivity.Title);
             queryCommand.Parameters.AddWithValue("@fecha", educationalActivity.Date);
-            queryCommand.Parameters.AddWithValue("@estado", (educationalActivity.ActivityType == "charla" || educationalActivity.ActivityType == "taller") ? ON_REVIEW : APPROVED);
+            queryCommand.Parameters.AddWithValue("@estado", (educationalActivity.ActivityType == "Charla" || educationalActivity.ActivityType == "Taller") ? ON_REVIEW : APPROVED);
             queryCommand.Parameters.AddWithValue("@capacidad", educationalActivity.MaximumCapacity);
             queryCommand.Parameters.AddWithValue("@precio", educationalActivity.Price);
             queryCommand.Parameters.AddWithValue("@enlace", educationalActivity.Link == null ? "" : educationalActivity.Link);
@@ -251,9 +243,6 @@ namespace Planetarium.Handlers {
             return (virtualFlag && onSiteFlag) ? "Mixto" : (virtualFlag) ? "Virtual" : "Presencial";
         }
 
-        private string GetTypeOfAssistence(bool virtualFlag, bool onSiteFlag) {
-            return (virtualFlag && onSiteFlag) ? "Mixto" : (virtualFlag) ? "Virtual" : "Presencial";
-        }
 
         private void LinkAllTargetAudience(List<EducationalActivityEventModel> activities) {
             foreach (EducationalActivityEventModel activity in activities) {

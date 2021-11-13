@@ -71,7 +71,7 @@ namespace Planetarium.Controllers {
             try {
                 ViewBag.SuccessOnCreation = this.ActivityDataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
-                    SendEmail(0);
+                    //SendEmail(0);
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
@@ -130,7 +130,7 @@ namespace Planetarium.Controllers {
             RssFeedHandler rssHandler = new RssFeedHandler();
             List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             ViewBag.EventsToCal = eventFeed;
-            ViewBag.activities = DataAccess.GetAllApprovedActivities();
+            ViewBag.activities = ActivityDataAccess.GetAllApprovedActivities();
             return View();
         }
 
@@ -150,7 +150,7 @@ namespace Planetarium.Controllers {
                 ViewBag.SuccessOnCreation = ActivityDataAccess.UpdateActivityState(title, state);
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
-                    SendEmail(state);
+                    //SendEmail(state);
                 }
             } catch {
                 TempData["Error"] = true;
