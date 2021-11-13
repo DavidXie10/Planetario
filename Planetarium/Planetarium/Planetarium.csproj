@@ -48,6 +48,9 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.10.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\packages\Portable.BouncyCastle.1.8.10\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.37.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.37\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="MailKit, Version=2.15.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.2.15.0\lib\net47\MailKit.dll</HintPath>
     </Reference>
@@ -133,6 +136,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
     <Compile Include="Controllers\FrequentlyQuestionController.cs" />
@@ -148,12 +152,16 @@
     <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Handlers\EmployeesHandler.cs" />
+    <Compile Include="Handlers\VisitorHandler.cs" />
+    <Compile Include="Handlers\RssFeedHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
     <Compile Include="Models\EducationalActivityEventModel.cs" />
     <Compile Include="Models\EducationalActivityModel.cs" />
+    <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +218,11 @@
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
+    <Content Include="Libs\fontawesome-5.15.4\all.css" />
+    <Content Include="Libs\fullCalendar-5.0.1\es-us.js" />
+    <Content Include="Libs\fullCalendar-5.0.1\GeneralCalendar.js" />
+    <Content Include="Libs\fullCalendar-5.0.1\main.css" />
+    <Content Include="Libs\fullCalendar-5.0.1\main.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -259,7 +272,12 @@
     <Content Include="Views\Employees\ListEmployees.cshtml" />
     <Content Include="Views\Employees\CreateEmployee.cshtml" />
     <Content Include="Views\EducationalMaterial\SubmitEducationalMaterial.cshtml" />
+    <Content Include="Views\EducationalActivity\ActivityInscription.cshtml" />
+    <Content Include="Views\EducationalActivity\ActivityInscriptionForm.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
+    <Content Include="Views\EducationalActivity\EducationalActivity.cshtml" />
+    <Content Include="Views\Calendar\Calendar.cshtml" />
+    <Content Include="Views\Calendar\CreateEvent.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatisticsInvolvement.cshtml" />
     <Content Include="Views\Employees\ShowEmployeesIdiomsStatistics.cshtml" />
   </ItemGroup>

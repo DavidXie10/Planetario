@@ -1,28 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
-using System.IO;
 using MailKit.Net.Smtp;
 using MimeKit;
 
 namespace Planetarium.Controllers {
     public class EducationalActivityController : Controller {
-        public EducationalActivityHandler DataAccess { get; set; }
+        public EducationalActivityHandler ActivityDataAccess { get; set; }
+        public VisitorHandler VisitorDataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
+        private const int DEFAULT = 0;
+        private const int NOT_REGISTERED = 1;
+        private const int REGISTERED = 2;
+
         public EducationalActivityController() {
-            DataAccess = new EducationalActivityHandler();
+            ActivityDataAccess = new EducationalActivityHandler();
+            VisitorDataAccess = new VisitorHandler();
             ContentParser = new ContentParser();
         }
 
         public JsonResult GetTopicsList(string category) {
             List<SelectListItem> topicsList = new List<SelectListItem>();
 
-            List<string> topicsFromCategory = DataAccess.GetTopicsByCategory(category);
+            List<string> topicsFromCategory = ActivityDataAccess.GetTopicsByCategory(category);
 
             foreach (string topic in topicsFromCategory) {
                 topicsList.Add(new SelectListItem { Text = topic, Value = topic });
@@ -55,7 +58,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ProposeEducationalActivity() {
-            ViewData["category"] = GetDropdown(DataAccess.GetAllCategories().ToArray());
+            ViewData["category"] = GetDropdown(ActivityDataAccess.GetAllCategories().ToArray());
             LoadDropDownList();
             return View();
         }
@@ -66,7 +69,7 @@ namespace Planetarium.Controllers {
             LoadEducationalActivityWithForm(educationalActivity);
             ViewBag.SuccessOnCreation = false;
             try {
-                ViewBag.SuccessOnCreation = this.DataAccess.ProposeEducationalActivity(educationalActivity);
+                ViewBag.SuccessOnCreation = this.ActivityDataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
                     //SendEmail(0);
                     ModelState.Clear();
@@ -128,12 +131,15 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ListActivities() {
-            ViewBag.activities = DataAccess.GetAllApprovedActivities();
+            RssFeedHandler rssHandler = new RssFeedHandler();
+            List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
+            ViewBag.EventsToCal = eventFeed;
+            ViewBag.activities = ActivityDataAccess.GetAllApprovedActivities();
             return View();
         }
 
         public ActionResult ActivitiesApprobation() {
-            ViewBag.activities = DataAccess.GetAllOnRevisionActivities();
+            ViewBag.activities = ActivityDataAccess.GetAllOnRevisionActivities();
             return View();
         }
 
@@ -145,10 +151,10 @@ namespace Planetarium.Controllers {
 
             ViewBag.SuccessOnCreation = false;
             try {   
-                ViewBag.SuccessOnCreation = DataAccess.UpdateActivityState(title, state);
+                ViewBag.SuccessOnCreation = ActivityDataAccess.UpdateActivityState(title, state);
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
-                    SendEmail(state);
+                    //SendEmail(state);
                 }
             } catch {
                 TempData["Error"] = true;
@@ -157,11 +163,132 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-        public ActionResult ShowStatistics() {
-            ViewBag.activities = DataAccess.GetAllActivitiesParticipants();
+        private List<SelectListItem> LoadLanguages() {
+            dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
+            string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
+
+            List<SelectListItem> countries = new List<SelectListItem>();
+            foreach (string country in countriesFromJson) {
+                countries.Add(new SelectListItem { Text = country, Value = country });
+            }
+
+            return countries;
+        }
+
+        private List<SelectListItem> LoadEducationalLevels() {
+            dynamic JsonContentCountries = ContentParser.ParseFromJSON("EducationalActivity.json");
+            string[] educationalLevelsFromJson = JsonContentCountries.NivelEducativo.ToObject<string[]>();
+
+            List<SelectListItem> educationalLevels = new List<SelectListItem>();
+            foreach (string educationalLevel in educationalLevelsFromJson) {
+                educationalLevels.Add(new SelectListItem { Text = educationalLevel, Value = educationalLevel });
+            }
+
+            return educationalLevels;
+        }
+
+        public ActionResult ActivityInscription(string activityTitle, string activityDate, int register = DEFAULT) {
+            Dictionary<int, string> errorMessages = new Dictionary<int, string>() {
+                {DEFAULT, "" } , {NOT_REGISTERED, "Cédula no registrada. Por favor, intente de nuevo o regístrese"}, {REGISTERED, "Ya está registrado en la actividad" }
+            };
+            ViewBag.ActivityTitle = activityTitle;
+            ViewBag.ActivityDate = activityDate;
+            ViewBag.Register = register;
+            ViewBag.ErrorMessages = errorMessages;
+
             return View();
         }
 
+        [HttpPost]
+        public ActionResult SubmitActivityInscription(VisitorModel visitor) {
+            string date = Request.Form["date"];
+            string title = Request.Form["title"];
+            ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date});
+          
+            ViewBag.SuccessOnCreation = false;
+            TempData["Error"] = true;
+            TempData["WarningMessage"] = "";
+
+            try {
+                int register = VisitorDataAccess.CheckVisitor(visitor.Dni) ? (VisitorDataAccess.CheckVisitor(visitor.Dni, title, date) ? REGISTERED : DEFAULT) : NOT_REGISTERED;
+                 
+                if (register == DEFAULT) {
+                    ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor, title, date);
+                    if (ViewBag.SuccessOnCreation) {
+                        ModelState.Clear();
+                        TempData["Error"] = false;
+                        view = RedirectToAction("Success", "Home");
+                    }    
+                } else {
+                    TempData["Error"] = false;
+                    view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date, register = register });
+                }
+            } catch {
+                TempData["WarningMessage"] = "Algo salió mal";
+            }
+
+            return view;
+        }
+
+        private List<SelectListItem> LoadGenders() {
+            List<SelectListItem> genders = new List<SelectListItem>();
+            genders.Add(new SelectListItem { Text = "Hombre", Value = "M" });
+            genders.Add(new SelectListItem { Text = "Mujer", Value = "F" });
+            genders.Add(new SelectListItem { Text = "Prefiero no decir", Value = "O" });
+            return genders;
+        }
+
+        public ActionResult ActivityInscriptionForm(string activityTitle, string activityDate) {
+            ViewBag.Countries = LoadLanguages();
+            ViewBag.ActivityTitle = activityTitle;
+            ViewBag.ActivityDate = activityDate;
+            ViewBag.EducationalLevels = LoadEducationalLevels();
+            ViewBag.GenderOptions = LoadGenders();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SubmitActivityInscriptionForm(VisitorModel visitor) {
+            ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity");
+            string date = Request.Form["date"];
+            string title = Request.Form["title"];
+            ViewBag.SuccessOnCreation = false;
+            TempData["Error"] = true;
+            TempData["WarningMessage"] = "";
+
+            try {
+                ViewBag.SuccessOnCreation = VisitorDataAccess.RegisterVisitor(visitor, title, date);
+                if (ViewBag.SuccessOnCreation) {
+                    TempData["Error"] = false;
+                    ModelState.Clear();
+                    view = RedirectToAction("Success", "Home");
+                }
+            } catch (Exception e) {
+                TempData["WarningMessage"] = e;
+            }
+
+            return view;
+        }
+
+        public ActionResult EducationalActivity(string tempActivity) {
+            ActionResult view;
+            try {
+                EducationalActivityEventModel activity = System.Web.Helpers.Json.Decode<EducationalActivityEventModel>(tempActivity);
+                EducationalActivityEventModel educationalActivity = ActivityDataAccess.GetAllApprovedActivities().Find(smodel => String.Equals(smodel.Title, activity.Title));
+                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activity.Title, activity.Topics, activity.Category);
+                if (educationalActivity == null) {
+                    view = RedirectToAction("ListActivities");
+                } else {
+                    ViewBag.Activity = educationalActivity;
+                    ViewBag.SimilarActivities = similarActivities;
+                    view = View(educationalActivity);
+                }
+            } catch {
+                view = RedirectToAction("ListActivities");
+            }
+            return view;
+        }
         public ActionResult ShowStatisticsInvolvement() {            
             Dictionary<string, int> categoriesRank = DataAccess.FillRank("categoria","Categoria");
             Dictionary<string, int> topicsRank = DataAccess.FillRank("nombrePK", "Topico");
@@ -179,6 +306,11 @@ namespace Planetarium.Controllers {
             ViewData["category"] = GetDropdown(categories.ToArray());
             ViewBag.TopicsByCategory = topicsByCategory;
 
+            return View();
+        }
+
+        public ActionResult ShowStatistics() {
+            ViewBag.activities = DataAccess.GetAllActivitiesParticipants();
             return View();
         }
     }

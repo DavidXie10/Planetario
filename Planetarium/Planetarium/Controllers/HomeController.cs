@@ -11,6 +11,14 @@ namespace Planetarium.Controllers {
         public ActionResult Index() {
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
+            RssFeedHandler rssHandler = new RssFeedHandler();
+            
+            List<EventModel> feed = rssHandler.getRssFeed();
+            List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
+            
+            ViewBag.Events = feed;
+            ViewBag.EventsToCal = eventFeed;
+
             ViewBag.Us = WhoWeAre();
             ViewBag.Activities = educationalActivityHandler.GetAllApprovedActivities();
             ViewBag.News = dataAccess.GetAllNews();
@@ -50,5 +58,6 @@ namespace Planetarium.Controllers {
             ViewBag.Title = "Success";
             return View();
         }
+
     }
 }

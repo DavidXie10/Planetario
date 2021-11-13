@@ -40,7 +40,7 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.Topics)
                                 <br />
-                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value)"})
+                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value)" })
                                 @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.ActivityType)
                                 @Html.DropDownListFor(model => model.ActivityType, ActivitiesTypesItems, "- Sin selección -", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ActivityType, "", new {@class = "text-danger"})
+                                @Html.ValidationMessageFor(model => model.ActivityType, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="row" style="margin-top: 15px;">
@@ -138,6 +138,15 @@
     <script type="text/javascript">
         let multiSelectTopics = new GenericMultiSelect("#topicSelect", "#topicsContainer", "#inputTopicString");
         let multiSelectTargetAudience = new GenericMultiSelect("#audienceSelect", "#audienceContainer", "#inputAudienceString");
+    </script>
+    <script type="text/javascript">
+        let currentDate = new Date();
+        let month = currentDate.getMonth() + 1;
+        let currentDay = currentDate.getDate();
+        let day = currentDay / 10 >= 1 ? '' : '0';
+        day += currentDay;
+        document.getElementById("Date").setAttribute("min", currentDate.getFullYear() + "-" + month + "-" + day);
+        document.getElementById("Date").setAttribute("class", "form-control");
     </script>
 
 </body>

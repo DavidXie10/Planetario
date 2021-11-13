@@ -15,6 +15,7 @@ namespace Planetarium.Models {
         public string LastName { get; set; }
 
         [Display(Name = "Correo")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Mail { get; set; }
 
         [Required(ErrorMessage = "Es necesario que seleccione una opción")]

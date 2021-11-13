@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
+
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
-    <link rel="stylesheet" type="text/css" href="/profileStyles.css" />
-    <script type="text/javascript" src="~/Scripts/profilePage.js"></script>
     <script src="https://kit.fontawesome.com/9ca089ca02.js" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="/Home/Index">
-            <img src="~/images/logo.svg" width="60" height="60" alt="">
-            Planetario UCR
+            <img src="~/images/logotipo.jpeg" width="100" height="70" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -157,7 +155,7 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")*@
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
     
