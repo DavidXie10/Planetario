@@ -118,7 +118,8 @@ namespace Planetarium.Handlers {
                             + " EAE.enlace,"
                             + " EAE.banderaVirtual,"
                             + " EAE.banderaPresencial,"
-                            + " T.categoria"
+                            + " T.categoria,"
+                            + " AE.rutasMaterialesEducativos"
                             + " FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK  = AE.cedulaFK "
                             + " JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK"
                             + " JOIN Topico T ON AEPT.nombreTopicoPKFK = T.nombrePK"
@@ -133,7 +134,6 @@ namespace Planetarium.Handlers {
 
             LinkAllTargetAudience(activities);
             LinkAllFeatureWithTopics(CreateDictionary(activities));
-            LinkAllMaterialWithActivity(activities);
 
             return activities;
         }
@@ -153,8 +153,9 @@ namespace Planetarium.Handlers {
                 OnSiteAssistance = Convert.ToInt32(rawEducationalInfo["banderaPresencial"]),           
                 Link = Convert.ToString(rawEducationalInfo["enlace"]),
                 Publisher = Convert.ToString(rawEducationalInfo["publicador"]),
-                Category = Convert.ToString(rawEducationalInfo["categoria"])
-            };
+                Category = Convert.ToString(rawEducationalInfo["categoria"]),
+                RefEducationalMaterial = ContentParser.GetListFromString(Convert.ToString(rawEducationalInfo["rutasMaterialesEducativos"]))
+        };
         }
 
         private void LinkAllTargetAudience(List<EducationalActivityEventModel> activities) {
@@ -187,30 +188,10 @@ namespace Planetarium.Handlers {
             return tempDictionary;
         }
 
-        private void LinkAllMaterialWithActivity(List<EducationalActivityEventModel> activities) {
-            foreach (EducationalActivityEventModel activity in activities) {
-                DataTable resultingTable = GetMaterialPerActivity(activity.Title);
-                if (resultingTable != null) {
-                    LinkActivityWithMaterial(activity, resultingTable);
-                }
-            }
-        }
-
-        private DataTable GetMaterialPerActivity(string activityTitle) {
-            string query = "SELECT rutasMaterialesEducativos " +
-                           "FROM ActividadEducativa AE " +
-                           "WHERE AE.tituloPK = '" + activityTitle + "'";
-            return CreateTableFromQuery(query);
-        }
-
-        private void LinkActivityWithMaterial(EducationalActivityEventModel activity, DataTable resultingTable) {
-            activity.RefEducationalMaterial = ContentParser.GetListFromString(Convert.ToString(resultingTable.Rows[0]["rutasMaterialesEducativos"]));
-        }
-
         override protected DataTable GetFeatureWithTopicsTable(string[] keys) {
             string query = "SELECT nombreTopicoPKFK FROM ActividadEducativa AE " +
-                            "INNER JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK " +
-                            "WHERE AE.tituloPK = '" + keys[0] + "' ";
+                           "INNER JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK " +
+                           "WHERE AE.tituloPK = '" + keys[0] + "' ";
             return CreateTableFromQuery(query);
         }
 

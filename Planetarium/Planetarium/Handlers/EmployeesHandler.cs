@@ -47,9 +47,11 @@ namespace Planetarium.Handlers {
         }
 
         private DataTable GetEmployeeWithLanguagesTable(string employeeDni) {
-            string query = "SELECT Idioma.idiomaPK FROM Funcionario " +
-                        "INNER JOIN Idioma ON Funcionario.cedulaPK = Idioma.cedulaPKFK  " +
-                        "WHERE Funcionario.cedulaPK = '" + employeeDni + "' ";
+            string query = "SELECT I.idiomaPK " +
+                           "FROM Idioma AS I " +
+                           "WHERE I.cedulaPKFK IN(SELECT F.cedulaPK " +
+                                                 "FROM Funcionario AS F " +
+                                                 "WHERE F.cedulaPK = '" + employeeDni + "')";
 
             return CreateTableFromQuery(query);
         }
