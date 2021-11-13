@@ -197,6 +197,10 @@ namespace Planetarium.Controllers {
             return View();
         }
 
+        public ActionResult AssignSeat() {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult SubmitActivityInscription(VisitorModel visitor) {
             string date = Request.Form["date"];

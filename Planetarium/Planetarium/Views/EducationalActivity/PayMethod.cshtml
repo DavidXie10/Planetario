@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Actividad educativa</title>
+    <title>Método de pago</title>
 </head>
 
 <body>
@@ -17,21 +17,24 @@
 
                         <div class="form-group">
                             <div class="col-md-8">
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                                <input id="fname" name="name" type="text" placeholder="Nombre" class="form-control">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i> Nombre</span>
+                                <input id="fname" value="" name="name" type="text" placeholder="John" class="form-control">
+                                <p id="nameError" class="text-danger"></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i> Apellido</span>
                             <div class="col-md-8">
-                                <input id="lname" name="name" type="text" placeholder="Apellido" class="form-control">
+                                <input id="lname" value="" name="name" type="text" placeholder="Doe" class="form-control">
+                                <p id="lastNameError" class="text-danger"></p>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i> Correo electrónico</span>
                             <div class="col-md-8">
-                                <input id="email" name="email" type="text" placeholder="Correo electrónico" class="form-control">
+                                <input id="email" value="" name="email" type="text" placeholder="John.Doe@gmail.com" class="form-control">
+                                <p id="emailError" class="text-danger"></p>
                             </div>
                         </div>
                     </fieldset>
@@ -44,21 +47,23 @@
                                     <div class="panel-heading">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <input type="text" class="form-control" placeholder="Número de tarjeta" />
+                                                <span class="help-block text-muted small-font"> Número de tarjeta</span>
+                                                <input id="creditCardNumber" value="" type="number" class="form-control" placeholder="0000 0000 0000 0000" data-maxlength="16" oninput="this.value=this.value.slice(0,this.dataset.maxlength)" required autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <span class="help-block text-muted small-font"> Mes</span>
-                                                <input type="text" class="form-control" placeholder="MM" />
+                                                <input  value="" type="number" class="form-control" placeholder="MM" maxlength="2" onchange="monthLimiter(this);" required  />
                                             </div>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <span class="help-block text-muted small-font">Año</span>
-                                                <input type="text" class="form-control" placeholder="YY" />
+                                                <input type="text" class="form-control" placeholder="YY" maxlength="2" required />
+
                                             </div>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <span class="help-block text-muted small-font"> CCV</span>
-                                                <input type="text" class="form-control" placeholder="CCV" />
+                                                <input type="text" class="form-control" placeholder="CCV" maxlength="3" required />
                                             </div>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <i class="fas fa-credit-card"></i>
@@ -70,7 +75,7 @@
                                         <div class="row">
                                             <div class="col-md-12 pad-adjust">
                                                 <span class="help-block text-muted small-font"> Nombre de la tarjeta</span>
-                                                <select class="form-select" aria-label="Default select example" style="color:gray">
+                                                <select class="form-select" aria-label="Default select example" style="color:gray" required>
                                                     <option selected>-Seleccionar-</option>
                                                     <option value="Visa">Visa</option>
                                                     <option value="Mastercard">Mastercard</option>
@@ -82,20 +87,19 @@
                                             <div class="col-md-12 pad-adjust">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" checked class="text-muted" />
+                                                        <input type="checkbox"  class="text-muted" required  />
                                                         He leído y acepto las politicas de privacidad
                                                         <a data-toggle="modal" data-target="#exampleModalLong" style="color:#18bc9c">
                                                             Ver politicas de privacidad
                                                         </a>
                                                     </label>
+                                                    <p class="errorPrivacy"></p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row" style="text-align:right"> 
                                             <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">
-                                                <input type="submit"
-                                                       class="btn btn-success btn-block"
-                                                       value="Continuar" />
+                                                <input type="submit" class="btn btn-success btn-block" value="Continuar" onclick="checkData()"/>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +109,6 @@
                     </div>
                 </div>
                 
-                <!-- Modal -->
                 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -126,15 +129,46 @@
                                     Si no has iniciado sesión en una cuenta del Planetario, almacenamos la información que recogemos con identificadores únicos vinculados al navegador, la aplicación o el dispositivo que utilices. Esto nos permite, por ejemplo, mantener tus preferencias de idioma en todas las sesiones de navegación.
                                 </p>                                
                             </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <hr />
     </div>
 
 </body>
 </html>
+
+<script>
+
+    function checkData() {
+        
+        var userName = document.getElementById("fname").value;
+        var userLastName = document.getElementById("lname").value;
+        var userMailName = document.getElementById("email").value;
+        
+        
+        if (userName == '') {
+            let container = document.querySelector(".nameError")
+            console.log(container)
+            document.querySelector("#nameError").innerHTML = "Por favor ingrese el nombre"
+        }
+        if (userLastName == '') {
+            let container = document.querySelector(".lastNameError")
+            console.log(container)
+            document.querySelector("#lastNameError").innerHTML = "Por favor ingrese el apellido"
+        }
+        if (userMailName == '') {
+            let container = document.querySelector(".mailError")
+            console.log(container)
+            document.querySelector("#emailError").innerHTML = "Por favor ingrese el correo electónico"
+        }
+    }
+
+   
+    function monthLimiter(input) {
+        if (input.value < 1) input.value = '';
+        if (input.value > 12) input.value = '';
+    }
+</script>
 
