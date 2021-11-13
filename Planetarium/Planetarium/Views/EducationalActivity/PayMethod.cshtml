@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Actividad educativa</title>
+</head>
+
+<body>
+    <div class="container" style="height: 100%">
+        <div class="card-body">
+            <p class="card-text">
+                <h2>Sistema de pago</h2>
+            </p>
+            <hr />
+            <div class="row no-gutters">
+                <div class="col-6">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                <input id="fname" name="name" type="text" placeholder="Nombre" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="lname" name="name" type="text" placeholder="Apellido" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="email" name="email" type="text" placeholder="Correo electrónico" class="form-control">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-6">
+                    <div class="card rounded-3 bg-light">
+                        <div class="card-body">
+                            <form action="#" class="credit-card-div">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <input type="text" class="form-control" placeholder="Número de tarjeta" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <span class="help-block text-muted small-font"> Mes</span>
+                                                <input type="text" class="form-control" placeholder="MM" />
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <span class="help-block text-muted small-font">Año</span>
+                                                <input type="text" class="form-control" placeholder="YY" />
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <span class="help-block text-muted small-font"> CCV</span>
+                                                <input type="text" class="form-control" placeholder="CCV" />
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <i class="fas fa-credit-card"></i>
+                                                <i class="fab fa-cc-mastercard"></i>
+                                                <i class="fab fa-cc-visa"></i>
+                                                <i class="fab fa-cc-paypal"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 pad-adjust">
+                                                <span class="help-block text-muted small-font"> Nombre de la tarjeta</span>
+                                                <select class="form-select" aria-label="Default select example" style="color:gray">
+                                                    <option selected>-Seleccionar-</option>
+                                                    <option value="Visa">Visa</option>
+                                                    <option value="Mastercard">Mastercard</option>
+                                                    <option value="American Express">American Express</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 pad-adjust">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" checked class="text-muted" />
+                                                        He leído y acepto las politicas de privacidad
+                                                        <a data-toggle="modal" data-target="#exampleModalLong" style="color:#18bc9c">
+                                                            Ver politicas de privacidad
+                                                        </a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="text-align:right"> 
+                                            <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">
+                                                <input type="submit"
+                                                       class="btn btn-success btn-block"
+                                                       value="Continuar" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Políticas de privacidad del Planetario</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    Puedes utilizar nuestros servicios de diferentes formas para gestionar tu privacidad. Por ejemplo, si quieres crear y gestionar contenido, como correos electrónicos y fotos, o consultar resultados de búsqueda más relevantes, puedes registrarte para obtener una cuenta del Planetario. Asimismo, puedes utilizar diversos servicios de Planetario una vez que hayas cerrado sesión en tu cuenta o sin que hayas siquiera creado una como, por ejemplo, realizando una búsqueda en Google o visualizando vídeos en YouTube. Además, puedes ajustar la configuración de privacidad en todos nuestros servicios para controlar la información que recogemos y cómo la utilizamos.
+                                </p>
+                                <p>
+                                    Recogemos información para proporcionar los mejores servicios a todos nuestros usuarios: desde determinar información básica, como el idioma que hablas, hasta datos más complejos, como los anuncios que te resultarán más útiles, las personas que más te interesan online o los vídeos de YouTube que te pueden gustar. El tipo de información que recoge Google y cómo se utiliza esa información depende del uso que hagas de nuestros servicios y de cómo administres los controles de privacidad.
+                                </p>
+                                <p>
+                                    Si no has iniciado sesión en una cuenta del Planetario, almacenamos la información que recogemos con identificadores únicos vinculados al navegador, la aplicación o el dispositivo que utilices. Esto nos permite, por ejemplo, mantener tus preferencias de idioma en todas las sesiones de navegación.
+                                </p>                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+
+</body>
+</html>
+
