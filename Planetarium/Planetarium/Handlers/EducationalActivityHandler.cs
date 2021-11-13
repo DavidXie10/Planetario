@@ -17,7 +17,7 @@ namespace Planetarium.Handlers {
         public bool ProposeEducationalActivity(EducationalActivityEventModel educationalActivity) {
             bool success = false;
             string query = "INSERT INTO ActividadEducativa (tituloPK, duracion, descripcion, nivelComplejidad,cedulaFK,tipo) " +
-                           "VALUES(@tituloPK,@duracion,@descripcion,@nivelComplejidad,'106260895',@tipo) ";
+                           "VALUES(@tituloPK,@duracion,@descripcion,@nivelComplejidad,'103230738',@tipo) ";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
@@ -165,9 +165,9 @@ namespace Planetarium.Handlers {
         }
 
         private DataTable GetTargetAudiencePerEducationalActivity(string activityTitle) {
-            string query =  "SELECT publicoMetaPK " +
-                            "FROM PublicoMeta INNER JOIN ActividadEducativa ON PublicoMeta.tituloPKFK = ActividadEducativa.tituloPK " +
-                            "WHERE PublicoMeta.tituloPKFK = '" + activityTitle + "'";
+            string query = "DECLARE @titulo NVARCHAR(100) " +
+                           "SELECT @titulo = '" + activityTitle + "' " +
+                           "EXEC USP_obtenerPublicoMetaPorActividad @titulo ";
             return CreateTableFromQuery(query);
         }
 

@@ -68,13 +68,17 @@ namespace Planetarium.Controllers {
             try {
                 ViewBag.SuccessOnCreation = this.DataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
-                    SendEmail(0);
+                    //SendEmail(0);
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            } catch {
+            } catch (Exception e) {
                 TempData["Error"] = true;
                 TempData["WarningMessage"] = "Algo salió mal";
+                string noEducatorId = "transaction ended in the trigger";
+                if (e.ToString().Contains(noEducatorId)) {
+                    TempData["WarningMessage"] = "No tiene el permiso de educador para agregar actividad";
+                }
                 view = RedirectToAction("ProposeEducationalActivity", "EducationalActivity");
             }
 

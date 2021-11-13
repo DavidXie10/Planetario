@@ -215,6 +215,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\categoriesAndTopicsMultiselectCascade.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
+    <Content Include="Scripts\idiomsStatistics.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
