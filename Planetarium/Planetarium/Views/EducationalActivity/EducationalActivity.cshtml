@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Actividad educativa</title>
+</head>
+
+<body>
+    <div class="container" style="height: 100vh">
+        <div class="card-body">
+            <p class="card-text">
+                <h2>@ViewBag.Activity.Title</h2>
+            </p>
+            <hr />
+            <p style="font-size: 1.5rem;" >@ViewBag.Activity.Description</p>
+            <p style="font-size: 1.5rem;">Impartido por: @ViewBag.Activity.Publisher </p>
+
+            <div class="row">
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="col" style="width:100%;">
+                                <div class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
+                                    <div class="card-body" style="height:19rem;font-size: 1.3rem">
+                                        <p><strong>Fecha:</strong> @ViewBag.Activity.Date</p>
+                                        <p><strong>Duración:</strong> @ViewBag.Activity.Duration minutos</p>
+                                        @{
+                                            string price = (ViewBag.Activity.Price == 0) ? "Gratis" : "₡" + @ViewBag.Activity.Price;
+                                        }
+                                        <p><strong>Precio:</strong>  @price </p>
+                                        <p><strong>Capacidad:</strong> @ViewBag.Activity.MaximumCapacity personas</p>
+                                        <p><strong>Tipo:</strong> @ViewBag.Activity.ActivityType</p>
+                                        <p><strong>Nivel de complejidad:</strong> @ViewBag.Activity.ComplexityLevel</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="col" style="width:100%">
+                                <div class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
+                                    <div class="card-body" style="height:19rem;font-size: 1.3rem">
+                                        <p>Categoría: <a class="badge rounded-pill bg-success"> @ViewBag.Activity.Category</a></p>
+                                        <p>
+                                            Tópicos:
+                                            @foreach (var topic in ViewBag.Activity.Topics) {
+                                                <a class="badge rounded-pill bg-info"> @topic</a>
+                                            }
+                                        </p>
+                                        <p>
+                                            Publicos Meta:
+                                            @foreach (var targetAudienceInstance in ViewBag.Activity.TargetAudience) {
+                                                <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
+                                            }
+                                        </p>
+                                        @if (ViewBag.Activity.RefEducationalMaterial.Count > 0) {
+                                            <p class="card-text" style="margin-top: 15px;">
+                                                <h5>Materiales</h5>
+                                                @foreach (var material in ViewBag.Activity.RefEducationalMaterial) {
+                                                    string materialRef = material.Replace(' ', '_');
+                                                    <a href="~/Educational_Material/@materialRef" download="@materialRef"> <i class="fas fa-download"></i>@material</a>
+                                                    <br />
+                                                }
+                                            </p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="row card" style="margin-top: 0.9rem;">
+                        <div class="col card-header" style="margin-bottom:1rem" >
+                            <h4 class="text-center"> Actividades similares </h4>
+                        </div>
+                        @if (ViewBag.SimilarActivities.Count == 0) {
+                            <p style="color: black; text-align: center; font-size: 1.5rem">¡No hay actividades similares!</p>
+                        }
+                        @foreach (var activity in ViewBag.SimilarActivities) {
+                            if (activity.State == "1") {
+                                <div id="@activity.Title ">
+                                    <div id="@activity.Title">
+                                        @{string tempTitle = activity.Title; }
+                                        @Html.ActionLink(tempTitle, "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right", @style = "margin-top: auto; " })
+                                        <hr />
+                                    </div>
+                                </div>
+                            }
+                        }
+                        </div>
+
+
+
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                @Html.ActionLink("Inscribirme", "../EducationalActivity/ActivityInscription", new { activityTitle = @ViewBag.Activity.Title, activityDate = @ViewBag.Activity.Date }, new { @class = "align-self-end align-self-right btn btn-success", @style = "margin-top: 1rem; margin-bottom: 1rem; height: 3rem; width: 35%; font-size: 1.3rem;" })
+            </div>
+
+            <hr />
+        </div>
+    </div>
+</body>
+</html>

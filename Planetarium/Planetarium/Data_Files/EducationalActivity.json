@@ -1,6 +1,7 @@
 {
-    "TipoActividad": [ "Charla", "Taller" ],
-    "NivelComplejidad": [ "Básico", "Intermedio", "Avanzado" ],
-    "Asistencia": [ "Presencial", "Virtual", "Mixto"],
-    "PublicoMeta": [ "Infantil", "Juvenil", "Adulto", "Adulto Mayor" ]
+  "TipoActividad": [ "Charla", "Taller" ],
+  "NivelComplejidad": [ "Básico", "Intermedio", "Avanzado" ],
+  "Asistencia": [ "Presencial", "Virtual", "Mixto" ],
+  "PublicoMeta": [ "Infantil", "Juvenil", "Adulto", "Adulto Mayor" ],
+  "NivelEducativo": [ "Preescolar", "Primaria", "Secundaria", "Universitaria", "Ninguno" ]
 } 

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using Planetarium.Models;
-using static Planetarium.Handlers.DatabaseHandler;
 
 namespace Planetarium.Handlers {
     public class EducationalActivityHandler : DatabaseClassificationsHandler {
@@ -51,6 +47,16 @@ namespace Planetarium.Handlers {
             AddParametersToQueryCommand(queryCommand, educationalActivity);
 
             success = DatabaseQuery(queryCommand);
+            success = InsertActivitiesTopics(educationalActivity);
+            success = InsertActivitiesAudiences(educationalActivity);
+
+            query = "INSERT INTO EventoActividadEducativa (tituloPKFK, fechaInicioPK, capacidadMaxima, precio, estadoRevision, banderaVirtual, enlace, banderaPresencial) " +
+                    "VALUES(@tituloPK,@fecha, @capacidad, @precio, @estado, @banderaVirtual, @enlace, @banderaPresencial)";
+            queryCommand = new SqlCommand(query, connection);
+            AddParametersToQueryCommandEvent(queryCommand, educationalActivity);
+            success = DatabaseQuery(queryCommand);
+
+            //TODO: hacer validaciones
             if(educationalActivity.ActivityType == "charla" || educationalActivity.ActivityType == "taller") {
                 success = InsertActivitiesTopics(educationalActivity);
                 success = InsertActivitiesAudiences(educationalActivity);
@@ -143,7 +149,7 @@ namespace Planetarium.Handlers {
                             + " RIGHT JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK"
                             + " WHERE EAE.estadoRevision = " + state
                             + " ORDER BY EAE.fechaInicioPK DESC";
-            
+
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
                 activities.Add(CreateInstanceEducationalActivity(rawEducationalInfo));
@@ -154,6 +160,46 @@ namespace Planetarium.Handlers {
             LinkAllMaterialWithActivity(activities);
 
             return activities;
+        }
+
+        public List<EducationalActivityEventModel> GetAllSimilarActivities(string title, List<string> topics, string category) {
+            List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
+            List<EducationalActivityEventModel> similarActivities = new List<EducationalActivityEventModel>();
+
+            activities = GetAllApprovedActivities();
+
+            string[] compareWords = title.Split(' ');
+            foreach (EducationalActivityEventModel activity in activities) {
+                if (activity.Title != title) { 
+                    if (CheckWords(compareWords, activity.Title) || FindOneElementInCommon(activity.Topics, topics) || (activity.Category == category)) {
+                        similarActivities.Add(activity);
+                    }
+                }
+            }
+            return similarActivities;
+        }
+
+        private bool FindOneElementInCommon(List<string> listA, List<string> listB) {
+            foreach (string element in listA) {
+                if (listB.Contains(element)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool CheckWords(string[] compareWords, string activityTitle) {
+            foreach (string word in compareWords) {
+                if (activityTitle.Contains(word) && (!IsArticle(word))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+            
+
+        private bool IsArticle(string word) {
+            return (word == "de" || word == "en" || word == "la" || word == "y" || word == "el" || word == "del");
         }
 
         private EducationalActivityEventModel CreateInstanceEducationalActivity(DataRow rawEducationalInfo) {
@@ -201,6 +247,10 @@ namespace Planetarium.Handlers {
                 TypeOfEvent = Convert.ToString(rawEducationalInfo["tipo"])
             };
         }
+        private string GetTypeOfAssistence(bool virtualFlag, bool onSiteFlag) {
+            return (virtualFlag && onSiteFlag) ? "Mixto" : (virtualFlag) ? "Virtual" : "Presencial";
+        }
+
         private string GetTypeOfAssistence(bool virtualFlag, bool onSiteFlag) {
             return (virtualFlag && onSiteFlag) ? "Mixto" : (virtualFlag) ? "Virtual" : "Presencial";
         }
