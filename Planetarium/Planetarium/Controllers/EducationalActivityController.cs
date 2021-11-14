@@ -192,14 +192,77 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        public ActionResult PayMethod() {
-
+        public ActionResult PayMethod(string dni = "0", string title = "", string date = "", string seat = "0-0") {
+            ViewBag.visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
+            ViewBag.title = title;
+            ViewBag.date = date;
+            ViewBag.seat = seat;
             return View();
         }
 
-        public ActionResult AssignSeat() {
+        public ActionResult BuySeat(string id, string title, string date, string seat) {
+            ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = id, title = title, date = date, seat = seat });
+            try {
+                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertAssignSeat(id, title, date, seat);
+                if(ViewBag.SuccessOnCreation) {
+                    view = RedirectToAction("Success", "Home");
+                }
+            } catch {
+                TempData["WarningMessage"] = "Algo salió mal";
+            }
+
+            //TO-DO: Este metodo deberia insertar los datos de la persona
+            //TO-DO: Se deben hacer las validaciones para mostrar los mensajes de error
+            //Caso: Al llegar a este punto la cedula del visitante fue verificada
+            //      junto con los espacio disponibles.
+            //Estos comentarios pueden ser borrados en cualquier momemnto
+
+
+            return RedirectToAction("Success", "Home");
+
+        }
+
+        public ActionResult AssignSeat(string id = "0", string title = "X", string date = "X") {
+            ViewBag.maxParticipants = ActivityDataAccess.GetMaxCapacity(title, date);
+            ViewBag.id = id;
+            ViewBag.date = date;
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult VerifyVisitorIdentity(VisitorModel visitor) {
+            string date = Request.Form["date"];
+            string title = Request.Form["title"];
+            ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date });
+
+            ViewBag.SuccessOnCreation = false;
+            TempData["Error"] = true;
+            TempData["WarningMessage"] = "";
+
+            try {
+                int register = VisitorDataAccess.CheckVisitor(visitor.Dni) ? (VisitorDataAccess.CheckVisitor(visitor.Dni, title, date) ? REGISTERED : DEFAULT) : NOT_REGISTERED;
+
+                if (register == DEFAULT) {
+                    //En vez de insertar se redireccione a la vista de seleccionar asiento
+                    ViewBag.SuccessOnCreation = VisitorDataAccess.CheckCapacity(title, date);
+                    if (ViewBag.SuccessOnCreation) {
+                        ModelState.Clear();
+                        TempData["Error"] = false;
+                        view = RedirectToAction("AssignSeat", "EducationalActivity", new { id = visitor.Dni, title = title, date = date });
+                    }
+                } else {
+                    TempData["Error"] = false;
+                    view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date, register = register });
+                }
+            } catch {
+                TempData["WarningMessage"] = "Algo salió mal";
+            }
+
+
+            return view;
+        }
+
 
         [HttpPost]
         public ActionResult SubmitActivityInscription(VisitorModel visitor) {
@@ -261,10 +324,11 @@ namespace Planetarium.Controllers {
 
             try {
                 ViewBag.SuccessOnCreation = VisitorDataAccess.RegisterVisitor(visitor, title, date);
+                ViewBag.SuccessOnCreation = VisitorDataAccess.CheckCapacity(title, date);
                 if (ViewBag.SuccessOnCreation) {
                     TempData["Error"] = false;
                     ModelState.Clear();
-                    view = RedirectToAction("Success", "Home");
+                    view = RedirectToAction("AssignSeat", "EducationalActivity");
                 }
             } catch (Exception e) {
                 TempData["WarningMessage"] = e;

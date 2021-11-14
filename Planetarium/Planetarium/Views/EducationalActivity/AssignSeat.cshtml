@@ -1,43 +1,35 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Actividad educativa</title>
+    <title>Asientos</title>
 </head>
 
 <body>
-    <div class="container" style="height: 100%">
+    <div class="container" style="height: 100rem">
         <div class="card-body">
             <p class="card-text">
                 <h2>Asignar asiento</h2>
             </p>
             <hr />
-            <div class="row no-gutters">
-                <div class="col">
-                    <fieldset>
-                        <div class="form-group">
-
-                        </div>
-                        <div class="col-md-12 pad-adjust">
-                            <span class="help-block text-muted small-font"> Asientos:</span>
-                            <select class="form-select" aria-label="Default select example" style="color:gray">
-                                <option selected>-Seleccionar asiento-</option>
-                                <option value="A1">A1</option>
-                                <option value="A2">A2</option>
-                                <option value="A3">A3</option>
-                            </select>
-                        </div>
-                        <br/>
-                        <div class="card" style="margin:">
-                            <div class="text-center" style="text-align:center">
-                                <img src="~/images/PlanetariumUCR/Asientos.png" class="rounded" alt="Asientos" style="width:50%; height:50%">
-                            </div>
-                        </div>
-                        
-                    </fieldset>
-                </div> 
+            <div class="card">
+                <div class="card-header text-center">
+                    Asientos
+                </div>
+                <div class="card-body d-flex justify-content-center">
+                    <table id="holder">
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
+    <script src="~/Scripts/Seats.js"></script>
+    <script>
+        let seatsGen = new SeatGenerator("holder", "@ViewBag.maxParticipants");
+        seatsGen.generateSeatArray();
+    </script>
 </body>
 </html>
 

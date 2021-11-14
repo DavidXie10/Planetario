@@ -24,13 +24,13 @@
                             <div class="col">
                                 @Html.LabelFor(model => model.Category, new { @class = "card-text" })
                                 <br />
-                                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-control" })
+                                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoria", new { @class = "form-select" })
                                 @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.Topics)
                                 <br />
-                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value)" })
+                                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-select", @onchange = "addTopicButton(this.value)" })
                                 @Html.ValidationMessageFor(model => model.Topics, "", new { @class = "text-danger" })
                             </div>
                         </div>

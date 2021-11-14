@@ -21,8 +21,6 @@ namespace Planetarium.Handlers {
             AddParametersToQueryCommand(queryCommand, visitor);
             success = DatabaseQuery(queryCommand);
 
-            success = InsertVisitor(visitor, activityTitle, activityDate);
-
             return success;
         }
 
@@ -47,6 +45,47 @@ namespace Planetarium.Handlers {
 
             return visitorsDnis;
         }
+        public VisitorModel GetVisitorByDni(string dni, bool getDefault) {
+            VisitorModel visitorConfirmed = null;
+            if (CheckVisitor(dni)) {
+                visitorConfirmed = GetVisitorFromDatabase(dni);
+            } else if (getDefault) {
+                visitorConfirmed = GetDefaultVisitor();
+            }
+            return visitorConfirmed;
+        }
+
+        public VisitorModel GetVisitorFromDatabase(string dni) {
+            string query = "SELECT *" +
+                            "FROM Visitante" +
+                            "WHERE cedulaPK = " + dni;
+            DataTable resultingTable = CreateTableFromQuery(query);
+            DataRow visitorInstance = resultingTable.Rows[0];
+            return GetVisitorContentFromTable(visitorInstance);
+        }
+        public VisitorModel GetVisitorContentFromTable(DataRow dbContent) {
+            return new VisitorModel  {
+                Dni = Convert.ToString(dbContent["cedulaPK"]),
+                FullName = Convert.ToString(dbContent["nombreCompleto"]),
+                Mail = Convert.ToString(dbContent["correo"]),
+                EducationalLevel = Convert.ToString(dbContent["niveleducativo"]),
+                Gender = Convert.ToChar(dbContent["genero"]),
+                DateOfBirth = Convert.ToDateTime(dbContent["fechaNacimiento"]),
+                NativeCountry = Convert.ToString(dbContent["paisOrigen"])
+            };
+        }
+
+        public VisitorModel GetDefaultVisitor() {
+            return new VisitorModel {
+                Dni = "0",
+                FullName = "John Doe",
+                Mail = "johnDoe@email.com",
+                Gender = 'O',
+                EducationalLevel = null,
+                DateOfBirth = DateTime.Now,
+                NativeCountry = null
+            };
+        }
 
         public bool InsertVisitor(VisitorModel visitor, string activityTitle, string activityDate) {
             string query = "INSERT INTO Inscribirse (cedulaPKFK, tituloPKFK, fechaInicioPKFK)" +
@@ -67,7 +106,7 @@ namespace Planetarium.Handlers {
             return Convert.ToInt32(resultingTable.Rows[0]["RowsCount"]) > 0;
         }
 
-        public bool CheckVisitor(string dni, string title, string date) {           
+        public bool CheckVisitor(string dni, string title, string date) {
             string query = "SELECT Count(*) AS RowsCount FROM Inscribirse " +
                            "WHERE cedulaPKFK = '" + dni + "' " +
                            "AND tituloPKFK = '" + title + "' " +
@@ -76,6 +115,16 @@ namespace Planetarium.Handlers {
             DataTable resultingTable = CreateTableFromQuery(query);
 
             return Convert.ToInt32(resultingTable.Rows[0]["RowsCount"]) > 0;
+        }
+
+        public bool InsertAssignSeat(string dni, string activityTitle, string activityDate, string seat) {
+            string query = "INSERT INTO AsignarAsiento (tituloPKFK, fechaInicioPKFK, cedulaVisitantePKFK, numeroAsiento)" +
+                    " VALUES ('" + activityTitle + "', '" + activityDate + "', '" + dni + "', '" + seat + "')";
+
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            bool success = DatabaseQuery(queryCommand);
+
+            return success;
         }
     }
 }

@@ -37,7 +37,7 @@
                         </div>
                         <div class="col">
                             @Html.LabelFor(model => model.Gender)
-                            @Html.DropDownListFor(model => model.Gender, GenderOptions, "- Sin selección - ", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.Gender, GenderOptions, "- Sin selección - ", new { @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="col">
                             @Html.LabelFor(model => model.EducationalLevel)
-                            @Html.DropDownListFor(model => model.EducationalLevel, EducationalLevels, "- Sin selección - ", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.EducationalLevel, EducationalLevels, "- Sin selección - ", new { @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.EducationalLevel, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -62,16 +62,19 @@
                         </div>
                         <div class="col">
                             @Html.LabelFor(model => model.NativeCountry)
-                            @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-select" })
                             @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="row" style="margin-top: 15px">
-                        @Html.LabelFor(model => model.DateOfBirth, new { @style = "padding-left:-0.75rem" })
-                        <br />
-                        @Html.EditorFor(model => model.DateOfBirth, new { @type = "date"})
-                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                        <div class="col-6">
+                            @Html.LabelFor(model => model.DateOfBirth, new { @style = "" })
+                            <br />
+                            @Html.EditorFor(model => model.DateOfBirth, new { @type = "date" })
+                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                        </div>
+                        
 
                     </div>
                 </div>
@@ -99,6 +102,6 @@
     let day = currentDay / 10 >= 1 ? '' : '0';
     day += currentDay;
     document.getElementById("DateOfBirth").setAttribute("max", currentDate.getFullYear() + "-" + month + "-" + day);
-    document.getElementById("DateOfBirth").setAttribute("style", "width: 38.5rem; margin-left:-0.75rem");
-    document.getElementById("DateOfBirth").setAttribute("class", "form-control");
+    document.getElementById("DateOfBirth").setAttribute("style", "");
+    document.getElementById("DateOfBirth").setAttribute("class", "form-control w-100");
 </script>

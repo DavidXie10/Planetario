@@ -16,7 +16,7 @@
             </div>
         }
 
-        @using (Html.BeginForm("SubmitActivityInscription", "EducationalActivity", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        @using (Html.BeginForm("VerifyVisitorIdentity", "EducationalActivity", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
             <div class="row justify-content-center align-items-center">
 
@@ -27,6 +27,7 @@
                         <h4 class="text-success text-center">Inscripción</h4>
                     </div>
                     <div class="card-body">
+
                         <div class="form-group">
                             @Html.LabelFor(model => model.Dni)
                             @Html.TextBoxFor(model => model.Dni, new { @class = "form-control", @placeholder = "#########" })

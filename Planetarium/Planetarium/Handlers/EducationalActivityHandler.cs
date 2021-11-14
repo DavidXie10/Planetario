@@ -302,5 +302,44 @@ namespace Planetarium.Handlers {
             };
         }
 
+        public bool CheckCapacity(string activityTitle, string activityDate) {
+            string query = "SELECT (EAE.capacidadMaxima - COUNT(*)) AS Cupos " +
+                           "FROM AsignarAsiento AA " +
+                           "INNER JOIN EventoActividadEducativa EAE ON(AA.tituloPKFK = EAE.tituloPKFK AND AA.fechaInicioPKFK = EAE.fechaInicioPK) " +
+                           "WHERE EAE.tituloPKFK = '" + activityTitle + "' " +
+                           "AND EAE.fechaInicioPK = '" + activityDate + "' " +
+                           "GROUP BY EAE.tituloPKFK, EAE.fechaInicioPK, EAE.capacidadMaxima";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+
+            return Convert.ToInt32(resultingTable.Rows[0]["Cupos"]) > 0;
+        }
+
+        public int GetMaxCapacity(string activityTitle, string activityDate) {
+            string query = "SELECT EAE.capacidadMaxima " +
+                           "FROM EventoActividadEducativa EAE " +
+                           "WHERE EAE.tituloPKFK = '" + activityTitle + "' " +
+                           "AND EAE.fechaInicioPK = '" + activityDate + "' ";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+
+            return Convert.ToInt32(resultingTable.Rows[0]["capacidadMaxima"]);
+        }
+
+        public List<string> GetReservedSeats(string activityTitle, string activityDate) {
+            string query = "SELECT numeroAsiento " +
+                           "FROM AsignarAsiento " +
+                           "WHERE tituloPKFK = '" + activityTitle + "' " +
+                           "AND fechaInicioPKfk = '" +activityDate + "'";
+
+            DataTable resultingTable = CreateTableFromQuery(query);    
+            List<string> reservedSeats = new List<string>;
+
+            foreach(DataRow rawEducationalInfo in resultingTable.Rows) {
+                reservedSeats.Add(Convert.ToString(rawEducationalInfo["numeroAsiento"]));
+            }
+            return reservedSeats();
+        }
+
     }
 }

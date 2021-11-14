@@ -53,7 +53,7 @@
 
                                 @Html.LabelFor(model => model.Gender)
                                 <br />
-                                <select name="gender" class="form-control">
+                                <select name="gender" class="form-select>
                                     <option value="N" selected>Género</option>
                                     <option value="M">Hombre</option>
                                     <option value="F">Mujer</option>
@@ -80,7 +80,7 @@
 
                             <div class="col">
                                 @Html.LabelFor(model => model.NativeCountry)
-                                @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-control" })
+                                @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-select" })
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.Languages)
-                                @Html.DropDownList("languageSelect", Languanges, "-Seleccione sus idiomas-", new { @class = "form-control", @onchange = "addLanguageButton(this.value)" })
+                                @Html.DropDownList("languageSelect", Languanges, "-Seleccione sus idiomas-", new { @class = "form-select", @onchange = "addLanguageButton(this.value)" })
                             </div>
                         </div>
 
