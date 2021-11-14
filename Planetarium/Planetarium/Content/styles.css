@@ -1,3 +1,9 @@
 ﻿#mapid {
     height:400px;
 }
+
+.inputButton {
+    margin: 20px;
+    line-height: 30px;
+    width: 150px
+}

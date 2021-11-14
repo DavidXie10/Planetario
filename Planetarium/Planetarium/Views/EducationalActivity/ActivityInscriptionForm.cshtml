@@ -1,0 +1,104 @@
+﻿@model Planetarium.Models.VisitorModel
+@{
+    ViewBag.Title = "Inscripción";
+    List<SelectListItem> Countries = ViewBag.Countries;
+    List<SelectListItem> EducationalLevels = ViewBag.EducationalLevels;
+    List<SelectListItem> GenderOptions = ViewBag.GenderOptions;
+}
+
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/Content/styles.css" type="text/css"/>
+</head>
+<body>
+    <div class="container">
+        @if (Convert.ToBoolean(TempData["Error"]) == true) {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+            </div>
+        }
+
+        @using (Html.BeginForm("SubmitActivityInscriptionForm", "EducationalActivity", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @Html.AntiForgeryToken()
+            <h2 style="margin: 20px 0 30px 0;"><strong>@ViewBag.ActivityTitle</strong></h2>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-success text-center">Formulario de Inscripción</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.FullName)
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "John Doe" })
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col">
+                            @Html.LabelFor(model => model.Gender)
+                            @Html.DropDownListFor(model => model.Gender, GenderOptions, "- Sin selección - ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Dni)
+                            @Html.TextBoxFor(model => model.Dni, new { @class = "form-control", @placeholder = "#########" })
+                            @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col">
+                            @Html.LabelFor(model => model.EducationalLevel)
+                            @Html.DropDownListFor(model => model.EducationalLevel, EducationalLevels, "- Sin selección - ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.EducationalLevel, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Mail)
+                            @Html.TextBoxFor(model => model.Mail, new { @class = "form-control", @placeholder = "john.doe@gmail.com" })
+                        </div>
+                        <div class="col">
+                            @Html.LabelFor(model => model.NativeCountry)
+                            @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px">
+                        @Html.LabelFor(model => model.DateOfBirth, new { @style = "padding-left:-0.75rem" })
+                        <br />
+                        @Html.EditorFor(model => model.DateOfBirth, new { @type = "date"})
+                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="text-center">
+                    @Html.ActionLink("Cancelar", "../EducationalActivity/ActivityInscription", new { activityTitle = @ViewBag.ActivityTitle, activityDate = @ViewBag.ActivityDate }, new { @class = "btn btn-secondary inputButton"})
+
+                    <input type="submit" class="btn btn-success inputButton" value="Inscribirme" />
+                </div>
+                <input type="text" id="title" name="title" style="display:none" value="@ViewBag.ActivityTitle" />
+                <input type="text" id="date" name="date" style="display:none" value="@ViewBag.ActivityDate" />
+            </div>
+        }
+    </div>
+
+</body>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>
+
+<script type="text/javascript">
+    let currentDate = new Date();
+    let month = currentDate.getMonth() + 1;
+    let currentDay = currentDate.getDate();
+    let day = currentDay / 10 >= 1 ? '' : '0';
+    day += currentDay;
+    document.getElementById("DateOfBirth").setAttribute("max", currentDate.getFullYear() + "-" + month + "-" + day);
+    document.getElementById("DateOfBirth").setAttribute("style", "width: 38.5rem; margin-left:-0.75rem");
+    document.getElementById("DateOfBirth").setAttribute("class", "form-control");
+</script>

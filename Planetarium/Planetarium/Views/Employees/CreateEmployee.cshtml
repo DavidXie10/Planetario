@@ -5,6 +5,7 @@
 
     List<SelectListItem> Countries = ViewBag.Countries;
     List<SelectListItem> Languanges = ViewBag.Languages;
+    List<SelectListItem> GenderOptions = ViewBag.GenderOptions;
 }
 <html>
 <head>
@@ -37,29 +38,22 @@
                         <div class="row">
                             <div class="col">
                                 @Html.LabelFor(model => model.FirstName)
-                                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @placeholder = "John" })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger"})
                             </div>
 
                             <div class="col">
                                 @Html.LabelFor(model => model.LastName)
-                                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", @placeholder = "Doe" })
                                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
-
-                                @Html.LabelFor(model => model.Gender)
-                                <br />
-                                <select name="gender" class="form-control">
-                                    <option value="N" selected>Género</option>
-                                    <option value="M">Hombre</option>
-                                    <option value="F">Mujer</option>
-                                    <option value="O">Otro</option>
-                                </select>
-
+                                @Html.LabelFor(model => model.Dni)
+                                @Html.TextBoxFor(model => model.Dni, new { @class = "form-control", @placeholder = "#########" })
+                                @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col">
@@ -73,15 +67,17 @@
 
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
-                                @Html.LabelFor(model => model.Dni)
-                                @Html.TextBoxFor(model => model.Dni, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Dni, "", new { @class = "text-danger", @placeholder = "#########" })
+                                @Html.LabelFor(model => model.PhoneNumber)
+                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @placeholder = "00000000" })
+                                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
-
+                            
                             <div class="col">
-                                @Html.LabelFor(model => model.NativeCountry)
-                                @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección - ", new { @class = "form-control" })
+                                @Html.LabelFor(model => model.Gender)
+                                @Html.DropDownListFor(model => model.Gender, GenderOptions, "- Sin selección - ", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
                             </div>
+                            
                         </div>
 
                         <div class="row" style="margin-top: 15px;">
@@ -89,9 +85,11 @@
                                 @Html.LabelFor(model => model.Mail)
                                 @Html.TextBoxFor(model => model.Mail, new { @class = "form-control", @placeholder = "john.doe@gmail.com" })
                             </div>
+
                             <div class="col">
-                                @Html.LabelFor(model => model.PhoneNumber)
-                                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", @placeholder = "00000000" })
+                                @Html.LabelFor(model => model.NativeCountry)
+                                @Html.DropDownListFor(model => model.NativeCountry, Countries, "- Sin selección -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NativeCountry, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -106,23 +104,23 @@
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
                                 @Html.LabelFor(model => model.Occupation)
-                                @Html.TextBoxFor(model => model.Occupation, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.Occupation, new { @class = "form-control", @placeholder = "Astronauta" })
                                 @Html.ValidationMessageFor(model => model.Occupation, "", new { @class = "text-danger" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.ExpertiseArea)
-                                @Html.TextBoxFor(model => model.ExpertiseArea, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.ExpertiseArea, new { @class = "form-control", @placeholder = "Ingeniería Aeroespacial" })
                             </div>
                         </div>
 
                         <div class="row" style="margin-top: 15px;">
                             <div class="col">
                                 @Html.LabelFor(model => model.AcademicDegree)
-                                @Html.TextBoxFor(model => model.AcademicDegree, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.AcademicDegree, new { @class = "form-control", @placeholder = "Doctorado en Astrofísica" })
                             </div>
                             <div class="col">
                                 @Html.LabelFor(model => model.Languages)
-                                @Html.DropDownList("languageSelect", Languanges, "-Seleccione sus idiomas-", new { @class = "form-control", @onchange = "addLanguageButton(this.value)" })
+                                @Html.DropDownList("languageSelect", Languanges, "- Sin selección -", new { @class = "form-control", @onchange = "addLanguageButton(this.value)" })
                             </div>
                         </div>
 
@@ -155,16 +153,27 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
-                <input type="submit" style="margin-top: 20px;" class="btn btn-success w-25" value="Crear Funcionario" />
+                <div class="text-center">
+                    <input type="submit" style="margin-top: 20px;height: 3rem" class="btn btn-success w-25 " value="Guardar Funcionario" />
+                </div>
             </div>
         }
     </div>
     <script src="~/Scripts/GenericMultiselect.js"></script>
     <script type="text/javascript">
         let multiSelectLanguages = new GenericMultiSelect("#languageSelect", "#languagesContainer", "#inputLanguageString");
+    </script>
+
+    <script type="text/javascript">
+        let currentDate = new Date();
+        let month = currentDate.getMonth() + 1;
+        let currentDay = currentDate.getDate();
+        let day = currentDay / 10 >= 1 ? '' : '0';
+        day += currentDay;
+        document.getElementById("DateOfBirth").setAttribute("max", currentDate.getFullYear() + "-" + month + "-" + day);
+        document.getElementById("DateOfBirth").setAttribute("class", "form-control");
     </script>
 
 </body>

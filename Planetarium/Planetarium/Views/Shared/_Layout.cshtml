@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
 
+
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="~/Content/Site.css" />
     <script src="https://kit.fontawesome.com/9ca089ca02.js" crossorigin="anonymous"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <a class="navbar-brand" href="/Home/Index">
-            <img src="~/images/logo.svg" width="60" height="60" alt="">
-            Planetario UCR
+            <img src="~/images/logotipo.jpeg" width="100" height="70" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -53,9 +53,16 @@
                     <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true"><i class="fas fa-question-circle"></i> FAQ</a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-poll"></i> Estadísticas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/EducationalActivity/ShowStatistics"><i class="fas fa-meteor"></i> En actividades educativas</a>
+                        <a class="dropdown-item" href="/EducationalActivity/ShowStatisticsInvolvement"><i class="fas fa-poll-h"></i> Por temas</a>
+                        <a class="dropdown-item" href="/Employees/ShowEmployeesIdiomsStatistics"><i class="far fa-comments"></i> De idiomas de colaboradores</a>
+                    </div>
 
-                    <a class="nav-link" href="/EducationalActivity/ShowStatistics" tabindex="-1" aria-disabled="true"><i class="fas fa-poll"></i> Estadísticas</a>
                 </li>
 
             </ul>
@@ -148,7 +155,7 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")*@
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
     

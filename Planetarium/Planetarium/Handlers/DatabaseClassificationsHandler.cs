@@ -29,8 +29,8 @@ namespace Planetarium.Handlers {
             List<string> topics = new List<string>();
 
             string query = "SELECT nombrePK " +
-                            "FROM Topico T " +
-                            "WHERE T.categoria LIKE '%" + category + "%';";
+                           "FROM Topico T " +
+                           "WHERE T.categoria = '" + category + "';";
 
             DataTable topicsDataTable = CreateTableFromQuery(query);
             foreach (DataRow column in topicsDataTable.Rows) {
