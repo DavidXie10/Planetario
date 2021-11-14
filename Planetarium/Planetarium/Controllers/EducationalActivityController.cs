@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
-using System.IO;
 using MailKit.Net.Smtp;
 using MimeKit;
+using System.Linq;
 
 namespace Planetarium.Controllers {
     public class EducationalActivityController : Controller {
@@ -74,13 +72,17 @@ namespace Planetarium.Controllers {
             try {
                 ViewBag.SuccessOnCreation = this.ActivityDataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
-                    SendEmail(0);
+                    //SendEmail(0);
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            } catch {
+            } catch (Exception e) {
                 TempData["Error"] = true;
                 TempData["WarningMessage"] = "Algo salió mal";
+                string noEducatorId = "transaction ended in the trigger";
+                if (e.ToString().Contains(noEducatorId)) {
+                    TempData["WarningMessage"] = "No tiene el permiso de educador para agregar actividad";
+                }
                 view = RedirectToAction("ProposeEducationalActivity", "EducationalActivity");
             }
 
@@ -130,6 +132,9 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ListActivities() {
+            RssFeedHandler rssHandler = new RssFeedHandler();
+            List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
+            ViewBag.EventsToCal = eventFeed;
             ViewBag.activities = ActivityDataAccess.GetAllApprovedActivities();
             return View();
         }
@@ -150,7 +155,7 @@ namespace Planetarium.Controllers {
                 ViewBag.SuccessOnCreation = ActivityDataAccess.UpdateActivityState(title, state);
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
-                    SendEmail(state);
+                    //SendEmail(state);
                 }
             } catch {
                 TempData["Error"] = true;
@@ -265,6 +270,49 @@ namespace Planetarium.Controllers {
             }
 
             return view;
+        }
+
+        public ActionResult EducationalActivity(string tempActivity) {
+            ActionResult view;
+            try {
+                EducationalActivityEventModel activity = System.Web.Helpers.Json.Decode<EducationalActivityEventModel>(tempActivity);
+                EducationalActivityEventModel educationalActivity = ActivityDataAccess.GetAllApprovedActivities().Find(smodel => String.Equals(smodel.Title, activity.Title));
+                List<EducationalActivityEventModel> similarActivities = ActivityDataAccess.GetAllSimilarActivities(activity.Title, activity.Topics, activity.Category);
+                if (educationalActivity == null) {
+                    view = RedirectToAction("ListActivities");
+                } else {
+                    ViewBag.Activity = educationalActivity;
+                    ViewBag.SimilarActivities = similarActivities;
+                    view = View(educationalActivity);
+                }
+            } catch {
+                view = RedirectToAction("ListActivities");
+            }
+            return view;
+        }
+        public ActionResult ShowStatisticsInvolvement() {            
+            Dictionary<string, int> categoriesRank = ActivityDataAccess.FillRank("categoria","Categoria");
+            Dictionary<string, int> topicsRank = ActivityDataAccess.FillRank("nombrePK", "Topico");
+
+            List<string> categories = categoriesRank.Keys.ToList<string>();
+            Dictionary<string, string[]> topicsByCategory = new Dictionary<string, string[]>();
+            string[] topics = {};
+            foreach (string category in categories) {
+                topics = ActivityDataAccess.GetTopicsByCategory(category).ToArray();
+                topicsByCategory.Add(category, topics);
+            }
+
+            ViewBag.TopicsRank = topicsRank;
+            ViewBag.CategoriesRank = categoriesRank;
+            ViewData["category"] = GetDropdown(categories.ToArray());
+            ViewBag.TopicsByCategory = topicsByCategory;
+
+            return View();
+        }
+
+        public ActionResult ShowStatistics() {
+            ViewBag.activities = ActivityDataAccess.GetAllActivitiesParticipants();
+            return View();
         }
     }
 }

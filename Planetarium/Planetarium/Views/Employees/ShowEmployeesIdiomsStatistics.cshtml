@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Idiomas de los colaboradores";
+}
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="container">
+        <h1 style="margin:10px 0 20px 0;">Idiomas de los colaboradores</h1>
+        <p style="margin:5px 0 15px 0;">Acá puede conocer los funcionarios que hablan los idiomas seleccionados.</p>
+
+        <div class="row">
+            <div class="col">
+                <h5>Seleccione los idiomas</h5>
+                <select class="form-select" id="languageSelect" onchange="addLanguageButton(this.value), updateIdiomsList()">
+                    <option value="">Seleccione los idiomas</option>
+                    @foreach (var language in ViewBag.Languages) {
+                        <option value="@language">@language</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="card" style="margin: 10px 0 10px 0">
+            <div class="card-header">
+                <h4 class="text-success text-center">Idiomas Seleccionados</h4>
+            </div>
+
+            <div class="card-body" id="languagesContainer" onclick="updateIdiomsList()">
+            </div>
+
+            <input type="text" name="inputLanguageString" id="inputLanguageString" value="" style="display: none;" />
+        </div>
+
+        <div class="text-center" style="display:none" id="idiomsIntersectionContainer">
+            <button style="height: 3rem; width: 25%; font-size: 1.3rem;" id="idiomsIntersectionButton" class="btn btn-success" onclick="changeModalByIdiomsIntersection()" value="0" data-toggle="modal" data-target="#employeesModal"> Ver funcionarios <span id="count"></span> </button>
+        </div>
+        <div id="notFoundMessage" style="display: none;">
+            <p style="color: black; text-align: center; font-size: 1.5rem">¡No existen funcionarios que hablen todos los idiomas seleccionados!</p>
+        </div>
+
+        <hr />
+
+        <div class="row card">
+            <div class="col card-header">
+                <h4 class="text-center"> Estadísticas de idiomas del planetario </h4>
+            </div>
+
+            <div class="row card-body" id="allIdiomsListContainer" style="margin: 10px 0 0 0;">
+                <div class="col-6">
+                    <ul id="leftColumn"></ul>
+                </div>
+
+                <div class="col-6">
+                    <ul id="rightColumn"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="employeesModal" tabindex="-1" role="dialog" aria-labelledby="employeesModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLongTitle"><strong>Funcionarios</strong></h3>
+                        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="employees-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="~/Scripts/GenericMultiselect.js"></script>
+    <script type="text/javascript">
+        let multiSelectLanguages = new GenericMultiSelect("#languageSelect", "#languagesContainer", "#inputLanguageString");
+    </script>
+
+    <script type="text/javascript">
+        let allEmployees = @Html.Raw(Json.Encode(@ViewBag.Employees));
+        let languagesCount = @Html.Raw(Json.Encode(@ViewBag.LanguagesCount));
+        let allIdioms = @Html.Raw(Json.Encode(@ViewBag.Languages));     
+    </script>
+
+    <script src="~/Scripts/idiomsStatistics.js" type="text/javascript"></script>
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>
+
+<style>
+    li {
+        padding: 0.2rem;
+    }
+</style>

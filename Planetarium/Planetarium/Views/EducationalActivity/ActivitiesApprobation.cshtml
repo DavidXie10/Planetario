@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <h1 style="margin:10px 0 20px 0;">Cursos y talleres en lista de aprobación</h1>
+    <h1 style="margin:10px 0 20px 0;">Cursos y Talleres en lista de aprobación</h1>
 
     @if (ViewBag.activities.Count == 0) {
         <div class="card-body">
@@ -23,7 +23,7 @@
                     <li>Precio: @activity.Price </li>
                     <li>Capacidad: @activity.MaximumCapacity</li>
                     <li>Tipo: @activity.ActivityType</li>
-                    <li>Modalidad: @activity.TypeOfAssistance</li>
+                    <li>Modalidad: @activity.ActivityType</li>
                     <li>Nivel de complejidad: @activity.ComplexityLevel</li>
                 </ul>
                 <span>

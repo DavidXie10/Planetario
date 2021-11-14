@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Planetarium.Handlers;
 using Planetarium.Models;
 using System.IO;
@@ -42,13 +39,18 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        
+        private List<SelectListItem> LoadGenders() {
+            List<SelectListItem> genders = new List<SelectListItem>();
+            genders.Add(new SelectListItem { Text = "Hombre", Value = "M" });
+            genders.Add(new SelectListItem { Text = "Mujer", Value = "F" });
+            genders.Add(new SelectListItem { Text = "Prefiero no decir", Value = "O" });
+            return genders;
+        }
+
         public ActionResult CreateEmployee() {
             List<SelectListItem> countries = new List<SelectListItem>();
-            List<SelectListItem> languages = new List<SelectListItem>();
 
             dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
-            dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
 
             string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
 
@@ -56,15 +58,23 @@ namespace Planetarium.Controllers {
                 countries.Add(new SelectListItem { Text = country, Value = country });
             }
 
+            ViewBag.GenderOptions = LoadGenders();
+            ViewBag.Countries = countries;
+            ViewBag.Languages = LoadLanguages();
+
+            return View();
+        }
+
+        public List<SelectListItem> LoadLanguages(){
+            List<SelectListItem> languages = new List<SelectListItem>();
+            dynamic JsonContentLanguages = ContentParser.ParseFromJSON("Languages.json");
+
             foreach(var language in JsonContentLanguages) {
                 string name = language.Value["name"].ToString();
                 languages.Add(new SelectListItem { Value = name, Text = name });
             }
 
-            ViewBag.Countries = countries;
-            ViewBag.Languages = languages;
-
-            return View();
+            return languages;
         }
 
         public void UploadPhoto(HttpPostedFileBase file) {
@@ -75,8 +85,8 @@ namespace Planetarium.Controllers {
         public ActionResult PostCreateEmployee(EmployeeModel employee) {
             
             ActionResult view = RedirectToAction("Success", "Home");
-            employee.Gender = Request.Form["gender"].ElementAt(0);
-            employee.Languages = ContentParser.GetListFromString(Request.Form["defaultInputString"]);
+            employee.Gender = Request.Form["gender"].ElementAt(0); 
+            employee.Languages = ContentParser.GetListFromString(Request.Form["defaultInputString"]);                  
             ViewBag.SucessOnCreation = false;
             try {
                 if (ModelState.IsValid) {
@@ -92,6 +102,16 @@ namespace Planetarium.Controllers {
                 ViewBag.Message = "Algo salió mal y no fue posible crear el funcionario";
                 return view; 
             }
+        }
+
+        public ActionResult ShowEmployeesIdiomsStatistics() {            
+            List<string> languages = DataAccess.GetEmployeesLanguages();
+
+            ViewBag.Languages = languages;
+            ViewBag.LanguagesCount = languages.Count;
+            ViewBag.Employees = DataAccess.GetAllEmployees();
+
+            return View();
         }
     }
 }

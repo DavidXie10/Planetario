@@ -1,0 +1,40 @@
+﻿
+@{ 
+    ViewBag.Title = "Cuestionarios";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container" style="height: 100%; width:100%;">
+        <h1 class="text-start">Cuestionarios</h1>
+        <div class="card d-flex" style="padding: 15px; ">
+            <div class="row d-flex">
+                @foreach (var quiz in ViewBag.Quizzes) {
+                <div class="col-4 d-flex ">
+                    <div class="card rounded-3  w-100 " style="margin:15px;">
+                        <div class="card-header">
+                            <h4><strong>@quiz.Titulo </strong>  </h4> <a href="#" class="badge rounded-pill bg-secondary">@quiz.Dificultad</a>
+                        </div>
+
+                        <div class="card-body">
+                            <p>
+                                @quiz.Descripcion <br />
+                            </p>
+                        </div>
+                        <div class="card-footer text-center"  >
+                            <div class="d-flex justify-content-center">
+                                @Html.ActionLink("Ir a Cuestionario", "Quiz", "Quiz", new { url = quiz.Link }, new { @class = "btn btn-info d-flex " })
+                            </div>
+                        </div>
+                    
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+        
+</body>
