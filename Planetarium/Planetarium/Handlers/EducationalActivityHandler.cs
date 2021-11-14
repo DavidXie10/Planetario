@@ -303,9 +303,9 @@ namespace Planetarium.Handlers {
         }
 
         public bool CheckCapacity(string activityTitle, string activityDate) {
-            string query = "SELECT (EAE.capacidadMaxima - COUNT(*)) AS Cupos " +
+            string query = "SELECT (EAE.capacidadMaxima - COUNT(AA.numeroAsiento)) AS Cupos " +
                            "FROM AsignarAsiento AA " +
-                           "INNER JOIN EventoActividadEducativa EAE ON(AA.tituloPKFK = EAE.tituloPKFK AND AA.fechaInicioPKFK = EAE.fechaInicioPK) " +
+                           "RIGHT JOIN EventoActividadEducativa EAE ON(AA.tituloPKFK = EAE.tituloPKFK AND AA.fechaInicioPKFK = EAE.fechaInicioPK) " +
                            "WHERE EAE.tituloPKFK = '" + activityTitle + "' " +
                            "AND EAE.fechaInicioPK = '" + activityDate + "' " +
                            "GROUP BY EAE.tituloPKFK, EAE.fechaInicioPK, EAE.capacidadMaxima";
@@ -333,12 +333,12 @@ namespace Planetarium.Handlers {
                            "AND fechaInicioPKfk = '" +activityDate + "'";
 
             DataTable resultingTable = CreateTableFromQuery(query);    
-            List<string> reservedSeats = new List<string>;
+            List<string> reservedSeats = new List<string>();
 
             foreach(DataRow rawEducationalInfo in resultingTable.Rows) {
                 reservedSeats.Add(Convert.ToString(rawEducationalInfo["numeroAsiento"]));
             }
-            return reservedSeats();
+            return reservedSeats;
         }
 
     }

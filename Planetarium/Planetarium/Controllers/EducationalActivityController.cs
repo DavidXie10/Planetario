@@ -245,7 +245,7 @@ namespace Planetarium.Controllers {
 
                 if (register == DEFAULT) {
                     //En vez de insertar se redireccione a la vista de seleccionar asiento
-                    ViewBag.SuccessOnCreation = VisitorDataAccess.CheckCapacity(title, date);
+                    ViewBag.SuccessOnCreation = ActivityDataAccess.CheckCapacity(title, date);
                     if (ViewBag.SuccessOnCreation) {
                         ModelState.Clear();
                         TempData["Error"] = false;
@@ -324,7 +324,7 @@ namespace Planetarium.Controllers {
 
             try {
                 ViewBag.SuccessOnCreation = VisitorDataAccess.RegisterVisitor(visitor, title, date);
-                ViewBag.SuccessOnCreation = VisitorDataAccess.CheckCapacity(title, date);
+                ViewBag.SuccessOnCreation = ActivityDataAccess.CheckCapacity(title, date);
                 if (ViewBag.SuccessOnCreation) {
                     TempData["Error"] = false;
                     ModelState.Clear();
