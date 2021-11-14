@@ -29,7 +29,7 @@
                                 @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @onkeyup = "checkValidLink(this)" })
                                 @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
                                 <p id="errorMsg" class="text-danger" style="display: none;">
-                                    Este link no es válido, revise el tutorial que se muestra en el botón de información!
+                                    No se pudo agregar el enlace. Puede ayudarse del tutorial que se muestra en el botón de información.
                                 </p>
                             </div>
                         </div>
