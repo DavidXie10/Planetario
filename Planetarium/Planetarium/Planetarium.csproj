@@ -302,7 +302,6 @@
     <Content Include="Views\Streaming\Streaming.cshtml" />
     <Content Include="Views\Streaming\InternetStreaming.cshtml" />
     <Content Include="Views\Streaming\StreamingForm.cshtml" />
-    <Content Include="Views\Streaming\ActivityStreaming.cshtml" />
     <Content Include="Views\EducationalActivity\EducationalActivity.cshtml" />
     <Content Include="Views\Calendar\Calendar.cshtml" />
     <Content Include="Views\Calendar\CreateEvent.cshtml" />

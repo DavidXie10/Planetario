@@ -118,6 +118,11 @@
                                 @Html.TextBoxFor(model => model.MaximumCapacity, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.MaximumCapacity, "", new { @class = "text-danger" })
                             </div>
+                            <div class="col">
+                                @Html.LabelFor(model => model.TypeOfAssistance)
+                                @Html.DropDownListFor(model => model.TypeOfAssistance, AssistancesItems, "Seleccione el tipo de asistencia", new { @class = "form-control", onchange = "isVirtual(this.value)" })
+                                @Html.ValidationMessageFor(model => model.TypeOfAssistance, "", new { @class = "text-danger" })
+                            </div>
                         </div>
 
                         <div id="inputLink" style="display: none;">

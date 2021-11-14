@@ -1,22 +1,6 @@
 [
-  {
-    "ActivityTitle": "Evolución de las galaxias y sus clasificaciones",
-    "Link": "https://www.youtube.com/embed/nA9UZF-SZoQ"
-  },
-  {
-    "ActivityTitle": "El espacio de colores",
-    "Link": "https://www.youtube.com/embed/DDU-rZs-Ic4"
-  },
-  {
-    "ActivityTitle": "Eventos Eruptivos en el Sol",
-    "Link": "https://www.youtube.com/embed/mg7FweYjasE"
-  },
-  {
-    "ActivityTitle": "Cosmología: presente y futuro",
-    "Link": "https://www.youtube.com/embed/mhJRzQsLZGg"
-  },
-  {
-    "ActivityTitle": "Eventos Eruptivos en el Sol",
-    "Link": "https://www.youtube.com/embed/yt0Y75VohA4"
-  }
+  { "Link": "https://www.youtube.com/embed/nA9UZF-SZoQ" },
+  { "Link": "https://www.youtube.com/embed/DDU-rZs-Ic4" },
+  { "Link": "https://www.youtube.com/embed/mg7FweYjasE" },
+  { "Link": "https://www.youtube.com/embed/mhJRzQsLZGg" }
 ]

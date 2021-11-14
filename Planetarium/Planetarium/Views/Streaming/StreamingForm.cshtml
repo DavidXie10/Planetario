@@ -1,7 +1,6 @@
 ﻿@model Planetarium.Models.StreamingModel
 @{
     ViewBag.Title = "Agregar evento en vivo";
-    List<SelectListItem> dropDownActivitiesNames = ViewBag.DropDownActivitiesNames;
 }
 
 <head>
@@ -9,7 +8,7 @@
 </head>
 
 <body>
-    
+
     <div class="container" style="margin-bottom:15%; margin-top:3%">
         <h2>Formulario para agregar eventos en vivo</h2>
         <br />
@@ -20,20 +19,12 @@
                     <div class="card-header">
                         <h4 class="text-success text-center">
                             NUEVO EVENTO EN VIVO
-                            <button type="button" class="btn btn-outline-primary alig" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter">
+                            <button type="button" class="btn btn-outline-secondary alig" style="float: right; color: #18BC9C" data-toggle="modal" data-target="#exampleModalCenter">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </h4>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                @Html.LabelFor(model => model.ActivityTitle)
-                                @Html.DropDownListFor(model => model.ActivityTitle, dropDownActivitiesNames, "- Sin selección -", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ActivityTitle, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <br />
                         <div class="row">
                             <div class="col">
                                 @Html.LabelFor(model => model.Link)
@@ -43,7 +34,7 @@
                         </div>
                         <br />
                         <div style="text-align:right;">
-                            <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+                            <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" onclick="checkLink()" required/>
                         </div>
                     </div>
                 </div>
@@ -70,8 +61,22 @@
                         <a href="~/Data_Files/Tutorial para agregar enlace a actividad en vivo.pdf" target="blank">Tutorial para agregar enlace a actividad en vivo.pdf</a>
                     </p>
                 </div>
-                
+
             </div>
         </div>
     </div>
 </body>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    function checkLink() {
+        let text = document.getElementById("Link").value;
+        if (!text.includes("/embed/") && text != "") {
+            alert(`No podemos agregar el en vivo porque el enlace no corresponde con el formato.\nPodés encontrar una guía aquí`);
+        }
+    }
+
+</script>

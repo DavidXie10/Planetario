@@ -83,8 +83,8 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@capacidad", educationalActivity.MaximumCapacity);
             queryCommand.Parameters.AddWithValue("@precio", educationalActivity.Price);
             queryCommand.Parameters.AddWithValue("@enlace", educationalActivity.Link == null ? "" : educationalActivity.Link);
-            queryCommand.Parameters.AddWithValue("@banderaVirtual", educationalActivity.TypeOfAssistance != null && (educationalActivity.TypeOfAssistance == "Mixto" || educationalActivity.TypeOfAssistance == "Virtual"));
-            queryCommand.Parameters.AddWithValue("@banderaPresencial", educationalActivity.TypeOfAssistance != null && (educationalActivity.TypeOfAssistance == "Mixto" || educationalActivity.TypeOfAssistance == "Presencial"));
+            queryCommand.Parameters.AddWithValue("@banderaVirtual", educationalActivity.TypeOfAssistance != null && (educationalActivity.TypeOfAssistance == "Bimodal" || educationalActivity.TypeOfAssistance == "Virtual"));
+            queryCommand.Parameters.AddWithValue("@banderaPresencial", educationalActivity.TypeOfAssistance != null && (educationalActivity.TypeOfAssistance == "Bimodal" || educationalActivity.TypeOfAssistance == "Presencial"));
         }
 
         private bool InsertActivitiesTopics(EducationalActivityModel educationalActivity) {
@@ -243,7 +243,7 @@ namespace Planetarium.Handlers {
             };
         }
         private string GetTypeOfAssistence(bool virtualFlag, bool onSiteFlag) {
-            return (virtualFlag && onSiteFlag) ? "Mixto" : (virtualFlag) ? "Virtual" : "Presencial";
+            return (virtualFlag && onSiteFlag) ? "Bimodal" : (virtualFlag) ? "Virtual" : "Presencial";
         }
 
 

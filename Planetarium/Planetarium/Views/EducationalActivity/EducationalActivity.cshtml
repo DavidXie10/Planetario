@@ -61,6 +61,10 @@
                                                 }
                                             </p>
                                         }
+
+                                        @if (ViewBag.Activity.TypeOfAssistance == "Virtual" || ViewBag.Activity.TypeOfAssistance == "Bimodal") {
+                                            @Html.ActionLink("• Ver en vivo", "../Streaming/Streaming", new { activityTitle = @ViewBag.Activity.Title, activityPublisher = @ViewBag.Activity.Publisher }, new { @class = "btn btn-danger", @style = "margin-top: 5px; width:93%; margin-bottom: 10px " })
+                                        }
                                     </div>
                                 </div>
                             </div>

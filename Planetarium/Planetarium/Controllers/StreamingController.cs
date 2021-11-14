@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
+﻿
 using System.Web.Mvc;
 using Planetarium.Models;
 using Planetarium.Handlers;
-using System;
 
 namespace Planetarium.Controllers {
     public class StreamingController : Controller {
@@ -13,26 +12,18 @@ namespace Planetarium.Controllers {
             ActivityDataAccess = new EducationalActivityHandler();
             ContentParser = new ContentParser();
         }
-        public ActionResult Streaming() {
-            
+        public ActionResult Streaming(string activityTitle, string activityPublisher) {
+            ViewBag.ActivityTitle = activityTitle;
+            ViewBag.ActivityPublisher = activityPublisher;
             return View();
         }
 
         public ActionResult InternetStreaming() {
-            List<StreamingModel> streamings = ContentParser.GetContentsFromJson<StreamingModel>("Streamings.json", ContentParser.GetStreamingsFromJson);
-            ViewBag.Streamings = streamings;
+            ViewBag.Streamings = ContentParser.GetContentsFromJson<StreamingModel>("Streamings.json", ContentParser.GetStreamingsFromJson);;
             return View();
         }
 
         public ActionResult StreamingForm() {
-            ViewBag.DropDownActivitiesNames = ActivityDataAccess.GetAllActivitiesNames();
-
-            return View();
-        }
-
-        public ActionResult ActivityStreaming(string activityTitle) {
-            ViewBag.Streaming = ContentParser.GetContentsFromJson<StreamingModel>("Streamings.json", ContentParser.GetStreamingsFromJson).Find(smodel => String.Equals(smodel.ActivityTitle, activityTitle));
-
             return View();
         }
 

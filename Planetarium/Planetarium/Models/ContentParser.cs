@@ -9,7 +9,6 @@ using System.Text;
 
 namespace Planetarium.Models {
     public class ContentParser {
-        //Write Methods
         public bool WriteToJsonFile(string fileName, QuizModel quiz) {
             bool success = false;
             string jsonString = JoinNewData(fileName, quiz);
@@ -21,9 +20,7 @@ namespace Planetarium.Models {
             }
             return success;
         }
-               
 
-        //Read Methods
         private string[] ExtractRawContent(string fileName) {
             return File.ReadAllLines(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName));
         }
@@ -101,18 +98,13 @@ namespace Planetarium.Models {
         public string JoinNewData(string fileName, QuizModel quiz) {
             string resultingJson = "";
             try {
-                //Extracting the old values from the file
                 string[] rawJson = ExtractRawContent(fileName);
                 string json = ParseRawJson(rawJson);
                 dynamic jsonCollection = JsonConvert.DeserializeObject(json);
                 List<QuizModel> previousQuizzes = GetQuizzesFromJson(jsonCollection);
 
-                //Adding the new one
                 previousQuizzes.Add(quiz);
-
-                //Parsing the list to json
                 resultingJson = JsonConvert.SerializeObject(previousQuizzes);
-
             } catch(Exception e) {
                 
             }
@@ -137,8 +129,7 @@ namespace Planetarium.Models {
             List<StreamingModel> streamings = new List<StreamingModel>();
             foreach (var element in jsonCollection) {
                 streamings.Add(new StreamingModel {
-                    Link = element.Link,
-                    ActivityTitle = element.ActivityTitle
+                    Link = element.Link
                 });
             }
             return streamings;

@@ -11,7 +11,7 @@
         <div class="card d-flex" style="margin-top: 25px; padding:0px">
             <h3 class="card-header  d-flex">
                 <a href="#" class="display-6 text-primary" style="width: 25%; ">Eventos en vivo </a>
-                <a type="button" class="btn btn-danger" style="height:40px; margin-top:5px" href="../Streaming/Streaming">• Live</a>
+                @Html.ActionLink("• En vivo", "../Streaming/Streaming", new { activityTitle = "Evento en vivo", activityPublisher = "Planetario UCR" }, new { @class = "btn btn-danger", @style = "margin-top: 5px; margin-bottom: 10px " })
             </h3>
             <a type="button" class="align-self-end align-self-right" style="font-size:medium;" href="../Streaming/StreamingForm">[agregar]</a>
             <div class="card-body d-flex">

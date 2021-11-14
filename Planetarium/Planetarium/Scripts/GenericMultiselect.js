@@ -110,7 +110,7 @@ function addLanguageButton(element) {
 }
 
 function isVirtual(value) {
-    if (value == "Virtual" || value == "Mixto") {
+    if (value == "Virtual" || value == "Bimodal") {
         document.querySelector("#inputLink").style.display = "block";
     } else {
         document.querySelector("#inputLink").style.display = "none";
