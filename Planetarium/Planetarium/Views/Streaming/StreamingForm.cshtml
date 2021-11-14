@@ -1,6 +1,7 @@
 ﻿@model Planetarium.Models.StreamingModel
 @{
-    ViewBag.Title = "Agregar Streaming";
+    ViewBag.Title = "Agregar evento en vivo";
+    List<SelectListItem> dropDownActivitiesNames = ViewBag.DropDownActivitiesNames;
 }
 
 <head>
@@ -9,14 +10,16 @@
 
 <body>
     
-    <div class="container" style="margin-bottom:15%; margin-top:5%">
-        @using (Html.BeginForm("SubmitStreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+    <div class="container" style="margin-bottom:15%; margin-top:3%">
+        <h2>Formulario para agregar eventos en vivo</h2>
+        <br />
+        @using (Html.BeginForm("SubmitStreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
             <div class="form">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="text-success text-center">Ingrese el enlace del evento en vivo 
+                        <h4 class="text-success text-center">
+                            NUEVO EVENTO EN VIVO
                             <button type="button" class="btn btn-outline-primary alig" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter">
                                 <i class="fas fa-info-circle"></i>
                             </button>
@@ -25,14 +28,23 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
+                                @Html.LabelFor(model => model.ActivityTitle)
+                                @Html.DropDownListFor(model => model.ActivityTitle, dropDownActivitiesNames, "- Sin selección -", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ActivityTitle, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col">
                                 @Html.LabelFor(model => model.Link)
                                 @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    </div>
-                    <div style="text-align:right;">
-                        <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+                        <br />
+                        <div style="text-align:right;">
+                            <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -57,23 +57,23 @@ namespace Planetarium.Models {
 
         public List<Model> GetContentsFromJson<Model>(string jsonFile, Func<dynamic, List<Model>> GetModelsFromJson) {
             List<Model> models = new List<Model>();
-            try
-            {
+            try {
                 string[] rawContent = ExtractRawContent(jsonFile);
                 string jsonString = ParseRawJson(rawContent);
                 dynamic jsonCollection = JsonConvert.DeserializeObject(jsonString);
                 models = GetModelsFromJson(jsonCollection);               
-            } catch{
+            } catch {
                 models = null;
             }
             return models;
         }
 
-        public List<StreamingModel> GetLiveStreamLinksFromJson(dynamic jsonCollection) {
+        public List<StreamingModel> GetStreamingsFromJson(dynamic jsonCollection) {
             List<StreamingModel> streamings = new List<StreamingModel>();
             foreach (var element in jsonCollection) {
                 streamings.Add(new StreamingModel {
-                    Link = element.Link
+                    Link = element.Link,
+                    ActivityTitle = element.ActivityTitle
                 });
             }
             return streamings;
@@ -94,18 +94,13 @@ namespace Planetarium.Models {
         public string JoinNewData<Model>(string fileName, Model model, Func<dynamic, List<Model>> GetModelsFromJson) {
             string resultingJson = "";
             try {
-                //Extracting the old values from the file
                 string[] rawJson = ExtractRawContent(fileName);
                 string json = ParseRawJson(rawJson);
                 dynamic jsonCollection = JsonConvert.DeserializeObject(json);
                 List<Model> previousModels = GetModelsFromJson(jsonCollection);
 
-                //Adding the new one
                 previousModels.Add(model);
-
-                //Parsing the list to json
                 resultingJson = JsonConvert.SerializeObject(previousModels);
-
             } catch {
 
             }

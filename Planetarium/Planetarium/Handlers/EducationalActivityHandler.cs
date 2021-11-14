@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
+using System.Web.Mvc;
 using Planetarium.Models;
 using static Planetarium.Handlers.DatabaseHandler;
 
@@ -219,15 +217,17 @@ namespace Planetarium.Handlers {
             return DatabaseQuery(query);
         }
 
-        public List<string> GetAllActivities() {
-            List<string> activitiesTitles = new List<string>();
-            string query = "SELECT * " +
+        public List<SelectListItem> GetAllActivitiesNames() {
+            List<SelectListItem> activitiesTitles = new List<SelectListItem>();
+            string query = "SELECT tituloPK " +
                            "FROM EventoActividadEducativa EAE " +
                            "INNER JOIN ActividadEducativa AE ON EAE.tituloPKFK = AE.tituloPK " +
-                           "WHERE EAE.estadoRevision = 1";
+                           "WHERE EAE.estadoRevision = 1" +
+                           "AND (AE.tipo = 'Charla' OR AE.tipo = 'Taller')";
             DataTable resultingTable = CreateTableFromQuery(query);
+
             foreach (DataRow column in resultingTable.Rows) {
-                activitiesTitles.Add(Convert.ToString(column["tituloPK"]));
+                activitiesTitles.Add(new SelectListItem { Text = Convert.ToString(column["tituloPK"]), Value = Convert.ToString(column["tituloPK"]) });
             }
             return activitiesTitles;
         }

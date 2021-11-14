@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
@@ -20,7 +18,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult SubmitEducationalMaterial() {
-            ViewBag.DropDownActivitiesNames = LoadActivityNames();
+            ViewBag.DropDownActivitiesNames = DataAccess.GetAllActivitiesNames();
             return View();
         }
 
@@ -46,16 +44,6 @@ namespace Planetarium.Controllers {
             }
 
             return view;
-        }
-        private List<SelectListItem> LoadActivityNames() {
-            List<string> activitiesNames = DataAccess.GetAllActivities();
-
-            List<SelectListItem> dropdownActivities = new List<SelectListItem>();
-            foreach (string activity in activitiesNames) {
-                dropdownActivities.Add(new SelectListItem { Text = activity, Value = activity });
-            }
-
-            return dropdownActivities;
         }
 
         [HttpPost]

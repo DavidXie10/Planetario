@@ -156,10 +156,12 @@
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\StreamingModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\activitiesHomePageAccess.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -170,9 +172,13 @@
     <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
-    <Content Include="Data_Files\Vision.txt" />
     <Content Include="Educational_Material\Black-Panther-amu.png" />
     <Content Include="Educational_Material\Calentamiento-%2816%29.jpg" />
+    <Content Include="Educational_Material\CreacionTablasPlanetario3.3.sql" />
+    <Content Include="Educational_Material\eclipse5.jpg" />
+    <Content Include="Educational_Material\imagenPrincipal.jpg" />
+    <Content Include="Educational_Material\rover.png" />
+    <Content Include="Educational_Material\saturn-54999-640.jpg" />
     <Content Include="images\astronaut.png" />
     <Content Include="images\earth.jpg" />
     <Content Include="images\eclipse.jpg" />
@@ -197,6 +203,16 @@
     <Content Include="Educational_Material\actividad1.pdf" />
     <Content Include="Educational_Material\actividad_telescopiada.pdf" />
     <Content Include="Educational_Material\andalucia-innova-astronomia-100-preguntas-100-respuestas.pdf" />
+    <Content Include="Data_Files\CategoriesAndTopics.json" />
+    <Content Include="Data_Files\Streamings.json" />
+    <Content Include="Data_Files\Tutorial para agregar enlace a actividad en vivo.pdf" />
+    <Content Include="Educational_Material\FolletoComplementario1.pdf" />
+    <Content Include="Educational_Material\ListaMateriales.pdf" />
+    <Content Include="Educational_Material\Materiales.pdf" />
+    <Content Include="Educational_Material\presentacion.pptx" />
+    <Content Include="Educational_Material\libro.pdf" />
+    <Content Include="Educational_Material\ResumenCosmologia.pdf" />
+    <Content Include="Educational_Material\ResumenEventosEruptivos.pdf" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
@@ -265,6 +281,9 @@
     <Content Include="Views\EducationalActivity\ActivityInscriptionForm.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
     <Content Include="Views\Streaming\Streaming.cshtml" />
+    <Content Include="Views\Streaming\InternetStreaming.cshtml" />
+    <Content Include="Views\Streaming\StreamingForm.cshtml" />
+    <Content Include="Views\Streaming\ActivityStreaming.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
