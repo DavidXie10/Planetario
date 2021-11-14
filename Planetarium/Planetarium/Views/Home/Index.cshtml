@@ -7,10 +7,10 @@
     </head>
 
 <body>
-   
+
     <div class="container">
-          
-        <div >
+
+        <div>
             @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
         </div>
         <hr />
@@ -20,12 +20,14 @@
             </h3>
             <div class="card-body">
                 <div class="row">
-                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
+                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index)
+                    {
                         <div class="col-sm">
                             <div class="card h-100 bg-light">
                                 <div class="embed-responsive embed-responsive-4by3">
                                     <div class="embed-responsive-item">
-                                        @if (ViewBag.News[index].ImagesRef.Count > 0) {
+                                        @if (ViewBag.News[index].ImagesRef.Count > 0)
+                                        {
                                             <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
                                         }
 
@@ -80,7 +82,7 @@
                         <h3>Cuestionarios</h3>
                         <img src="~/images/PlanetariumUCR/galileoEstudiando.jpg" class="img_squareImg" alt="Responsive image">
                         <div class="image__overlay image__overlay--light">
-                            <div class="image__title">@Html.ActionLink("Cuestionarios", "")</div>
+                            <div class="image__title">@Html.ActionLink("Cuestionarios", "../Quiz/Quizzes")</div>
                             <h5 class="image__description">
                                 Poné a prueba tus conocimientos
                             </h5>

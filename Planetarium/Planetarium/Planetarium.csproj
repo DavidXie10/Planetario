@@ -143,6 +143,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -162,10 +163,12 @@
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
+    <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\activitiesHomePageAccess.css" />
+    <Content Include="Content\homePageAccess.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -202,6 +205,7 @@
     <Content Include="Educational_Material\actividad1.pdf" />
     <Content Include="Educational_Material\actividad_telescopiada.pdf" />
     <Content Include="Educational_Material\andalucia-innova-astronomia-100-preguntas-100-respuestas.pdf" />
+    <Content Include="Data_Files\Quizzes.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
@@ -214,6 +218,8 @@
     <Content Include="images\news\saturn-54999-640.jpg" />
     <Content Include="images\news\stringTheory.jpg" />
     <Content Include="images\PlanetariumUCR\activitiesImageHomePage.jpg" />
+    <Content Include="images\PlanetariumUCR\calendario.png" />
+    <Content Include="images\PlanetariumUCR\galileoEstudiando.jpg" />
     <Content Include="images\PlanetariumUCR\planetarioUCR.jpg" />
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
@@ -280,6 +286,9 @@
     <Content Include="Views\Calendar\CreateEvent.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatisticsInvolvement.cshtml" />
     <Content Include="Views\Employees\ShowEmployeesIdiomsStatistics.cshtml" />
+    <Content Include="Views\Quiz\Quizzes.cshtml" />
+    <Content Include="Views\Quiz\NewQuiz.cshtml" />
+    <Content Include="Views\Quiz\Quiz.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
