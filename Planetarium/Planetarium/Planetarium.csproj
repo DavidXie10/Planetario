@@ -178,7 +178,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
-    <Content Include="Data_Files\Vision.txt" />
     <Content Include="Educational_Material\Black-Panther-amu.png" />
     <Content Include="Educational_Material\Calentamiento-%2816%29.jpg" />
     <Content Include="images\astronaut.png" />
@@ -206,6 +205,7 @@
     <Content Include="Educational_Material\actividad_telescopiada.pdf" />
     <Content Include="Educational_Material\andalucia-innova-astronomia-100-preguntas-100-respuestas.pdf" />
     <Content Include="Data_Files\Quizzes.json" />
+    <Content Include="Data_Files\CategoriesAndTopics.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
