@@ -1,6 +1,6 @@
 ﻿@model Planetarium.Models.StreamingModel
 @{
-    ViewBag.Title = "Agregar evento en vivo";
+    ViewBag.Title = "Agregar Streaming";
 }
 
 <head>
@@ -9,17 +9,15 @@
 
 <body>
 
-    <div class="container" style="margin-bottom:15%; margin-top:3%">
-        <h2>Formulario para agregar eventos en vivo</h2>
-        <br />
+    <div class="container" style="margin-bottom:15%; margin-top:5%">
         @using (Html.BeginForm("SubmitStreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
             <div class="form">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="text-success text-center">
-                            NUEVO EVENTO EN VIVO
-                            <button type="button" class="btn btn-outline-secondary alig" style="float: right; color: #18BC9C" data-toggle="modal" data-target="#exampleModalCenter">
+                            Ingrese el enlace del evento en vivo
+                            <button type="button" class="btn btn-outline-primary alig" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter">
                                 <i class="fas fa-info-circle"></i>
                             </button>
                         </h4>
@@ -28,14 +26,22 @@
                         <div class="row">
                             <div class="col">
                                 @Html.LabelFor(model => model.Link)
-                                @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @onkeyup = "checkValidLink(this)" })
                                 @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+                                <p id="errorMsg" class="text-danger" style="display: none;">
+                                    Este link no es válido, revise el tutorial que se muestra en el botón de información!
+                                </p>
                             </div>
                         </div>
-                        <br />
-                        <div style="text-align:right;">
-                            <input type="submit" class="btn btn-success" style=" padding: 5px 55px 5px 55px;" value="Agregar streaming" onclick="checkLink()" required/>
+                        <div class="row">
+                            <div class="col text-end">
+                                <input type="button" class="btn btn-success" style="margin-top: 15px; padding: 5px 55px 5px 55px;" onclick="checkData(this)" value="Agregar streaming" />
+                                <input id="buttonSubmit" type="submit" class="btn btn-success" style="margin-top: 15px; padding: 5px 55px 5px 55px; display: none" value="Agregar streaming" />
+                            </div>
                         </div>
+                    </div>
+                    <div>
+
                     </div>
                 </div>
             </div>
@@ -48,7 +54,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Agregar el enlace de la actividad en vivo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -61,22 +67,41 @@
                         <a href="~/Data_Files/Tutorial para agregar enlace a actividad en vivo.pdf" target="blank">Tutorial para agregar enlace a actividad en vivo.pdf</a>
                     </p>
                 </div>
-
             </div>
         </div>
     </div>
-</body>
 
-@section Scripts{
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
-<script>
-    function checkLink() {
-        let text = document.getElementById("Link").value;
-        if (!text.includes("/embed/") && text != "") {
-            alert(`No podemos agregar el en vivo porque el enlace no corresponde con el formato.\nPodés encontrar una guía aquí`);
+    <script>
+        function checkData(target) {
+            let linkInput = document.getElementById("Link");
+            let linkValue = linkInput.value;
+            if (isValidLink(linkValue)) {
+                document.getElementById("buttonSubmit").click();
+            } else {
+                console.log("Pain");
+            }
         }
-    }
 
-</script>
+        function isValidLink(link) {
+            let isValid = false;
+            if (link.includes("embed")) {
+                isValid = true;
+            }
+            return isValid;
+        }
+
+        function checkValidLink(target) {
+            console.log("triggered");
+            let errorContainer = document.getElementById("errorMsg");
+            let linkInput = document.getElementById("Link");
+            linkInput.removeAttribute("style");
+            let linkValue = linkInput.value;
+            if (isValidLink(linkValue)) {
+                errorContainer.style.display = "none";
+            } else {
+                errorContainer.style.display = "block";
+            }
+
+        }
+    </script>
+</body>
