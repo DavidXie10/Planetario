@@ -223,6 +223,7 @@
     <Content Include="Educational_Material\ResumenCosmologia.pdf" />
     <Content Include="Educational_Material\ResumenEventosEruptivos.pdf" />
     <Content Include="Data_Files\Quizzes.json" />
+    <Content Include="Data_Files\CategoriesAndTopics.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
