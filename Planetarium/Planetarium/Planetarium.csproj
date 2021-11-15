@@ -265,6 +265,7 @@
     <Content Include="Views\EducationalActivity\EducationalActivity.cshtml" />
     <Content Include="Views\EducationalActivity\AssignSeat.cshtml" />
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
+    <Content Include="Views\EducationalActivity\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

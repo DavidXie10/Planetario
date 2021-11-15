@@ -1,4 +1,6 @@
-﻿
+﻿@{ 
+    ViewBag.seatFromDBController = Html.Raw(Url.Action("GetOcuppiedSeats", "EducationalActivity", new { date = ViewBag.date, title = ViewBag.title }));
+}
 
 <!DOCTYPE html>
 <html>
@@ -15,20 +17,46 @@
             <hr />
             <div class="card">
                 <div class="card-header text-center">
-                    Asientos
+                    Pantalla
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    <table id="holder">
-                    </table>
+                    <div class="row">
+                        <div class="col">
+                            <table id="holder"></table>
+                        </div>
+                    </div>
                 </div>
+                <div class="row">
+                    @using (Html.BeginForm("ConfirmSeat", "EducationalActivity", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                        @Html.AntiForgeryToken()
+                        <div class="col d-flex justify-content-center">
+                            <input type="text" name="selectedSeatString" value="" id="selectedSeat" style="display: none;" />
+                            <input type="button" name="name" class="btn btn-secondary" value="Borrar Seleccion" onclick="clearSelection()" style="margin: 0 3px 5px 3px" />
+                            <input type="button" name="name" id="continueButton" class="btn btn-light" value="Continuar" onclick="checkData()" style="margin: 0 3px 5px 3px" />
+
+
+
+                            <input type="text" name="dni" value="@ViewBag.id" style="display: none;" />
+                            <input type="text" name="title" value="@ViewBag.title" style="display: none;" />
+                            <input type="text" name="date" value="@ViewBag.date" style="display: none;" />
+
+
+                            <input type="submit" name="name" id="Reservar" class="btn btn-light" value="Continuar" onclick="checkData()" style="display: none" />
+                        </div>
+                    }
+                </div>
+
             </div>
+
+            @Html.ActionLink("Regresar", "ActivityInscription", "EducationalActivity", new { activityTitle = ViewBag.title, activityDate = ViewBag.date } , new { @class = "btn btn-success", @style = "" })
         </div>
     </div>
 
     <script src="~/Scripts/Seats.js"></script>
     <script>
-        let seatsGen = new SeatGenerator("holder", "@ViewBag.maxParticipants");
-        seatsGen.generateSeatArray();
+        let url = "@ViewBag.seatFromDBController";
+        let seatsGen = new SeatGenerator("holder", "@ViewBag.maxParticipants", url);
+
     </script>
 </body>
 </html>

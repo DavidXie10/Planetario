@@ -123,7 +123,7 @@ namespace Planetarium.Controllers {
         }
 
         private string WordUsageDependingOnState(string baseMessage, int state) {
-            return baseMessage +( (state == 0) ? "pasada a revisión." : (state == 1) ? "aprobada." : "rechazada.");    
+            return baseMessage +  ((state == 0) ? "pasada a revisión." : (state == 1) ? "aprobada." : "rechazada.");
         }
 
         public ActionResult ListActivities() {
@@ -143,7 +143,7 @@ namespace Planetarium.Controllers {
             string title = Request.Form["myTitle"];
 
             ViewBag.SuccessOnCreation = false;
-            try {   
+            try {
                 ViewBag.SuccessOnCreation = ActivityDataAccess.UpdateActivityState(title, state);
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
@@ -192,40 +192,68 @@ namespace Planetarium.Controllers {
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ConfirmSeat() {
+            ActionResult view = null;
+            string id = Request.Form["dni"];
+            string title = Request.Form["title"];
+            string date = Request.Form["date"];
+            string seat = Request.Form["selectedSeatString"];
+            double price = ActivityDataAccess.GetPrice(title, date);
+
+            if (price > 0) {
+                view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = id, title = title, date = date, seat = seat });
+            }else {
+                view = RedirectToAction("Invoice", "Educationalactivity", new { dni = id, title = title, date = date, seat = seat, price = price });
+            }
+            return view;
+        }
+
         public ActionResult PayMethod(string dni = "0", string title = "", string date = "", string seat = "0-0") {
+
             ViewBag.visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
+
             ViewBag.title = title;
             ViewBag.date = date;
             ViewBag.seat = seat;
+            ViewBag.Price = ActivityDataAccess.GetPrice(ViewBag.title, ViewBag.date);
+
             return View();
         }
 
-        public ActionResult BuySeat(string id, string title, string date, string seat) {
-            ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = id, title = title, date = date, seat = seat });
+        public ActionResult Invoice(string dni, string title, string date, string seat, double price) {
+            VisitorModel visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
+            ViewBag.Visitor = visitor;
+            ViewBag.Title = title;
+            ViewBag.Date = date;
+            ViewBag.Seat = seat;
+            ViewBag.Price = price;
+
+            ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = visitor.Dni, title = title, date = date, seat = seat });
             try {
-                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertAssignSeat(id, title, date, seat);
-                if(ViewBag.SuccessOnCreation) {
-                    view = RedirectToAction("Success", "Home");
+                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date);
+                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertAssignSeat(visitor.Dni, title, date, seat);
+                if (ViewBag.SuccessOnCreation) {
+                    view = View();
                 }
             } catch {
                 TempData["WarningMessage"] = "Algo salió mal";
             }
 
-            //TO-DO: Este metodo deberia insertar los datos de la persona
-            //TO-DO: Se deben hacer las validaciones para mostrar los mensajes de error
-            //Caso: Al llegar a este punto la cedula del visitante fue verificada
-            //      junto con los espacio disponibles.
-            //Estos comentarios pueden ser borrados en cualquier momemnto
+            return view;
+        }
 
-
-            return RedirectToAction("Success", "Home");
-
+        public JsonResult GetOcuppiedSeats(string title, string date) {
+            List<string> occupiedSeats = ActivityDataAccess.GetReservedSeats(title, date);
+            return Json(occupiedSeats, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AssignSeat(string id = "0", string title = "X", string date = "X") {
             ViewBag.maxParticipants = ActivityDataAccess.GetMaxCapacity(title, date);
             ViewBag.id = id;
+            ViewBag.title = title;
             ViewBag.date = date;
+
             return View();
         }
 
@@ -263,38 +291,6 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-
-        [HttpPost]
-        public ActionResult SubmitActivityInscription(VisitorModel visitor) {
-            string date = Request.Form["date"];
-            string title = Request.Form["title"];
-            ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date});
-          
-            ViewBag.SuccessOnCreation = false;
-            TempData["Error"] = true;
-            TempData["WarningMessage"] = "";
-
-            try {
-                int register = VisitorDataAccess.CheckVisitor(visitor.Dni) ? (VisitorDataAccess.CheckVisitor(visitor.Dni, title, date) ? REGISTERED : DEFAULT) : NOT_REGISTERED;
-                 
-                if (register == DEFAULT) {
-                    ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor, title, date);
-                    if (ViewBag.SuccessOnCreation) {
-                        ModelState.Clear();
-                        TempData["Error"] = false;
-                        view = RedirectToAction("Success", "Home");
-                    }    
-                } else {
-                    TempData["Error"] = false;
-                    view = RedirectToAction("ActivityInscription", "EducationalActivity", new { activityTitle = title, activityDate = date, register = register });
-                }
-            } catch {
-                TempData["WarningMessage"] = "Algo salió mal";
-            }
-
-            return view;
-        }
-
         private List<SelectListItem> LoadGenders() {
             List<SelectListItem> genders = new List<SelectListItem>();
             genders.Add(new SelectListItem { Text = "Hombre", Value = "M" });
@@ -328,7 +324,7 @@ namespace Planetarium.Controllers {
                 if (ViewBag.SuccessOnCreation) {
                     TempData["Error"] = false;
                     ModelState.Clear();
-                    view = RedirectToAction("AssignSeat", "EducationalActivity");
+                    view = RedirectToAction("AssignSeat", "EducationalActivity", new { dni = visitor.Dni, activityTitle = title, activityDate = date });
                 }
             } catch (Exception e) {
                 TempData["WarningMessage"] = e;

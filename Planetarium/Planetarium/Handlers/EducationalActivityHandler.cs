@@ -330,7 +330,7 @@ namespace Planetarium.Handlers {
             string query = "SELECT numeroAsiento " +
                            "FROM AsignarAsiento " +
                            "WHERE tituloPKFK = '" + activityTitle + "' " +
-                           "AND fechaInicioPKfk = '" +activityDate + "'";
+                           "AND fechaInicioPKfk = '" + activityDate + "'";
 
             DataTable resultingTable = CreateTableFromQuery(query);    
             List<string> reservedSeats = new List<string>();
@@ -340,6 +340,18 @@ namespace Planetarium.Handlers {
             }
             return reservedSeats;
         }
+
+        public double GetPrice(string activityTitle, string activityDate) {
+            string query = "SELECT precio " +
+                           "FROM EventoActividadEducativa EAE " +
+                           "WHERE EAE.tituloPKFK = '" + activityTitle + "' " +
+                           "AND EAE.fechaInicioPK = '" + activityDate + "' ";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+
+            return Convert.ToDouble(resultingTable.Rows[0]["precio"]);
+        }
+
 
     }
 }

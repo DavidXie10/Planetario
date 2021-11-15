@@ -16,8 +16,9 @@
                         <div class="col-md-8 ">
                             <div class="card bg-light">
                                 <div class="card-body">
-                                    <h5>Prueba de un titulo @ViewBag.title</h5>
-                                    <h6>Prueba de una fecha</h6>
+                                    <h5>@ViewBag.title</h5>
+                                    <h6>@ViewBag.date</h6>
+                                    <h6>@ViewBag.seat</h6>
                                 </div>
                             </div>
                         </div>
@@ -114,8 +115,8 @@
                                 </div>
                                 <div class="row" style="text-align:right; margin-top: 5px;">
                                     <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">
-                                        @Html.ActionLink("Prueba", "Test", "EducationalActivity", new { id = ViewBag.visitor.seat, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seat}, new { @class = "btn btn-success" })
-                                        <input type="submit" class="btn btn-success btn-block" value="Pagar" onclick="checkData()" />
+                                        @Html.ActionLink("Pagar", "Invoice", "EducationalActivity", new { dni = ViewBag.visitor.Dni, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seat, price = ViewBag.price}, new { @id ="submit", @class = "btn btn-success", @style = "display: none" })
+                                        <input type="button" class="btn btn-success btn-block" value="Pagar" onclick="checkData()" />
                                     </div>
                                 </div>
                             </form>
@@ -156,25 +157,34 @@
 
     function checkData() {
 
+        let valid = true;
+
         var userName = document.getElementById("fname").value;
         var userLastName = document.getElementById("lname").value;
         var userMailName = document.getElementById("email").value;
 
 
         if (userName == '') {
+            valid = false;
             let container = document.querySelector(".nameError")
             console.log(container)
             document.querySelector("#nameError").innerHTML = "Por favor ingrese el nombre"
         }
         if (userLastName == '') {
+            valid = false;
             let container = document.querySelector(".lastNameError")
             console.log(container)
             document.querySelector("#lastNameError").innerHTML = "Por favor ingrese el apellido"
         }
         if (userMailName == '') {
+            valid = false;
             let container = document.querySelector(".mailError")
             console.log(container)
             document.querySelector("#emailError").innerHTML = "Por favor ingrese el correo electónico"
+        }
+
+        if (valid) {
+            document.getElementById("submit").click();
         }
     }
 

@@ -56,9 +56,9 @@ namespace Planetarium.Handlers {
         }
 
         public VisitorModel GetVisitorFromDatabase(string dni) {
-            string query = "SELECT *" +
-                            "FROM Visitante" +
-                            "WHERE cedulaPK = " + dni;
+            string query = "SELECT * " +
+                            "FROM Visitante " +
+                            "WHERE cedulaPK = '" + dni + "'";
             DataTable resultingTable = CreateTableFromQuery(query);
             DataRow visitorInstance = resultingTable.Rows[0];
             return GetVisitorContentFromTable(visitorInstance);
@@ -87,9 +87,9 @@ namespace Planetarium.Handlers {
             };
         }
 
-        public bool InsertVisitor(VisitorModel visitor, string activityTitle, string activityDate) {
+        public bool InsertVisitor(string visitorDni, string activityTitle, string activityDate) {
             string query = "INSERT INTO Inscribirse (cedulaPKFK, tituloPKFK, fechaInicioPKFK)" +
-                    " VALUES ('" + visitor.Dni + "', '" + activityTitle + "', '" + activityDate + "')";
+                    " VALUES ('" + visitorDni + "', '" + activityTitle + "', '" + activityDate + "')";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
             bool success = DatabaseQuery(queryCommand);
