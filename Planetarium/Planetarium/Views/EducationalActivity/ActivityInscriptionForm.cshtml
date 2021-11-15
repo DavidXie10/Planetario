@@ -58,7 +58,7 @@
                     <div class="row" style="margin-top: 15px;">
                         <div class="col">
                             @Html.LabelFor(model => model.Mail)
-                            @Html.TextBoxFor(model => model.Mail, new { @class = "form-control", @placeholder = "john.doe@gmail.com" })
+                            @Html.TextBoxFor(model => model.Mail, new { @class = "form-control", @placeholder = "john.doe@gmail.com", @type = "email" })
                         </div>
                         <div class="col">
                             @Html.LabelFor(model => model.NativeCountry)
@@ -69,17 +69,15 @@
 
                     <div class="row" style="margin-top: 15px">
                         <div class="col-6">
-                            @Html.LabelFor(model => model.DateOfBirth, new { @style = "" })
+                            @Html.LabelFor(model => model.DateOfBirth)
                             <br />
-                            @Html.EditorFor(model => model.DateOfBirth, new { @type = "date" })
+                            @Html.EditorFor(model => model.DateOfBirth, new { @type = "date", @class = "w-100" })
                             @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
                         </div>
-                        
-
                     </div>
                 </div>
                 <div class="text-center">
-                    @Html.ActionLink("Cancelar", "../EducationalActivity/ActivityInscription", new { activityTitle = @ViewBag.ActivityTitle, activityDate = @ViewBag.ActivityDate }, new { @class = "btn btn-secondary inputButton"})
+                    @Html.ActionLink("Cancelar", "../EducationalActivity/ActivityInscription", new { activityTitle = @ViewBag.ActivityTitle, activityDate = @ViewBag.ActivityDate }, new { @class = "btn btn-secondary inputButton" })
 
                     <input type="submit" class="btn btn-success inputButton" value="Inscribirme" />
                 </div>
@@ -88,20 +86,9 @@
             </div>
         }
     </div>
-
+    <script type="text/javascript" src="~/Scripts/inscriptionForm.js"></script>
 </body>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
 </html>
-
-<script type="text/javascript">
-    let currentDate = new Date();
-    let month = currentDate.getMonth() + 1;
-    let currentDay = currentDate.getDate();
-    let day = currentDay / 10 >= 1 ? '' : '0';
-    day += currentDay;
-    document.getElementById("DateOfBirth").setAttribute("max", currentDate.getFullYear() + "-" + month + "-" + day);
-    document.getElementById("DateOfBirth").setAttribute("style", "");
-    document.getElementById("DateOfBirth").setAttribute("class", "form-control w-100");
-</script>

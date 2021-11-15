@@ -1,0 +1,62 @@
+﻿@model Planetarium.Models.QuizModel
+@{
+    ViewBag.Title = "Agregar Quiz";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container">
+        @using (Html.BeginForm("SubmitQuiz", "Quiz", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @Html.AntiForgeryToken()
+
+            <div class="form">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">NUEVO CUESTIONARIO</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Title)
+                                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col">
+                                <div>
+                                    @Html.LabelFor(model => model.Difficulty)
+                                    <select name="dificulty" class="form-select">
+                                        <option value="">Seleccione una dificultad</option>
+                                        <option value="Principiante">Principiante</option>
+                                        <option value="Intermedio">Intermedio</option>
+                                        <option value="Avanzado">Avanzado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Description)
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Link)
+                                @Html.TextBoxFor(model => model.Link, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="text-end" style="margin-top: 15px;">
+                            <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Agregar cuestionario" />
+                        </div>
+                    </div>                    
+                </div>           
+            </div>
+        }
+    </div>
+</body>

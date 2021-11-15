@@ -7,52 +7,38 @@
     }
 
     addButton(value) {
+        if (!this.isValueInString(value)) {
+            //Card Element
+            let button = document.createElement("a");
 
-        //Card Element
-        let button = document.createElement("a");
+            //Button properties
+            button.textContent = String(value).replaceAll("_", " ");
+            button.classList.add("btn", "btn-success");
+            button.style.margin = "2px";
 
-        //Button properties
-        button.textContent = String(value).replace("_", " ");
-        button.classList.add("btn", "btn-success");
-        button.style.margin = "2px";
+            //Removing element onClick
+            button.addEventListener("click", (triggeredEvent) => {
 
-        //Removing element onClick
-        button.addEventListener("click", (triggeredEvent) => {
+                //Button to delete
+                let buttonToDelete = triggeredEvent.target;
 
-            //Button to delete
-            let buttonToDelete = triggeredEvent.target;
+                //Value (string) to delete
+                let value = buttonToDelete.textContent;
+                //Deleting the value from the string container
+                this.deleteElementString(value);
 
-            //Value (string) to delete
-            let value = buttonToDelete.textContent;
+                //Deleting from document
+                buttonToDelete.parentNode.removeChild(buttonToDelete);
 
-            //Deleting the value from the string container
-            this.deleteElementString(value);
+            });
 
-            //Deleting from document
-            buttonToDelete.parentNode.removeChild(buttonToDelete);
+            //Adding custom button to card
+            this.defaultButtonContainer.appendChild(button);
 
-        });
+            //Adding button value to string
+            this.addElementToArray(String(value));
+        }
 
-        //Adding custom button to card
-        this.defaultButtonContainer.appendChild(button);
-
-        //Adding button value to string
-        this.addElementToArray(String(value));
-    }
-
-    deleteOnEvent(triggeredEvent) {
-
-        //Button to delete
-        let buttonToDelete = triggeredEvent.target;
-
-        //Value (string) to delete
-        let value = buttonToDelete.textContent;
-
-        //Deleting the value from the string container
-        this.deleteElementString(String(value));
-
-        //Deleting from document
-        buttonToDelete.parentNode.removeChild(buttonToDelete);
     }
 
     addElementToArray(value) {
@@ -75,17 +61,38 @@
         let currentValue = this.defaultInputString.value;
 
         //Deleting the value
-        let newValues = String(currentValue).replace(value + "|", "");
+        let newValues = String(currentValue).replaceAll(value.replaceAll(" ", "_") + "|", "");
 
         //Updating the string
         this.defaultInputString.value = newValues;
 
+    }
+
+    isValueInString(value) {
+        let isInString = true;
+
+        //Parsing value
+        let parsedValue = String(value).replaceAll(" ", "_");
+        parsedValue += "|";
+
+        if (!this.defaultInputString.value.includes(parsedValue)) {
+            isInString = false;
+        }
+
+        return isInString;
     }
 }
 
 function addTopicButton(element) {
     if (element != "") {
         multiSelectTopics.addButton(element);
+    }
+}
+
+function addCategoryButton(element) {
+    element = String(element).replaceAll(" ", "_");
+    if (element != "") {
+        multiSelectCategory.addButton(element);
     }
 }
 
@@ -96,13 +103,14 @@ function addAudienceButton(element) {
 }
 
 function addLanguageButton(element) {
+    element = String(element).replaceAll(" ", "_");
     if (element != "") {
         multiSelectLanguages.addButton(element);
     }
 }
 
 function isVirtual(value) {
-    if (value == "Virtual") {
+    if (value == "Virtual" || value == "Bimodal") {
         document.querySelector("#inputLink").style.display = "block";
     } else {
         document.querySelector("#inputLink").style.display = "none";

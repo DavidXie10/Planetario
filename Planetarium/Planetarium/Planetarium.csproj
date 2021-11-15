@@ -48,6 +48,9 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.10.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\packages\Portable.BouncyCastle.1.8.10\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.37.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.37\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="MailKit, Version=2.15.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.2.15.0\lib\net47\MailKit.dll</HintPath>
     </Reference>
@@ -133,12 +136,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
     <Compile Include="Controllers\FrequentlyQuestionController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\StreamingController.cs" />
+    <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -149,28 +155,40 @@
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Handlers\EmployeesHandler.cs" />
     <Compile Include="Handlers\VisitorHandler.cs" />
+    <Compile Include="Handlers\RssFeedHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
     <Compile Include="Models\EducationalActivityEventModel.cs" />
     <Compile Include="Models\EducationalActivityModel.cs" />
+    <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\StreamingModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
+    <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\activitiesHomePageAccess.css" />
+    <Content Include="Content\homePageAccess.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\showStatistics.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
-    <Content Include="Data_Files\Vision.txt" />
     <Content Include="Educational_Material\Black-Panther-amu.png" />
     <Content Include="Educational_Material\Calentamiento-%2816%29.jpg" />
+    <Content Include="Educational_Material\CreacionTablasPlanetario3.3.sql" />
+    <Content Include="Educational_Material\eclipse5.jpg" />
+    <Content Include="Educational_Material\imagenPrincipal.jpg" />
+    <Content Include="Educational_Material\rover.png" />
+    <Content Include="Educational_Material\saturn-54999-640.jpg" />
     <Content Include="images\astronaut.png" />
     <Content Include="images\earth.jpg" />
     <Content Include="images\eclipse.jpg" />
@@ -195,6 +213,18 @@
     <Content Include="Educational_Material\actividad1.pdf" />
     <Content Include="Educational_Material\actividad_telescopiada.pdf" />
     <Content Include="Educational_Material\andalucia-innova-astronomia-100-preguntas-100-respuestas.pdf" />
+    <Content Include="Data_Files\CategoriesAndTopics.json" />
+    <Content Include="Data_Files\Streamings.json" />
+    <Content Include="Data_Files\Tutorial para agregar enlace a actividad en vivo.pdf" />
+    <Content Include="Educational_Material\FolletoComplementario1.pdf" />
+    <Content Include="Educational_Material\ListaMateriales.pdf" />
+    <Content Include="Educational_Material\Materiales.pdf" />
+    <Content Include="Educational_Material\presentacion.pptx" />
+    <Content Include="Educational_Material\libro.pdf" />
+    <Content Include="Educational_Material\ResumenCosmologia.pdf" />
+    <Content Include="Educational_Material\ResumenEventosEruptivos.pdf" />
+    <Content Include="Data_Files\Quizzes.json" />
+    <Content Include="Data_Files\CategoriesAndTopics.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
@@ -207,15 +237,28 @@
     <Content Include="images\news\saturn-54999-640.jpg" />
     <Content Include="images\news\stringTheory.jpg" />
     <Content Include="images\PlanetariumUCR\activitiesImageHomePage.jpg" />
+    <Content Include="images\PlanetariumUCR\calendario.png" />
+    <Content Include="images\PlanetariumUCR\galileoEstudiando.jpg" />
     <Content Include="images\PlanetariumUCR\planetarioUCR.jpg" />
+    <Content Include="images\PlanetariumUCR\streaming.jpg" />
     <Content Include="images\satellite.jpg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
+    <Content Include="Libs\fontawesome-5.15.4\all.css" />
+    <Content Include="Libs\fullCalendar-5.0.1\es-us.js" />
+    <Content Include="Libs\fullCalendar-5.0.1\GeneralCalendar.js" />
+    <Content Include="Libs\fullCalendar-5.0.1\main.css" />
+    <Content Include="Libs\fullCalendar-5.0.1\main.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\categoriesAndTopicsMultiselectCascade.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
+    <Content Include="Scripts\filterFuture.js" />
+    <Content Include="Scripts\idiomsStatistics.js" />
+    <Content Include="Scripts\inscriptionForm.js" />
+    <Content Include="Scripts\listActivities.js" />
     <Content Include="Scripts\Seats.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
@@ -231,6 +274,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\statisticsInvolvement.js" />
+    <Content Include="Scripts\streaming.js" />
     <Content Include="Scripts\summernote-bs4.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -262,7 +307,17 @@
     <Content Include="Views\EducationalActivity\ActivityInscription.cshtml" />
     <Content Include="Views\EducationalActivity\ActivityInscriptionForm.cshtml" />
     <Content Include="Views\EducationalActivity\ShowStatistics.cshtml" />
+    <Content Include="Views\Streaming\Streaming.cshtml" />
+    <Content Include="Views\Streaming\InternetStreaming.cshtml" />
+    <Content Include="Views\Streaming\StreamingForm.cshtml" />
     <Content Include="Views\EducationalActivity\EducationalActivity.cshtml" />
+    <Content Include="Views\Calendar\Calendar.cshtml" />
+    <Content Include="Views\Calendar\CreateEvent.cshtml" />
+    <Content Include="Views\EducationalActivity\ShowStatisticsInvolvement.cshtml" />
+    <Content Include="Views\Employees\ShowEmployeesIdiomsStatistics.cshtml" />
+    <Content Include="Views\Quiz\Quizzes.cshtml" />
+    <Content Include="Views\Quiz\NewQuiz.cshtml" />
+    <Content Include="Views\Quiz\Quiz.cshtml" />
     <Content Include="Views\EducationalActivity\AssignSeat.cshtml" />
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
@@ -297,7 +352,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>60237</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44359/</IISUrl>
+          <IISUrl>https://localhost:44363/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

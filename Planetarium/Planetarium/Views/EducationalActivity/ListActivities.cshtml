@@ -1,15 +1,15 @@
 ﻿<div class="container">
     <hr />
-    <h3 class="text-start">
-        <i class="fas fa-tasks"></i>
+    <h5 class="text-start">
+        <i class="fas fa-tasks" ></i>
         @Html.ActionLink("Aceptar propuestas de actividades educativas", "/ActivitiesApprobation", new { @class = "btn btn-info" })
-        <hr />
-        <i class="fas fa-user-edit"></i>
+     
+        <i class="fas fa-user-edit" style="margin-left:10px;"></i>
         @Html.ActionLink("Agregar actividad educativa", "/ProposeEducationalActivity", new { @class = "btn btn-info" })
-        <hr />
-        <i class="fas fa-user-edit"></i>
+        
+        <i class="fas fa-user-edit" style="margin-left:10px;"></i>
         @Html.ActionLink("Agregar material educativo", "../EducationalMaterial/SubmitEducationalMaterial", new { @class = "btn btn-info" })
-    </h3>
+    </h5>
 
     <hr />
 
@@ -21,84 +21,70 @@
     </div>
     <div class="row d-flex">
         @foreach (var activity in ViewBag.activities) {
-            if (activity.State == "1") {
+            if (activity.State == "1" && (activity.ActivityType == "Charla" || activity.ActivityType == "Taller")) {
                 <div id="@activity.Title " class="col-4 d-flex justify-content-evenly">
                     <div id="@activity.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
                         <div class="card-body d-flex flex-column">
                             <h2 class="text-start">@activity.Title  </h2>
-                            <h9>Fecha: @activity.Date</h9>
+                            <h9>Fecha: @activity.Date.ToString("dd'/'MM'/'yyyy")</h9>
                             <h4>Impartido por: @activity.Publisher </h4>
                             <p class="card-text" style="margin-top: 15px;">
                                 @activity.Description
                             </p>
-
+                            @if (@activity.TypeOfAssistance == "Virtual" || @activity.TypeOfAssistance == "Bimodal") {
+                                <h5 style="color: #18BC9C"><i class="fas fa-video"></i> @activity.TypeOfAssistance </h5>
+                            }
                             <h5>
                                 Público Meta:
                                 @foreach (var targetAudienceInstance in activity.TargetAudience) {
-                                    <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
+                                    <a class="badge  rounded-pill bg-secondary"> @targetAudienceInstance</a>
                                 }
                             </h5>
-                            @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
+                            <br/>
+                            @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; width:50%" })
                         </div>
                     </div>
                 </div>
             }
         }
     </div>
-    
+
+    <div class="card" style="margin: 50px 0 50px 0;">
+        <div class="card-header">
+            <h3><strong>Telescopiadas, Películas y Otros</strong></h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach (var activity in ViewBag.activities) {
+                    if (activity.ActivityType != "Charla" && activity.ActivityType != "Taller") {
+                        <div id="@activity.Title" class="col-6 ">
+                            <div id="@activity.Title" class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
+                                <div class="card-header text-center">
+                                    <h4><strong>@activity.Title</strong></h4>
+                                </div>
+                                <div class="card-body">
+                                    Fecha: @activity.Date<br />
+                                    @{
+                                        string price = (@activity.Price == 0) ? "Gratis" : "₡" + @activity.Price;
+                                    }
+                                    Precio:  @price <br />
+                                    Tipo: @activity.ActivityType <br />
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
 </div>
 <script>
-    async function main() {
-        document.getElementById("search").addEventListener("keyup", search);
-    }
-
     function search() {
-        let text = document.getElementById("search").value;      
+        let text = document.getElementById("search").value;
         var activities = @Html.Raw(Json.Encode(ViewBag.activities));
         matchAllTitles(activities, text);
     }
-
-    function matchAllTitles(activities,text) {
-        var matching = new Boolean(false);
-        console.log("Text: " + text);
-        for (var activity in activities) {
-            matching = match(activities[activity].Title, text)
-                || match(activities[activity].Category, text)
-                || match(activities[activity].ComplexityLevel, text)
-                || matchList(activities[activity].TargetAudience, text);
-            if (text == "")
-                show(activities[activity].Title)
-            else if (matching)
-                show(activities[activity].Title)
-            else
-                hide(activities[activity].Title)       
-        }
-        return matching;
-    }
-
-    function matchList(list, word) {
-        var matching = new Boolean(false);
-        for (var element in list) {
-            matching = match(list[element], word);
-            if (matching)
-                return matching;
-        }
-        return matching;
-    }
-
-    function match(word, substring) {
-        return word.toLowerCase().includes(substring.toLowerCase());
-    }
-
-    function hide(elementId) {
-        document.getElementById(elementId).style.display = "none";
-    }
-
-    function show(elementId) {
-        document.getElementById(elementId).style.display = "block";
-    }
-
-    main();
-
 </script>
-
+<script src="~/Scripts/listActivities.js"></script>

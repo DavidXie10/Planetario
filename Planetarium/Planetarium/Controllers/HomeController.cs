@@ -1,16 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
 
 namespace Planetarium.Controllers {
     public class HomeController : Controller {
+        ContentParser contentParser = new ContentParser();
         public ActionResult Index() {
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
+            RssFeedHandler rssHandler = new RssFeedHandler();
+            
+            List<EventModel> feed = rssHandler.GetRssFeed();
+            List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
+            
+            ViewBag.Events = feed;
+            ViewBag.EventsToCal = eventFeed;
+
+            List<StreamingModel> streamings = contentParser.GetContentsFromJson<StreamingModel>("Streamings.json", contentParser.GetStreamingsFromJson);
+            ViewBag.Streamings = streamings;
             ViewBag.Us = WhoWeAre();
             ViewBag.Activities = educationalActivityHandler.GetAllApprovedActivities();
             ViewBag.News = dataAccess.GetAllNews();
@@ -19,7 +27,6 @@ namespace Planetarium.Controllers {
         }
         
         public ActionResult FindUs() {
-            ContentParser contentParser = new ContentParser();
             dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
             string[] schedule = jsonContent.Horarios.ToObject<string[]>();
             string[] transportBuses = jsonContent.Buses.ToObject<string[]>();
@@ -50,5 +57,6 @@ namespace Planetarium.Controllers {
             ViewBag.Title = "Success";
             return View();
         }
+
     }
 }

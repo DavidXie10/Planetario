@@ -1,0 +1,74 @@
+﻿@model Planetarium.Models.StreamingModel
+@{
+    ViewBag.Title = "Agregar Streaming";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+
+    <div class="container" style="margin-bottom:15%; margin-top:5%">
+        @using (Html.BeginForm("SubmitStreamingForm", "Streaming", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @Html.AntiForgeryToken()
+            <div class="form">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="text-success text-center">
+                            Ingrese el enlace del evento en vivo
+                            <button type="button" class="btn btn-outline-primary alig" style="float: right;" data-toggle="modal" data-target="#exampleModalCenter">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                @Html.LabelFor(model => model.Link)
+                                @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @onkeyup = "checkValidLink(this)" })
+                                @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
+                                <p id="errorMsg" class="text-danger" style="display: none;">
+                                    No se pudo agregar el enlace. Puede ayudarse del tutorial que se muestra en el botón de información.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-end">
+                                <input type="button" class="btn btn-success" style="margin-top: 15px; padding: 5px 55px 5px 55px;" onclick="checkData(this)" value="Agregar streaming" />
+                                <input id="buttonSubmit" type="submit" class="btn btn-success" style="margin-top: 15px; padding: 5px 55px 5px 55px; display: none" value="Agregar streaming" />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Agregar el enlace de la actividad en vivo</h5>
+                    <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        El formulario acepta enlaces de transmisiones en vivo de la plataforma YouTube
+                    </p>
+                    <p>
+                        Puedes encontrar el tutorial en el siguiente enlace:
+                        <a href="~/Data_Files/Tutorial para agregar enlace a actividad en vivo.pdf" target="blank">Tutorial para agregar enlace a actividad en vivo.pdf</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/streaming.js"></script>
+</body>

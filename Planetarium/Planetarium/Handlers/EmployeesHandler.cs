@@ -47,9 +47,11 @@ namespace Planetarium.Handlers {
         }
 
         private DataTable GetEmployeeWithLanguagesTable(string employeeDni) {
-            string query = "SELECT Idioma.idiomaPK FROM Funcionario " +
-                        "INNER JOIN Idioma ON Funcionario.cedulaPK = Idioma.cedulaPKFK  " +
-                        "WHERE Funcionario.cedulaPK = '" + employeeDni + "' ";
+            string query = "SELECT I.idiomaPK " +
+                           "FROM Idioma AS I " +
+                           "WHERE I.cedulaPKFK IN(SELECT F.cedulaPK " +
+                                                 "FROM Funcionario AS F " +
+                                                 "WHERE F.cedulaPK = '" + employeeDni + "')";
 
             return CreateTableFromQuery(query);
         }
@@ -82,7 +84,6 @@ namespace Planetarium.Handlers {
             return employeeCreated;
         }
 
-
         private void AddParametersToQueryCommand(SqlCommand queryCommand, EmployeeModel employee) {
             queryCommand.Parameters.AddWithValue("@cedula", employee.Dni);
             queryCommand.Parameters.AddWithValue("@ocupacion", employee.Occupation);
@@ -106,6 +107,20 @@ namespace Planetarium.Handlers {
                 success = DatabaseQuery(languageQuery);
             }
             return success;
+        }
+
+        public List<string> GetEmployeesLanguages() {
+            List<string> languages = new List<string>();
+            string languageQuery = "SELECT DISTINCT I.idiomaPK " +
+                                    "FROM Idioma AS I " +
+                                    "ORDER BY I.idiomaPK; ";
+            DataTable resultingTable = CreateTableFromQuery(languageQuery);
+            
+            foreach (DataRow column in resultingTable.Rows) {
+                languages.Add(Convert.ToString(column["idiomaPK"]));
+            }
+
+            return languages;
         }
     }
 }

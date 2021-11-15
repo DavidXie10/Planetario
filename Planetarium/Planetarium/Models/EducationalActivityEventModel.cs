@@ -36,7 +36,7 @@ namespace Planetarium.Models {
 
         public string State { get; set; }
 
-        public int RegisteredParticipants { get; set; }
+        public Dictionary<string, int> RegisteredParticipants { get; set; }
     }
 }
 

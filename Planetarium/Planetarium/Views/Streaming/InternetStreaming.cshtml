@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "liveStream";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card d-flex" style="margin-top: 25px; padding:0px">
+            <h3 class="card-header  d-flex">
+                <a href="#" class="display-6 text-primary" style="width: 25%; ">Eventos en vivo </a>
+                @Html.ActionLink("• En vivo", "../Streaming/Streaming", new { activityTitle = "Evento en vivo", activityPublisher = "Planetario UCR~" }, new { @class = "btn btn-danger", @style = "margin-top: 5px; margin-bottom: 10px " })
+            </h3>
+            <a type="button" class="align-self-end align-self-right" style="font-size:large;" href="../Streaming/StreamingForm">[agregar]</a>
+            <div class="card-body d-flex">
+                <div class="d-flex justify-content-center text-lg-center">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        @foreach (var streaming in ViewBag.Streamings){
+                            <iframe width="560" height="315" src="@streaming.Link" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>   
+    </div>
+</body>
+
+

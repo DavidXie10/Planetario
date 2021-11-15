@@ -21,6 +21,9 @@ namespace Planetarium.Controllers {
         public ActionResult ListNews() {
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
+            RssFeedHandler rssHandler = new RssFeedHandler();
+            List<EventModel> feed = rssHandler.GetRssFeed();
+            ViewBag.NewsFromInternet = feed;
             return View();
         }
 
