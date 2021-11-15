@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.IO;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Text;
 
 namespace Planetarium.Models {
     public class ContentParser {
@@ -15,7 +12,7 @@ namespace Planetarium.Models {
             try {
                 File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data_Files/" + fileName), jsonString);
                 success = true;
-            } catch(Exception e) {
+            } catch {
                 Debug.WriteLine("Error occurred");
             }
             return success;
@@ -67,7 +64,6 @@ namespace Planetarium.Models {
             return content;
         }
 
-
         public List<QuizModel> GetQuizzes(string jsonFile) {
             List<QuizModel> quizzes = new List<QuizModel>();
             try {
@@ -86,9 +82,9 @@ namespace Planetarium.Models {
             List<QuizModel> quizzes = new List<QuizModel>();
             foreach(var element in jsonCollection) {
                 quizzes.Add(new QuizModel {
-                    Titulo = element.Titulo,
-                    Descripcion = element.Descripcion,
-                    Dificultad = element.Dificultad,
+                    Title = element.Title,
+                    Description = element.Description,
+                    Difficulty = element.Difficulty,
                     Link = element.Link
                 });
             }
@@ -105,12 +101,11 @@ namespace Planetarium.Models {
 
                 previousQuizzes.Add(quiz);
                 resultingJson = JsonConvert.SerializeObject(previousQuizzes);
-            } catch(Exception e) {
-                
+            } catch {
+                Debug.WriteLine("Error occurred");
             }
             return resultingJson;
         }
-
 
         public List<Model> GetContentsFromJson<Model>(string jsonFile, Func<dynamic, List<Model>> GetModelsFromJson) {
             List<Model> models = new List<Model>();
@@ -158,10 +153,9 @@ namespace Planetarium.Models {
                 previousModels.Add(model);
                 resultingJson = JsonConvert.SerializeObject(previousModels);
             } catch {
-
+                Debug.WriteLine("Error occurred");
             }
             return resultingJson;
         }
-
     }
 }
