@@ -12,7 +12,7 @@
             <div class="col">
                 <h5>Seleccione las categorías</h5>
                 <br />
-                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoría", new { @class = "form-control", @onchange = "updateTopics(this.value), addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1), hideTopicsChart()" })
+                @Html.DropDownList("Category", ViewData["category"] as List<SelectListItem>, "Seleccione la categoría", new { @class = "form-select", @onchange = "updateTopics(this.value), addCategoryButton(this.value), updateChart('inputCategoryString','categoriesChart',1), hideTopicsChart()" })
 
                 <br />
                 <br />
@@ -30,7 +30,7 @@
             <div class="col">
                 <h5>Seleccione los tópicos</h5>
                 <br />
-                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-control", @onchange = "addTopicButton(this.value), updateChart('inputTopicString', 'topicsChart', 0)" })
+                @Html.DropDownList("topicSelect", new SelectList(string.Empty, "Value", "Text"), "Seleccione los tópicos", new { @class = "form-select", @onchange = "addTopicButton(this.value), updateChart('inputTopicString', 'topicsChart', 0)" })
 
                 <br />
                 <br />
