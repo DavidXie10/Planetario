@@ -17,16 +17,13 @@
                 <div class="alert-success">
                     <h3> @ViewBag.Message </h3>
                 </div>
-            }
-            else
-            {
+            } else {
                 <div class="alert-danger">
                     <h3> @ViewBag.Message </h3>
                 </div>
             }
         }
-        @using (Html.BeginForm("PostCreateEvent", "Calendar", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        @using (Html.BeginForm("PostCreateEvent", "Calendar", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
             <h1 style="margin: 20px 0 30px 0;">Añadir un evento al calendario</h1>
             <div class="form">
@@ -49,9 +46,9 @@
                                 @Html.LabelFor(model => model.ActivityType)
                                 <br />
                                 <select name="typeOfEvent" class="form-select">
-                                    <option value="N" selected>-Seleccione el tipo-</option>
-                                    <option value="pelicula">Película</option>
-                                    <option value="telescopiada">Telescopiada</option>
+                                    <option value="N" selected>Tipo de evento</option>
+                                    <option value="Película">Película</option>
+                                    <option value="Telescopiada">Telescopiada</option>
                                     <option value="O">Otro</option>
                                 </select>
 
@@ -81,6 +78,7 @@
             </div>
         }
     </div>
+    <script type="text/javascript" src="~/Scripts/filterFuture.js"></script>
 </body>
 
 @section Scripts {
@@ -89,12 +87,3 @@
 
 </html>
 
-<script type="text/javascript">
-    let currentDate = new Date();
-    let month = currentDate.getMonth() + 1;
-    let currentDay = currentDate.getDate();
-    let day = currentDay / 10 >= 1 ? '' : '0';
-    day += currentDay;
-    document.getElementById("Date").setAttribute("min", currentDate.getFullYear() + "-" + month + "-" + day);
-    document.getElementById("Date").setAttribute("class", "form-control");
-</script>

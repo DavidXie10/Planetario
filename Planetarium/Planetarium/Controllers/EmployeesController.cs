@@ -9,7 +9,6 @@ using System.IO;
 
 namespace Planetarium.Controllers {
     public class EmployeesController : Controller {
-
         public EmployeesHandler DataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
@@ -47,19 +46,21 @@ namespace Planetarium.Controllers {
             return genders;
         }
 
-        public ActionResult CreateEmployee() {
-            List<SelectListItem> countries = new List<SelectListItem>();
-
+        private List<SelectListItem> LoadCountries() {
             dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
-
             string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
 
+            List<SelectListItem> countries = new List<SelectListItem>();
             foreach (string country in countriesFromJson) {
                 countries.Add(new SelectListItem { Text = country, Value = country });
             }
 
+            return countries;
+        }
+
+        public ActionResult CreateEmployee() {
             ViewBag.GenderOptions = LoadGenders();
-            ViewBag.Countries = countries;
+            ViewBag.Countries = LoadCountries();
             ViewBag.Languages = LoadLanguages();
 
             return View();

@@ -22,7 +22,7 @@ namespace Planetarium.Controllers {
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
             RssFeedHandler rssHandler = new RssFeedHandler();
-            List<EventModel> feed = rssHandler.getRssFeed();
+            List<EventModel> feed = rssHandler.GetRssFeed();
             ViewBag.NewsFromInternet = feed;
             return View();
         }

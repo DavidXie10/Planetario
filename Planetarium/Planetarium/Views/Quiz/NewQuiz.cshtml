@@ -20,14 +20,14 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                @Html.LabelFor(model => model.Titulo)
-                                @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.Title)
+                                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="col">
                                 <div>
-                                    @Html.LabelFor(model => model.Dificultad)
+                                    @Html.LabelFor(model => model.Difficulty)
                                     <select name="dificulty" class="form-select">
                                         <option value="">Seleccione una dificultad</option>
                                         <option value="Principiante">Principiante</option>
@@ -39,9 +39,9 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                @Html.LabelFor(model => model.Descripcion)
-                                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.Description)
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="row">
@@ -54,10 +54,8 @@
                         <div class="text-end" style="margin-top: 15px;">
                             <input type="submit" class="btn btn-success" style="padding: 5px 55px 5px 55px;" value="Agregar cuestionario" />
                         </div>
-                    </div>
-                    
-                </div>
-                
+                    </div>                    
+                </div>           
             </div>
         }
     </div>

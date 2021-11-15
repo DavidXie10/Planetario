@@ -177,6 +177,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\showStatistics.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
@@ -254,7 +255,10 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\categoriesAndTopicsMultiselectCascade.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
+    <Content Include="Scripts\filterFuture.js" />
     <Content Include="Scripts\idiomsStatistics.js" />
+    <Content Include="Scripts\inscriptionForm.js" />
+    <Content Include="Scripts\listActivities.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -269,6 +273,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\statisticsInvolvement.js" />
+    <Content Include="Scripts\streaming.js" />
     <Content Include="Scripts\summernote-bs4.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
-using MailKit.Net.Smtp;
-using MimeKit;
 using System.Linq;
 
 namespace Planetarium.Controllers {
@@ -72,7 +70,6 @@ namespace Planetarium.Controllers {
             try {
                 ViewBag.SuccessOnCreation = this.ActivityDataAccess.ProposeEducationalActivity(educationalActivity);
                 if (ViewBag.SuccessOnCreation) {
-                    //SendEmail(0);
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
@@ -96,39 +93,6 @@ namespace Planetarium.Controllers {
             if (educationalActivity.Link == null) {
                 educationalActivity.Link = "";
             }
-        }
-
-        private void SendEmail(int state) {
-            const string BASE_MESSAGE_HTML = "<h1>¡Hola!</h1> <p>Su propuesta ha sido ";
-            const string BASE_MESSAGE_TEXT = "¡Hola! Su propuesta ha sido ";
-            const string BASE_SUBJECT = "Estado de la propuesta";
-            MimeMessage message = new MimeMessage();
-
-            MailboxAddress from = new MailboxAddress("Coordinador", "mauricio.rojassegnini@ucr.ac.cr");
-            message.From.Add(from);
-            MailboxAddress to = new MailboxAddress("Educador", "carlos.espinozaperaza@ucr.ac.cr");
-            message.To.Add(to);
-
-            message.Subject = BASE_SUBJECT;
-
-            BodyBuilder bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = WordUsageDependingOnState(BASE_MESSAGE_HTML, state);
-            bodyBuilder.TextBody = WordUsageDependingOnState(BASE_MESSAGE_TEXT, state);
-            bodyBuilder.HtmlBody += "</p>";
-
-            message.Body = bodyBuilder.ToMessageBody();
-
-            SmtpClient client = new SmtpClient();
-            client.Connect("smtp.ucr.ac.cr", 587);
-            client.Authenticate("mauricio.rojassegnini@ucr.ac.cr", "mauuam1771.");
-
-            client.Send(message);
-            client.Disconnect(true);
-            client.Dispose();
-        }
-
-        private string WordUsageDependingOnState(string baseMessage, int state) {
-            return baseMessage +( (state == 0) ? "pasada a revisión." : (state == 1) ? "aprobada." : "rechazada.");    
         }
 
         public ActionResult ListActivities() {
@@ -155,7 +119,6 @@ namespace Planetarium.Controllers {
                 ViewBag.SuccessOnCreation = ActivityDataAccess.UpdateActivityState(title, state);
                 if (ViewBag.SuccessOnCreation) {
                     ModelState.Clear();
-                    //SendEmail(state);
                 }
             } catch {
                 TempData["Error"] = true;
@@ -164,7 +127,7 @@ namespace Planetarium.Controllers {
             return view;
         }
 
-        private List<SelectListItem> LoadLanguages() {
+        private List<SelectListItem> LoadCountries() {
             dynamic JsonContentCountries = ContentParser.ParseFromJSON("countries.json");
             string[] countriesFromJson = JsonContentCountries.CountrieNames.ToObject<string[]>();
 
@@ -177,8 +140,8 @@ namespace Planetarium.Controllers {
         }
 
         private List<SelectListItem> LoadEducationalLevels() {
-            dynamic JsonContentCountries = ContentParser.ParseFromJSON("EducationalActivity.json");
-            string[] educationalLevelsFromJson = JsonContentCountries.NivelEducativo.ToObject<string[]>();
+            dynamic JsonContentEducationalLevels = ContentParser.ParseFromJSON("EducationalActivity.json");
+            string[] educationalLevelsFromJson = JsonContentEducationalLevels.NivelEducativo.ToObject<string[]>();
 
             List<SelectListItem> educationalLevels = new List<SelectListItem>();
             foreach (string educationalLevel in educationalLevelsFromJson) {
@@ -240,11 +203,11 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ActivityInscriptionForm(string activityTitle, string activityDate) {
-            ViewBag.Countries = LoadLanguages();
-            ViewBag.ActivityTitle = activityTitle;
-            ViewBag.ActivityDate = activityDate;
+            ViewBag.Countries = LoadCountries();
             ViewBag.EducationalLevels = LoadEducationalLevels();
             ViewBag.GenderOptions = LoadGenders();
+            ViewBag.ActivityTitle = activityTitle;
+            ViewBag.ActivityDate = activityDate;
 
             return View();
         }
@@ -265,8 +228,8 @@ namespace Planetarium.Controllers {
                     ModelState.Clear();
                     view = RedirectToAction("Success", "Home");
                 }
-            } catch (Exception e) {
-                TempData["WarningMessage"] = e;
+            } catch {
+                TempData["WarningMessage"] = "Algo salió mal";
             }
 
             return view;

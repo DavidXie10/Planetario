@@ -4,7 +4,7 @@ namespace Planetarium.Models {
     public class StreamingModel {
         
         [Required(ErrorMessage = "Es necesario que ingrese el enlace")]
-        [Display(Name = "Enlace del evento")]
+        [Display(Name = "Enlace del streaming")]
         public string Link { get; set; }
     }
 }

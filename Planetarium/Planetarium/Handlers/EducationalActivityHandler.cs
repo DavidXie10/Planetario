@@ -165,7 +165,7 @@ namespace Planetarium.Handlers {
             string[] compareWords = title.Split(' ');
             foreach (EducationalActivityEventModel activity in activities) {
                 if (activity.Title != title) { 
-                    if ((activity.ActivityType == "Charla" || activity.ActivityType == "Taller") && (CheckWords(compareWords, activity.Title) || FindOneElementInCommon(activity.Topics, topics) || (activity.Category == category))) {
+                    if (IsSimilarActivity(activity, compareWords, topics, category)) {
                         similarActivities.Add(activity);
                     }
                 }
@@ -173,9 +173,13 @@ namespace Planetarium.Handlers {
             return similarActivities;
         }
 
-        private bool FindOneElementInCommon(List<string> listA, List<string> listB) {
-            foreach (string element in listA) {
-                if (listB.Contains(element)) {
+        private bool IsSimilarActivity(EducationalActivityEventModel activity, string[] compareWords, List<string> topics, string category) {
+            return (activity.ActivityType == "Charla" || activity.ActivityType == "Taller") && (CheckWords(compareWords, activity.Title) || FindOneElementInCommon(activity.Topics, topics) || (activity.Category == category));
+        }
+
+        private bool FindOneElementInCommon(List<string> source, List<string> target) {
+            foreach (string element in source) {
+                if (target.Contains(element)) {
                     return true;
                 }
             }
@@ -242,10 +246,10 @@ namespace Planetarium.Handlers {
                 TypeOfEvent = Convert.ToString(rawEducationalInfo["tipo"])
             };
         }
+
         private string GetTypeOfAssistence(bool virtualFlag, bool onSiteFlag) {
             return (virtualFlag && onSiteFlag) ? "Bimodal" : (virtualFlag) ? "Virtual" : "Presencial";
         }
-
 
         private void LinkAllTargetAudience(List<EducationalActivityEventModel> activities) {
             foreach (EducationalActivityEventModel activity in activities) {
@@ -284,7 +288,6 @@ namespace Planetarium.Handlers {
             return CreateTableFromQuery(query);
         }
 
-
         public bool UpdateActivityState(string activityTitle, int state) {
             string query = "UPDATE EventoActividadEducativa SET estadoRevision = " + state + " WHERE tituloPK = '" + activityTitle + "' ";
             return DatabaseQuery(query);
@@ -306,7 +309,6 @@ namespace Planetarium.Handlers {
         }
 
         public List<EducationalActivityEventModel> GetAllActivitiesParticipants() {
-
             List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
 
             string query = "SELECT DISTINCT EAE.tituloPKFK, EAE.fechaInicioPK, AE.nivelComplejidad, " +
@@ -362,6 +364,5 @@ namespace Planetarium.Handlers {
 
             return categoriesRank;
         }
-
     }
 }
