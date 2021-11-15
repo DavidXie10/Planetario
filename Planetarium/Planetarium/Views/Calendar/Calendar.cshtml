@@ -12,7 +12,7 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="margin-bottom:10%">
         <div class="container" style="margin: 15px 0 0 0;">
             <button id="generalCalToggle" class="btn btn-primary" style="background-color:#3a87ad" onclick="changeCalendar(this)">General</button>
             <button id="phenomenomCalToggle" class="btn btn-secondary" style="background-color:#13967d" onclick="changeCalendar(this)">
@@ -26,8 +26,9 @@
             <div id="phenomenonContainer">
                 <div id='phenomenomCalendar'></div>
             </div>
-
-            <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: 10px; ">Añadir evento</a> <br />
+            <div style="float: right;">
+                <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: 10px; ">Añadir evento</a> <br />
+            </div>
 
             <button style="display: none;" id="modalToggle" class="btn btn-success" onclick="" value="0" data-toggle="modal" data-target="#calendarEventModal"> Ver funcionarios <span id="count"></span> </button>
 

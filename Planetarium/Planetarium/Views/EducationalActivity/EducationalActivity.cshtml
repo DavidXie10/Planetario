@@ -8,10 +8,19 @@
     <div class="container" style="height: 100vh">
         <div class="card-body">
             <p class="card-text">
+            <div>
+
+                <span>
+                    @if (ViewBag.Activity.TypeOfAssistance == "Virtual" || ViewBag.Activity.TypeOfAssistance == "Bimodal")
+                    {
+                        @Html.ActionLink("• Ver en vivo", "../Streaming/Streaming", new { activityTitle = @ViewBag.Activity.Title, activityPublisher = @ViewBag.Activity.Publisher }, new { @class = "btn btn-danger", @style = "margin-top: 5px; width:10%; margin-bottom: 10px " })
+                    }
+                </span>
+            </div>
                 <h2>@ViewBag.Activity.Title</h2>
             </p>
             <hr />
-            <p style="font-size: 1.5rem;" >@ViewBag.Activity.Description</p>
+            <p style="font-size: 1.5rem;">@ViewBag.Activity.Description</p>
             <p style="font-size: 1.5rem;">Impartido por: @ViewBag.Activity.Publisher </p>
 
             <div class="row">
@@ -41,29 +50,29 @@
                                         <p>Categoría: <a class="badge rounded-pill bg-success"> @ViewBag.Activity.Category</a></p>
                                         <p>
                                             Tópicos:
-                                            @foreach (var topic in ViewBag.Activity.Topics) {
+                                            @foreach (var topic in ViewBag.Activity.Topics)
+                                            {
                                                 <a class="badge rounded-pill bg-info"> @topic</a>
                                             }
                                         </p>
                                         <p>
                                             Publicos Meta:
-                                            @foreach (var targetAudienceInstance in ViewBag.Activity.TargetAudience) {
+                                            @foreach (var targetAudienceInstance in ViewBag.Activity.TargetAudience)
+                                            {
                                                 <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
                                             }
                                         </p>
-                                        @if (ViewBag.Activity.RefEducationalMaterial.Count > 0) {
+                                        @if (ViewBag.Activity.RefEducationalMaterial.Count > 0)
+                                        {
                                             <p class="card-text" style="margin-top: 15px;">
                                                 <h5>Materiales</h5>
-                                                @foreach (var material in ViewBag.Activity.RefEducationalMaterial) {
+                                                @foreach (var material in ViewBag.Activity.RefEducationalMaterial)
+                                                {
                                                     string materialRef = material.Replace(' ', '_');
                                                     <a href="~/Educational_Material/@materialRef" download="@materialRef"> <i class="fas fa-download"></i>@material</a>
                                                     <br />
                                                 }
                                             </p>
-                                        }
-
-                                        @if (ViewBag.Activity.TypeOfAssistance == "Virtual" || ViewBag.Activity.TypeOfAssistance == "Bimodal") {
-                                            @Html.ActionLink("• Ver en vivo", "../Streaming/Streaming", new { activityTitle = @ViewBag.Activity.Title, activityPublisher = @ViewBag.Activity.Publisher }, new { @class = "btn btn-danger", @style = "margin-top: 5px; width:93%; margin-bottom: 10px " })
                                         }
                                     </div>
                                 </div>
@@ -73,14 +82,17 @@
                 </div>
                 <div class="col-3">
                     <div class="row card" style="margin-top: 0.9rem;">
-                        <div class="col card-header" style="margin-bottom:1rem" >
+                        <div class="col card-header" style="margin-bottom:1rem">
                             <h4 class="text-center"> Actividades similares </h4>
                         </div>
-                        @if (ViewBag.SimilarActivities.Count == 0) {
+                        @if (ViewBag.SimilarActivities.Count == 0)
+                        {
                             <p style="color: black; text-align: center; font-size: 1.5rem">¡No hay actividades similares!</p>
                         }
-                        @foreach (var activity in ViewBag.SimilarActivities) {
-                            if (activity.State == "1") {
+                        @foreach (var activity in ViewBag.SimilarActivities)
+                        {
+                            if (activity.State == "1")
+                            {
                                 <div id="@activity.Title ">
                                     <div id="@activity.Title">
                                         @{string tempTitle = activity.Title; }
@@ -90,14 +102,14 @@
                                 </div>
                             }
                         }
-                        </div>
-
-
-
-                        
                     </div>
+
+
+
+
                 </div>
             </div>
+        </div>
 
             <div class="text-center">
                 @Html.ActionLink("Inscribirme", "../EducationalActivity/ActivityInscription", new { activityTitle = @ViewBag.Activity.Title, activityDate = @ViewBag.Activity.Date }, new { @class = "align-self-end align-self-right btn btn-success", @style = "margin-top: 1rem; margin-bottom: 1rem; height: 3rem; width: 35%; font-size: 1.3rem;" })

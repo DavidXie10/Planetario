@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="margin-bottom:15%">
         @if (ViewBag.Message != null)
         {
             if (ViewBag.SucessOnCreation)
@@ -75,8 +75,9 @@
                         </div>
                     </div>
 
+                    <input type="submit" style="margin-top: 20px; margin-bottom:20px" class="btn btn-success w-25 align-self-end align-self-right" value="Añadir evento" />
+                   
                 </div>
-                <input type="submit" style="margin-top: 20px;" class="btn btn-success w-25" value="Añadir evento" />
             </div>
         }
     </div>

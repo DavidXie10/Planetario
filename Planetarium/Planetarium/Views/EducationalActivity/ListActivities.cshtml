@@ -1,15 +1,15 @@
 ﻿<div class="container">
     <hr />
-    <h3 class="text-start">
-        <i class="fas fa-tasks"></i>
+    <h5 class="text-start">
+        <i class="fas fa-tasks" ></i>
         @Html.ActionLink("Aceptar propuestas de actividades educativas", "/ActivitiesApprobation", new { @class = "btn btn-info" })
-        <hr />
-        <i class="fas fa-user-edit"></i>
+     
+        <i class="fas fa-user-edit" style="margin-left:10px;"></i>
         @Html.ActionLink("Agregar actividad educativa", "/ProposeEducationalActivity", new { @class = "btn btn-info" })
-        <hr />
-        <i class="fas fa-user-edit"></i>
+        
+        <i class="fas fa-user-edit" style="margin-left:10px;"></i>
         @Html.ActionLink("Agregar material educativo", "../EducationalMaterial/SubmitEducationalMaterial", new { @class = "btn btn-info" })
-    </h3>
+    </h5>
 
     <hr />
 
@@ -37,10 +37,10 @@
                             <h5>
                                 Público Meta:
                                 @foreach (var targetAudienceInstance in activity.TargetAudience) {
-                                    <a class="badge  rounded-pill bg-info"> @targetAudienceInstance</a>
+                                    <a class="badge  rounded-pill bg-secondary"> @targetAudienceInstance</a>
                                 }
                             </h5>
-                            @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-primary", @style = "margin-top: auto; " })
+                            @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
                         </div>
                     </div>
                 </div>

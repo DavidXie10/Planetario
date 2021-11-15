@@ -37,8 +37,8 @@
                                     <p class="card-text">
                                         @ViewBag.News[index].Title
                                     </p>
-
-                                    @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-start align-self-left btn btn-info", @style = "margin-top: auto; " })
+                                            @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
+        
                                 </div>
                             </div>
                         </div>
