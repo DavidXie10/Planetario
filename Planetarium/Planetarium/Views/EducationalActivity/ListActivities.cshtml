@@ -40,7 +40,8 @@
                                     <a class="badge  rounded-pill bg-secondary"> @targetAudienceInstance</a>
                                 }
                             </h5>
-                            @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
+                            <br/>
+                            @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; width:50%" })
                         </div>
                     </div>
                 </div>

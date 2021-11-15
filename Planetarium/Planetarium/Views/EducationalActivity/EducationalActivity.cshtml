@@ -7,18 +7,22 @@
 <body>
     <div class="container" style="height: 100vh">
         <div class="card-body">
-            <p class="card-text">
-            <div>
+            <div class="card-text">
+                <div class="row">
 
-                <span>
-                    @if (ViewBag.Activity.TypeOfAssistance == "Virtual" || ViewBag.Activity.TypeOfAssistance == "Bimodal")
-                    {
-                        @Html.ActionLink("• Ver en vivo", "../Streaming/Streaming", new { activityTitle = @ViewBag.Activity.Title, activityPublisher = @ViewBag.Activity.Publisher }, new { @class = "btn btn-danger", @style = "margin-top: 5px; width:10%; margin-bottom: 10px " })
-                    }
-                </span>
+                    <div class="col-8">
+                        <h2 style="float:left">@ViewBag.Activity.Title</h2>
+                    </div>
+                    <div class="col-4" style="text-align:right">
+                        <span>
+                            @if (ViewBag.Activity.TypeOfAssistance == "Virtual" || ViewBag.Activity.TypeOfAssistance == "Bimodal")
+                            {
+                                @Html.ActionLink("• Ver en vivo", "../Streaming/Streaming", new { activityTitle = @ViewBag.Activity.Title, activityPublisher = @ViewBag.Activity.Publisher }, new { @class = "btn btn-danger", @style = "margin-top: 5px; width:50%; margin-bottom: 10px " })
+                            }
+                        </span>
+                    </div>
+                </div>
             </div>
-                <h2>@ViewBag.Activity.Title</h2>
-            </p>
             <hr />
             <p style="font-size: 1.5rem;">@ViewBag.Activity.Description</p>
             <p style="font-size: 1.5rem;">Impartido por: @ViewBag.Activity.Publisher </p>
