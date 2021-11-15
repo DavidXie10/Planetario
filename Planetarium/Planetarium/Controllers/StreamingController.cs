@@ -1,5 +1,4 @@
-﻿
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Planetarium.Models;
 using Planetarium.Handlers;
 
@@ -12,6 +11,7 @@ namespace Planetarium.Controllers {
             ActivityDataAccess = new EducationalActivityHandler();
             ContentParser = new ContentParser();
         }
+
         public ActionResult Streaming(string activityTitle, string activityPublisher) {
             ViewBag.ActivityTitle = activityTitle;
             ViewBag.ActivityPublisher = activityPublisher;
@@ -36,11 +36,11 @@ namespace Planetarium.Controllers {
                 ViewBag.SuccessOnCreation = ContentParser.WriteToJsonFile<StreamingModel>("Streamings.json", streaming, ContentParser.GetStreamingsFromJson);
                 if (ViewBag.SuccessOnCreation) {
                     view = RedirectToAction("Success", "Home");
-                    ViewBag.Message = "El cuestionario fue agregado con exito";
+                    ViewBag.Message = "El streaming fue agregado con éxito";
                     ModelState.Clear();
                 }
             } catch {
-                ViewBag.Message = "Algo salió mal y no fue posible crear el formulario";
+                ViewBag.Message = "Algo salió mal y no fue posible crear el streaming";
             }
             return view;
         }

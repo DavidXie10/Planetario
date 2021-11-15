@@ -48,7 +48,6 @@
         }
     </div>
 
-    <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -71,37 +70,5 @@
         </div>
     </div>
 
-    <script>
-        function checkData(target) {
-            let linkInput = document.getElementById("Link");
-            let linkValue = linkInput.value;
-            if (isValidLink(linkValue)) {
-                document.getElementById("buttonSubmit").click();
-            } else {
-                console.log("Pain");
-            }
-        }
-
-        function isValidLink(link) {
-            let isValid = false;
-            if (link.includes("/embed/")) {
-                isValid = true;
-            }
-            return isValid;
-        }
-
-        function checkValidLink(target) {
-            console.log("triggered");
-            let errorContainer = document.getElementById("errorMsg");
-            let linkInput = document.getElementById("Link");
-            linkInput.removeAttribute("style");
-            let linkValue = linkInput.value;
-            if (isValidLink(linkValue)) {
-                errorContainer.style.display = "none";
-            } else {
-                errorContainer.style.display = "block";
-            }
-
-        }
-    </script>
+    <script type="text/javascript" src="~/Scripts/streaming.js"></script>
 </body>

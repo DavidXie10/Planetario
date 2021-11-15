@@ -273,6 +273,7 @@
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\statisticsInvolvement.js" />
+    <Content Include="Scripts\streaming.js" />
     <Content Include="Scripts\summernote-bs4.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
