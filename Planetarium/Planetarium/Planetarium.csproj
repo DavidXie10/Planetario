@@ -254,6 +254,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\categoriesAndTopicsMultiselectCascade.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
+    <Content Include="Scripts\filterFuture.js" />
     <Content Include="Scripts\idiomsStatistics.js" />
     <Content Include="Scripts\inscriptionForm.js" />
     <Content Include="Scripts\Statistics.js" />

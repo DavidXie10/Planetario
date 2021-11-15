@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
@@ -9,25 +6,24 @@ using Planetarium.Models;
 namespace Planetarium.Controllers  {
     public class CalendarController : Controller {
 
-        public RssFeedHandler eventHandler = new RssFeedHandler();
-        public EducationalActivityHandler activityHandler = new EducationalActivityHandler();
+        public RssFeedHandler EventHandler = new RssFeedHandler();
+        public EducationalActivityHandler ActivityDataAccess = new EducationalActivityHandler();
 
         public ActionResult Calendar() {
             return View();
         }
 
-
         public JsonResult GetEventsForGeneralCalendar() {
-            List<EventModel> eventsList = eventHandler.GetEventsFromFeed();
+            List<EventModel> eventsList = EventHandler.GetEventsFromFeed();
 
-            eventsList.AddRange(activityHandler.GetAllCalendarActivitiesFromState(1));
+            eventsList.AddRange(ActivityDataAccess.GetAllCalendarActivitiesFromState(1));
 
             return Json(eventsList, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetEventsForPhenomenonCalendar() {
             List<EventModel> eventsList = new List<EventModel>();
-            eventsList = eventHandler.GetEventsFromFeed();
+            eventsList = EventHandler.GetEventsFromFeed();
             return Json(eventsList, JsonRequestBehavior.AllowGet);
         }
        
@@ -42,7 +38,7 @@ namespace Planetarium.Controllers  {
             educationalActivity.ActivityType = Request.Form["typeOfEvent"];
 
             try {
-                ViewBag.SuccessOnCreation = this.activityHandler.ProposeEducationalActivity(educationalActivity);
+                ViewBag.SuccessOnCreation = this.ActivityDataAccess.ProposeEducationalActivity(educationalActivity);
                 ModelState.Clear();
             } catch {
                 TempData["Error"] = true;

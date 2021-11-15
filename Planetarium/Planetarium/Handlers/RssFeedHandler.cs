@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Xml.XPath;
 using HtmlAgilityPack;
 using Planetarium.Models;
@@ -43,7 +41,7 @@ namespace Planetarium.Handlers {
         };
 
 
-        public List<EventModel> getRssFeed(string url = "defaultURL") {
+        public List<EventModel> GetRssFeed(string url = "defaultURL") {
             List<EventModel> feed = new List<EventModel>();
             try {
                 XPathDocument doc = new XPathDocument("https://www.space.com/feeds/all");
@@ -51,13 +49,7 @@ namespace Planetarium.Handlers {
                 XPathNodeIterator nodes = navigator.Select("//item");
                 while (nodes.MoveNext()) {
                     XPathNavigator node = nodes.Current;
-                    feed.Add(new EventModel {
-                        Title = node.SelectSingleNode("title").Value,
-                        Description = node.SelectSingleNode("description").Value,
-                        Link = node.SelectSingleNode("link").Value,
-                        Date = node.SelectSingleNode("pubDate").Value,
-                        ImgURL = node.SelectSingleNode("enclosure/@url").Value
-                    });
+                    feed.Add(InstanceEventModel(node));
                 }
             }catch {
                 feed = null;
@@ -66,33 +58,44 @@ namespace Planetarium.Handlers {
             return feed;
         }
 
+        private EventModel InstanceEventModel(XPathNavigator node) {
+            return new EventModel {
+                Title = node.SelectSingleNode("title").Value,
+                Description = node.SelectSingleNode("description").Value,
+                Link = node.SelectSingleNode("link").Value,
+                Date = node.SelectSingleNode("pubDate").Value,
+                ImgURL = node.SelectSingleNode("enclosure/@url").Value
+            };
+        }
+
         public List<EventModel> GetEventsFromFeed(string url = "https://www.timeanddate.com/astronomy/sights-to-see.html") {
             List<EventModel> events = new List<EventModel>();
-
             var webPage = new HtmlWeb();
             var DOM = webPage.Load(url);
             foreach (HtmlNode node in DOM.DocumentNode.SelectNodes("//article")) {
                 string innerText = node.ChildNodes[0].InnerText;
                 if (innerText.Contains(':')) {
-                    string date = FormatDate(innerText.Split(':')[0]);
-                    string title = innerText.Split(':')[1];
-                    string description = node.ChildNodes[2].InnerText;
-                    string link = "https://www.timeanddate.com/" +  node.ChildNodes[0].ChildNodes[1].GetAttributeValue("href", string.Empty);
-                    if (!date.Contains("-")) {
-                        events.Add(new EventModel {
-                            Title = title,
-                            Description = description,
-                            Date = date.Replace("/", "-"),
-                            Link = link,
-                            ImgURL = "",
-                            Color = "#13967d"
-                        });
-                    }
-                        
+                    AddEvent(events, innerText, node);
                 }
             }
-
             return events;
+        }
+
+        private void AddEvent(List<EventModel> events, string innerText, HtmlNode node) {
+            string date = FormatDate(innerText.Split(':')[0]);
+            string title = innerText.Split(':')[1];
+            string description = node.ChildNodes[2].InnerText;
+            string link = "https://www.timeanddate.com/" + node.ChildNodes[0].ChildNodes[1].GetAttributeValue("href", string.Empty);
+            if (!date.Contains("-")) {
+                events.Add(new EventModel {
+                    Title = title,
+                    Description = description,
+                    Date = date.Replace("/", "-"),
+                    Link = link,
+                    ImgURL = "",
+                    Color = "#13967d"
+                });
+            }
         }
 
         public string FormatDate(string date) {
@@ -101,7 +104,6 @@ namespace Planetarium.Handlers {
             //Current Date
             int currentMonth = Convert.ToInt32(DateTime.Now.ToString("MM"));
             int currentYear = Convert.ToInt32(DateTime.Now.Year.ToString());
-            int currentDay = Convert.ToInt32(DateTime.Now.Day.ToString());
 
             //Month to int
             int month = MONTH[date.Split(' ')[0]];

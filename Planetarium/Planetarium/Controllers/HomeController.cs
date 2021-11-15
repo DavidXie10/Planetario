@@ -14,7 +14,7 @@ namespace Planetarium.Controllers {
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
             RssFeedHandler rssHandler = new RssFeedHandler();
             
-            List<EventModel> feed = rssHandler.getRssFeed();
+            List<EventModel> feed = rssHandler.GetRssFeed();
             List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             
             ViewBag.Events = feed;
