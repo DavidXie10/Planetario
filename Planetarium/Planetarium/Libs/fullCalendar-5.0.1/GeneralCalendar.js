@@ -10,12 +10,9 @@ class CalendarInitializer {
 
     loadCalendarEvents(idCalendar, dataOrigin) {
         return async () => {
-            console.log("Reload: " + idCalendar);
             const eventsLoaded = await this.getEventsFromDB(dataOrigin);
             var calendarEl = document.getElementById(idCalendar);
             var calendar = new FullCalendar.Calendar(calendarEl, {
-
-                //Initializers
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
@@ -59,31 +56,25 @@ class CalendarInitializer {
 
 function eventClicked(event) {
     event = event.event._def;
-    console.log(event);
 
-    //Initial id
     let titleContainerId = "#calendarEventLongTitle";
     let descriptionContainerId = "#calendarEventDescription";
     let linkButtonId = "#linkButton";
     let buttonId = "#modalToggle";
 
-    //Html elements
     let title = document.querySelector(titleContainerId);
     let description = document.querySelector(descriptionContainerId);
     let linkButton = document.querySelector(linkButtonId);
     let button = document.querySelector(buttonId);
 
-    //Adding info to modal
     title.innerHTML = "<strong>" + event.title + "</strong> <br /> <h5>" + event.extendedProps.date + "</h5>";
     description.innerHTML = verifyField(event.extendedProps.description, "Sin descripción");
     linkButton.setAttribute("href", verifyField(event.extendedProps.link, "/EducationalActivity/ListActivities"));
 
-    //show modal
     button.click();
 }
 
 function verifyField(fieldValue, defaultValue) {
-    console.log("Field Value: " + fieldValue);
     let verifiedField = fieldValue;
     if (verifiedField == "" || verifiedField == null) {
         verifiedField = defaultValue;
@@ -92,19 +83,13 @@ function verifyField(fieldValue, defaultValue) {
 }
 
 function changeCalendar(target) {
-
-
     //Calendar toggles
     let generalCal = document.querySelector("#generalCalToggle");
     let phenomenonCal = document.querySelector("#phenomenomCalToggle");
 
-
-
     //Calendar containers
     let generalCalContainer = document.querySelector("#generalContainer");
     let phenomenonCalContainer = document.querySelector("#phenomenonContainer");
-
-
 
     if (target == generalCal) {
         activeButton(generalCal);
@@ -117,14 +102,10 @@ function changeCalendar(target) {
         showContainer(phenomenonCalContainer);
         hideContainer(generalCalContainer);
     }
-
-
 }
 
 function showInitialCalendar() {
-    //Calendar containers
     let generalCalendarToggle = document.querySelector("#generalCalToggle");
-    console.log(generalCalendarToggle);
     generalCalendarToggle.click();
 }
 
@@ -147,5 +128,3 @@ function showContainer(container) {
 function hideContainer(container) {
     container.style.display = "none";
 }
-
-
