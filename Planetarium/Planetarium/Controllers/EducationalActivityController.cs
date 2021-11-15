@@ -324,7 +324,7 @@ namespace Planetarium.Controllers {
                 if (ViewBag.SuccessOnCreation) {
                     TempData["Error"] = false;
                     ModelState.Clear();
-                    view = RedirectToAction("AssignSeat", "EducationalActivity", new { dni = visitor.Dni, activityTitle = title, activityDate = date });
+                    view = RedirectToAction("AssignSeat", "EducationalActivity", new { id = visitor.Dni, title = title, date = date });
                 }
             } catch (Exception e) {
                 TempData["WarningMessage"] = e;
