@@ -258,6 +258,7 @@
     <Content Include="Scripts\filterFuture.js" />
     <Content Include="Scripts\idiomsStatistics.js" />
     <Content Include="Scripts\inscriptionForm.js" />
+    <Content Include="Scripts\listActivities.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
