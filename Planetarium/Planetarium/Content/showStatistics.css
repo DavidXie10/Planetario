@@ -1,0 +1,17 @@
+﻿
+#cards-container .card-body {
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.card {
+    min-height: 18rem;
+}
+
+.col-3 {
+    display: none;
+}
+
+#cards-container .col-3 .card .card-header {
+    font-size: 1.8rem;
+}
