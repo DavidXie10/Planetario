@@ -243,7 +243,6 @@ namespace Planetarium.Controllers {
                 int register = VisitorDataAccess.CheckVisitor(visitor.Dni) ? (VisitorDataAccess.CheckVisitor(visitor.Dni, title, date) ? REGISTERED : DEFAULT) : NOT_REGISTERED;
 
                 if (register == DEFAULT) {
-                    //En vez de insertar se redireccione a la vista de seleccionar asiento
                     ViewBag.SuccessOnCreation = ActivityDataAccess.CheckCapacity(title, date);
                     if (ViewBag.SuccessOnCreation) {
                         ModelState.Clear();

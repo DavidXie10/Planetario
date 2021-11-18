@@ -1,6 +1,4 @@
-﻿
-
-class SeatGenerator {
+﻿class SeatGenerator {
     constructor(seatTableContainerId, maxParticipants, url) {
         this.seatTableContainerId = seatTableContainerId;
         this.maxParticipants = parseInt(maxParticipants);
@@ -12,7 +10,6 @@ class SeatGenerator {
         this.reservedSeats = await this.fetchReservedSeats();
         let seats = document.getElementById(this.seatTableContainerId)
         let maxColumns = Math.ceil(Math.sqrt(this.maxParticipants));
-        console.log("Max Cols: " + maxColumns)
         let createdSeats = 0;
 
         let space = "\n"
@@ -38,16 +35,11 @@ class SeatGenerator {
             space += "\n"
             seats.appendChild(tr)
         }
-
-        console.log(seats)
-        console.log(space)
-        console.log(createdSeats);
     }
 
     async fetchReservedSeats() {
         const response = await fetch(this.url);
         const seatsFromDB = await response.json();
-        let seats = []
         return seatsFromDB;
     }
     
@@ -75,7 +67,6 @@ class SeatGenerator {
     }
 
     buttonClicked(target) {
-        console.log(target);
         this.clearSelection();
         this.selectButton(target);
         this.enableButton();
@@ -92,6 +83,11 @@ class SeatGenerator {
     addValueToContainer(button) {
         let container = document.getElementById("selectedSeat");
         container.value = button.textContent;
+    }
+
+    clearContainerValue() {
+        let container = document.getElementById("selectedSeat");
+        container.value = "";
     }
 
     unselectButton(button) {
@@ -138,36 +134,11 @@ function enableButton() {
     container.value = button.textContent;
 }
 
-function disableButton() {
-
-}
-
-function getSelectedSeat() {
-    let table = document.getElementById(this.seatTableContainerId);
-
-    //Size of the matriz
-    let rows = table.rows.length;
-    let cols = table.rows[0].cells.length;
-
-    //Elements searched
-    let reviewedButtons = 0;
-
-    //
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols && reviewedButtons < this.maxParticipants; j++) {
-            let button = table.rows[i].cells[j].childNodes[0];
-            if (isSelected(button)) {
-
-            }
-        }
-    }
-}
-
 function clearSelection() {
     seatsGen.clearSelection();
     seatsGen.diableButton();
+    seatsGen.clearContainerValue();
 }
-
 
 function isSelected(button) {
     let isSelected = false;
@@ -183,5 +154,6 @@ function checkData() {
     if (stringInput.value != '') {
         document.getElementById("Reservar").click();
     }
+    console.log(stringInput.value);
 }
 

@@ -19,7 +19,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult InternetStreaming() {
-            ViewBag.Streamings = ContentParser.GetContentsFromJson<StreamingModel>("Streamings.json", ContentParser.GetStreamingsFromJson);;
+            ViewBag.Streamings = ContentParser.GetContentsFromJson<StreamingModel>("Streamings.json", ContentParser.GetStreamingsFromJson);
             return View();
         }
 

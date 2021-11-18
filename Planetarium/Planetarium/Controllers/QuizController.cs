@@ -7,7 +7,7 @@ namespace Planetarium.Controllers{
         ContentParser parser = new ContentParser();
 
         public ActionResult Quizzes(){
-            List<QuizModel> quizzes = parser.GetQuizzes("Quizzes.json");
+            List<QuizModel> quizzes = parser.GetContentsFromJson<QuizModel>("Quizzes.Json", parser.GetQuizzesFromJson);
             ViewBag.Quizzes = quizzes;
             return View();
         }
@@ -27,7 +27,8 @@ namespace Planetarium.Controllers{
             quiz.Difficulty = Request.Form["dificulty"];
             ViewBag.SuccessOnCreation = false;
             try {
-                ViewBag.SuccessOnCreation = parser.WriteToJsonFile("Quizzes.json", quiz);
+                //ViewBag.SuccessOnCreation = parser.WriteToJsonFile("Quizzes.json", quiz);
+                ViewBag.SuccessOnCreation = parser.WriteToJsonFile<QuizModel>("Quizzes.json", quiz, parser.GetQuizzesFromJson);
                 if (ViewBag.SuccessOnCreation) {
                     view = RedirectToAction("Success", "Home");
                     ViewBag.Message = "El cuestionario fue agregado con éxito";

@@ -1,5 +1,4 @@
-﻿
-class CalendarInitializer {
+﻿class CalendarInitializer {
     constructor(dataOriginGenral, dataOriginPhenomenom) {
         this.dataOriginGeneral = dataOriginGenral;
         this.dataOriginPhenomenom = dataOriginPhenomenom;

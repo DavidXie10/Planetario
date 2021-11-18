@@ -100,20 +100,12 @@ namespace Planetarium.Handlers {
 
         public string FormatDate(string date) {
             string formatedDate = "";
-
-            //Current Date
             int currentMonth = Convert.ToInt32(DateTime.Now.ToString("MM"));
             int currentYear = Convert.ToInt32(DateTime.Now.Year.ToString());
-
-            //Month to int
             int month = MONTH[date.Split(' ')[0]];
-
-            //Day from event
             string day = date.Split(' ')[1];
-
             int dayToInt;
 
-            //Get the int value of day
             if (day.Contains('/')) {
                 dayToInt = Convert.ToInt32(day.Split('/')[1]);
             } else {
@@ -126,7 +118,6 @@ namespace Planetarium.Handlers {
                 day = dayToInt.ToString();
             }
 
-            //Check the year of the event
             if (month >= currentMonth) {
                 formatedDate = currentYear + "/" + month + "/" + day.Replace("/", "-");
             }
