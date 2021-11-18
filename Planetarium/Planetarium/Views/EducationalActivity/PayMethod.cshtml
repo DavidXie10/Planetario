@@ -19,6 +19,7 @@
                                     <h5>@ViewBag.title</h5>
                                     <h6>@ViewBag.date</h6>
                                     <h6>@ViewBag.seat</h6>
+                                    <h6>Precio: ₡@ViewBag.price</h6>
                                 </div>
                             </div>
                         </div>
@@ -63,21 +64,24 @@
                                             <div class="col-md-8">
                                                 <span class="help-block text-muted small-font"> Número de tarjeta</span>
                                                 <input id="creditCardNumber" value="" type="number" class="form-control" placeholder="0000 0000 0000 0000" data-maxlength="16" oninput="this.value=this.value.slice(0,this.dataset.maxlength)" required autocomplete="off" />
+                                                <p id="cardNumberError" class="text-danger"></p>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <span class="help-block text-muted small-font"> Mes</span>
-                                                <input value="" type="number" class="form-control" placeholder="MM" maxlength="2" onchange="monthLimiter(this);" required />
+                                                <input id="monthInput" value="" type="number" class="form-control" placeholder="MM" maxlength="2" onchange="monthLimiter(this);" required />
+                                                <p id="monthError" class="text-danger"></p>
                                             </div>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <span class="help-block text-muted small-font">Año</span>
-                                                <input type="text" class="form-control" placeholder="YY" maxlength="2" required />
-
+                                                <input id="yearInput" type="number" class="form-control" placeholder="YY" min="21" maxlength="2" onchange="yearLimiter(this)" required />
+                                                <p id="yearError" class="text-danger"></p>
                                             </div>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
-                                                <span class="help-block text-muted small-font"> CCV</span>
-                                                <input type="text" class="form-control" placeholder="CCV" maxlength="3" required />
+                                                <span class="help-block text-muted small-font"> CVC</span>
+                                                <input id="cvcInput" type="text" class="form-control" placeholder="CVC" maxlength="3" required />
+                                                <p id="cvcError" class="text-danger"></p>
                                             </div>
                                             <div class="col-md-3 col-sm-3 col-xs-3">
                                                 <i class="fas fa-credit-card"></i>
@@ -159,38 +163,43 @@
 
         let valid = true;
 
-        var userName = document.getElementById("fname").value;
-        var userLastName = document.getElementById("lname").value;
-        var userMailName = document.getElementById("email").value;
+        let userName = document.getElementById("fname").value;
+        let userLastName = document.getElementById("lname").value;
+        let userMailName = document.getElementById("email").value;
+        let cardNumber = document.getElementById("creditCardNumber").value;
+        let month = document.getElementById("monthInput").value;
+        let year = document.getElementById("yearInput").value;
+        let cvc = document.getElementById("cvcInput").value;
 
-
-        if (userName == '') {
-            valid = false;
-            let container = document.querySelector(".nameError")
-            console.log(container)
-            document.querySelector("#nameError").innerHTML = "Por favor ingrese el nombre"
-        }
-        if (userLastName == '') {
-            valid = false;
-            let container = document.querySelector(".lastNameError")
-            console.log(container)
-            document.querySelector("#lastNameError").innerHTML = "Por favor ingrese el apellido"
-        }
-        if (userMailName == '') {
-            valid = false;
-            let container = document.querySelector(".mailError")
-            console.log(container)
-            document.querySelector("#emailError").innerHTML = "Por favor ingrese el correo electónico"
-        }
+        valid = checkValidInput(userName, "#nameEror", "Por favor ingrese un nombre");
+        valid = checkValidInput(userLastName, "#lastNameError", "Ingrese un DNI");
+        valid = checkValidInput(userMailName, "#emailError", "Ingrese un correo");
+        valid = checkValidInput(cardNumber, "#cardNumberError", "Ingrese un número de tarjeta");
+        valid = checkValidInput(month, "#monthError", "Ingrese un mes válido");
+        valid = checkValidInput(year, "#yearError", "Ingrese un año");
+        valid = checkValidInput(cvc, "#cvcError", "Ingrese el cvc al que se encuentra al reverso de su tarjeta");
 
         if (valid) {
             document.getElementById("submit").click();
         }
     }
 
+    function checkValidInput(containerValue, errorContainerId, errorMsg) {
+        let valid = true;
+        if (containerValue == '') {
+            document.querySelector(errorContainerId).innerHTML = errorMsg;
+            valid = false;
+        }
+        return valid;
+    }
+
 
     function monthLimiter(input) {
         if (input.value < 1) input.value = '';
         if (input.value > 12) input.value = '';
+    }
+
+    function yearLimiter(input) {
+        if (input.value < 21) input.value = '';
     }
 </script>
