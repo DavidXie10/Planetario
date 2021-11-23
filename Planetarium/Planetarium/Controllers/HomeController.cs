@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
@@ -7,6 +8,16 @@ namespace Planetarium.Controllers {
     public class HomeController : Controller {
         ContentParser contentParser = new ContentParser();
         public ActionResult Index() {
+
+            //Testing Cookies
+
+            HttpCookie cookie = new HttpCookie("userIdentity");
+            cookie.Value = "Carlos Espinoza";
+            cookie.Expires = System.DateTime.Now.AddMinutes(2);
+            Response.Cookies.Add(cookie);
+
+            //End of Testing Cookies
+
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
             RssFeedHandler rssHandler = new RssFeedHandler();

@@ -19,11 +19,19 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ListNews() {
+
+            //Testing Cookie
+
+            string cookieValue = FetchCookieValue("userIdentity");
+
+            //End of Testing Cookie
+
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
             RssFeedHandler rssHandler = new RssFeedHandler();
             List<EventModel> feed = rssHandler.GetRssFeed();
             ViewBag.NewsFromInternet = feed;
+            ViewBag.Cookie = cookieValue;
             return View();
         }
 
@@ -104,6 +112,17 @@ namespace Planetarium.Controllers {
                 file.SaveAs(Path.Combine(Server.MapPath("~/images/news"), filePath));
             }
             return Json("Files uploaded successfully");
+        }
+
+
+        public string FetchCookieValue(string cookieName) {
+            string value = "";
+            try {
+                value = Request.Cookies[cookieName].Value;
+            }catch(Exception e) {
+                value = "No se encontró una cookie";
+            }
+            return value;
         }
     }
 }

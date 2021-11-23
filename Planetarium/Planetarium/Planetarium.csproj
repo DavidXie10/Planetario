@@ -136,6 +136,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\StreamingModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -321,6 +323,7 @@
     <Content Include="Views\EducationalActivity\AssignSeat.cshtml" />
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
