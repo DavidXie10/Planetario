@@ -199,7 +199,7 @@ namespace Planetarium.Controllers {
             ViewBag.Date = date;
             ViewBag.Seat = seat;
             ViewBag.Price = price;
-
+            
             ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = visitor.Dni, title = title, date = date, seat = seat });
             try {
                 ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date);

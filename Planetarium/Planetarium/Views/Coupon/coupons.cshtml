@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/Content/couponNotification'sBell.css" />
+    <title>Document</title>
+</head>
+<body>
+    <div class="icons">
+        <div class="notification">
+            <a href="#">
+                <div class="notBtn" href="#">
+                    <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                    <div class="number">2</div>
+                    <i class="fasNotificationBell fas fa-bell"></i>
+                    <div class="box">
+                        <div class="display">
+                            <div class="nothing">
+                                <i class="fas fa-child stick"></i>
+                                <div class="cent">Looks Like your all caught up!</div>
+                            </div>
+                            <div class="cont">
+                                <!-- Fold this div and try deleting evrything inbetween -->
+                                <div class="sec">
+                                    <a href="#">
+                                        <div class="profCont">
+                                            <img class="profile"
+                                                 src="~/images/logotipo.jpeg" />
+                                        </div>
+                                        <div class="txt">
+                                            50% de descuento
+                                        </div>
+                                        <div class="txt">
+                                            <input class="w-75" type="text" value="#Planetario_01TY50" id="#Planetario_01TY50" style="font-size:small;">
+                                            <i onclick="couponCodeCopiedToClipboard('#Planetario_01TY50')" class="far fa-copy" style="color:gray"></i>
+                                        </div>
+                                        <div class="txt sub">11/7 - 2:30 pm</div>
+                                    </a>
+                                </div>
+
+                                <div class="sec">
+                                    <a href="#">
+                                        <div class="profCont">
+                                            <img class="profile"
+                                                 src="~/images/logotipo.jpeg" />
+                                        </div>
+                                        <div class="txt">
+                                            25% de descuento
+                                        </div>
+                                        <div class="txt">
+                                            <input class="w-75" type="text" value="#Planetario_010025" id="#Planetario_010025" style="font-size:small;">
+                                            <i onclick="couponCodeCopiedToClipboard('#Planetario_010025')" class="far fa-copy" style="color:gray"></i>
+                                        </div>
+                                        <div class="txt sub">01/12 - 8:30 pm</div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    function couponCodeCopiedToClipboard(id) {
+        /* Get the text field */
+        var copyText = document.getElementById(id);
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+
+    }
+</script>
+
