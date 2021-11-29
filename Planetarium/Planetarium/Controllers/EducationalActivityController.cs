@@ -96,6 +96,9 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ListActivities() {
+            List<CouponModel> coupons = ContentParser.GetContentsFromJson<CouponModel>("Coupons.json", ContentParser.GetCouponsFromJson);
+            ViewBag.Coupons = coupons;
+
             RssFeedHandler rssHandler = new RssFeedHandler();
             List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             ViewBag.EventsToCal = eventFeed;
@@ -181,6 +184,8 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult PayMethod(string dni = "0", string title = "", string date = "", string seat = "0-0") {
+            List<CouponModel> coupons = ContentParser.GetContentsFromJson<CouponModel>("Coupons.json", ContentParser.GetCouponsFromJson);
+            ViewBag.Coupons = coupons;
 
             ViewBag.visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
 

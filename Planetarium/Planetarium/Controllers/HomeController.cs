@@ -7,6 +7,7 @@ namespace Planetarium.Controllers {
     public class HomeController : Controller {
         ContentParser contentParser = new ContentParser();
         public ActionResult Index() {
+
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
             RssFeedHandler rssHandler = new RssFeedHandler();
@@ -19,6 +20,8 @@ namespace Planetarium.Controllers {
 
             List<StreamingModel> streamings = contentParser.GetContentsFromJson<StreamingModel>("Streamings.json", contentParser.GetStreamingsFromJson);
             ViewBag.Streamings = streamings;
+            List<CouponModel> coupons = contentParser.GetContentsFromJson<CouponModel>("Coupons.json", contentParser.GetCouponsFromJson);
+            ViewBag.Coupons = coupons;
             ViewBag.Us = WhoWeAre();
             ViewBag.Activities = educationalActivityHandler.GetAllApprovedActivities();
             ViewBag.News = dataAccess.GetAllNews();
