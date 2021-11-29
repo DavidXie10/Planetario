@@ -202,8 +202,7 @@ namespace Planetarium.Controllers {
 
             ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = visitor.Dni, title = title, date = date, seat = seat });
             try {
-                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date);
-                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertAssignSeat(visitor.Dni, title, date, seat);
+                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date, seat, price, "Infantil");
                 if (ViewBag.SuccessOnCreation) {
                     view = View();
                 }
