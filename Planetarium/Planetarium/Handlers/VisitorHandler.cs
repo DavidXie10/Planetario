@@ -11,7 +11,7 @@ using static Planetarium.Handlers.DatabaseHandler;
 namespace Planetarium.Handlers {
     public class VisitorHandler : DatabaseHandler {
 
-        public bool RegisterVisitor(VisitorModel visitor, string activityTitle, string activityDate) {
+        public bool RegisterVisitor(VisitorModel visitor) {
             bool success = false;
 
             string query = "INSERT INTO Visitante (cedulaPK, nombreCompleto, correo, nivelEducativo, fechaNacimiento, genero, paisOrigen)" +
@@ -20,7 +20,7 @@ namespace Planetarium.Handlers {
             SqlCommand queryCommand = new SqlCommand(query, connection);
             AddParametersToQueryCommand(queryCommand, visitor);
             success = DatabaseQuery(queryCommand);
-
+            
             return success;
         }
 
@@ -63,6 +63,7 @@ namespace Planetarium.Handlers {
             DataRow visitorInstance = resultingTable.Rows[0];
             return GetVisitorContentFromTable(visitorInstance);
         }
+
         public VisitorModel GetVisitorContentFromTable(DataRow dbContent) {
             return new VisitorModel  {
                 Dni = Convert.ToString(dbContent["cedulaPK"]),

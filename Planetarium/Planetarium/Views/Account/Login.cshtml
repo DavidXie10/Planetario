@@ -1,6 +1,9 @@
-﻿
+﻿@model Planetarium.Models.LoginModel
 @{ 
     ViewBag.Title = "Login";
+
+    ViewBag.PathToOperation = Url.Action("LoginUser", "Account");
+
 }
 
 
@@ -9,29 +12,53 @@
 </head>
 
 <body>
-    <div class="container justify-content-center">
-        <div class="row">
-            <div class="col d-flex justify-content-center" >
+    <div class="container align-content-center" style="height: 70vh;">
+        @if (Convert.ToBoolean(TempData["Error"]) == true) {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+        </div>
+        }
+        @using (Html.BeginForm("CheckCredentials", "Account", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        @Html.AntiForgeryToken()
+
+
+        <div class="row" style="margin-top:20%">
+            <div class="col-6" style="margin:auto;">
                 <div class="card">
                     <div class="card-header text-center">
                         Ingrese sus datos
                     </div>
                     <div class="card-body">
-                        <label for="userName" class="form-label">Correo de Usuario</label>
-                        <input type="text" name="userName" value="" class="form-control"/> <br />
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="text" name="password" value="" class="form-control"/>
-                    </div>
-                    <div class="card-footer">
-                        <input type="button" class="btn btn-info" name="name" value="Registrarme" />
-                        <input type="button" class="btn btn-success" name="name" value="Iniciar Sesión" />
+                        @Html.LabelFor(model => model.Username)
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @rows = "5" })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+
+                        @Html.LabelFor(model => model.Password)
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @rows = "5" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+
+                        <hr />
+
+
+                        <a href="/EducationalActivity/ActivityInscriptionForm" class="btn btn-secondary">¿No estás registrado? Crea una cuenta aquí</a>
+                        <input type="submit" name="name" value="Iniciar Sesion" class="btn btn-success" />
                     </div>
 
                 </div>
             </div>
         </div>
-        
+            
+        }
     </div>
+
+    <script src="~/Scripts/Authorization.js"></script>
+    <script>
+        let containers = ["username", "password"]
+        let authController = new AuthController("/Account/LoginUser/", containers)
+    </script>
+
 </body>
 
 

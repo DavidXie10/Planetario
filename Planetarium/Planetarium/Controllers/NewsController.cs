@@ -13,16 +13,19 @@ namespace Planetarium.Controllers {
         public NewsHandler DataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
+        public AuthorizationController AuthController { get; set; }
+
         public NewsController() {
             DataAccess = new NewsHandler();
             ContentParser = new ContentParser();
+            AuthController = new AuthorizationController();
         }
 
         public ActionResult ListNews() {
 
             //Testing Cookie
 
-            string cookieValue = FetchCookieValue("userIdentity");
+            string cookieValue = AuthController.FetchCookieValue("userIdentity");
 
             //End of Testing Cookie
 
@@ -115,14 +118,6 @@ namespace Planetarium.Controllers {
         }
 
 
-        public string FetchCookieValue(string cookieName) {
-            string value = "";
-            try {
-                value = Request.Cookies[cookieName].Value;
-            }catch(Exception e) {
-                value = "No se encontró una cookie";
-            }
-            return value;
-        }
+        
     }
 }

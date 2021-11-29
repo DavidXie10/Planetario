@@ -38,5 +38,12 @@ namespace Planetarium.Models {
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
 
+        [Display(Name = "Nombre de usuario")]
+        [Required(ErrorMessage = "Debe ingresar un nombre de usuario")]
+        public string Username { get; set; }
+
+        [Display(Name = "Contraseña")]
+        [Required(ErrorMessage = "Debe ingresar una contraseña")]
+        public string Password { get; set; }
     }
 }

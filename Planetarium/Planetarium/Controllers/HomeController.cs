@@ -11,10 +11,10 @@ namespace Planetarium.Controllers {
 
             //Testing Cookies
 
-            HttpCookie cookie = new HttpCookie("userIdentity");
-            cookie.Value = "Carlos Espinoza";
-            cookie.Expires = System.DateTime.Now.AddMinutes(2);
-            Response.Cookies.Add(cookie);
+            //HttpCookie cookie = new HttpCookie("userIdentity");
+            //cookie.Value = "Carlos Espinoza";
+            //cookie.Expires = System.DateTime.Now.AddMinutes(2);
+            //Response.Cookies.Add(cookie);
 
             //End of Testing Cookies
 

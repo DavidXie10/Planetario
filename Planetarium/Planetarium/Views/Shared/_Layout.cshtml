@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Planetarium.Controllers
+@{ 
+    AuthorizationController authController = new AuthorizationController();
+    
+}
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -64,6 +71,31 @@
                     </div>
 
                 </li>
+
+            </ul>
+            @{ 
+                string userIdentityCookie = authController.FetchCookieValue("userIdentity");
+            }
+            <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
+                @if (userIdentityCookie == null) {
+                    <li class="nav-item">
+                        <a href="/Account/Login" class="nav-link">Ingresar</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Registrarme</a>
+                    </li>
+                } else {
+                    <li class="nav-item">
+                        <a href="/Account/Login" class="nav-link">@userIdentityCookie</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Salir</a>
+                    </li>
+                }
 
             </ul>
         </div>
