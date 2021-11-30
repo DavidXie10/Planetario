@@ -143,6 +143,7 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\SouvenirController.cs" />
     <Compile Include="Controllers\StreamingController.cs" />
     <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Global.asax.cs">
@@ -154,6 +155,7 @@
     <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Handlers\EmployeesHandler.cs" />
+    <Compile Include="Handlers\SouvenirHandler.cs" />
     <Compile Include="Handlers\VisitorHandler.cs" />
     <Compile Include="Handlers\RssFeedHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\SouvenirModel.cs" />
     <Compile Include="Models\StreamingModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
@@ -321,9 +324,13 @@
     <Content Include="Views\EducationalActivity\AssignSeat.cshtml" />
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
+    <Content Include="Views\Souvenir\Catalog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="images\Souvenirs\" />
+    <Folder Include="Views\SouvenirHandler\" />
+    <Folder Include="Views\SouvenirModel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
