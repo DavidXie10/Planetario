@@ -245,6 +245,7 @@
     <Content Include="images\PlanetariumUCR\planetarioUCR.jpg" />
     <Content Include="images\PlanetariumUCR\streaming.jpg" />
     <Content Include="images\satellite.jpg" />
+    <Content Include="images\Souvenirs\camisaDefault.jpeg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Libs\fontawesome-5.15.4\all.css" />
@@ -328,7 +329,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\Souvenirs\" />
     <Folder Include="Views\SouvenirHandler\" />
     <Folder Include="Views\SouvenirModel\" />
   </ItemGroup>
