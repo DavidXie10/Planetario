@@ -25,22 +25,20 @@ namespace Planetarium.Controllers
             TempData["Error"] = true;
             TempData["WarningMessage"] = "";
 
-            //Proceso de crear la cookie
             if (isRegistered) {
                 TempData["Error"] = false;
 
                 UserModel user = AuthDataAccess.GetUserByUsername(loginCredentials.Username);
                 HttpCookie authCookie = AuthController.UpdateCookie("authCookie", user.Rol.ToString());
                 HttpCookie userIdentityCookie = AuthController.UpdateCookie("userIdentity", user.Username);
-                
-                if(!(authCookie == null)) {
+
+                if (authCookie != null) {
                     Response.Cookies.Add(authCookie);
                 }
 
-                if (!(userIdentityCookie == null)) {
+                if (userIdentityCookie != null) {
                     Response.Cookies.Add(userIdentityCookie);
                 }
-
 
                 view = RedirectToAction("Index", "Home");
                 

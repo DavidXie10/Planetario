@@ -8,13 +8,6 @@ namespace Planetarium.Controllers
 {
     public class AuthorizationController : Controller
     {
-        public AuthorizationController() {
-
-        }
-
-
-        
-
         public HttpCookie CreateCookie(string cookieName, string cookieValue, DateTime expirationTime) {
             HttpCookie cookie = new HttpCookie(cookieName);
             cookie.Value = cookieValue;
@@ -25,7 +18,8 @@ namespace Planetarium.Controllers
         public HttpCookie UpdateCookie(string cookieName, string value) {
             HttpCookie cookie = null;
             string currentValue = FetchCookieValue(cookieName);
-            if(currentValue == null) {
+
+            if(currentValue == "0") {
                 cookie = CreateCookie(cookieName, value, DateTime.Now.AddHours(1));
             } else {
                 cookie = Request.Cookies[cookieName];
@@ -41,10 +35,11 @@ namespace Planetarium.Controllers
 
         public string FetchCookieValue(string cookieName) {
             string value = null;
+
             try {
                 value = Request.Cookies[cookieName].Value;
             } catch (Exception e) {
-                value = null;
+                value = "0";
             }
             return value;
         }
