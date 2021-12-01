@@ -327,6 +327,7 @@
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Coupon\Coupons.cshtml" />
     <Content Include="Views\Games\HangManGame.cshtml" />
+    <Content Include="Views\EducationalActivity\InsertVisitorWithTicket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

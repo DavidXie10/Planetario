@@ -55,7 +55,7 @@
                             <div class="form-group">
                                 <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-ticket-alt"></i> Aplicar cupón</span>
                                 <div class="col-md-8">
-                                    <input id="coupon" name="cupon" type="text" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.price)">
+                                    <input id="coupon" name="coupon" type="text" value="" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.price)">
                                     <p id="couponError" class="text-danger"></p>
                                 </div>
                             </div>
@@ -203,7 +203,6 @@
     function getFinalPrice(price) {
         let userDiscountInput = document.getElementById("coupon").value;
         let coupon = getCouponByCode(userDiscountInput);
-
         if (coupon){
             let discount = price * coupon.Discount;
             return price - discount;

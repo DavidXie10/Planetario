@@ -15,7 +15,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult Coupons() {
-            ViewBag.Coupons = couponHandler.GetAllCoupons("402540855");
+            ViewBag.Coupons = couponHandler.GetAllCoupons("402540855"); //TODO: cambiar por la persona del rol
             return View();
         }
     }

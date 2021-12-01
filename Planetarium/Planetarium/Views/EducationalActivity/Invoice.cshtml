@@ -29,7 +29,8 @@
                     </div>
                     <div class="row">
                         <div class="col text-center">
-                            @Html.ActionLink("Finalizar", "ListActivities", "EducationalActivity", new { @class = "btn btn-success", @style = "width: 40%" })
+                            @Html.ActionLink("Finalizar", "InsertVisitorWithTicket", "EducationalActivity", new { dni = ViewBag.visitor.Dni, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seat, price = ViewBag.price }, new { @class = "btn btn-success", @style = "width: 40%" })
+                            
                         </div>
                     </div>
                 </div>
