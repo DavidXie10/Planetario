@@ -56,7 +56,7 @@
                                 <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-ticket-alt"></i> Aplicar cupón</span>
                                 <div class="col-md-8">
                                     <input id="coupon"  name="cupon" type="text" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.price)">
-                                    <p id="coupon" class="text-danger"></p>
+                                    <p id="couponError" class="text-danger"></p>
                                 </div>
                             </div>
                         </form>
@@ -171,26 +171,41 @@
 </body>
 
 <script>
+
     function discountApplied(price) {
-        var discount = 0.0;
-        var userDiscountInput = document.getElementById("coupon").value;
-        if (userDiscountInput == '#Planetario_50') {
-            discount = price * 0.5
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+
+        if (coupon) {
+            let discount = price * coupon.Discount;
             document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
-            document.getElementById("totalPrice").innerHTML = "Total a pagar: ₡" + (price - discount);
-        
-        } else if (userDiscountInput == '#Planetario_25') {
-            discount = (price * 0.25)
-            document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
-            document.getElementById("totalPrice").innerHTML = "Total a pagar: ₡" + (price - discount);
-        } else if (userDiscountInput == '#Planetario_30') {
-            discount = (price * 0.30)
-            document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
-            document.getElementById("totalPrice").innerHTML = "Total a pagar: ₡" + (price - discount);
-        }else {
+        } else {
             document.getElementById("discount").innerHTML = " ";
             document.getElementById("totalPrice").innerHTML = " ";
         }
+    }
+
+    function getFinalPrice(price) {
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+
+        if (coupon){
+            let discount = price * coupon.Discount;
+            return price - discount;
+        }
+
+        return 0;
+    }
+
+    function getCouponByCode(code) {
+        let allCoupons = @Html.Raw(Json.Encode(@ViewBag.Coupons));
+        for (let coupon of allCoupons) {
+            if (code == coupon.Code) {
+                return coupon;
+            }
+        }
+
+        return null;
     }
 
     function checkData() {

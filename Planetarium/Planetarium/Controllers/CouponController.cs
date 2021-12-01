@@ -4,17 +4,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Planetarium.Models;
+using Planetarium.Handlers;
 
-namespace Planetarium.Controllers
-{
-    public class CouponController : Controller
-    {
-        ContentParser parser = new ContentParser();
-        // GET: Coupon
-        public ActionResult Coupons()
-        {
-            List<CouponModel> coupons = parser.GetContentsFromJson<CouponModel>("Coupons.json", parser.GetCouponsFromJson);
-            ViewBag.Coupons = coupons;
+namespace Planetarium.Controllers {
+    public class CouponController : Controller {
+        public CouponHandler couponHandler { get; set; }
+
+        public CouponController() {
+            couponHandler = new CouponHandler();
+        }
+
+        public ActionResult Coupons() {
+            ViewBag.Coupons = couponHandler.GetAllCoupons("402540855");
             return View();
         }
     }

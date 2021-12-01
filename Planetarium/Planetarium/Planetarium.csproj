@@ -137,10 +137,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\CouponController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
     <Compile Include="Controllers\FrequentlyQuestionController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\StreamingController.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\CouponHandler.cs" />
     <Compile Include="Handlers\DatabaseClassificationsHandler.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
@@ -157,6 +160,7 @@
     <Compile Include="Handlers\VisitorHandler.cs" />
     <Compile Include="Handlers\RssFeedHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
+    <Compile Include="Models\CouponModel.cs" />
     <Compile Include="Models\EducationalActivityEventModel.cs" />
     <Compile Include="Models\EducationalActivityModel.cs" />
     <Compile Include="Models\EventModel.cs" />
@@ -321,6 +325,8 @@
     <Content Include="Views\EducationalActivity\AssignSeat.cshtml" />
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
+    <Content Include="Views\Coupon\Coupons.cshtml" />
+    <Content Include="Views\Games\HangManGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

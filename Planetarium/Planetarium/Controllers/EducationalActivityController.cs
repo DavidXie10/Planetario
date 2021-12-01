@@ -9,6 +9,7 @@ namespace Planetarium.Controllers {
     public class EducationalActivityController : Controller {
         public EducationalActivityHandler ActivityDataAccess { get; set; }
         public VisitorHandler VisitorDataAccess { get; set; }
+        public CouponHandler CouponDataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
         private const int DEFAULT = 0;
@@ -18,6 +19,7 @@ namespace Planetarium.Controllers {
         public EducationalActivityController() {
             ActivityDataAccess = new EducationalActivityHandler();
             VisitorDataAccess = new VisitorHandler();
+            CouponDataAccess = new CouponHandler();
             ContentParser = new ContentParser();
         }
 
@@ -96,13 +98,12 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ListActivities() {
-            List<CouponModel> coupons = ContentParser.GetContentsFromJson<CouponModel>("Coupons.json", ContentParser.GetCouponsFromJson);
-            ViewBag.Coupons = coupons;
-
             RssFeedHandler rssHandler = new RssFeedHandler();
             List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             ViewBag.EventsToCal = eventFeed;
             ViewBag.activities = ActivityDataAccess.GetAllApprovedActivities();
+            ViewBag.Coupons = CouponDataAccess.GetAllCoupons("402540855");
+
             return View();
         }
 
@@ -184,15 +185,12 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult PayMethod(string dni = "0", string title = "", string date = "", string seat = "0-0") {
-            List<CouponModel> coupons = ContentParser.GetContentsFromJson<CouponModel>("Coupons.json", ContentParser.GetCouponsFromJson);
-            ViewBag.Coupons = coupons;
-
             ViewBag.visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
-
             ViewBag.title = title;
             ViewBag.date = date;
             ViewBag.seat = seat;
             ViewBag.Price = ActivityDataAccess.GetPrice(ViewBag.title, ViewBag.date);
+            ViewBag.Coupons = CouponDataAccess.GetAllCoupons(dni);
 
             return View();
         }

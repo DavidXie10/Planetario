@@ -11,7 +11,8 @@ namespace Planetarium.Controllers {
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
             RssFeedHandler rssHandler = new RssFeedHandler();
-            
+            CouponHandler couponHandler = new CouponHandler();
+
             List<EventModel> feed = rssHandler.GetRssFeed();
             List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             
@@ -20,8 +21,7 @@ namespace Planetarium.Controllers {
 
             List<StreamingModel> streamings = contentParser.GetContentsFromJson<StreamingModel>("Streamings.json", contentParser.GetStreamingsFromJson);
             ViewBag.Streamings = streamings;
-            List<CouponModel> coupons = contentParser.GetContentsFromJson<CouponModel>("Coupons.json", contentParser.GetCouponsFromJson);
-            ViewBag.Coupons = coupons;
+            ViewBag.Coupons = couponHandler.GetAllCoupons("402540855");
             ViewBag.Us = WhoWeAre();
             ViewBag.Activities = educationalActivityHandler.GetAllApprovedActivities();
             ViewBag.News = dataAccess.GetAllNews();

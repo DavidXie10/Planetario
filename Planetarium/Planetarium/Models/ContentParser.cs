@@ -65,22 +65,6 @@ namespace Planetarium.Models {
             return quizzes;
         }
 
-        public List<CouponModel> GetCouponsFromJson(dynamic jsonCollection)
-        {
-            List<CouponModel> coupons = new List<CouponModel>();
-            foreach (var element in jsonCollection)
-            {
-                coupons.Add(new CouponModel
-                {
-                    Title = element.Title,
-                    Description = element.Description,
-                    Code = element.Code,
-                    Date = element.Date
-                });
-            }
-            return coupons;
-        }
-
         public List<Model> GetContentsFromJson<Model>(string jsonFile, Func<dynamic, List<Model>> GetModelsFromJson) {
             List<Model> models = new List<Model>();
             try {
