@@ -326,11 +326,10 @@
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Souvenir\Catalog.cshtml" />
+    <Content Include="Views\Souvenir\HomeDelivery.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\SouvenirHandler\" />
-    <Folder Include="Views\SouvenirModel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

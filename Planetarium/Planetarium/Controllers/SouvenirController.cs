@@ -19,5 +19,10 @@ namespace Planetarium.Controllers {
             ViewBag.Catalog = souvenirs;
             return View();
         }
+
+        public ActionResult HomeDelivery() {
+
+            return View();
+        }
     }
 }
