@@ -88,9 +88,41 @@ namespace Planetarium.Handlers {
             };
         }
 
-        public bool InsertVisitor(string visitorDni, string activityTitle, string activityDate) {
-            string query = "INSERT INTO Inscribirse (cedulaPKFK, tituloPKFK, fechaInicioPKFK)" +
-                    " VALUES ('" + visitorDni + "', '" + activityTitle + "', '" + activityDate + "')";
+        public bool InsertVisitor(string visitorDni, string activityTitle, string activityDate, string seat, double price, string targetAudience) {
+
+            int ticketId = CreateTicket(seat, price, targetAudience);
+            string query = "INSERT INTO Inscribirse (cedulaPKFK, tituloPKFK, fechaInicioPKFK, idEntradaPKFK)" +
+                    " VALUES (@idVisitante,@tituloActividad, @fechaInicio, @idEntrada)";
+
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            queryCommand.Parameters.AddWithValue("@idVisitante", visitorDni);
+            queryCommand.Parameters.AddWithValue("@tituloActividad", activityTitle);
+            queryCommand.Parameters.AddWithValue("@fechaInicio", activityDate);
+            queryCommand.Parameters.AddWithValue("@idEntrada", ticketId);
+            bool success = DatabaseQuery(queryCommand);
+
+            return success;
+        }
+
+        private int CreateTicket(string seat, double price, string targetAudience) {
+            string query = "INSERT INTO Entrada(precio, numeroAsiento, publicoMeta) " +
+                           "VALUES(@precio,@numeroAsiento,@publicoMeta) ";
+
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            queryCommand.Parameters.AddWithValue("@precio", price);
+            queryCommand.Parameters.AddWithValue("@numeroAsiento", seat);
+            queryCommand.Parameters.AddWithValue("@publicoMeta", targetAudience);
+            DatabaseQuery(queryCommand);
+
+            query = "SELECT IDENT_CURRENT('Entrada') ";
+            DataTable resultingTable = CreateTableFromQuery(query);
+
+            return Convert.ToInt32(resultingTable.Rows[0][0]);
+        }
+
+        public bool InsertAssignSeat(string dni, string activityTitle, string activityDate, string seat) {
+            string query = "INSERT INTO AsignarAsiento (tituloPKFK, fechaInicioPKFK, cedulaVisitantePKFK, numeroAsiento)" +
+                    " VALUES ('" + activityTitle + "', '" + activityDate + "', '" + dni + "', '" + seat + "')";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
             bool success = DatabaseQuery(queryCommand);
@@ -118,14 +150,5 @@ namespace Planetarium.Handlers {
             return Convert.ToInt32(resultingTable.Rows[0]["RowsCount"]) > 0;
         }
 
-        public bool InsertAssignSeat(string dni, string activityTitle, string activityDate, string seat) {
-            string query = "INSERT INTO AsignarAsiento (tituloPKFK, fechaInicioPKFK, cedulaVisitantePKFK, numeroAsiento)" +
-                    " VALUES ('" + activityTitle + "', '" + activityDate + "', '" + dni + "', '" + seat + "')";
-
-            SqlCommand queryCommand = new SqlCommand(query, connection);
-            bool success = DatabaseQuery(queryCommand);
-
-            return success;
-        }
     }
 }

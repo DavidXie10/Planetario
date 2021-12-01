@@ -312,17 +312,18 @@ namespace Planetarium.Handlers {
             List<EducationalActivityEventModel> activities = new List<EducationalActivityEventModel>();
 
             string query = "SELECT DISTINCT EAE.tituloPKFK, EAE.fechaInicioPK, AE.nivelComplejidad, " +
-                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) BETWEEN 0 AND 12 THEN 1 ELSE 0 END) AS 'Infantil', " +
-                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) BETWEEN 13 AND 21 THEN 1 ELSE 0 END) AS 'Juvenil', " +
-                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) BETWEEN 22 AND 60 THEN 1 ELSE 0 END) AS 'Adulto', " +
-                "SUM(CASE WHEN DATEDIFF(YEAR, V.fechaNacimiento, GETDATE()) > 60 THEN 1 ELSE 0 END) AS 'Adulto Mayor' " +
-                "FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK = AE.cedulaFK " +
-                "JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK " +
-                "JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK " +
-                "JOIN Inscribirse I ON(I.tituloPKFK = AE.tituloPK AND EAE.fechaInicioPK = I.fechaInicioPKFK) " +
-                "JOIN Visitante V ON V.cedulaPK = I.cedulaPKFK " +
-                "WHERE EAE.estadoRevision = 1 " +
-                "GROUP BY EAE.tituloPKFK, EAE.fechaInicioPK, AE.nivelComplejidad; ";
+                            "SUM(CASE WHEN E.publicoMeta = 'Infantil' THEN 1 ELSE 0 END) AS 'Infantil', " +
+                            "SUM(CASE WHEN E.publicoMeta = 'Juvenil' THEN 1 ELSE 0 END) AS 'Juvenil',  " +
+                            "SUM(CASE WHEN E.publicoMeta = 'Adulto' THEN 1 ELSE 0 END) AS 'Adulto',  " +
+                            "SUM(CASE WHEN E.publicoMeta = 'Adulto Mayor' THEN 1 ELSE 0 END) AS 'Adulto Mayor' " +
+                            "FROM Funcionario F JOIN ActividadEducativa AE ON F.cedulaPK = AE.cedulaFK " +
+                            "JOIN ActividadEducativaPerteneceATopico AEPT ON AE.tituloPK = AEPT.tituloPKFK " +
+                            "JOIN EventoActividadEducativa EAE ON EAE.tituloPKFK = AE.tituloPK " +
+                            "JOIN Inscribirse I ON(I.tituloPKFK = AE.tituloPK AND EAE.fechaInicioPK = I.fechaInicioPKFK) " +
+                            "JOIN Entrada E ON E.idPK = I.idEntradaPKFK " +
+                            "JOIN Visitante V ON V.cedulaPK = I.cedulaPKFK " +
+                            "WHERE EAE.estadoRevision = 1 " +
+                            "GROUP BY EAE.tituloPKFK, EAE.fechaInicioPK, AE.nivelComplejidad; ";
 
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow rawEducationalInfo in resultingTable.Rows) {
@@ -341,12 +342,12 @@ namespace Planetarium.Handlers {
         }
 
         public bool CheckCapacity(string activityTitle, string activityDate) {
-            string query = "SELECT (EAE.capacidadMaxima - COUNT(AA.numeroAsiento)) AS Cupos " +
-                           "FROM AsignarAsiento AA " +
-                           "RIGHT JOIN EventoActividadEducativa EAE ON(AA.tituloPKFK = EAE.tituloPKFK AND AA.fechaInicioPKFK = EAE.fechaInicioPK) " +
+            string query = "SELECT EAE.tituloPKFK, (EAE.capacidadMaxima - COUNT(I.idEntradaPKFK)) AS Cupos " +
+                           "FROM Inscribirse I " +
+                           "RIGHT JOIN EventoActividadEducativa EAE ON(I.tituloPKFK = EAE.tituloPKFK AND I.fechaInicioPKFK = EAE.fechaInicioPK) " +
                            "WHERE EAE.tituloPKFK = '" + activityTitle + "' " +
                            "AND EAE.fechaInicioPK = '" + activityDate + "' " +
-                           "GROUP BY EAE.tituloPKFK, EAE.fechaInicioPK, EAE.capacidadMaxima";
+                           "GROUP BY EAE.tituloPKFK, EAE.fechaInicioPK, EAE.capacidadMaxima;";
 
             DataTable resultingTable = CreateTableFromQuery(query);
 
@@ -365,10 +366,11 @@ namespace Planetarium.Handlers {
         }
 
         public List<string> GetReservedSeats(string activityTitle, string activityDate) {
-            string query = "SELECT numeroAsiento " +
-                           "FROM AsignarAsiento " +
-                           "WHERE tituloPKFK = '" + activityTitle + "' " +
-                           "AND fechaInicioPKfk = '" + activityDate + "'";
+            string query = "SELECT E.numeroAsiento " +
+                           "FROM Inscribirse I " +
+                           "INNER JOIN Entrada E ON I.idEntradaPKFK = E.idPK " +
+                           "WHERE I.tituloPKFK = '" + activityTitle + "' " +
+                           "AND I.fechaInicioPKfk = '" + activityDate + "'";
 
             DataTable resultingTable = CreateTableFromQuery(query);    
             List<string> reservedSeats = new List<string>();
