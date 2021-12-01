@@ -13,28 +13,17 @@ namespace Planetarium.Controllers {
         public NewsHandler DataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
-        public AuthorizationController AuthController { get; set; }
-
         public NewsController() {
             DataAccess = new NewsHandler();
             ContentParser = new ContentParser();
-            AuthController = new AuthorizationController();
         }
 
         public ActionResult ListNews() {
-
-            //Testing Cookie
-
-            string cookieValue = AuthController.FetchCookieValue("userIdentity");
-
-            //End of Testing Cookie
-
             NewsHandler dataAccess = new NewsHandler();
             ViewBag.News = dataAccess.GetAllNews();
             RssFeedHandler rssHandler = new RssFeedHandler();
             List<EventModel> feed = rssHandler.GetRssFeed();
             ViewBag.NewsFromInternet = feed;
-            ViewBag.Cookie = cookieValue;
             return View();
         }
 
