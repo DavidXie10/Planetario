@@ -67,7 +67,7 @@
     }
 
     buttonClicked(target) {
-        this.clearSelection();
+        //this.clearSelection();
         this.selectButton(target);
         this.enableButton();
     }
@@ -113,6 +113,33 @@
         }
     }
 
+    getSeats() {
+        let selectedSeats = [];
+        let table = document.getElementById(this.seatTableContainerId);
+        let rows = table.rows.length;
+        let cols = table.rows[0].cells.length;
+        let reviewedButtons = 0;
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols && reviewedButtons < this.maxParticipants; j++) {
+                let button = table.rows[i].cells[j].childNodes[0];
+                if (this.isSelected(button)) {
+                    console.log(button)
+                    selectedSeats.push(button.textContent);
+                }
+                reviewedButtons++;
+            }
+        }
+        return selectedSeats;
+    }
+
+    isSelected(button) {
+        let isSelected = false;
+        if (button.classList.contains("btn-success")) {
+            isSelected = true;
+        }
+        return isSelected;
+    }
+
     enableButton() {
         let continueButton = document.getElementById("continueButton");
         continueButton.classList.remove("btn-success");
@@ -150,9 +177,18 @@ function isSelected(button) {
 
 function checkData() {
     let stringInput = document.getElementById("selectedSeat");
+    let seats = seatsGen.getSeats();
+    let parsedSeats = "";
+    seats.forEach(element => {
+        parsedSeats += element + ",";
+    });
+
+    stringInput.value = parsedSeats;
 
     if (stringInput.value != '') {
-        document.getElementById("Reservar").click();
+        //document.getElementById("Reservar").click();
+        
+
     }
     console.log(stringInput.value);
 }
