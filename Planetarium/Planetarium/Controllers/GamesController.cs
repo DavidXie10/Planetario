@@ -27,5 +27,10 @@ namespace Planetarium.Controllers
         {
             return View();
         }
+
+        public ActionResult Crossword()
+        {
+            return View();
+        }
     }
 }

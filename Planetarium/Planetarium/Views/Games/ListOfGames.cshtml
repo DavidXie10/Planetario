@@ -4,15 +4,14 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" >
         <div class="">
+            <br />
             <h3 class="card-header">
-                Aprendé de una manera diferente con nuestros juegos
+                Aprendé de una manera diferente con nuestros juegos educativos
             </h3>
             <br />
-            <div class="row">
-
-
+            <div class="row" style="text-align:center">
                 <div class="col-4">
                     <div class="imageHomePage">
                         <h3>Juego de ahorcado</h3>
@@ -26,7 +25,25 @@
 
                 <div class="col-4">
                     <div class="imageHomePage">
-                        <h3>Juego del espacio</h3>
+                        <h3>Palabras cruzadas</h3>
+                        <img src="~/images/GamesImages/crosswords.png" class="img_squareImg" alt="Responsive image">
+                        <div class="image__overlay image__overlay--light">
+                            <div class="image__title">@Html.ActionLink("Jugar", "../Games/Crossword")</div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <h3 class="card-header">
+                Más diversión
+            </h3>
+            <div class="row" style="text-align:center">
+                <br />
+                <div class="col-4">
+                    <div class="imageHomePage">
+                        <h3>Arkanoid</h3>
                         <img src="~/images/GamesImages/outerspacearkanoic300200.jpg" class="img_squareImg" alt="Responsive image">
                         <div class="image__overlay image__overlay--light">
                             <div class="image__title">@Html.ActionLink("Jugar", "../Games/OuterSpaceGame")</div>
@@ -37,7 +54,7 @@
 
                 <div class="col-4">
                     <div class="imageHomePage">
-                        <h3>Juego del espacio</h3>
+                        <h3>Space</h3>
                         <img src="~/images/GamesImages/space300200.jpg" class="img_squareImg" alt="Responsive image">
                         <div class="image__overlay image__overlay--light">
                             <div class="image__title">@Html.ActionLink("Jugar", "../Games/SpaceGame")</div>
