@@ -76,7 +76,7 @@
                     <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true"><i class="fas fa-question-circle"></i> FAQ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Games/HangManGame" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
+                    <a class="nav-link" href="/Games/ListOfGames" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
                 </li>
 
                 @if (rolCookie >= 5)
@@ -95,14 +95,15 @@
                 }
 
             </ul>
-            <ul class="navbar-nav text-end" style="position: absolute; right: 0; margin-top: 40px;">
+            <ul class="navbar-nav text-end" style="position: absolute; right: 0; margin-top: 25px;">
+                <img src="~/images/EmployeesProfilePhotos/sinFoto.png" width="100" height="70" alt="" style="border-radius: 50%;    width: 50px; height:50px; float:right">
                 @if (userIdentityCookie == null)
                 {
                     <li class="nav-item">
-                        <a href="/Account/Login" class="nav-link">Ingresar</a>
+                        <a href="/Account/Login" class="nav-link" style="font-size:smaller;margin-top: 14px;">Ingresar</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Registrarme</a>
+                        <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link" style="font-size:smaller;margin-top: 14px;">Registrarme</a>
                     </li>
                 }
                 else

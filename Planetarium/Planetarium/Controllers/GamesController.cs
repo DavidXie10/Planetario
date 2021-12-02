@@ -13,5 +13,19 @@ namespace Planetarium.Controllers
         {
             return View();
         }
+        public ActionResult ListOfGames()
+        {
+            return View();
+        }
+
+        public ActionResult SpaceGame()
+        {
+            return View();
+        }
+
+        public ActionResult OuterSpaceGame()
+        {
+            return View();
+        }
     }
 }

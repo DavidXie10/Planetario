@@ -1,8 +1,9 @@
 ﻿window.onload = function () {
 
-    var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-        'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-        't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+    var alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+        'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+        'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
     var categories;         // Array of topics
     var chosenCategory;     // Selected catagory
@@ -46,7 +47,7 @@
         } else if (chosenCategory === categories[1]) {
             catagoryName.innerHTML = "La categoría es nombres de científicos famosos ";
         } else if (chosenCategory === categories[2]) {
-            catagoryName.innerHTML = " The Chosen Category Is Cities ";
+            catagoryName.innerHTML = "La categoría es conceptos de astronomía ";
         }
     }
 
@@ -183,9 +184,9 @@
     // Play
     play = function () {
         categories = [
-            ["mercurio", "venus", "tierra", "marte", "jupiter", "saturno", "urano"],
-            ["newton", "aristoteles", "copernico", "tesla", "arquimedes"],
-            ["manchester", "milan", "madrid", "amsterdam", "prague"]
+            ["MERCURIO", "VENUS", "TIERRA", "MARTE", "JUPITER", "SATURNO", "URANO", ],
+            ["NEWTON", "ARISTOTELES", "COPERNICO", "TESLA", "ARQUIMEDES"],
+            ["DOPPLER", "ECLIPSE", "GRAVEDAD", "PERIGEO", "HELIOCENTRISMO"]
         ];
 
         chosenCategory = categories[Math.floor(Math.random() * categories.length)];
@@ -211,14 +212,14 @@
     hint.onclick = function () {
 
         hints = [
-            ["1 planeta desde el Sol", "2 planeta desde el Sol", "3 planeta desde el Sol", "cuarto planeta desde el Sol", "5 planeta desde el Sol", "6 planeta desde el Sol", "7 planeta desde el Sol"],
-            ["gravedad", "un genio", "es el puto amo", "no el de los carros", "a pura presión de agua papá"],
-            ["Northern city in the UK", "Home of AC and Inter", "Spanish capital", "Netherlands capital", "Czech Republic capital"]
+            ["Es el planeta del sistema solar más cercano al Sol y el más pequeño. Forma parte de los denominados planetas interiores y carece de satélites naturales al igual que Venus.", "El segundo planeta del sistema solar en orden de proximidad al Sol y el tercero en cuanto a tamaño en orden ascendente después de Mercurio y Marte. Al igual que Mercurio, carece de satélites naturales.", "Es la tercera órbita más interna. Es el más denso y el quinto mayor de los ocho planetas del sistema solar. También es el mayor de los cuatro terrestres o rocosos.", "El cuarto planeta en orden de distancia al Sol y el segundo más pequeño del sistema solar, después de Mercurio. Recibió su nombre en homenaje al dios de la guerra de la mitología romana (Ares en la mitología griega), y también es conocido como «el planeta rojo»", "Es el planeta más grande del sistema solar y el quinto en orden de lejanía al Sol.3​ Es un gigante gaseoso que forma parte de los denominados planetas exteriores.", "Es el sexto planeta del sistema solar contando desde el Sol, el segundo en tamaño y masa después de Júpiter y el único con un sistema de anillos visible desde la Tierra.", "Es el séptimo planeta del sistema solar, el tercero de mayor tamaño, y el cuarto más masivo."],
+            ["Es autor de los Philosophiæ naturalis principia mathematica, más conocidos como los Principia, donde describe la ley de la gravitación universal y estableció las bases de la mecánica clásica mediante las leyes que llevan su nombre.", "Fue un filósofo, polímata y científico nacido en la ciudad de Estagira, al norte de Antigua Grecia. Es considerado junto a Platón, el padre de la filosofía occidental.", "Fue matemático, astrónomo, jurista, físico, clérigo católico, gobernador, diplomático y economista. Junto con sus extensas responsabilidades, la astronomía figuraba como poco más que una distracción.", "No el de los carros", "Entre sus avances en física se encuentran sus fundamentos en hidrostática, estática y la explicación del principio de la palanca."],
+            ["Es el cambio aparente de la frecuencia de una onda cuando existe un movimiento relativo entre la fuente emisora y el observador. El físico y matemático austríaco Christian Doppler fue quien postuló esta teoría en 1841.", "Se trata del bloqueo total o parcial de un cuerpo celeste por otro.", "Se trata de una fuerza física mutua de la naturaleza que hace que dos cuerpos se atraigan entre sí. Depende de la masa de los cuerpos y de la distancia que los separa.", "Hablamos del punto de la órbita de la Luna más cercano a la Tierra. En el caso de los planetas, hablaríamos de perihelio.","Es una concepción cosmológica antigua abanderada por Aristarco de Samos en el siglo III antes de Cristo y posteriormente postulada por Nicolas Copérnico en el S.XVI, que consideraba que el Sol era el centro del universo -y no la Tierra- (geocentrismo)."]
         ];
 
         var catagoryIndex = categories.indexOf(chosenCategory);
         var hintIndex = chosenCategory.indexOf(word);
-        showClue.innerHTML = "Pista: - " + hints[catagoryIndex][hintIndex];
+        showClue.innerHTML = "Pista: " + hints[catagoryIndex][hintIndex];
     };
 
     // Reset

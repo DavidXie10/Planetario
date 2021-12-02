@@ -1,8 +1,4 @@
-﻿@{
-    Layout = null;
-}
-
-
+﻿
 <html>
 <head>
     <meta charset="utf-8" />
@@ -11,29 +7,29 @@
     <script type="text/javascript" src="/Scripts/HangManScript.js"></script>
 </head>
 <body>
-    <div class="gameBody">
-        <div class="wrapper">
-            <h1>Hangman Game</h1>
-        </div>
-        <div class="wrapper">
-            <div id="buttons">
-            </div>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <p id="catagoryName"></p>
-            <div id="hold">
-            </div>
-            <p id="mylives"></p>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="gameBody">
+                    <div class="wrapper">
+                        <h1>Juego de Ahorcado</h1>
+                        <br />
+                    </div>
+                    <div class="wrapper">
+                        <div id="buttons"></div>
+                        <br />
+                        <h3 id="catagoryName"style="margin-top:10%"></h3>
+                        <div id="hold"></div>
+                        <p id="mylives"></p>
+                        <h5 class="clue" id="clue"></h5>
+                        <canvas id="stickman"></canvas>
+                        <div class="container">
+                            <button id="hint"><i class="fas fa-lightbulb"></i> Pista</button>
+                            <button id="reset"><i class="fas fa-redo-alt"></i> Otra</button>
+                        </div>
+                    </div>
+                </div>
 
-            <p id="clue">Pista: </p>
-            <canvas id="stickman"></canvas>
-            <div class="container">
-                <button id="hint">Pista</button>
-                <button id="reset">Jugar de nuevo</button>
             </div>
         </div>
     </div>
