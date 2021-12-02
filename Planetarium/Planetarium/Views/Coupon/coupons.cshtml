@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/Content/couponNotification'sBell.css" />
+    <title>Coupons</title>
+</head>
+<body>
+    @if (@ViewBag.Coupons!= null) { 
+    <div class="icons">
+        <div class="notification">
+            <a href="#">
+                <div class="notBtn" href="#">
+                    <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                    <div class="number">@ViewBag.Coupons.Count</div>
+                    <i class="fasNotificationBell fas fa-bell"></i>
+                    <div class="box">
+                        <div class="display">
+                            <div class="nothing">
+                                <i class="fas fa-child stick"></i>
+                                <div class="cent">Looks Like your all caught up!</div>
+                            </div>
+                            <div class="cont">
+                                <!-- Fold this div and try deleting evrything inbetween -->   
+                                @foreach (var coupon in @ViewBag.Coupons)
+                                {
+                                    <div class="sec">
+                                        <a href="#">
+                                            <div class="profCont">
+                                                <img class="profile"
+                                                     src="~/images/logotipo.jpeg" />
+                                            </div>
+                                            <div class="txt">
+                                                @coupon.Description
+                                            </div>
+                                            <div class="txt">
+                                                <input class="w-75" type="text" value="@coupon.Code" id="@coupon.Code" style="font-size:small;">
+                                                <i onclick="couponCodeCopiedToClipboard('@coupon.Code')" class="far fa-copy" style="color:gray"></i>
+                                            </div>
+                                            <div class="txt sub">Antes de @coupon.Date</div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    }
+</body>
+</html>
+<script>
+    function couponCodeCopiedToClipboard(id) {
+        /* Get the text field */
+        var copyText = document.getElementById(id);
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+
+    }
+</script>
+

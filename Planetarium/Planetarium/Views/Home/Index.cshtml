@@ -63,12 +63,14 @@
             </h3>
             <div class="card-body">
                 <div class="row">
-                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
+                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index)
+                    {
                         <div class="col-sm">
                             <div class="card h-100 bg-light">
                                 <div class="embed-responsive embed-responsive-4by3">
                                     <div class="embed-responsive-item">
-                                        @if (ViewBag.News[index].ImagesRef.Count > 0) {
+                                        @if (ViewBag.News[index].ImagesRef.Count > 0)
+                                        {
                                             <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
                                         }
 
@@ -89,6 +91,8 @@
 
         </div>
         @{ Html.RenderPartial("~/Views/Streaming/InternetStreaming.cshtml"); }
+
+       
 
     </div>
 

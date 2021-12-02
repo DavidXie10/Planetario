@@ -10,6 +10,7 @@ namespace Planetarium.Controllers {
         public EducationalActivityHandler ActivityDataAccess { get; set; }
         public VisitorHandler VisitorDataAccess { get; set; }
         public AuthHandler AuthDataAccess { get; set; }
+        public CouponHandler CouponDataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
         private const int DEFAULT = 0;
@@ -19,6 +20,7 @@ namespace Planetarium.Controllers {
         public EducationalActivityController() {
             ActivityDataAccess = new EducationalActivityHandler();
             VisitorDataAccess = new VisitorHandler();
+            CouponDataAccess = new CouponHandler();
             ContentParser = new ContentParser();
             AuthDataAccess = new AuthHandler();
         }
@@ -102,6 +104,8 @@ namespace Planetarium.Controllers {
             List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             ViewBag.EventsToCal = eventFeed;
             ViewBag.activities = ActivityDataAccess.GetAllApprovedActivities();
+            ViewBag.Coupons = CouponDataAccess.GetAllCoupons("402540855");
+
             return View();
         }
 
@@ -183,15 +187,45 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult PayMethod(string dni = "0", string title = "", string date = "", string seat = "0-0") {
-
-            ViewBag.visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
-
+            VisitorModel visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
+            ViewBag.Visitor = visitor;
             ViewBag.title = title;
             ViewBag.date = date;
             ViewBag.seat = seat;
             ViewBag.Price = ActivityDataAccess.GetPrice(ViewBag.title, ViewBag.date);
-
+            ViewBag.Coupons = CouponDataAccess.GetAllCoupons(dni);
+            
+            //ViewBag.Coupons = CouponDataAccess.DeleteCoupon("#Planetario_50");
             return View();
+        }
+        
+        public ActionResult InsertVisitorWithTicket(string dni, string title, string date, string seat, double price)
+        {
+            //Este metodo es para inscribir al visitante una vez que se efectua la compra
+            //TODO: Considerar quietar el invoice ya que este metodo hace la misma funcion solo que llama a una vista diferente
+            VisitorModel visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
+            ViewBag.Visitor = visitor;
+            ViewBag.Title = title;
+            ViewBag.Date = date;
+            ViewBag.Seat = seat;
+            ViewBag.Price = price;
+            
+           // ViewBag.Coupons = CouponDataAccess.DeleteCoupon("idCoupon");
+            ActionResult view = RedirectToAction("ListActivities", "EducationalActivity");
+            try
+            {
+                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date, seat, price, "Infantil");
+                if (ViewBag.SuccessOnCreation)
+                {
+                    view = View();
+                }
+            }
+            catch
+            {
+                TempData["WarningMessage"] = "Algo salió mal";
+            }
+
+            return view;
         }
 
         public ActionResult Invoice(string dni, string title, string date, string seat, double price) {
@@ -201,7 +235,7 @@ namespace Planetarium.Controllers {
             ViewBag.Date = date;
             ViewBag.Seat = seat;
             ViewBag.Price = price;
-
+            
             ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = visitor.Dni, title = title, date = date, seat = seat });
             try {
                 ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date, seat, price, "Infantil");
