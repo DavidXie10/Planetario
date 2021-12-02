@@ -61,7 +61,8 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/Employees/ListEmployees"><i class="fas fa-user-astronaut"></i> Funcionarios</a>
-                        @if (rolCookie >= 5) {
+                        @if (rolCookie >= 5)
+                        {
                             <a class="dropdown-item" href="/Employees/CreateEmployee"><i class="fas fa-user-plus"></i> Agregar funcionario</a>
                         }
                         <a class="dropdown-item" href="/Home/FindUs"><i class="fas fa-map-marked-alt"></i> Encuéntrenos</a>
@@ -74,8 +75,12 @@
 
                     <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true"><i class="fas fa-question-circle"></i> FAQ</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Games/HangManGame" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
+                </li>
 
-                @if (rolCookie >= 5) {
+                @if (rolCookie >= 5)
+                {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-poll"></i> Estadísticas
@@ -89,32 +94,30 @@
                     </li>
                 }
 
-                </ul>
-            <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
-                @if (userIdentityCookie == null) {
+            </ul>
+            <ul class="navbar-nav text-end" style="position: absolute; right: 0; margin-top: 40px;">
+                @if (userIdentityCookie == null)
+                {
                     <li class="nav-item">
                         <a href="/Account/Login" class="nav-link">Ingresar</a>
                     </li>
                     <li class="nav-item">
                         <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Registrarme</a>
                     </li>
-                } else {
+                }
+                else
+                {
                     <li class="nav-item">
                         <a href="/Account/Login" class="nav-link">@userIdentityCookie</a>
                     </li>
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a href="/Home/Index" class="nav-link" onclick="deleteCookie()">Salir</a>
                     </li>
                 }
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/Games/HangManGame" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
-                </li>
-
             </ul>
-
         </div>
-        @{ Html.RenderPartial("~/Views/Coupon/Coupons.cshtml"); }
+            @{ Html.RenderPartial("~/Views/Coupon/Coupons.cshtml"); }
+        
     </nav>
 
     <div class="rounded">
