@@ -1,8 +1,19 @@
-﻿@{
+﻿
+@using Planetarium.Controllers
+@{
     string dataOriginGeneral = Url.Content("~/Calendar/GetEventsForGeneralCalendar");
     string dataOriginPhenomenom = Url.Content("~/Calendar/GetEventsForPhenomenonCalendar");
-}
 
+    AuthorizationController authController = new AuthorizationController();
+    int rolCookie = 0;
+    try {
+        if (Request.Cookies.Get("authCookie") != null) {
+            rolCookie = Convert.ToInt32(Request.Cookies["authCookie"].Value);
+        }
+    } catch {
+
+    }
+}
 
 <!DOCTYPE html>
 <html lang='en'>
@@ -26,9 +37,12 @@
             <div id="phenomenonContainer">
                 <div id='phenomenomCalendar'></div>
             </div>
-            <div style="float: right;">
-                <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: 10px; ">Añadir evento</a> <br />
-            </div>
+
+            @if (rolCookie == 2 || rolCookie == 4 || rolCookie == 6) {
+                <div style="float: right;">
+                    <a class="align-self-end align-self-right btn btn-info" href="/Calendar/CreateEvent" style="margin-top: 10px; ">Añadir evento</a> <br />
+                </div>
+            }
 
             <button style="display: none;" id="modalToggle" class="btn btn-success" onclick="" value="0" data-toggle="modal" data-target="#calendarEventModal"> Ver funcionarios <span id="count"></span> </button>
 

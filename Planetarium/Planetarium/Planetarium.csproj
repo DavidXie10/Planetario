@@ -136,6 +136,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\AuthHandler.cs" />
     <Compile Include="Handlers\DatabaseClassificationsHandler.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
@@ -163,10 +166,13 @@
     <Compile Include="Models\EducationalActivityModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\SouvenirModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\StreamingModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -253,6 +259,7 @@
     <Content Include="Libs\fullCalendar-5.0.1\GeneralCalendar.js" />
     <Content Include="Libs\fullCalendar-5.0.1\main.css" />
     <Content Include="Libs\fullCalendar-5.0.1\main.js" />
+    <Content Include="Scripts\Authorization.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -327,9 +334,11 @@
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Souvenir\Catalog.cshtml" />
     <Content Include="Views\Souvenir\HomeDelivery.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
