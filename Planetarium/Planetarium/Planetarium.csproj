@@ -139,6 +139,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\CelestialBodiesController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
     <Compile Include="Controllers\FrequentlyQuestionController.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Handlers\EmployeesHandler.cs" />
     <Compile Include="Handlers\VisitorHandler.cs" />
     <Compile Include="Handlers\RssFeedHandler.cs" />
+    <Compile Include="Models\CelestialBody.cs" />
     <Compile Include="Models\ContentParser.cs" />
     <Compile Include="Models\EducationalActivityEventModel.cs" />
     <Compile Include="Models\EducationalActivityModel.cs" />
@@ -231,6 +233,7 @@
     <Content Include="Educational_Material\ResumenEventosEruptivos.pdf" />
     <Content Include="Data_Files\Quizzes.json" />
     <Content Include="Data_Files\CategoriesAndTopics.json" />
+    <Content Include="Data_Files\CelestialBodies.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
@@ -329,6 +332,7 @@
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\CelestialBodies\CeletialBodyComparator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
