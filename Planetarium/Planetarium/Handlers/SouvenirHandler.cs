@@ -12,10 +12,18 @@ namespace Planetarium.Handlers {
         }
 
         public List<SouvenirModel> GetAllItems() {
-            List<SouvenirModel> souvenirs = new List<SouvenirModel>();
-
             string query = "SELECT * FROM Articulo";
             DataTable resultingTable = CreateTableFromQuery(query);
+
+            List<SouvenirModel> souvenirs = CreateSouvenirs(resultingTable);
+
+            LinkAllSouvenirsWithImages(souvenirs);
+
+            return souvenirs;
+        }
+
+        private List<SouvenirModel> CreateSouvenirs(DataTable resultingTable) {
+            List<SouvenirModel> souvenirs = new List<SouvenirModel>();
 
             foreach (DataRow column in resultingTable.Rows) {
                 souvenirs.Add(
@@ -29,8 +37,6 @@ namespace Planetarium.Handlers {
                     }
                 );
             }
-
-            LinkAllSouvenirsWithImages(souvenirs);
 
             return souvenirs;
         }
@@ -51,6 +57,39 @@ namespace Planetarium.Handlers {
 
         private void LinkScoopWithImages(SouvenirModel souvenir, DataTable souvenirImages) {
             souvenir.ImagesRef = contentParser.GetListFromString(Convert.ToString(souvenirImages.Rows[0]["rutasImagenes"]));
+        }
+
+        public bool UpdateSouvernirStock(int souvernirId, int newStock) {
+            string query = "UPDATE Articulo " +
+                           "SET cantidad = " + newStock + " " +
+                           "WHERE idPK = " + souvernirId;
+
+            return DatabaseQuery(query);
+        }
+
+        public List<SouvenirModel> GetSelectedSouvenirs(Dictionary<string, int> souvenirIds) {
+            string query = "SELECT * FROM Articulo WHERE ";
+            foreach(string souvenirId in souvenirIds.Keys) {
+                query += "idPK = " + souvenirId + " AND ";
+            }
+
+            query = query.Substring(0, query.LastIndexOf("AND") - 1);
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+
+            List<SouvenirModel> selectedSouvenirs = CreateSouvenirs(resultingTable);
+
+            LinkSelectedSouvenirsWithCount(selectedSouvenirs, souvenirIds);
+
+            LinkAllSouvenirsWithImages(selectedSouvenirs);
+
+            return selectedSouvenirs;
+        }
+
+        private void LinkSelectedSouvenirsWithCount(List<SouvenirModel> selectedSouvenirs, Dictionary<string, int>  souvenirIds) {
+            for(int index = 0; index < selectedSouvenirs.Count; ++index) {
+                selectedSouvenirs[index].SelectedCount = souvenirIds[index.ToString()];
+            }
         }
     }
 }

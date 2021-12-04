@@ -15,5 +15,7 @@ namespace Planetarium.Models {
         public string Description { get; set; }
 
         public List<string> ImagesRef { get; set; }
+
+        public int SelectedCount { get; set; }
     }
 }

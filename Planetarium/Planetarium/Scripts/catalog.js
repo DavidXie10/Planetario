@@ -18,13 +18,13 @@ function changeModal(souvenirId) {
 function setCounter(souvenir) {
     let counter = document.getElementById(COUNTER_CONTAINER);
     counter.innerHTML = '<span class="minus bg-dark" onclick="decrement(' + souvenir.SouvenirId + ')">-</span>';
-    counter.innerHTML += '<input type = "number" class="count" name = "' + souvenir.SouvenirId + '" value = "0" id = "' + souvenir.SouvenirId + '" />';
+    counter.innerHTML += '<input type = "number" class="count" name = "' + souvenir.SouvenirId + '" value = 0 id = "' + souvenir.SouvenirId + '" />';
     counter.innerHTML += '<span class="plus bg-dark" onclick="increment(' + souvenir.SouvenirId + ',' + souvenir.Stock + ')">+</span>';
 }
 
 function setButton(souvenirId) {
     let button = document.getElementById(BUTTON_CONTAINER);
-    button.innerHTML = '<button type="button" id="' + souvenirId + '" class="btn btn-success w-50" style=" margin: 10px; margin-top:5px" onclick= updateCookie(' + souvenirId + ')>Agregar al carrito</button>';
+    button.innerHTML = '<button type="button" id="' + "button-" + souvenirId + '" class="btn btn-success w-50" style=" margin: 10px; margin-top:5px" onclick= updateCookie(' + souvenirId + ')>Agregar al carrito</button>';
 }
 
 function setCarousel(souvenir) {
@@ -69,8 +69,23 @@ function getCookieValue(name) {
 }
 
 function updateCookie(value) {
-    let cookieValue = getCookieValue("itemsCart");
-    document.cookie = "itemsCart=" + cookieValue + value + ",";
+    console.log(value);
+    console.log(document.getElementById(value));
+    console.log(document.getElementById(value).value);
+
+    let count = parseInt(document.getElementById(value).value);
+    console.log(count);
+    if (count != 0) {
+        let cookieValue = getCookieValue("itemsCart");
+
+        let addToCookieValue = "";
+        for (let index = 0; index < count; ++index) {
+            addToCookieValue += value + ",";
+        }
+
+        document.cookie = "itemsCart=" + cookieValue + addToCookieValue;
+    }
+
     document.getElementById("closeModal").click();
 }
 
@@ -87,3 +102,4 @@ function decrement(inputId) {
         input.value = input.value - 1;
     }
 }
+

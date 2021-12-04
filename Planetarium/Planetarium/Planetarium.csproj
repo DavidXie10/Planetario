@@ -339,6 +339,7 @@
     <Content Include="Views\Souvenir\Catalog.cshtml" />
     <Content Include="Views\Souvenir\HomeDelivery.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Souvenir\ShoppingCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

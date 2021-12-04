@@ -1,0 +1,41 @@
+﻿
+<head>
+    <title>Carrito de compras</title>    
+</head>
+
+<body>
+    <div class="container" style="height: 100%">
+        <p class="card-text">
+            <h2>Carrito de compras</h2>
+        </p>
+        <hr />
+        @foreach(var souvenir in ViewBag.SelectedSouvenirs){
+            <div class="col-6 d-flex justify-content-evenly">
+                <div class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
+                    <div class="row">
+                        <div class="col text-end align-content-center">
+                            <a type="button" id="@souvenir.SouvenirId" class="align-self-end align-self-right" style="font-size:large;" href="" onclick="deleteSouvenir(this.value)">[Eliminar]</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <img src="~/images/Souvenirs/@souvenir.ImagesRef[0]" width="165" height="200" class="img_squareImg" alt="Responsive image">
+                        </div>
+                        <div class="col">
+                            <p><strong>Nombre de producto:</strong>@souvenir.Name</p>
+                            <p>@souvenir.Description</p>
+                            <p><strong>Precio: </strong>@souvenir.Price</p>
+                            <p><strong>Cantidad: </strong>@souvenir.SelectedCount</p>
+                            <p><strong>Categoría: </strong>@souvenir.Category</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+<script>
+    function deleteSouvenir(value) {
+        console.log(value);
+    }
+</script>

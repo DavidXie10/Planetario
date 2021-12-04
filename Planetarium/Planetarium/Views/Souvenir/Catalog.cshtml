@@ -15,7 +15,9 @@
                 <h1 class="text-start">@ViewBag.Title</h1>
             </div>
             <div class="col-1">
-                <img src="~/images/shopping-cart.png" width="50" height="60" id="cartImage" />
+                <img src="~/images/shopping-cart.png" width="50" height="60" id="cartImage" onclick="clickActionLink()" />
+                @Html.ActionLink("Shop", "ShoppingCart", new {}, new{@id = "shop", @style = "display:none"})
+                <input type="text" name="cookieValue" id="cookieValue" value="" style="display: none;" />
             </div>
 
         </div>
@@ -78,4 +80,11 @@
         let allSouvenirs = @Html.Raw(Json.Encode(@ViewBag.Catalog));
     </script>
     <script src="~/Scripts/catalog.js" type="text/javascript"></script>
+    <script>
+        function clickActionLink() {
+            document.getElementById("cookieValue").value = getCookieValue("itemsCart");
+            console.log(document.getElementById("cookieValue").value);
+            document.getElementById("shop").click();
+        }
+    </script>
 </body>
