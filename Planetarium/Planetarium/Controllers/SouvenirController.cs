@@ -27,8 +27,7 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        public ActionResult ShoppingCart() {
-            string cartCookieValue = Request.Form["cookieValue"];
+        public ActionResult ShoppingCart(string cartCookieValue) {
             if (cartCookieValue != "") {
                 cartCookieValue = cartCookieValue.Substring(0, cartCookieValue.LastIndexOf(",") - 1);
                 string[] items = cartCookieValue.Split(',');
@@ -42,8 +41,15 @@ namespace Planetarium.Controllers {
 
         private Dictionary<string, int> GetItemsAndCount(string[] items) {
             Dictionary<string, int> selectedItems = new Dictionary<string, int>();
+
             foreach (string item in items) {
-                ++selectedItems[item];
+                if(item != "") {
+                    if (selectedItems.ContainsKey(item)) {
+                        selectedItems[item] += 1;
+                    } else {
+                        selectedItems.Add(item, 1);
+                    }
+                }
             }
 
             return selectedItems;

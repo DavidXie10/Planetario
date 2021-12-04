@@ -18,7 +18,7 @@ function changeModal(souvenirId) {
 function setCounter(souvenir) {
     let counter = document.getElementById(COUNTER_CONTAINER);
     counter.innerHTML = '<span class="minus bg-dark" onclick="decrement(' + souvenir.SouvenirId + ')">-</span>';
-    counter.innerHTML += '<input type = "number" class="count" name = "' + souvenir.SouvenirId + '" value = 0 id = "' + souvenir.SouvenirId + '" />';
+    counter.innerHTML += '<input type = "number" class="count" name = "' + souvenir.SouvenirId + '" value = 1 id = "' + souvenir.SouvenirId + '" />';
     counter.innerHTML += '<span class="plus bg-dark" onclick="increment(' + souvenir.SouvenirId + ',' + souvenir.Stock + ')">+</span>';
 }
 
@@ -46,7 +46,7 @@ function setCarousel(souvenir) {
 
 function setModalInformation(souvenir) {
     let souvenirInformation = document.getElementById(SOUVENIR_INFORMATION);
-    souvenirInformation.innerHTML = "<p><strong>Descripción:</strong> " + souvenir.Description + " </p> <p><strong>Categoria:</strong> " + souvenir.Category + "</p><p><strong>Precio:</strong> " + souvenir.Price + "</p>";
+    souvenirInformation.innerHTML = "<p><strong>Descripción:</strong> " + souvenir.Description + " </p> <p><strong>Categoria:</strong> " + souvenir.Category + "</p><p><strong>Precio:</strong> ₡" + souvenir.Price + "</p>";
 }
 
 function setHeader(souvenir) {
