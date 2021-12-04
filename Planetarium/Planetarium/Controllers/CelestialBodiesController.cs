@@ -16,6 +16,12 @@ namespace Planetarium.Controllers
             this.parser = new ContentParser();
         }
 
+        public ActionResult SolarSystem3DModel()
+        {
+            //Modelo implementado por Julian Garnier
+            return View();
+        }
+
         public ActionResult CeletialBodyComparator()
         {
             List<SelectListItem> liBodies = new List<SelectListItem>();
