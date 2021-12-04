@@ -22,7 +22,7 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public ActionResult CeletialBodyComparator()
+        public ActionResult CelestialBodyComparator()
         {
             List<SelectListItem> liBodies = new List<SelectListItem>();
             List<CelestialBody> bodies = GetBodies();

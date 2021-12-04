@@ -335,7 +335,7 @@
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\CelestialBodies\CeletialBodyComparator.cshtml" />
+    <Content Include="Views\CelestialBodies\CelestialBodyComparator.cshtml" />
     <Content Include="Views\CelestialBodies\SolarSystem3DModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
