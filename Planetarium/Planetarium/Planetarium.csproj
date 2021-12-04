@@ -178,7 +178,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\activitiesHomePageAccess.css" />
     <Content Include="Content\homePageAccess.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -186,8 +185,10 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\liveButton.css" />
     <Content Include="Content\showStatistics.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\souvenirs.css" />
     <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
@@ -251,6 +252,7 @@
     <Content Include="images\PlanetariumUCR\planetarioUCR.jpg" />
     <Content Include="images\PlanetariumUCR\streaming.jpg" />
     <Content Include="images\satellite.jpg" />
+    <Content Include="images\shopping-cart.png" />
     <Content Include="images\Souvenirs\camisaDefault.jpeg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
