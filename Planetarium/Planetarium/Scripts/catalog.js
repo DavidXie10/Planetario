@@ -1,15 +1,30 @@
 ﻿const CAROUSEL = 'carouselSouvenirImage';
 const SOUVENIR_INFORMATION = 'souvenirInformation';
-const SOUVENIR_HEADER = 'takeoutModalLabel'
+const SOUVENIR_HEADER = 'takeoutModalLabel';
+const BUTTON_CONTAINER = 'buttonContainer';
+const COUNTER_CONTAINER = 'counter';
 
 function changeModal(souvenirId) {
-    //console.log(souvenirId);
     let souvenirList = document.getElementById(SOUVENIR_INFORMATION);
     souvenirList.innerHTML = "";
     let souvenir = getSouvenirById(souvenirId);
+    setCounter(souvenir);
     setCarousel(souvenir);
     setModalInformation(souvenir);
     setHeader(souvenir);
+    setButton(souvenirId);
+}
+
+function setCounter(souvenir) {
+    let counter = document.getElementById(COUNTER_CONTAINER);
+    counter.innerHTML = '<span class="minus bg-dark" onclick="decrement(' + souvenir.SouvenirId + ')">-</span>';
+    counter.innerHTML += '<input type = "number" class="count" name = "' + souvenir.SouvenirId + '" value = "0" id = "' + souvenir.SouvenirId + '" />';
+    counter.innerHTML += '<span class="plus bg-dark" onclick="increment(' + souvenir.SouvenirId + ',' + souvenir.Stock + ')">+</span>';
+}
+
+function setButton(souvenirId) {
+    let button = document.getElementById(BUTTON_CONTAINER);
+    button.innerHTML = '<button type="button" id="' + souvenirId + '" class="btn btn-success w-50" style=" margin: 10px; margin-top:5px" onclick= updateCookie(' + souvenirId + ')>Agregar al carrito</button>';
 }
 
 function setCarousel(souvenir) {
@@ -46,4 +61,29 @@ function getSouvenirById(souvenirId) {
         }
     }
     return null;
+}
+
+function getCookieValue(name) {
+    let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
+    return result ? result.pop() : ""
+}
+
+function updateCookie(value) {
+    let cookieValue = getCookieValue("itemsCart");
+    document.cookie = "itemsCart=" + cookieValue + value + ",";
+    document.getElementById("closeModal").click();
+}
+
+function increment(inputId, maximum) {
+    let input = document.getElementById(inputId);
+    if (parseInt(input.value) + 1 <= maximum) {
+        input.value = parseInt(input.value) + 1;
+    }
+}
+
+function decrement(inputId) {
+    let input = document.getElementById(inputId);
+    if (parseInt(input.value) - 1 >= 0) {
+        input.value = input.value - 1;
+    }
 }
