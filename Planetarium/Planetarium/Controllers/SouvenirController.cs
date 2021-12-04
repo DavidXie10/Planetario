@@ -29,7 +29,7 @@ namespace Planetarium.Controllers {
 
         public ActionResult ShoppingCart(string cartCookieValue) {
             if (cartCookieValue != "") {
-                cartCookieValue = cartCookieValue.Substring(0, cartCookieValue.LastIndexOf(",") - 1);
+                cartCookieValue = cartCookieValue.Substring(0, cartCookieValue.LastIndexOf(","));
                 string[] items = cartCookieValue.Split(',');
                 Dictionary<string, int> selectedItems = GetItemsAndCount(items);
 

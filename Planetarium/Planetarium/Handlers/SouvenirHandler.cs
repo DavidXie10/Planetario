@@ -70,10 +70,10 @@ namespace Planetarium.Handlers {
         public List<SouvenirModel> GetSelectedSouvenirs(Dictionary<string, int> souvenirIds) {
             string query = "SELECT * FROM Articulo WHERE ";
             foreach(string souvenirId in souvenirIds.Keys) {
-                query += "idPK = " + souvenirId + " AND ";
+                query += "idPK = " + souvenirId + " OR ";
             }
 
-            query = query.Substring(0, query.LastIndexOf("AND") - 1);
+            query = query.Substring(0, query.LastIndexOf("OR"));
 
             DataTable resultingTable = CreateTableFromQuery(query);
 
@@ -87,8 +87,8 @@ namespace Planetarium.Handlers {
         }
 
         private void LinkSelectedSouvenirsWithCount(List<SouvenirModel> selectedSouvenirs, Dictionary<string, int>  souvenirIds) {
-            for(int index = 0; index < selectedSouvenirs.Count; ++index) {
-                selectedSouvenirs[index].SelectedCount = souvenirIds[index.ToString()];
+            foreach(SouvenirModel souvenir in selectedSouvenirs) {
+                souvenir.SelectedCount = souvenirIds[souvenir.SouvenirId.ToString()];
             }
         }
     }
