@@ -139,6 +139,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\DataAnalyticsController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
     <Compile Include="Controllers\FrequentlyQuestionController.cs" />
@@ -329,6 +330,7 @@
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\DataAnalytics\StoreResports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
