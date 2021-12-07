@@ -4,38 +4,101 @@
 </head>
 
 <body>
-    <div class="container" style="height: 100%">
+    <div class="container" style="height: auto">
         <p class="card-text">
             <h2>Carrito de compras</h2>
         </p>
         <hr />
-        @foreach(var souvenir in ViewBag.SelectedSouvenirs){
-            <div class="col-6 d-flex justify-content-evenly">
-                <div class="card rounded-3 bg-light" style="margin: 15px 0 15px 0;">
-                    <div class="row">
-                        <div class="col text-end align-content-center">
-                            <a type="button" id="@souvenir.SouvenirId" class="align-self-end align-self-right" style="font-size:large;" href="" onclick="deleteSouvenir(this.value)">[Eliminar]</a>
+        @if (ViewBag.SelectedSouvenirs != null) {
+            <div class="row d-flex">
+               @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
+                   string id = @souvenir.SouvenirId + "-container";
+                    <div class="col-6 d-flex justify-content-evenly" style="margin: 15px 0 15px 0;" id=@id>
+                        <div class="card rounded-3 bg-light w-100 p-3">
+                            <div class="row">
+                                <div class="col text-end align-content-center">
+                                    <a id="@souvenir.SouvenirId" class="align-self-end align-self-right link" style="font-size:large;" onclick="deleteSouvenir(this.id)">[Eliminar]</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="~/images/Souvenirs/@souvenir.ImagesRef[0]" width="165" height="200" class="img_squareImg" alt="Responsive image">
+                                </div>
+                                <div class="col">
+                                    <p><strong>Nombre de producto:</strong>@souvenir.Name</p>
+                                    <p>@souvenir.Description</p>
+                                    <p><strong>Precio: </strong>@souvenir.Price</p>
+                                    <p><strong>Cantidad: </strong>@souvenir.SelectedCount</p>
+                                    <p><strong>Categoría: </strong>@souvenir.Category</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <img src="~/images/Souvenirs/@souvenir.ImagesRef[0]" width="165" height="200" class="img_squareImg" alt="Responsive image">
-                        </div>
-                        <div class="col">
-                            <p><strong>Nombre de producto:</strong>@souvenir.Name</p>
-                            <p>@souvenir.Description</p>
-                            <p><strong>Precio: </strong>@souvenir.Price</p>
-                            <p><strong>Cantidad: </strong>@souvenir.SelectedCount</p>
-                            <p><strong>Categoría: </strong>@souvenir.Category</p>
-                        </div>
-                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-md-6 pad-adjust w-100 text-center mt-4">
+                    @Html.ActionLink("Comprar", "PayMethod", "Souvenir", new {  }, new { @id = "submit", @class = "btn btn-success w-25" })
                 </div>
             </div>
-        }
+        } 
+    <div class="row" id="emptyCartMessage" style="display:none; height: 50vh">
+        <div class="col-md-6 pad-adjust w-100 text-center mt-4">
+            <h4 class="fw-bold">Su carrito se encuentra vacío</h4>
+        </div>
+    </div>
+        
     </div>
 </body>
+
 <script>
-    function deleteSouvenir(value) {
-        console.log(value);
+
+    function checkCartContent() {
+        let selectedSouvenirs = @Html.Raw(Json.Encode(ViewBag.SelectedSouvenirs));
+
+        if (selectedSouvenirs == null || getCookieValue("itemsCart") == "") {
+            document.getElementById("emptyCartMessage").style.display = "block";
+        }
     }
+
+
+    function getCookieValue(name) {
+        let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
+        return result ? result.pop() : ""
+    }
+
+    function removeItemFromCart(id) {
+        let cookieValue = getCookieValue("itemsCart");
+
+        let items = cookieValue.split(',');
+        items = items.filter(item => item != id);
+        let newCookieValue = items.join(",");
+
+        document.cookie = "itemsCart=" + newCookieValue;
+    }
+
+    function deleteContainer(id) {
+        let container = document.getElementById(id);
+        container.innerHTML = "";
+        container.parentNode.removeChild(container);
+    }
+
+    function deleteSouvenir(id) {
+        console.log(id);
+        removeItemFromCart(id);
+        deleteContainer(id + "-container");
+        if (getCookieValue("itemsCart") == "") {
+            document.getElementById("emptyCartMessage").style.display = "block";
+            document.getElementById("submit").style.display = "none";
+        }
+    }
+
+    checkCartContent();
+
 </script>
+<style>
+    .link:hover{
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style>
