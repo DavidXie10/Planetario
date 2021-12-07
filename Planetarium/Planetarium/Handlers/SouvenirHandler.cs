@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Planetarium.Models;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Planetarium.Handlers {
     public class SouvenirHandler : DatabaseHandler {
@@ -86,10 +87,64 @@ namespace Planetarium.Handlers {
             return selectedSouvenirs;
         }
 
-        private void LinkSelectedSouvenirsWithCount(List<SouvenirModel> selectedSouvenirs, Dictionary<string, int>  souvenirIds) {
-            foreach(SouvenirModel souvenir in selectedSouvenirs) {
+        private void LinkSelectedSouvenirsWithCount(List<SouvenirModel> selectedSouvenirs, Dictionary<string, int> souvenirIds) {
+            foreach (SouvenirModel souvenir in selectedSouvenirs) {
                 souvenir.SelectedCount = souvenirIds[souvenir.SouvenirId.ToString()];
             }
+        }
+
+
+        public bool RegisterSale(List<SouvenirModel> souvenirs, double totalPrice, DateTime date, string visitorDni) {
+            string query = "INSERT INTO VentaRealizada(precio, fechaCompra, cedulaFK) " +
+                           "VALUES (@precio, @fechaCompra, @visitante)";
+
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            AddParametersToQueryCommand(queryCommand, totalPrice, date, visitorDni);
+            bool success = DatabaseQuery(queryCommand);
+
+            query = "SELECT IDENT_CURRENT('VentaRealizada') ";
+            DataTable resultingTable = CreateTableFromQuery(query);
+
+            int saleId = Convert.ToInt32(resultingTable.Rows[0][0]);
+
+            foreach (SouvenirModel souvenir in souvenirs) {
+                success = RegisterSouvenirSale(saleId, souvenir);
+            }
+            return success;
+        }
+
+        private void AddParametersToQueryCommand(SqlCommand queryCommand, double totalPrice, DateTime date, string visitorDni) {
+            queryCommand.Parameters.AddWithValue("@precio", totalPrice);
+            queryCommand.Parameters.AddWithValue("@fechaCompra", date);
+            queryCommand.Parameters.AddWithValue("@visitante", visitorDni);
+        }
+
+        private bool RegisterSouvenirSale(int saleId, SouvenirModel souvenir) {
+            string query = "INSERT INTO DescripcionVentaRealizada(ventaRealizadaIDPKFK, precioConImpuesto, cantidad, idProductoFK) " +
+                           "VALUES (@ventaId, @precio, @cantidad, @productoId)";
+
+            SqlCommand queryCommand = new SqlCommand(query, connection);
+            AddParametersToQueryCommand(queryCommand, saleId, souvenir);
+            bool success = DatabaseQuery(queryCommand);
+
+            return success;
+        }
+
+        private void AddParametersToQueryCommand(SqlCommand queryCommand, int saleId, SouvenirModel souvenir) {
+            queryCommand.Parameters.AddWithValue("@ventaId", saleId);
+            queryCommand.Parameters.AddWithValue("@precio", souvenir.Price * souvenir.SelectedCount);
+            queryCommand.Parameters.AddWithValue("@cantidad", souvenir.SelectedCount);
+            queryCommand.Parameters.AddWithValue("@productoId", souvenir.SouvenirId);
+        }
+
+        public bool UpdateSelectedItemsStock(List<SouvenirModel> selectedSouvenirs) {
+            bool success = false;
+
+            foreach (SouvenirModel souvenir in selectedSouvenirs) {
+                success = UpdateSouvernirStock(souvenir.SouvenirId, souvenir.Stock - souvenir.SelectedCount);
+            }
+
+            return success;
         }
     }
 }

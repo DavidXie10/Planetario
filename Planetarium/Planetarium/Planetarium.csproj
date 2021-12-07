@@ -340,6 +340,8 @@
     <Content Include="Views\Souvenir\HomeDelivery.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Souvenir\ShoppingCart.cshtml" />
+    <Content Include="Views\Souvenir\PayMethod.cshtml" />
+    <Content Include="Views\Souvenir\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
