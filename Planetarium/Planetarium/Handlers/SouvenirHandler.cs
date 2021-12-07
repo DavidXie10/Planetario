@@ -95,7 +95,7 @@ namespace Planetarium.Handlers {
 
 
         public bool RegisterSale(List<SouvenirModel> souvenirs, double totalPrice, DateTime date, string visitorDni) {
-            string query = "INSERT INTO VentaRealizada(precio, fechaCompra, cedulaFK) " +
+            string query = "INSERT INTO VentaRealizada(precioTotal, fechaCompra, cedulaFK) " +
                            "VALUES (@precio, @fechaCompra, @visitante)";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
@@ -120,7 +120,7 @@ namespace Planetarium.Handlers {
         }
 
         private bool RegisterSouvenirSale(int saleId, SouvenirModel souvenir) {
-            string query = "INSERT INTO DescripcionVentaRealizada(ventaRealizadaIDPKFK, precioConImpuesto, cantidad, idProductoFK) " +
+            string query = "INSERT INTO DescripcionVentaRealizada(ventaRealizadaIdPKFK, precio, cantidad, idProductoFK) " +
                            "VALUES (@ventaId, @precio, @cantidad, @productoId)";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);

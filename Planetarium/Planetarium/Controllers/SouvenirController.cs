@@ -7,7 +7,7 @@ using Planetarium.Handlers;
 using Planetarium.Models;
 
 namespace Planetarium.Controllers {
-    public class SouvenirController : Controller  {
+    public class SouvenirController : Controller {
         public SouvenirHandler SouvenirHandler { get; set; }
         public VisitorHandler VisitorDataAccess { get; set; }
         public AuthHandler AuthDataAccess { get; set; }
@@ -47,7 +47,7 @@ namespace Planetarium.Controllers {
             Dictionary<string, int> selectedItems = new Dictionary<string, int>();
 
             foreach (string item in items) {
-                if(item != "") {
+                if (item != "") {
                     if (selectedItems.ContainsKey(item)) {
                         selectedItems[item] += 1;
                     } else {
@@ -98,26 +98,34 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult Invoice() {
+            SetViewBagValues();
+            ViewBag.Date = DateTime.Now;
+            ViewBag.Tax = 0.13 * ViewBag.Price;
+
+            return View();
+        }
+
+        public ActionResult RegisterSales() {
+            ActionResult view = RedirectToAction("Invoice", "Souvenir", new { });
+
             UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
-            ViewBag.Visitor = VisitorDataAccess.GetVisitorByDni(user.Dni, true);
-            ActionResult view = RedirectToAction("PayMethod", "Souvenir", new { });
-            try {
-                SetViewBagValues();
-                ViewBag.Date = DateTime.Now;
-                ViewBag.Tax = 0.13 * ViewBag.Price; // probar si funciona
+            SetViewBagValues();
+            ViewBag.Date = DateTime.Now;
+
+            try { 
                 ViewBag.SuccessOnCreation = SouvenirHandler.RegisterSale(ViewBag.SelectedSouvenirs as List<SouvenirModel>, ViewBag.Price, ViewBag.Date, user.Dni);
-
                 ViewBag.SuccessOnCreation = SouvenirHandler.UpdateSelectedItemsStock(ViewBag.SelectedSouvenirs as List<SouvenirModel>);
-
-                if (ViewBag.SuccessOnCreation) {
-                    view = View();
+                if(ViewBag.SuccessOnCreation) {
+                    //AuthController.DeleteCookie("itemsCart");
+                    Request.Cookies.Remove("itemsCart");
+                    view = RedirectToAction("Catalog", "Souvenir", new { });
                 }
-            } catch(Exception e){
+            } catch(Exception e) {
                 TempData["Error"] = true;
                 TempData["WarningMessage"] = "Algo salió mal:" + e;
             }
-
             return view;
         }
     }
+
 }

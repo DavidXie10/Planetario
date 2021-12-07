@@ -3,6 +3,7 @@ const SOUVENIR_INFORMATION = 'souvenirInformation';
 const SOUVENIR_HEADER = 'takeoutModalLabel';
 const BUTTON_CONTAINER = 'buttonContainer';
 const COUNTER_CONTAINER = 'counter';
+const countOccurrences = (array, val) => array.reduce((number, compareValue) => (compareValue == val ? number + 1 : number), 0);
 
 function changeModal(souvenirId) {
     let souvenirList = document.getElementById(SOUVENIR_INFORMATION);
@@ -16,10 +17,28 @@ function changeModal(souvenirId) {
 }
 
 function setCounter(souvenir) {
+    let stock = souvenir.Stock;
+    let cookieValue = getCookieValue("itemsCart");
+    console.log("Cookie: " + cookieValue);
+
+    let cookieArray = cookieValue.split(',');
+    console.log("CookieArray: ", cookieArray);
+    console.log("Souvenir id: ", souvenir.SouvenirId);
+    let countElements = countOccurrences(cookieArray, souvenir.SouvenirId);
+    console.log("countElements: " + countElements);
+
+    stock -= countElements;
+    console.log("Stock: " + stock);
     let counter = document.getElementById(COUNTER_CONTAINER);
-    counter.innerHTML = '<span class="minus bg-dark" onclick="decrement(' + souvenir.SouvenirId + ')">-</span>';
-    counter.innerHTML += '<input type = "number" class="count" name = "' + souvenir.SouvenirId + '" value = 1 id = "' + souvenir.SouvenirId + '" />';
-    counter.innerHTML += '<span class="plus bg-dark" onclick="increment(' + souvenir.SouvenirId + ',' + souvenir.Stock + ')">+</span>';
+    if (stock > 0) {
+        document.getElementById(BUTTON_CONTAINER).style.display = "block";
+        counter.innerHTML = '<span class="minus bg-dark" onclick="decrement(' + souvenir.SouvenirId + ')">-</span>';
+        counter.innerHTML += '<input type = "number" class="count" name = "' + souvenir.SouvenirId + '" value = 1 id = "' + souvenir.SouvenirId + '" />';
+        counter.innerHTML += '<span class="plus bg-dark" onclick="increment(' + souvenir.SouvenirId + ',' + stock + ')">+</span>';
+    } else {
+        counter.innerHTML = '<span class="text-danger"> ¡Producto agotado! </span>'
+        document.getElementById(BUTTON_CONTAINER).style.display = "none";
+    }
 }
 
 function setButton(souvenirId) {
@@ -69,12 +88,7 @@ function getCookieValue(name) {
 }
 
 function updateCookie(value) {
-    console.log(value);
-    console.log(document.getElementById(value));
-    console.log(document.getElementById(value).value);
-
     let count = parseInt(document.getElementById(value).value);
-    console.log(count);
     if (count != 0) {
         let cookieValue = getCookieValue("itemsCart");
 
@@ -87,6 +101,18 @@ function updateCookie(value) {
     }
 
     document.getElementById("closeModal").click();
+}
+
+function countUnique(iterable) {
+    return new Set(iterable).size;
+}
+
+function getItemsCount() {
+    let itemsCount = 0;
+    let cookieValue = getCookieValue("itemsCart");
+    let cookieArray = cookieValue.split(',');
+    let counter = countUnique(cookieArray);
+    document.getElementById("cartCounter").innerHTML = counter;
 }
 
 function increment(inputId, maximum) {

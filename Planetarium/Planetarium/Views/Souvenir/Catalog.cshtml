@@ -15,6 +15,7 @@
                 <h1 class="text-start">@ViewBag.Title</h1>
             </div>
             <div class="col-1">
+                <!-- <div class="number" id="cartCounter"></div>-->
                 <img src="~/images/shopping-cart.png" width="50" height="60" id="cartImage" onclick="clickActionLink()" />
                 <a id="shop" style="display:none">Shop</a>
             </div>
@@ -24,25 +25,27 @@
         <div class="card-body">
             <div class="row d-flex">
                 @foreach (var souvenir in ViewBag.Catalog) {
-                    <div class="col-4 d-flex">
-                        <div class="card rounded-3  w-100 " style="margin:15px;">
-                            <div class="card-header text-center">
-                                <h4><strong>@souvenir.Name </strong>  </h4>
-                            </div>
+                    if(souvenir.Stock > 0) {
+                        <div class="col-4 d-flex">
+                            <div class="card rounded-3  w-100 " style="margin:15px;">
+                                <div class="card-header text-center">
+                                    <h4><strong>@souvenir.Name </strong>  </h4>
+                                </div>
 
-                            <div class="card-body text-center" data-toggle="modal" data-target="#descriptionSouvenirModal" onclick="changeModal(@souvenir.SouvenirId)">
-                                <div class="souvenirImage">
-                                    <img src="~/images/Souvenirs/@souvenir.ImagesRef[0]" width="165" height="200"  class="img_squareImg" alt="Responsive image">
-                                    <div class="image__overlay image__overlay--light">
-                                        <div class="image__title">Ver más</div>
-                                        <h5 class="image__description">
-                                            @souvenir.Name
-                                        </h5>
+                                <div class="card-body text-center" data-toggle="modal" data-target="#descriptionSouvenirModal" onclick="changeModal(@souvenir.SouvenirId)">
+                                    <div class="souvenirImage">
+                                        <img src="~/images/Souvenirs/@souvenir.ImagesRef[0]" width="165" height="200"  class="img_squareImg" alt="Responsive image">
+                                        <div class="image__overlay image__overlay--light">
+                                            <div class="image__title">Ver más</div>
+                                            <h5 class="image__description">
+                                                @souvenir.Name
+                                            </h5>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> 
+                    }
                 }
             </div>
         </div>
@@ -86,3 +89,17 @@
         }
     </script>
 </body>
+<style>
+    .number {
+        width: 28%;
+        height: 80%;
+        background-color: #d63031;
+        border-radius: 20px;
+        color: white;
+        text-align: center;
+        position: absolute;
+        left: 60px;
+        border-style: solid;
+        border-width: 2px;
+    }
+</style>

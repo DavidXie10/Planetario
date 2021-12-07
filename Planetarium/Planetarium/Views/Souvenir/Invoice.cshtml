@@ -7,10 +7,16 @@
 </head>
 
 <body>
-    <div class="container" style="margin-bottom:10%; margin-top:5%">
+    <div class="container" style="height:; margin-top:3%">
+        @if (Convert.ToBoolean(TempData["Error"]) == true) {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+        </div>
+        }
         <div class="row justify-content-center align-items-center">
             <div class="card w-50" style="padding: 0px;">
-                <div class="card-header">
+                <div class="card-header text-center">
                     <h2>Comprobante de pago</h2>
                 </div>
 
@@ -21,7 +27,7 @@
                             <hr />
                             @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
                             <h6><strong>@souvenir.Name</strong></h6>
-                            <h6><strong>Precio:</strong> @souvenir.Price</h6>
+                            <h6><strong>Precio unitario:</strong> @souvenir.Price</h6>
                             <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
                             <hr />
                             }
@@ -29,15 +35,15 @@
                     </div>
                     <hr />
                     <h5> <b>Fecha:</b> @ViewBag.Date </h5>
-                    <h5> <b>Descuento:</b> ₡@ViewBag.Price </h5>
+                    @{double subtotal = @ViewBag.Price - @ViewBag.Tax;}
+                    <h5> <b>Subtotal:</b> ₡@subtotal</h5>
                     <h5> <b>Impuesto:</b> ₡@ViewBag.Tax </h5>
+                    <h5> <b>Descuento:</b> ₡0.0 </h5>
                     <hr />
                     <div class="row">
                         <div class="col text-center">
-                            <h4>
-                                <b>Total:</b> ₡@ViewBag.Price
-                            </h4>
-                            @Html.ActionLink("Finalizar", "ListActivities", "EducationalActivity", new { @class = "btn btn-success", @style = "width: 40%" })
+                            <h4> <b>Total:</b> ₡@ViewBag.Price </h4>
+                            @Html.ActionLink("Finalizar", "RegisterSales", "EducationalActivity", new { @class = "btn btn-success", @style = "width: 40%" })
                         </div>
                     </div>
                 </div>
@@ -47,4 +53,3 @@
 </body>
 
 </html>
-
