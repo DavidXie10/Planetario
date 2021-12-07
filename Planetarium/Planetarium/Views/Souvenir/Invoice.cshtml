@@ -1,0 +1,50 @@
+﻿
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Comprobante de pago</title>
+</head>
+
+<body>
+    <div class="container" style="margin-bottom:10%; margin-top:5%">
+        <div class="row justify-content-center align-items-center">
+            <div class="card w-50" style="padding: 0px;">
+                <div class="card-header">
+                    <h2>Comprobante de pago</h2>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5><strong>Productos: </strong></h5>
+                            <hr />
+                            @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
+                            <h6><strong>@souvenir.Name</strong></h6>
+                            <h6><strong>Precio:</strong> @souvenir.Price</h6>
+                            <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
+                            <hr />
+                            }
+                        </div>
+                    </div>
+                    <hr />
+                    <h5> <b>Fecha:</b> @ViewBag.Date </h5>
+                    <h5> <b>Descuento:</b> ₡@ViewBag.Price </h5>
+                    <h5> <b>Impuesto:</b> ₡@ViewBag.Tax </h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col text-center">
+                            <h4>
+                                <b>Total:</b> ₡@ViewBag.Price
+                            </h4>
+                            @Html.ActionLink("Finalizar", "ListActivities", "EducationalActivity", new { @class = "btn btn-success", @style = "width: 40%" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
