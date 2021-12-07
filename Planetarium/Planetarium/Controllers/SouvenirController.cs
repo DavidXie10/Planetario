@@ -72,13 +72,13 @@ namespace Planetarium.Controllers {
             UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
             ViewBag.VisitorDni = VisitorDataAccess.GetVisitorByDni(user.Dni, true).Dni;
 
-            SetViewBagValues();
+            SetViewBagValues("itemsCart");
 
             return View();
         }
 
-        private void SetViewBagValues() {
-            string cartCookieValue = Request.Cookies["itemsCart"].Value;
+        private void SetViewBagValues(string cookieName) {
+            string cartCookieValue = Request.Cookies[cookieName].Value;
 
             if (cartCookieValue != null && cartCookieValue != "") {
                 List<SouvenirModel> selectedSouvenirs = GetAllSelectedSouvenir(cartCookieValue);
@@ -98,27 +98,18 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult Invoice() {
-            SetViewBagValues();
-            ViewBag.Date = DateTime.Now;
-            ViewBag.Tax = 0.13 * ViewBag.Price;
-
-            return View();
-        }
-
-        public ActionResult RegisterSales() {
-            ActionResult view = RedirectToAction("Invoice", "Souvenir", new { });
+            ActionResult view = RedirectToAction("PayMethod", "Souvenir", new { });
 
             UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
-            SetViewBagValues();
+            SetViewBagValues("checkoutCookie");
             ViewBag.Date = DateTime.Now;
+            ViewBag.Tax = 0.13 * ViewBag.Price;
 
             try { 
                 ViewBag.SuccessOnCreation = SouvenirHandler.RegisterSale(ViewBag.SelectedSouvenirs as List<SouvenirModel>, ViewBag.Price, ViewBag.Date, user.Dni);
                 ViewBag.SuccessOnCreation = SouvenirHandler.UpdateSelectedItemsStock(ViewBag.SelectedSouvenirs as List<SouvenirModel>);
                 if(ViewBag.SuccessOnCreation) {
-                    //AuthController.DeleteCookie("itemsCart");
-                    Request.Cookies.Remove("itemsCart");
-                    view = RedirectToAction("Catalog", "Souvenir", new { });
+                    view = View();
                 }
             } catch(Exception e) {
                 TempData["Error"] = true;

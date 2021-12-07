@@ -121,11 +121,14 @@
                             </div>
                             <div class="modal-body">
                                 <div>
-                                    <button class="btn btn-success w-50" id="expressOption" onclick="location.href='/Souvenir/HomeDelivery'" type="button">Express</button>
+
+                                    <input type="button" class="btn btn-success btn-block w-50" value="Express" onclick="setCheckoutCookie('expressOption')" />
+                                    <button class="btn btn-success w-50" id="expressOption" onclick="location.href='/Souvenir/HomeDelivery'" type="button" style="display: none;">Express</button>
                                 </div>
                                 <br />
                                 <div>
-                                    <button class="btn btn-primary w-50" id="pickUpOption" onclick="location.href='/Souvenir/Invoice'" type="button">Para Llevar</button>
+                                    <input type="button" class="btn btn-primary btn-block w-50" value="Para Llevar" onclick="setCheckoutCookie('pickUpOption')" />
+                                    <button class="btn btn-primary w-50" id="pickUpOption" onclick="location.href='/Souvenir/Invoice'" type="button" style="display: none;">Para Llevar</button>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +203,16 @@
     }
 
 
-    //document.getElementById("submit").setAttribute("data-toggle", "modal");
-    //document.getElementById("submit").setAttribute("data-target", "#takeoutModal");
+    function getCookieValue(name) {
+        let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
+        return result ? result.pop() : ""
+    }
+
+    function setCheckoutCookie(idButtonChoice) {
+        let cookieValue = getCookieValue("itemsCart");
+        document.cookie = "checkoutCookie=" + cookieValue;
+        document.cookie = "itemsCart=;";
+        document.getElementById(idButtonChoice).click();
+    }
 </script>
 

@@ -19,16 +19,10 @@ function changeModal(souvenirId) {
 function setCounter(souvenir) {
     let stock = souvenir.Stock;
     let cookieValue = getCookieValue("itemsCart");
-    console.log("Cookie: " + cookieValue);
-
     let cookieArray = cookieValue.split(',');
-    console.log("CookieArray: ", cookieArray);
-    console.log("Souvenir id: ", souvenir.SouvenirId);
     let countElements = countOccurrences(cookieArray, souvenir.SouvenirId);
-    console.log("countElements: " + countElements);
 
     stock -= countElements;
-    console.log("Stock: " + stock);
     let counter = document.getElementById(COUNTER_CONTAINER);
     if (stock > 0) {
         document.getElementById(BUTTON_CONTAINER).style.display = "block";
@@ -108,7 +102,6 @@ function countUnique(iterable) {
 }
 
 function getItemsCount() {
-    let itemsCount = 0;
     let cookieValue = getCookieValue("itemsCart");
     let cookieArray = cookieValue.split(',');
     let counter = countUnique(cookieArray);
