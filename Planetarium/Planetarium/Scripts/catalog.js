@@ -43,7 +43,7 @@ function setButton(souvenirId) {
 function setCarousel(souvenir) {
     let souvenirList = document.getElementById(CAROUSEL);
     souvenirList.innerHTML = '<div class="carousel-inner w-100">' +
-        '<div class="carousel-item active"> <img src="/images/Souvenirs/' + souvenir.ImagesRef[0] + '" class="d-block w-100 carousel-Img" alt="..."></div >';
+        '<div class="carousel-item active" style="width:20rem;height:20rem;"> <img src="/images/Souvenirs/' + souvenir.ImagesRef[0] + '" class="d-block w-100 carousel-Img" alt="..." style="margin-left:4rem"></div >';
 
     for (let index = 1; index < souvenir.ImagesRef.length; ++index) {
         souvenirList.innerHTML += '<div class="carousel-item"> <img src="/images/Souvenirs/' + souvenir.ImagesRef[index] + '" class="d-block w-100 carousel-Img" alt = "..." > </div>';
@@ -81,14 +81,21 @@ function getCookieValue(name) {
     return result ? result.pop() : ""
 }
 
-function countUnique(iterable) {
-    return new Set(iterable).size;
+function countUnique(cookieArray) {
+    let itemsCount = 0;
+
+    for (let item of cookieArray) {
+        if (item != "") {
+            itemsCount += 1;
+        }
+    }
+
+    return itemsCount;
 }
 
 function getItemsCount() {
     let cookieValue = getCookieValue("itemsCart");
     let cookieArray = cookieValue.split(',');
-    cookieArray = cookieArray.filter(item => item != ' ');
     let counter = countUnique(cookieArray);
     return counter;
 }
