@@ -88,9 +88,11 @@
 
                     </li>
                 }
-                <li class="nav-item">
-                    <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true"> <i class="fas fa-gift"></i> Souvenirs</a>
-                </li>
+                @if (rolCookie != 0) {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true"> <i class="fas fa-gift"></i> Souvenirs</a>
+                    </li>
+                }
             </ul>
             <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
                 @if (userIdentityCookie == null) {
