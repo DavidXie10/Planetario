@@ -51,6 +51,13 @@
                                     <div class="panel-heading">
                                         <div class="row">
                                             <div class="col-md-8">
+                                                <span class="help-block text-muted small-font"> Tarjeta habiente</span>
+                                                <input id="creditCardName" type="text" class="form-control" placeholder="John Doe" required autocomplete="off" />
+                                                <p id="creditCardNameError" class="text-danger"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
                                                 <span class="help-block text-muted small-font"> Número de tarjeta</span>
                                                 <input id="creditCardNumber" value="" type="number" class="form-control" placeholder="0000 0000 0000 0000" data-maxlength="16" oninput="this.value=this.value.slice(0,this.dataset.maxlength)" required autocomplete="off" />
                                                 <p id="cardNumberError" class="text-danger"></p>
@@ -82,25 +89,26 @@
                                         <div class="row">
                                             <div class="col-md-12 pad-adjust">
                                                 <span class="help-block text-muted small-font"> Nombre de la tarjeta</span>
-                                                <select class="form-select" aria-label="Default select example" style="color:gray" required>
+                                                <select id="typeCard" class="form-select" aria-label="Default select example" style="color:gray" required>
                                                     <option selected>-Seleccionar-</option>
                                                     <option value="Visa">Visa</option>
                                                     <option value="Mastercard">Mastercard</option>
                                                     <option value="American Express">American Express</option>
                                                 </select>
+                                                <p id="typeCardError" class="text-danger"></p>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-2">
                                             <div class="col-md-12 pad-adjust">
-                                                <div class="checkbox">
+                                                <div class="checkbox" >
                                                     <label>
-                                                        <input type="checkbox" class="text-muted" required />
+                                                        <input id="privacy" type="checkbox" class="text-muted" required />
                                                         He leído y acepto las politicas de privacidad
                                                         <a data-toggle="modal" data-target="#exampleModalLong" style="color:#18bc9c">
                                                             Ver politicas de privacidad
                                                         </a>
                                                     </label>
-                                                    <p class="errorPrivacy"></p>
+                                                    <p id="privacyError" class="text-danger" ></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -174,27 +182,36 @@
 
     function checkData() {
 
-        let valid = true;
-
         let cardNumber = document.getElementById("creditCardNumber").value;
+        let cardName = document.getElementById("creditCardName").value;
         let month = document.getElementById("monthInput").value;
         let year = document.getElementById("yearInput").value;
         let cvc = document.getElementById("cvcInput").value;
-        valid = checkValidInput(cardNumber, "#cardNumberError", "Ingrese un número de tarjeta");
-        valid = checkValidInput(month, "#monthError", "Ingrese un mes válido");
-        valid = checkValidInput(year, "#yearError", "Ingrese un año");
-        valid = checkValidInput(cvc, "#cvcError", "Ingrese el cvc al que se encuentra al reverso de su tarjeta");
+        let typeCard = document.getElementById("typeCard");
+        let privacy = document.getElementById("privacy").checked;
 
-        if (valid) {
+        let selectedTypeCard = typeCard.options[typeCard.selectedIndex].text;
+
+        let cardNumberValid = checkValidInput(cardNumber, "#cardNumberError", "Ingrese un número de tarjeta");
+        let cardNameValid = checkValidInput(cardName, "#creditCardNameError", "Ingrese el nombre del tarjeta habiente");
+        let monthValid = checkValidInput(month, "#monthError", "Ingrese un mes válido");
+        let yearValid = checkValidInput(year, "#yearError", "Ingrese un año");
+        let cvcValid = checkValidInput(cvc, "#cvcError", "Ingrese el cvc");
+        let selectedTypeCardValid = checkValidInput(selectedTypeCard, "#typeCardError", "Seleccione el tipo de tarjeta");
+        let privacyValid = checkValidInput(privacy, "#privacyError", "Acepte las políticas de privacidad");
+
+        if (cardNumberValid && cardNameValid && monthValid && yearValid && cvcValid && selectedTypeCardValid && privacyValid) {
             document.getElementById("showModal").click();
         }
     }
 
     function checkValidInput(containerValue, errorContainerId, errorMsg) {
         let valid = true;
-        if (containerValue == '') {
+        if (containerValue == '' || containerValue == '-Seleccionar-' ) {
             document.querySelector(errorContainerId).innerHTML = errorMsg;
             valid = false;
+        } else {
+            document.querySelector(errorContainerId).innerHTML = '';
         }
         return valid;
     }

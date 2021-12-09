@@ -60,8 +60,6 @@ $(document).ready(function () {
 })
 
 function checkData() {
-    let valid = true;
-
     let provinceId = document.getElementById("province");
     let cantonId = document.getElementById("canton");
     let districtId = document.getElementById("district");
@@ -72,19 +70,20 @@ function checkData() {
     let selectedCanton = cantonId.options[cantonId.selectedIndex].text;
     let selectedDistrict = districtId.options[districtId.selectedIndex].text;
 
-    valid = checkValidInput(selectedProvince, "#provinceError", "Seleccione una provincia");
-    valid = checkValidInput(selectedCanton, "#cantonError", "Seleccione un cantón");
-    valid = checkValidInput(selectedDistrict, "#districtError", "Seleccione un distrito");
-    valid = checkValidInput(exactDirection, "#exactDirectionError", "Ingrese su dirección exacta");
-    valid = checkValidInput(postalCode, "#postalCodeError", "Ingrese su código postal");
+    let provinceValid = checkValidInput(selectedProvince, "#provinceError", "Seleccione una provincia");
+    let cantonValid = checkValidInput(selectedCanton, "#cantonError", "Seleccione un cantón");
+    let districtValid = checkValidInput(selectedDistrict, "#districtError", "Seleccione un distrito");
+    let exactDirectionValid = checkValidInput(exactDirection, "#exactDirectionError", "Ingrese su dirección exacta");
+    let postalCodeValid = checkValidInput(postalCode, "#postalCodeError", "Ingrese su código postal");
 
-    if (valid) {
+    if (provinceValid && cantonValid && districtValid && exactDirectionValid && postalCodeValid) {
         document.getElementById("submit").click();
     }
 }
 
 function checkValidInput(containerValue, errorContainerId, errorMsg) {
     let valid = true;
+
     if (containerValue == '' || containerValue == '- Sin selección -') {
         document.querySelector(errorContainerId).innerHTML = errorMsg;
         valid = false;
