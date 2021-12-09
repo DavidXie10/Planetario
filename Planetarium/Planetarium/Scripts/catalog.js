@@ -83,10 +83,11 @@ function getCookieValue(name) {
 
 function countUnique(cookieArray) {
     let itemsCount = 0;
-
+    let uniqueItems = [];
     for (let item of cookieArray) {
-        if (item != "") {
+        if (item != "" && !uniqueItems.includes(item)) {
             itemsCount += 1;
+            uniqueItems.push(item);
         }
     }
 
