@@ -11,13 +11,14 @@
         <hr />
         @if (ViewBag.SelectedSouvenirs != null) {
             <div class="row d-flex">
-               @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
-                   string id = @souvenir.SouvenirId + "-container";
+                @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
+                    string id = @souvenir.SouvenirId + "-container";
                     <div class="col-6 d-flex justify-content-evenly" style="margin: 15px 0 15px 0;" id=@id>
                         <div class="card rounded-3 bg-light w-100 p-3">
                             <div class="row">
                                 <div class="col text-end align-content-center">
-                                    <a id="@souvenir.SouvenirId" class="align-self-end align-self-right link" style="font-size:large;" onclick="deleteSouvenir(this.id)">[Eliminar]</a>
+                                    @{string modalId = "showModal" + souvenir.SouvenirId;}
+                                    <a id="@souvenir.SouvenirId" class="align-self-end align-self-right link" style="font-size:large;"  data-toggle="modal" data-target="#confimationModal" onclick="changeModal(this.id)">[Eliminar]</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -38,20 +39,52 @@
             </div>
             <div class="row">
                 <div class="col-md-6 pad-adjust w-100 text-center mt-4">
-                    @Html.ActionLink("Comprar", "PayMethod", "Souvenir", new {  }, new { @id = "submit", @class = "btn btn-success w-25" })
+                    @Html.ActionLink("Comprar", "PayMethod", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success w-25" })
                 </div>
             </div>
-        } 
-    <div class="row" id="emptyCartMessage" style="display:none; height: 50vh">
-        <div class="col-md-6 pad-adjust w-100 text-center mt-4">
-            <h4 class="fw-bold">Su carrito se encuentra vacío</h4>
+
+            <div class="modal fade" id="confimationModal" tabindex="-1" aria-labelledby="confimationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confimationModalLabel">¿Desea eliminar este producto del carrito?</h5>
+                            <button type="button" class="close btn btn-danger" data-dismiss="modal" id="closeModal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-6 text-end">
+                                    <input type="button" class="btn btn-danger btn-block w-50" value="No" onclick="closeModal()" />
+                                </div>
+                                <br />
+                                <div class="col-6 text-start">
+                                    <input id="yesButton" type="button" class="btn btn-secondary btn-block w-50" value="Sí" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row" id="emptyCartMessage" style="display:none; height: 50vh">
+            <div class="col-md-6 pad-adjust w-100 text-center mt-4">
+                <h4 class="fw-bold">Su carrito se encuentra vacío</h4>
+            </div>
         </div>
-    </div>
-        
+
     </div>
 </body>
 
 <script>
+
+    function closeModal() {
+        document.getElementById("closeModal").click();
+    }
+
+    function changeModal(souvenirId) {
+        document.getElementById("yesButton").setAttribute("onclick", "deleteSouvenir(" + souvenirId + ")");
+    }
 
     function checkCartContent() {
         let selectedSouvenirs = @Html.Raw(Json.Encode(ViewBag.SelectedSouvenirs));
@@ -84,13 +117,13 @@
     }
 
     function deleteSouvenir(id) {
-        console.log(id);
         removeItemFromCart(id);
         deleteContainer(id + "-container");
         if (getCookieValue("itemsCart") == "") {
             document.getElementById("emptyCartMessage").style.display = "block";
             document.getElementById("submit").style.display = "none";
         }
+        document.getElementById("closeModal").click();
     }
 
     checkCartContent();
