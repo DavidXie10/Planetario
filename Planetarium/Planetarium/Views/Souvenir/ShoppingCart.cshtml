@@ -67,11 +67,15 @@
                 </div>
             </div>
         }
-        <div class="row" id="emptyCartMessage" style="display:none; height: 50vh">
-            <div class="col-md-6 pad-adjust w-100 text-center mt-4">
-                <h4 class="fw-bold">Su carrito se encuentra vacío</h4>
-            </div>
+    <div class="row" id="emptyCartMessage" style="display:none; height: 50vh">
+        <div class="col-md-6 pad-adjust w-100 text-center" style="margin-top: 10%;">
+            <h2 class="fw-bold">Su carrito se encuentra vacío</h2>
         </div>
+
+        <div class="col-md-6 pad-adjust w-100 text-center" style="margin-top: 8%;">
+            @Html.ActionLink("Ver catálogo", "Catalog", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success w-25", @style = "font-size: 17pt"  })
+        </div>
+    </div>
 
     </div>
 </body>
