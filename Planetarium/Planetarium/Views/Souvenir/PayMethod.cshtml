@@ -21,24 +21,24 @@
                     <fieldset>
                         <div class="card bg-light col-10">
                             <div class="card-header text-center">
-                                <h5>Mi Carrito</h5>
+                                <h4>Mi Carrito</h4>
                             </div>
                             <div class="card-body">
                                 @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
-                                    <h6><strong>@souvenir.Name</strong></h6>
-                                    <h6>@souvenir.Description</h6>
-                                    <h6><strong>Precio:</strong> ₡@souvenir.Price</h6>
-                                    <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
-                                    <hr />
+                                <h6><strong>@souvenir.Name</strong></h6>
+                                <h6>@souvenir.Description</h6>
+                                <h6><strong>Precio:</strong> ₡@souvenir.Price.ToString("#,###,###.#")</h6>
+                                <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
+                                <hr />
                                 }
                                 <hr />
-                                <h5> <b>Fecha:</b> @ViewBag.Date </h5>
+                                <h6> <b>Fecha:</b> @ViewBag.Date </h6>
                                 @{double subtotal = @ViewBag.Price - @ViewBag.Tax;}
-                                <h5> <b>Subtotal:</b> ₡@subtotal</h5>
-                                <h5> <b>Impuesto:</b> ₡@ViewBag.Tax </h5>
-                                <h5> <b>Descuento:</b> ₡0.0 </h5>
+                                <h6> <b>Subtotal:</b> ₡@subtotal.ToString("#,###,###.#")</h6>
+                                <h6> <b>Impuesto:</b> ₡@ViewBag.Tax.ToString("#,###,###.#") </h6>
+                                <h6> <b>Descuento:</b> ₡0 </h6>
                                 <hr />
-                                <h5><b>Precio Total:</b> ₡@ViewBag.Price</h5>
+                                <h5><b>Precio Total:</b> ₡@ViewBag.Price.ToString("#,###,###.#")</h5>
                             </div>
                         </div>
                     </fieldset>
@@ -129,12 +129,12 @@
                             <div class="modal-body">
                                 <div>
 
-                                    <input type="button" class="btn btn-success btn-block w-50" value="Express" onclick="setCheckoutCookie('expressOption')" />
+                                    <input type="button" class="btn btn-success btn-block w-50" value="Entrega a domicilio" onclick="setCheckoutCookie('expressOption')" />
                                     <button class="btn btn-success w-50" id="expressOption" onclick="location.href='/Souvenir/HomeDelivery'" type="button" style="display: none;">Express</button>
                                 </div>
                                 <br />
                                 <div>
-                                    <input type="button" class="btn btn-primary btn-block w-50" value="Para Llevar" onclick="setCheckoutCookie('pickUpOption')" />
+                                    <input type="button" class="btn btn-primary btn-block w-50" value="Recoger en el planetario" onclick="setCheckoutCookie('pickUpOption')" />
                                     <button class="btn btn-primary w-50" id="pickUpOption" onclick="location.href='/Souvenir/Invoice'" type="button" style="display: none;">Para Llevar</button>
                                 </div>
                             </div>

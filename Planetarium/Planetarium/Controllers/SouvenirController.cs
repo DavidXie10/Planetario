@@ -84,6 +84,8 @@ namespace Planetarium.Controllers {
                 List<SouvenirModel> selectedSouvenirs = GetAllSelectedSouvenir(cartCookieValue);
                 ViewBag.SelectedSouvenirs = selectedSouvenirs;
                 ViewBag.Price = CalculateTotal(selectedSouvenirs);
+                ViewBag.Date = DateTime.Now;
+                ViewBag.Tax = 0.13 * ViewBag.Price;
             }
         }
 
@@ -102,11 +104,9 @@ namespace Planetarium.Controllers {
 
             UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
             SetViewBagValues("checkoutCookie");
-            ViewBag.Date = DateTime.Now;
-            ViewBag.Tax = 0.13 * ViewBag.Price;
 
             try { 
-                ViewBag.SuccessOnCreation = SouvenirHandler.RegisterSale(ViewBag.SelectedSouvenirs as List<SouvenirModel>, ViewBag.Price, ViewBag.Date, user.Dni);
+                ViewBag.InvoiceNumber = SouvenirHandler.RegisterSale(ViewBag.SelectedSouvenirs as List<SouvenirModel>, ViewBag.Price, ViewBag.Date, user.Dni);
                 ViewBag.SuccessOnCreation = SouvenirHandler.UpdateSelectedItemsStock(ViewBag.SelectedSouvenirs as List<SouvenirModel>);
                 if(ViewBag.SuccessOnCreation) {
                     view = View();

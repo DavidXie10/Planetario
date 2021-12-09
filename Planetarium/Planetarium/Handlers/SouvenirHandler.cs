@@ -94,13 +94,13 @@ namespace Planetarium.Handlers {
         }
 
 
-        public bool RegisterSale(List<SouvenirModel> souvenirs, double totalPrice, DateTime date, string visitorDni) {
+        public int RegisterSale(List<SouvenirModel> souvenirs, double totalPrice, DateTime date, string visitorDni) {
             string query = "INSERT INTO VentaRealizada(precioTotal, fechaCompra, cedulaFK) " +
                            "VALUES (@precio, @fechaCompra, @visitante)";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
             AddParametersToQueryCommand(queryCommand, totalPrice, date, visitorDni);
-            bool success = DatabaseQuery(queryCommand);
+            DatabaseQuery(queryCommand);
 
             query = "SELECT IDENT_CURRENT('VentaRealizada') ";
             DataTable resultingTable = CreateTableFromQuery(query);
@@ -108,9 +108,9 @@ namespace Planetarium.Handlers {
             int saleId = Convert.ToInt32(resultingTable.Rows[0][0]);
 
             foreach (SouvenirModel souvenir in souvenirs) {
-                success = RegisterSouvenirSale(saleId, souvenir);
+                RegisterSouvenirSale(saleId, souvenir);
             }
-            return success;
+            return saleId;
         }
 
         private void AddParametersToQueryCommand(SqlCommand queryCommand, double totalPrice, DateTime date, string visitorDni) {
@@ -119,15 +119,13 @@ namespace Planetarium.Handlers {
             queryCommand.Parameters.AddWithValue("@visitante", visitorDni);
         }
 
-        private bool RegisterSouvenirSale(int saleId, SouvenirModel souvenir) {
+        private void RegisterSouvenirSale(int saleId, SouvenirModel souvenir) {
             string query = "INSERT INTO DescripcionVentaRealizada(ventaRealizadaIdPKFK, precio, cantidad, idProductoFK) " +
                            "VALUES (@ventaId, @precio, @cantidad, @productoId)";
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
             AddParametersToQueryCommand(queryCommand, saleId, souvenir);
-            bool success = DatabaseQuery(queryCommand);
-
-            return success;
+            DatabaseQuery(queryCommand);
         }
 
         private void AddParametersToQueryCommand(SqlCommand queryCommand, int saleId, SouvenirModel souvenir) {
