@@ -42,7 +42,7 @@ function setButton(souvenirId) {
 
 function setCarousel(souvenir) {
     let souvenirList = document.getElementById(CAROUSEL);
-    souvenirList.innerHTML = '<div class="carousel-inner">' +
+    souvenirList.innerHTML = '<div class="carousel-inner w-100">' +
         '<div class="carousel-item active"> <img src="/images/Souvenirs/' + souvenir.ImagesRef[0] + '" class="d-block w-100 carousel-Img" alt="..."></div >';
 
     for (let index = 1; index < souvenir.ImagesRef.length; ++index) {
@@ -81,6 +81,18 @@ function getCookieValue(name) {
     return result ? result.pop() : ""
 }
 
+function countUnique(iterable) {
+    return new Set(iterable).size;
+}
+
+function getItemsCount() {
+    let cookieValue = getCookieValue("itemsCart");
+    let cookieArray = cookieValue.split(',');
+    cookieArray = cookieArray.filter(item => item != ' ');
+    let counter = countUnique(cookieArray);
+    return counter;
+}
+
 function updateCookie(value) {
     let count = parseInt(document.getElementById(value).value);
     if (count != 0) {
@@ -92,20 +104,10 @@ function updateCookie(value) {
         }
 
         document.cookie = "itemsCart=" + cookieValue + addToCookieValue;
+        document.getElementById("cartCounter").innerHTML = getItemsCount();
     }
 
     document.getElementById("closeModal").click();
-}
-
-function countUnique(iterable) {
-    return new Set(iterable).size;
-}
-
-function getItemsCount() {
-    let cookieValue = getCookieValue("itemsCart");
-    let cookieArray = cookieValue.split(',');
-    let counter = countUnique(cookieArray);
-    document.getElementById("cartCounter").innerHTML = counter;
 }
 
 function increment(inputId, maximum) {
@@ -122,3 +124,4 @@ function decrement(inputId) {
     }
 }
 
+document.getElementById("cartCounter").innerHTML = getItemsCount();

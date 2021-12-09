@@ -27,7 +27,7 @@
                             <hr />
                             @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
                             <h6><strong>@souvenir.Name</strong></h6>
-                            <h6><strong>Precio unitario:</strong> @souvenir.Price</h6>
+                            <h6><strong>Precio unitario:</strong> ₡@souvenir.Price</h6>
                             <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
                             <hr />
                             }
@@ -38,7 +38,7 @@
                     @{double subtotal = @ViewBag.Price - @ViewBag.Tax;}
                     <h5> <b>Subtotal:</b> ₡@subtotal</h5>
                     <h5> <b>Impuesto:</b> ₡@ViewBag.Tax </h5>
-                    <h5> <b>Descuento:</b> ₡0.0 </h5>
+                    <h5> <b>Descuento:</b> ₡0 </h5>
                     <hr />
                     <div class="row">
                         <div class="col text-center">

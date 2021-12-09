@@ -25,13 +25,20 @@
                             </div>
                             <div class="card-body">
                                 @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
-                                <h6><strong>@souvenir.Name</strong></h6>
-                                <h6>@souvenir.Description</h6>
-                                <h6><strong>Precio:</strong> @souvenir.Price</h6>
-                                <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
+                                    <h6><strong>@souvenir.Name</strong></h6>
+                                    <h6>@souvenir.Description</h6>
+                                    <h6><strong>Precio:</strong> ₡@souvenir.Price</h6>
+                                    <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
+                                    <hr />
+                                }
                                 <hr />
-                                 }
-                                <h6><b>Precio Total:</b> ₡@ViewBag.Price</h6>
+                                <h5> <b>Fecha:</b> @ViewBag.Date </h5>
+                                @{double subtotal = @ViewBag.Price - @ViewBag.Tax;}
+                                <h5> <b>Subtotal:</b> ₡@subtotal</h5>
+                                <h5> <b>Impuesto:</b> ₡@ViewBag.Tax </h5>
+                                <h5> <b>Descuento:</b> ₡0.0 </h5>
+                                <hr />
+                                <h5><b>Precio Total:</b> ₡@ViewBag.Price</h5>
                             </div>
                         </div>
                     </fieldset>
