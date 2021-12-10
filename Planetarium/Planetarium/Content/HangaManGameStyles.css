@@ -28,7 +28,16 @@
 }
 
 .clue {
-   
+    margin-left: 16%;
+    margin-right: 16%;
+    text-align: center;
+
+}
+.fas fa-lightbulb {
+    color:yellow;
+}
+.fa-medal:hover {
+    color:white;
 }
 #alphabet li {
     float: left;
@@ -74,7 +83,7 @@
 
 button {
     @include corners (5px);
-    background: #808080;
+    background: #0094ff;
     color: $white;
     border: solid 1px $white;
     text-decoration: none;
@@ -84,10 +93,7 @@ button {
     width: 180px;
     margin: 10px;
     outline: none;
-
     color: white;
-
-
 }
 
 @media (max-width: 767px) {
