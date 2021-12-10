@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using Planetarium.Models;
 using static Planetarium.Handlers.DatabaseHandler;
+using System.Linq;
 
 namespace Planetarium.Handlers {
     public class VisitorHandler : DatabaseHandler {
@@ -101,6 +102,45 @@ namespace Planetarium.Handlers {
             bool success = DatabaseQuery(queryCommand);
 
             return success;
+        }
+
+        public bool InsertVariousVisitors(string visitorDni, string activityTitle, string activityDate, double price, string seats, string seatTypes) {
+            bool success = false;
+            int childSeats = Convert.ToInt32(seatTypes.Split(',')[0]);
+            int adultSeats = Convert.ToInt32(seatTypes.Split(',')[1]);
+            int seniorSeats = Convert.ToInt32(seatTypes.Split(',')[2]);
+            List<string> selectedSeats = CheckListValue(seats.Split(',').ToList());
+            while (selectedSeats.Count > 0) {
+                if (childSeats > 0) {
+                    InsertVisitor(visitorDni, activityTitle, activityDate, selectedSeats[0], price, "Infantil");
+                    selectedSeats.RemoveAt(0);
+                    childSeats--;
+                }
+
+                if (adultSeats > 0) {
+                    InsertVisitor(visitorDni, activityTitle, activityDate, selectedSeats[0], price, "Adulto");
+                    selectedSeats.RemoveAt(0);
+                    adultSeats--;
+                }
+
+                if (seniorSeats > 0) {
+                    InsertVisitor(visitorDni, activityTitle, activityDate, selectedSeats[0], price, "Adulto Mayor");
+                    selectedSeats.RemoveAt(0);
+                    seniorSeats--;
+                }
+            }
+            success = true;
+            return success;
+        }
+
+        public List<string> CheckListValue(List<string> list) {
+            List<string> checkedList = new List<string>();
+            foreach(string element in list) {
+                if(element != "") {
+                    checkedList.Add(element);
+                }
+            }
+            return checkedList;
         }
 
         private int CreateTicket(string seat, double price, string targetAudience) {

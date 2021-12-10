@@ -29,7 +29,7 @@
                                         @Html.AntiForgeryToken()
                                         <div class="col d-flex justify-content-center" style="margin-top: 15px;">
                                             <input type="text" name="selectedSeatString" value="" id="selectedSeat" style="display: none;" />
-                                            <input type="text" name="selectedSeatString" value="" id="selectedSeatType" style="display: none;" />
+                                            <input type="text" name="selectedSeatTypeString" value="" id="selectedSeatType" style="display: none;" />
                                             <input type="button" name="name" class="btn btn-secondary" value="Borrar Seleccion" onclick="clearSelection()" style="margin: 0 3px 5px 3px" />
                                             <input type="button" name="name" id="continueButton" class="btn btn-light" value="Continuar" onclick="checkData()" style="margin: 0 3px 5px 3px" />
 
@@ -54,12 +54,42 @@
                 </div>
 
                 <div class="col">
-                    <label>Infantil</label> <br />
-                    <input type="number" name="name" value="" /> <br />
-                    <label>Adulto</label> <br />
-                    <input type="number" name="name" value="" /> <br />
-                    <label>Adulto Mayor</label> <br />
-                    <input type="number" name="name" value="" /> <br />
+                    <div class="card text-center">
+                        <div class="card-header">
+                            Seleccione la cantidad de entradas
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <label>Infantil</label>
+                                </div>
+                                <div class="col">
+                                    <input id="childInput" onchange="updateSeats()" type="number" name="name" value="0" style="max-width:50px;" min="0" max="10"/> <br />
+                                </div>
+                            </div>
+                            
+                            
+                            <hr />
+                            <div class="row">
+                                <div class="col">
+                                    <label>Adulto</label>
+                                </div>
+                                <div class="col">
+                                    <input id="adultInput" onchange="updateSeats()" type="number" name="name" value="0" style="max-width:50px;" min="0" max="10"/> <br />
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col">
+                                    <label>Adulto Mayor</label>
+                                </div>
+                                <div class="col">
+                                    <input id="seniorInput" onchange="updateSeats()" type="number" name="name" value="0" style="max-width:50px;" min="0" max="10"/> <br />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             
@@ -68,9 +98,12 @@
 
     <script src="~/Scripts/Seats.js"></script>
     <script>
+        let inputIds = ["#childInput", "#adultInput", "#seniorInput"];
         let url = "@ViewBag.seatFromDBController";
-        let seatsGen = new SeatGenerator("holder", "@ViewBag.maxParticipants", url);
-
+        let seatsGen = new SeatGenerator("holder", "@ViewBag.maxParticipants", url, inputIds);
+        function updateSeats() {
+            seatsGen.updateAskedSeats();
+        }
     </script>
 </body>
 </html>

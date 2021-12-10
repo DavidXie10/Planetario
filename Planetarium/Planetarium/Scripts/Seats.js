@@ -1,9 +1,23 @@
-﻿class SeatGenerator {
-    constructor(seatTableContainerId, maxParticipants, url) {
+﻿
+
+class SeatGenerator {
+    constructor(seatTableContainerId, maxParticipants, url, inputIds) {
         this.seatTableContainerId = seatTableContainerId;
         this.maxParticipants = parseInt(maxParticipants);
+        this.inputIds = inputIds;
+        
+        this.askedSeats = parseInt(this.childSeats) + parseInt(this.adultSeats) + parseInt(this.seniorSeats);
         this.url = url;
         this.generateSeatArray();
+        this.seatCounter = 0;
+    }
+
+    countAskedSeats(inputIds) {
+        let totalValue = 0;
+        for (let i = 0; i < 3; i++) {
+            totalValue += document.querySelector(inputIds[i]).value;
+        }
+        return totalValue;
     }
 
     async generateSeatArray() {
@@ -37,6 +51,15 @@
         }
     }
 
+
+    updateAskedSeats() {
+        this.childSeats = document.querySelector(this.inputIds[0]).value;
+        this.adultSeats = document.querySelector(this.inputIds[1]).value;
+        this.seniorSeats = document.querySelector(this.inputIds[2]).value;
+        this.askedSeats = parseInt(this.childSeats) + parseInt(this.adultSeats) + parseInt(this.seniorSeats);
+        this.clearSelection();
+    }
+
     async fetchReservedSeats() {
         const response = await fetch(this.url);
         const seatsFromDB = await response.json();
@@ -58,7 +81,11 @@
         //Setting the event listener
         if (type != "btn-danger") {
             seat.addEventListener("click", event => {
-                this.buttonClicked(event.target);
+                if (this.seatCounter < this.askedSeats) {
+                    this.buttonClicked(event.target);
+                    this.seatCounter++;
+                }
+                
             })
         }
         
@@ -71,7 +98,6 @@
         this.selectButton(target);
         this.enableButton();
     }
-
 
     selectButton(button) {
         button.classList.remove("btn-success");
@@ -111,6 +137,7 @@
                 reviewedButtons++;
             }
         }
+        this.seatCounter = 0;
     }
 
     getSeats() {
@@ -129,7 +156,13 @@
                 reviewedButtons++;
             }
         }
+        console.log(selectedSeats);
         return selectedSeats;
+    }
+
+    getSeatTypes() {
+        let seatTypes = this.childSeats + "," + this.adultSeats + "," + this.seniorSeats;
+        return seatTypes;
     }
 
     isSelected(button) {
@@ -186,7 +219,10 @@ function checkData() {
     stringInput.value = parsedSeats;
 
     if (stringInput.value != '') {
-        //document.getElementById("Reservar").click();
+
+        document.querySelector("#selectedSeatType").value = seatsGen.getSeatTypes();
+        console.log(document.querySelector("#selectedSeatType").value);
+        document.getElementById("Reservar").click();
         
 
     }

@@ -169,7 +169,7 @@ namespace Planetarium.Controllers {
             string id = Request.Form["dni"];
             string title = Request.Form["title"];
             string date = Request.Form["date"];
-            string seat = Request.Form["selectedSeatString"];
+            string seat = Request.Form["selectedSeatString"] + "|" + Request.Form["selectedSeatTypeString"];
             double price = ActivityDataAccess.GetPrice(title, date);
 
             if (price > 0) {
@@ -186,7 +186,8 @@ namespace Planetarium.Controllers {
 
             ViewBag.title = title;
             ViewBag.date = date;
-            ViewBag.seat = seat;
+            ViewBag.seatInfo = seat;
+            ViewBag.seat = seat.Split('|')[0];
             ViewBag.Price = ActivityDataAccess.GetPrice(ViewBag.title, ViewBag.date);
 
             return View();
@@ -197,17 +198,18 @@ namespace Planetarium.Controllers {
             ViewBag.Visitor = visitor;
             ViewBag.Title = title;
             ViewBag.Date = date;
-            ViewBag.Seat = seat;
+            ViewBag.Seat = seat.Split('|')[0]; 
             ViewBag.Price = price;
 
             ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = visitor.Dni, title = title, date = date, seat = seat });
             try {
-                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date, seat, price, "Infantil");
+                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVariousVisitors(visitor.Dni, title, date, price, seat.Split('|')[0], seat.Split('|')[1]);
                 if (ViewBag.SuccessOnCreation) {
                     view = View();
                 }
-            } catch {
-                TempData["WarningMessage"] = "Algo salió mal";
+            } catch(Exception e) {
+                TempData["WarningMessage"] = e.ToString();
+
             }
 
             return view;
