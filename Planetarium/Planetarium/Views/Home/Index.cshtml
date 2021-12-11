@@ -1,15 +1,33 @@
-﻿@{
+﻿@using Planetarium.Controllers
+@{
     ViewBag.Title = "Home Page";
+    AuthorizationController authController = new AuthorizationController();
+    string userIdentityCookie = null;
+    int rolCookie = 0;
+    try {
+
+        if (Request.Cookies.Get("userIdentity") != null) {
+            userIdentityCookie = Request.Cookies["userIdentity"].Value;
+        }
+        if (Request.Cookies.Get("authCookie") != null) {
+            rolCookie = Convert.ToInt32(Request.Cookies["authCookie"].Value);
+        }
+
+    } catch {
+        userIdentityCookie = null;
+    }
 }
 
-    <head>
-        <link rel="stylesheet" href="~/Content/homePageAccess.css">
-    </head>
+<head>
+    <link rel="stylesheet" href="~/Content/homePageAccess.css">
+</head>
 
 <body>
 
     <div class="container">
-
+        @if(rolCookie > 0){
+            Html.RenderPartial("~/Views/Coupon/Coupons.cshtml"); 
+        }
         <div>
             @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
         </div>
@@ -55,6 +73,23 @@
                     </div>
                 </div>
             </div>
+            <hr />
+            <br/>
+            <div class="col">
+                <div class="imageHomePage">
+                    <div class="card-header">
+                        <h3 style="text-align:center">¿Querés conocer más sobre nuestro Sistema Solar?</h3>
+                    </div>
+                    
+                    <img src="~/images/PlanetariumUCR/SolarSystem.png" class="img_squareImg" alt="Responsive image">
+                    <div class="image__overlay image__overlay--light" style="top: 64px;">
+                        <div class="image__title">@Html.ActionLink("Modelo 3D", "../CelestialBodies/CelestialBodyComparator")</div>
+                        <h5 class="image__description">
+                            Aquí podés comparar los cuerpos celestes de nuestro sistema solar
+                        </h5>
+                    </div>
+                </div>
+            </div>
         </div>
         <hr />
         <div class="card" style="margin-top: 25px;">
@@ -63,32 +98,36 @@
             </h3>
             <div class="card-body">
                 <div class="row">
-                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
-                        <div class="col-sm">
-                            <div class="card h-100 bg-light">
-                                <div class="embed-responsive embed-responsive-4by3">
-                                    <div class="embed-responsive-item">
-                                        @if (ViewBag.News[index].ImagesRef.Count > 0) {
-                                            <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
+                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index)
+                    {
+                    <div class="col-sm">
+                        <div class="card h-100 bg-light">
+                            <div class="embed-responsive embed-responsive-4by3">
+                                <div class="embed-responsive-item">
+                                    @if (ViewBag.News[index].ImagesRef.Count > 0)
+                                        {
+                                    <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
                                         }
-
-                                    </div>
-                                </div>
-                                <div class="card-body d-flex flex-column">
-                                    <p class="card-text">
-                                        @ViewBag.News[index].Title
-                                    </p>
-                                    @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
 
                                 </div>
                             </div>
+                            <div class="card-body d-flex flex-column">
+                                <p class="card-text">
+                                    @ViewBag.News[index].Title
+                                </p>
+                                @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
+
+                            </div>
                         </div>
+                    </div>
                     }
                 </div>
             </div>
 
         </div>
         @{ Html.RenderPartial("~/Views/Streaming/InternetStreaming.cshtml"); }
+
+
 
     </div>
 

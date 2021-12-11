@@ -62,8 +62,6 @@ namespace Planetarium.Controllers
         public ActionResult LoginUser(string username) {
             ActionResult view = RedirectToAction("Index", "Home");
             return view;
-            //bool loginSuccessful = false;
-            //return Json(loginSuccessful, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -77,8 +75,5 @@ namespace Planetarium.Controllers
             List<string> userNames = AuthDataAccess.GetAllVisitorsUserNames();
             return Json(userNames, JsonRequestBehavior.AllowGet);
         }
-
-        
-
     }
 }

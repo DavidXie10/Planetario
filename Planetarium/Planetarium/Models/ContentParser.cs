@@ -65,6 +65,17 @@ namespace Planetarium.Models {
             return quizzes;
         }
 
+        public List<CelestialBody> GetCelestialBodiesFromJson(dynamic jsonCollection) {
+            List<CelestialBody> bodies = new List<CelestialBody>();
+            foreach(var element in jsonCollection) {
+                bodies.Add(new CelestialBody {
+                    Name = element.Name,
+                    Size = element.Size
+                });
+            }
+            return bodies;
+        }
+
         public List<Model> GetContentsFromJson<Model>(string jsonFile, Func<dynamic, List<Model>> GetModelsFromJson) {
             List<Model> models = new List<Model>();
             try {

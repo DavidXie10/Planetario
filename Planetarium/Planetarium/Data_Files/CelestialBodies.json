@@ -1,0 +1,38 @@
+[
+  {
+    "Name": "Mercurio",
+    "Size": "2440"
+  },
+  {
+    "Name": "Venus",
+    "Size": "6052"
+  },
+  {
+    "Name": "Tierra",
+    "Size": "6378"
+  },
+  {
+    "Name": "Marte",
+    "Size": "3397"
+  },
+  {
+    "Name": "Jupiter",
+    "Size": "71492"
+  },
+  {
+    "Name": "Saturno",
+    "Size": "60268"
+  },
+  {
+    "Name": "Urano",
+    "Size": "25559"
+  },
+  {
+    "Name": "Neptuno",
+    "Size": "24746"
+  },
+  {
+    "Name": "Pluton",
+    "Size": "1160"
+  }
+]

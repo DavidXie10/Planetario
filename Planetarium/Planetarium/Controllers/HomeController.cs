@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
@@ -9,19 +8,11 @@ namespace Planetarium.Controllers {
         ContentParser contentParser = new ContentParser();
         public ActionResult Index() {
 
-            //Testing Cookies
-
-            //HttpCookie cookie = new HttpCookie("userIdentity");
-            //cookie.Value = "Carlos Espinoza";
-            //cookie.Expires = System.DateTime.Now.AddMinutes(2);
-            //Response.Cookies.Add(cookie);
-
-            //End of Testing Cookies
-
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
             RssFeedHandler rssHandler = new RssFeedHandler();
-            
+            CouponHandler couponHandler = new CouponHandler();
+
             List<EventModel> feed = rssHandler.GetRssFeed();
             List<EventModel> eventFeed = rssHandler.GetEventsFromFeed("https://www.timeanddate.com/astronomy/sights-to-see.html");
             
@@ -30,6 +21,7 @@ namespace Planetarium.Controllers {
 
             List<StreamingModel> streamings = contentParser.GetContentsFromJson<StreamingModel>("Streamings.json", contentParser.GetStreamingsFromJson);
             ViewBag.Streamings = streamings;
+            ViewBag.Coupons = couponHandler.GetAllCoupons("402540855");
             ViewBag.Us = WhoWeAre();
             ViewBag.Activities = educationalActivityHandler.GetAllApprovedActivities();
             ViewBag.News = dataAccess.GetAllNews();

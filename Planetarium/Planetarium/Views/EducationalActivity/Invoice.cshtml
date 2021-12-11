@@ -20,15 +20,17 @@
                             <h5> <b>Cédula:</b> @ViewBag.Visitor.Dni</h5>
                             <h5> <b>Asiento:</b> <a class="badge  rounded-pill bg-info"> @ViewBag.Seat</a></h5>
                             <h5> <b>Fecha:</b> @ViewBag.Date</h5>
-                            <h5> <b>Descuento:</b> 0.00</h5>
+                            <h5 id="InvoiceDiscount"> <b>Descuento:</b> 0.00</h5>
                             <hr />
-                            <h5> <b>Total:</b> @ViewBag.Price colones </h5>
+                            <h5 id="InvoiceTotalPrice">Monto cancelado: ₡@ViewBag.Price colones</h5>
                             <hr />
                         </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col text-center">
-                            @Html.ActionLink("Finalizar", "ListActivities", "EducationalActivity", new { @class = "btn btn-success", @style = "width: 40%" })
+                            @Html.ActionLink("Finalizar", "InsertVisitorWithTicket", "EducationalActivity", new { dni = ViewBag.visitor.Dni, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seat, price = ViewBag.price }, new { @class = "btn btn-success", @style = "width: 40%" })
+                            
                         </div>
                     </div>
                 </div>

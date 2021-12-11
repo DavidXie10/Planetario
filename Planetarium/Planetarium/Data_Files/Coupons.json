@@ -1,0 +1,20 @@
+﻿[
+	{
+		"Title": "50% de descuento",
+		"Description": "En la siguiente compra en nuestra tienda en línea",
+		"Code": "#Planetario_50",
+		"Date": "Jun 2022"
+	},
+	{
+		"Title": "50% de descuento",
+		"Description": "En la siguiente compra en nuestra tienda en línea",
+		"Code": "#Planetario_25",
+		"Date": "Dic 2022"
+	},
+	{
+		"Title": "50% de descuento",
+		"Description": "En la siguiente compra en nuestra tienda en línea",
+		"Code": "#Planetario_30",
+		"Date": "Feb 2022"
+	}
+]

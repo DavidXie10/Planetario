@@ -5,6 +5,13 @@
 
 <body>
     <div class="container" style="height: 100%">
+        @{ Html.RenderPartial("~/Views/Coupon/Coupons.cshtml"); }
+        @if (Convert.ToBoolean(TempData["Error"]) == true) {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+            </div>
+        }
         <div class="card-body">
             <p class="card-text">
                 <h2>Sistema de pago</h2>
@@ -13,62 +20,52 @@
             <div class="row no-gutters">
                 <div class="col-6">
                     <fieldset>
-                        <div class="col-md-8 ">
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    <h5>@ViewBag.title</h5>
-                                    <h6>@ViewBag.date</h6>
-                                    <h6>@ViewBag.seat</h6>
-                                    <h6>Precio: ₡@ViewBag.price</h6>
-                                    <h6 id="discount" style="color:green"></h6>
-                                    <h6 id="totalPrice" style="font-size:larger"></h6>
-                                </div>
+                        <div class="card bg-light col-10">
+                            <div class="card-header text-center">
+                                <h4>Mi Carrito</h4>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
+                                    <h6><strong>@souvenir.Name</strong></h6>
+                                    <h6>@souvenir.Description</h6>
+                                    <h6><strong>Precio unitario:</strong> ₡@souvenir.Price.ToString("#,###,###.#")</h6>
+                                    <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
+                                    <hr />
+                                }
+                                <hr />
+                                <h6> <b>Fecha:</b> @ViewBag.Date </h6>
+                                @{double subtotal = @ViewBag.Price - @ViewBag.Tax;}
+                                <h6> <b>Subtotal:</b> ₡@subtotal.ToString("#,###,###.#")</h6>
+                                <h6> <b>Impuesto:</b> ₡@ViewBag.Tax.ToString("#,###,###.#") </h6>
+                                <h6> <b>Descuento:</b> ₡0 </h6>
+                                <hr />
+                                <h5><b>Precio Total:</b> ₡@ViewBag.Price.ToString("#,###,###.#")</h5>
                             </div>
                         </div>
-                        <div class="col-md-8">
-                            <hr />
-                        </div>
-
-                        <form action="/" method="post">
-                            <div class="form-group">
-                                <div class="col-md-8">
-                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i> Nombre</span>
-                                    <input id="fname" value="@ViewBag.visitor.FullName" name="name" type="text" placeholder="John" class="form-control">
-                                    <p id="nameError" class="text-danger"></p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i> DNI</span>
-                                <div class="col-md-8">
-                                    <input id="lname" value="@ViewBag.visitor.Dni" name="name" type="text" placeholder="Doe" class="form-control">
-                                    <p id="lastNameError" class="text-danger"></p>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i> Correo electrónico</span>
-                                <div class="col-md-8">
-                                    <input id="email" value="@ViewBag.visitor.Mail" name="email" type="text" placeholder="John.Doe@gmail.com" class="form-control">
-                                    <p id="emailError" class="text-danger"></p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-ticket-alt"></i> Aplicar cupón</span>
-                                <div class="col-md-8">
-                                    <input id="coupon" name="coupon" type="text" value="" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.price)">
-                                    <p id="couponError" class="text-danger"></p>
-                                </div>
-                            </div>
-                        </form>
-
                     </fieldset>
                 </div>
+
                 <div class="col-6">
+                    <div class="form-group">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-ticket-alt"></i> Aplicar cupón</span>
+                        <div class="col-md-8">
+                            <input id="coupon" name="coupon" type="text" value="" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.Price)">
+                            <p id="couponError" class="text-danger"></p>
+                        </div>
+                    </div>
+
                     <div class="card rounded-3 bg-light">
                         <div class="card-body">
                             <form action="#" class="credit-card-div">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <span class="help-block text-muted small-font"> Tarjeta habiente</span>
+                                                <input id="creditCardName" type="text" class="form-control" placeholder="John Doe" required autocomplete="off" />
+                                                <p id="creditCardNameError" class="text-danger"></p>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <span class="help-block text-muted small-font"> Número de tarjeta</span>
@@ -102,40 +99,75 @@
                                         <div class="row">
                                             <div class="col-md-12 pad-adjust">
                                                 <span class="help-block text-muted small-font"> Nombre de la tarjeta</span>
-                                                <select class="form-select" aria-label="Default select example" style="color:gray" required>
+                                                <select id="typeCard" class="form-select" aria-label="Default select example" style="color:gray" required>
                                                     <option selected>-Seleccionar-</option>
                                                     <option value="Visa">Visa</option>
                                                     <option value="Mastercard">Mastercard</option>
                                                     <option value="American Express">American Express</option>
                                                 </select>
+                                                <p id="typeCardError" class="text-danger"></p>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mt-2">
                                             <div class="col-md-12 pad-adjust">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" class="text-muted" required />
+                                                        <input id="privacy" type="checkbox" class="text-muted" required />
                                                         He leído y acepto las politicas de privacidad
                                                         <a data-toggle="modal" data-target="#exampleModalLong" style="color:#18bc9c">
                                                             Ver politicas de privacidad
                                                         </a>
                                                     </label>
-                                                    <p class="errorPrivacy"></p>
+                                                    <p id="privacyError" class="text-danger"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="text-align:right; margin-top: 5px;">
-                                    <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">                                    
-                                        <input data-toggle="modal" data-target="#invoiceModal" value="Pagar" type="button" class="btn btn-success btn-block" style="color:white" onclick="checkData()" />
+
+                                <div class="row mt-4 mb-3">
+                                    <div class="col text-center">
+                                        <h6>Precio: ₡@ViewBag.Price</h6>
+                                        <h6 id="discount" style="color:green;"></h6>
+                                        <h5 id="totalPrice"></h5>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="text-align:center; margin-top: 5px;">
+                                    <div class="col pad-adjust w-100">
+                                        @Html.ActionLink("Pagar", "Invoice", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success", @style = "display: none" })
+                                        <input type="button" class="btn btn-success btn-block w-50" value="Pagar" onclick="checkData()" style="font-size: 15pt;" />
+                                        <input type="button" id="showModal" data-toggle="modal" data-target="#takeoutModal" style="display:none" />
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="takeoutModal" tabindex="-1" aria-labelledby="takeoutModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="takeoutModalLabel">¿Cómo va a escoger su orden?</h5>
+                                <button type="button" class="close btn btn-danger" data-dismiss="modal" id="closeModal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
 
+                                    <input type="button" class="btn btn-success btn-block w-50" value="Entrega a domicilio" onclick="setCheckoutCookie('expressOption')" />
+                                    <button class="btn btn-success w-50" id="expressOption" onclick="location.href='/Souvenir/HomeDelivery'" type="button" style="display: none;">Express</button>
+                                </div>
+                                <br />
+                                <div>
+                                    <input type="button" class="btn btn-primary btn-block w-50" value="Recoger en el planetario" onclick="setCheckoutCookie('pickUpOption')" />
+                                    <button class="btn btn-primary w-50" id="pickUpOption" onclick="location.href='/Souvenir/Invoice'" type="button" style="display: none;">Para Llevar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -160,23 +192,6 @@
                     </div>
                 </div>
             </div>
-            <div>
-                
-                <div class="modal-dialog modal-dialog-centered " id="InvoiceModal">
-                    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            
-                            <div class="modal-content"  style="padding: 0;margin: 0;">
-                                @{ Html.RenderPartial("~/Views/EducationalActivity/Invoice.cshtml"); }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                
-            </div>
-
-           
         </div>
     </div>
 
@@ -191,7 +206,7 @@
             let discount = price * coupon.Discount;
             var totalPrice = price - discount;
             document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
-            document.getElementById("totalPrice").innerHTML = "Total a pagar ₡ " + totalPrice;
+            document.getElementById("totalPrice").innerHTML = "Total a pagar: ₡ " + totalPrice;
         } else {
             document.getElementById("discount").innerHTML = " ";
             document.getElementById("totalPrice").innerHTML = " ";
@@ -221,36 +236,36 @@
     }
 
     function checkData() {
-
-        let valid = true;
-
-        let userName = document.getElementById("fname").value;
-        let userLastName = document.getElementById("lname").value;
-        let userMailName = document.getElementById("email").value;
         let cardNumber = document.getElementById("creditCardNumber").value;
+        let cardName = document.getElementById("creditCardName").value;
         let month = document.getElementById("monthInput").value;
         let year = document.getElementById("yearInput").value;
         let cvc = document.getElementById("cvcInput").value;
+        let typeCard = document.getElementById("typeCard");
+        let privacy = document.getElementById("privacy").checked;
 
-        valid = checkValidInput(userName, "#nameEror", "Por favor ingrese un nombre");
-        valid = checkValidInput(userLastName, "#lastNameError", "Ingrese un DNI");
-        valid = checkValidInput(userMailName, "#emailError", "Ingrese un correo");
-        valid = checkValidInput(cardNumber, "#cardNumberError", "Ingrese un número de tarjeta");
-        valid = checkValidInput(month, "#monthError", "Ingrese un mes válido");
-        valid = checkValidInput(year, "#yearError", "Ingrese un año");
-        valid = checkValidInput(cvc, "#cvcError", "Ingrese el cvc al que se encuentra al reverso de su tarjeta");
+        let selectedTypeCard = typeCard.options[typeCard.selectedIndex].text;
 
-        if (valid) {
-            document.getElementById("submit").click();
+        let cardNumberValid = checkValidInput(cardNumber, "#cardNumberError", "Ingrese un número de tarjeta");
+        let cardNameValid = checkValidInput(cardName, "#creditCardNameError", "Ingrese el nombre del tarjeta habiente");
+        let monthValid = checkValidInput(month, "#monthError", "Ingrese un mes válido");
+        let yearValid = checkValidInput(year, "#yearError", "Ingrese un año");
+        let cvcValid = checkValidInput(cvc, "#cvcError", "Ingrese el cvc");
+        let selectedTypeCardValid = checkValidInput(selectedTypeCard, "#typeCardError", "Seleccione el tipo de tarjeta");
+        let privacyValid = checkValidInput(privacy, "#privacyError", "Acepte las políticas de privacidad");
+
+        if (cardNumberValid && cardNameValid && monthValid && yearValid && cvcValid && selectedTypeCardValid && privacyValid) {
+            document.getElementById("showModal").click();
         }
     }
 
     function checkValidInput(containerValue, errorContainerId, errorMsg) {
         let valid = true;
-        if (containerValue == '') {
+        if (containerValue == '' || containerValue == '-Seleccionar-' ) {
             document.querySelector(errorContainerId).innerHTML = errorMsg;
             valid = false;
-            document.getElementById("InvoiceModal").innerHTML = "";
+        } else {
+            document.querySelector(errorContainerId).innerHTML = '';
         }
         return valid;
     }
@@ -264,4 +279,30 @@
     function yearLimiter(input) {
         if (input.value < 21) input.value = '';
     }
+
+
+    function getCookieValue(name) {
+        let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
+        return result ? result.pop() : ""
+    }
+
+    function setCheckoutCookie(idButtonChoice) {
+        let cookieValue = getCookieValue("itemsCart");
+        document.cookie = "checkoutCookie=" + cookieValue;
+        document.cookie = "itemsCart=;";
+        document.getElementById(idButtonChoice).click();
+
+        let discount = document.getElementById("discount").innerHTML;
+        let discountValue = 0;
+        if (discount != "" && discount != " ") {
+            discount = discount.split('₡')[1];
+            discountValue = parseInt(discount);
+        }
+
+        document.cookie = "discount=" + discountValue;
+
+        let coupon = document.getElementById("coupon").value;
+        document.cookie = "couponCode=" + coupon;
+    }
 </script>
+
