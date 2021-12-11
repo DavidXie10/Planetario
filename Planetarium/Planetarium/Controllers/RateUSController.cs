@@ -13,5 +13,10 @@ namespace Planetarium.Controllers
         {
             return View();
         }
+
+        public ActionResult indexRate()
+        {
+            return View();
+        }
     }
 }
