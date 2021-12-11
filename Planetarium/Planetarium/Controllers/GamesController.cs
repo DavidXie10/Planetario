@@ -32,5 +32,9 @@ namespace Planetarium.Controllers
         {
             return View();
         }
+
+        public ActionResult MemoryGame() {
+            return View();
+        }
     }
 }
