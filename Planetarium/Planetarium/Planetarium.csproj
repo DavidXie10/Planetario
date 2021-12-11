@@ -152,6 +152,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\AuthHandler.cs" />
+    <Compile Include="Handlers\DataAnalyticsHandler.cs" />
     <Compile Include="Handlers\DatabaseClassificationsHandler.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
@@ -165,11 +166,13 @@
     <Compile Include="Models\EducationalActivityModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
+    <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\StreamingModel.cs" />
+    <Compile Include="Models\TicketModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
@@ -330,7 +333,7 @@
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\DataAnalytics\StoreResports.cshtml" />
+    <Content Include="Views\DataAnalytics\StoreItemReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
