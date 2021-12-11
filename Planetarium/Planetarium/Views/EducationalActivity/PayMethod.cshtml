@@ -127,9 +127,6 @@
                                     </div>
                                 </div>
                                 <div class="row" style="text-align:right; margin-top: 5px;">
-                                    <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">                                    
-                                        <input data-toggle="modal" data-target="#invoiceModal" value="Pagar" type="button" class="btn btn-success btn-block" style="color:white" onclick="checkData()" />
-                                    <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">
                                         @Html.ActionLink("Pagar", "Invoice", "EducationalActivity", new { dni = ViewBag.visitor.Dni, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seatInfo, price = ViewBag.price}, new { @id ="submit", @class = "btn btn-success", @style = "display: none" })
                                         <input type="button" class="btn btn-success btn-block" value="Pagar" onclick="checkData()" />
                                     </div>
