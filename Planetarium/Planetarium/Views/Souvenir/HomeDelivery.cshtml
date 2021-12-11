@@ -1,0 +1,70 @@
+﻿<head>
+    <title>Entrega a domicilio</title>
+</head>
+
+<body>
+    <div class="container" style="height: 100%">
+        <div class="card-body">
+            <p class="card-text">
+                <h2>Dirección de envío</h2>
+            </p>
+            <hr />
+            <div class="col-8 offset-2">
+                <div class="card rounded-3 bg-light">
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-3">
+                                <span class="small-font fw-bold"> Provincia</span>
+                                <select id="province" class="form-select">
+                                </select>
+                                <p id="provinceError" class="text-danger"></p>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="small-font fw-bold"> Cantón</span>
+                                <select id="canton" class="form-select">
+                                    <option selected>- Sin selección -</option>
+                                </select>
+                                <p id="cantonError" class="text-danger"></p>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="small-font fw-bold"> Distrito</span>
+                                <select id="district" class="form-select">
+                                    <option selected>- Sin selección -</option>
+                                </select>
+                                <p id="districtError" class="text-danger"></p>
+                            </div>
+
+                            <div class="col-3">
+                                <span class="small-font fw-bold"> Código postal</span>
+                                <input id="postalCode" class="form-control" maxlength="5"/>
+                                <p id="postalCodeError" class="text-danger"></p>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <span class="small-font fw-bold"> Dirección exacta</span>
+                                <textarea id="exactDirection" class="form-control"></textarea>
+                            </div>
+                            <p id="exactDirectionError" class="text-danger"></p>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <span class="small-font fw-bold"> Otras señas (opcional)</span>
+                                <textarea id="additionalDirections" class="form-control"> </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    @Html.ActionLink("Pagar", "Invoice", "Souvenir", "", new { @id = "submit", @class = "btn btn-success mt-5 col-3 offset-40 d-none" })
+                    <input type="button" class="btn btn-success mt-5 col-3 offset-4" value="Pagar" onclick="checkData()" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/homeDelivery.js" type="text/javascript"></script>
+</body>

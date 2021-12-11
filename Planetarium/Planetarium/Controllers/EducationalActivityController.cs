@@ -9,6 +9,7 @@ namespace Planetarium.Controllers {
     public class EducationalActivityController : Controller {
         public EducationalActivityHandler ActivityDataAccess { get; set; }
         public VisitorHandler VisitorDataAccess { get; set; }
+        public AuthHandler AuthDataAccess { get; set; }
         public CouponHandler CouponDataAccess { get; set; }
         public ContentParser ContentParser { get; set; }
 
@@ -21,6 +22,7 @@ namespace Planetarium.Controllers {
             VisitorDataAccess = new VisitorHandler();
             CouponDataAccess = new CouponHandler();
             ContentParser = new ContentParser();
+            AuthDataAccess = new AuthHandler();
         }
 
         public JsonResult GetTopicsList(string category) {
@@ -185,8 +187,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult PayMethod(string dni = "0", string title = "", string date = "", string seat = "0-0") {
-            VisitorModel visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
-            ViewBag.Visitor = visitor;
+            ViewBag.visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
             ViewBag.title = title;
             ViewBag.date = date;
             ViewBag.seat = seat;
@@ -290,7 +291,6 @@ namespace Planetarium.Controllers {
                 TempData["WarningMessage"] = "Algo salió mal";
             }
 
-
             return view;
         }
 
@@ -302,12 +302,13 @@ namespace Planetarium.Controllers {
             return genders;
         }
 
-        public ActionResult ActivityInscriptionForm(string activityTitle, string activityDate) {
+        public ActionResult ActivityInscriptionForm(string activityTitle = "", string activityDate = "", string route = "1") {
             ViewBag.Countries = LoadCountries();
             ViewBag.EducationalLevels = LoadEducationalLevels();
             ViewBag.GenderOptions = LoadGenders();
             ViewBag.ActivityTitle = activityTitle;
             ViewBag.ActivityDate = activityDate;
+            ViewBag.Route = route;
 
             return View();
         }
@@ -315,25 +316,56 @@ namespace Planetarium.Controllers {
         [HttpPost]
         public ActionResult SubmitActivityInscriptionForm(VisitorModel visitor) {
             ActionResult view = RedirectToAction("ActivityInscription", "EducationalActivity");
+            bool successOnCreation = false;
             string date = Request.Form["date"];
             string title = Request.Form["title"];
-            ViewBag.SuccessOnCreation = false;
+            string mainRoute = Request.Form["mainRoute"];
             TempData["Error"] = true;
             TempData["WarningMessage"] = "";
 
-            try {
-                ViewBag.SuccessOnCreation = VisitorDataAccess.RegisterVisitor(visitor, title, date);
-                ViewBag.SuccessOnCreation = ActivityDataAccess.CheckCapacity(title, date);
-                if (ViewBag.SuccessOnCreation) {
-                    TempData["Error"] = false;
-                    ModelState.Clear();
+            if (mainRoute == "0") {
+                successOnCreation = RegisterVistitorToActivity(visitor, title, date);
+            } else {
+                successOnCreation = RegisterVisitor(visitor);
+            }
+
+            // Eliminar: Puede haber error pero de la parte anterior, salto de fe
+            successOnCreation = AuthDataAccess.InsertVisitorCredentials(visitor);
+
+            if (successOnCreation) {
+                TempData["Error"] = false;
+                if(mainRoute == "0") {
                     view = RedirectToAction("AssignSeat", "EducationalActivity", new { id = visitor.Dni, title = title, date = date });
+                } else {
+                    view = RedirectToAction("Index", "Home");
                 }
-            } catch {
+
+            }else {
                 TempData["WarningMessage"] = "Algo salió mal";
             }
 
             return view;
+        }
+
+        public bool RegisterVistitorToActivity(VisitorModel visitor, string title, string date) {
+            bool successOnCreation = false;
+            try {
+                successOnCreation = VisitorDataAccess.RegisterVisitor(visitor);
+                successOnCreation = ActivityDataAccess.CheckCapacity(title, date);
+            } catch {
+                successOnCreation = false;
+            }
+            return successOnCreation;
+        }
+
+        public bool RegisterVisitor(VisitorModel visitor) {
+            bool successOnCreation = false;
+            try {
+                successOnCreation = VisitorDataAccess.RegisterVisitor(visitor);
+            }catch (Exception e) {
+                successOnCreation = false;
+            }
+            return successOnCreation;
         }
 
         public ActionResult EducationalActivity(string tempActivity) {

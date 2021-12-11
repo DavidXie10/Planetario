@@ -1,14 +1,34 @@
-﻿<div class="container">
+﻿@using Planetarium.Controllers
+@{
+    AuthorizationController authController = new AuthorizationController();
+    int rolCookie = 0;
+    try {
+        if (Request.Cookies.Get("authCookie") != null) {
+            rolCookie = Convert.ToInt32(Request.Cookies["authCookie"].Value);
+        }
+    } catch {
+
+    }
+}
+
+<div class="container">
     <hr />
     <h5 class="text-start">
-        <i class="fas fa-tasks" ></i>
-        @Html.ActionLink("Aceptar propuestas de actividades educativas", "/ActivitiesApprobation", new { @class = "btn btn-info" })
-     
-        <i class="fas fa-user-edit" style="margin-left:10px;"></i>
-        @Html.ActionLink("Agregar actividad educativa", "/ProposeEducationalActivity", new { @class = "btn btn-info" })
-        
-        <i class="fas fa-user-edit" style="margin-left:10px;"></i>
-        @Html.ActionLink("Agregar material educativo", "../EducationalMaterial/SubmitEducationalMaterial", new { @class = "btn btn-info" })
+
+        @if (rolCookie >= 5) {
+            <i class="fas fa-tasks"></i>
+            @Html.ActionLink("Aceptar propuestas de actividades educativas", "/ActivitiesApprobation", new { @class = "btn btn-info" })
+        }
+
+        @if (rolCookie == 3 || rolCookie == 4 || rolCookie == 6) {
+            <i class="fas fa-user-edit" style="margin-left:10px;"></i>
+            @Html.ActionLink("Agregar actividad educativa", "/ProposeEducationalActivity", new { @class = "btn btn-info" })
+        }
+
+        @if (rolCookie == 3 || rolCookie == 4 || rolCookie == 6) {
+            <i class="fas fa-user-edit" style="margin-left:10px;"></i>
+            @Html.ActionLink("Agregar material educativo", "../EducationalMaterial/SubmitEducationalMaterial", new { @class = "btn btn-info" })
+        }
     </h5>
 
     <hr />
@@ -40,7 +60,7 @@
                                     <a class="badge  rounded-pill bg-secondary"> @targetAudienceInstance</a>
                                 }
                             </h5>
-                            <br/>
+                            <br />
                             @Html.ActionLink("Ver más", "EducationalActivity", new { tempActivity = Json.Encode(@activity) }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; width:50%" })
                         </div>
                     </div>

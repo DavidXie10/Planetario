@@ -105,5 +105,8 @@ namespace Planetarium.Controllers {
             }
             return Json("Files uploaded successfully");
         }
+
+
+        
     }
 }

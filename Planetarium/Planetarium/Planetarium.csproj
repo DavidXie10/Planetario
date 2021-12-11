@@ -136,6 +136,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CouponController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
@@ -145,18 +147,21 @@
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\SouvenirController.cs" />
     <Compile Include="Controllers\StreamingController.cs" />
     <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\CouponHandler.cs" />
+    <Compile Include="Handlers\AuthHandler.cs" />
     <Compile Include="Handlers\DatabaseClassificationsHandler.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
     <Compile Include="Handlers\FrequentlyQuestionHandler.cs" />
     <Compile Include="Handlers\NewsHandler.cs" />
     <Compile Include="Handlers\EmployeesHandler.cs" />
+    <Compile Include="Handlers\SouvenirHandler.cs" />
     <Compile Include="Handlers\VisitorHandler.cs" />
     <Compile Include="Handlers\RssFeedHandler.cs" />
     <Compile Include="Models\ContentParser.cs" />
@@ -165,15 +170,19 @@
     <Compile Include="Models\EducationalActivityModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
+    <Compile Include="Models\SouvenirModel.cs" />
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\StreamingModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\activitiesHomePageAccess.css" />
+    <Content Include="Content\couponNotification%27sBell.css" />
     <Content Include="Content\homePageAccess.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -181,8 +190,10 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\liveButton.css" />
     <Content Include="Content\showStatistics.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\souvenirs.css" />
     <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
@@ -246,6 +257,8 @@
     <Content Include="images\PlanetariumUCR\planetarioUCR.jpg" />
     <Content Include="images\PlanetariumUCR\streaming.jpg" />
     <Content Include="images\satellite.jpg" />
+    <Content Include="images\shopping-cart.png" />
+    <Content Include="images\Souvenirs\camisaDefault.jpeg" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Libs\fontawesome-5.15.4\all.css" />
@@ -253,13 +266,16 @@
     <Content Include="Libs\fullCalendar-5.0.1\GeneralCalendar.js" />
     <Content Include="Libs\fullCalendar-5.0.1\main.css" />
     <Content Include="Libs\fullCalendar-5.0.1\main.js" />
+    <Content Include="Scripts\Authorization.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\catalog.js" />
     <Content Include="Scripts\categoriesAndTopicsMultiselectCascade.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
     <Content Include="Scripts\filterFuture.js" />
+    <Content Include="Scripts\homeDelivery.js" />
     <Content Include="Scripts\idiomsStatistics.js" />
     <Content Include="Scripts\inscriptionForm.js" />
     <Content Include="Scripts\listActivities.js" />
@@ -328,9 +344,16 @@
     <Content Include="Views\Coupon\Coupons.cshtml" />
     <Content Include="Views\Games\HangManGame.cshtml" />
     <Content Include="Views\EducationalActivity\InsertVisitorWithTicket.cshtml" />
+    <Content Include="Views\Souvenir\Catalog.cshtml" />
+    <Content Include="Views\Souvenir\HomeDelivery.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Souvenir\ShoppingCart.cshtml" />
+    <Content Include="Views\Souvenir\PayMethod.cshtml" />
+    <Content Include="Views\Souvenir\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
