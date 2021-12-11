@@ -1,4 +1,5 @@
 ﻿using Planetarium.Handlers;
+using Planetarium.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,11 @@ namespace Planetarium.Controllers
 
             ViewBag.ItemReport = AnalyticsAccess.GetTicketReport(begin, end);
             return view;
+        }
+
+        public JsonResult GetSimpleReport(DateTime startDate, DateTime endDate) {
+            List<ItemModel> items = AnalyticsAccess.GetItemReport(startDate, endDate);
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
     }
 }

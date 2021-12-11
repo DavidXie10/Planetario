@@ -1,20 +1,152 @@
-﻿
-<html lang="en">
-<head>
-    <title>@ViewBag.Title</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <div class="container">
-        <br />
-        <div class="card mb-3">
-            <h1 class="text-center border border-success ">Reportes</h1>
-            <iframe title="PowerBIParaPI - Inscripción " style="width: 100%; height: 80vh; text-align: center" src="https://app.powerbi.com/view?r=eyJrIjoiYjU0ZDUyMzctMDhmYS00ZTFjLTk5NjMtOTIzMjEyMWU5Y2Y1IiwidCI6ImU3OTg0Y2FjLTI1NDMtNGY4OC04Zjk3LTk1MjQzMzVlNmJjNCIsImMiOjR9&pageName=ReportSection"></iframe>
+﻿@{
+    string dbContentUrl = Url.Content("~/DataAnalytics/GetSimpleReport");
+}
+
+<div class="container">
+
+    <h1>Reporte de Compra</h1>
+
+
+    <div class="card border-0">
+        <div class="card-body">
+            <div class="row d-flex align-items-center">
+                <div class="col-2">
+                    <label>Desde:</label>
+                    <input type="date" name="name" value="" id="startDate" />
+                </div>
+
+                <div class="col-2">
+                    <label>Hasta:</label>
+                    <input type="date" name="name" value="" id="endDate" />
+                </div>
+                <hr style="margin-top: 20px" />
+                <div class="col">
+                    <input type="radio" name="name" value="" class="form-check-input" />
+                    <label class="form-check-label">General</label>
+                    <span style="margin: 0 10px 0 10px;"></span>
+                    <input type="radio" name="name" value="" class="form-check-input" />
+                    <label class="form-check-label">Avanzado</label>
+                </div>
+            </div>
+            
+            <div class="row d-flex align-items-center text-center">
+                <hr style="margin-top: 20px" />
+                <div class="col">
+                    <button class="btn btn-info" onclick="generateItemsReport()">Generar Reporte de Artículos</button>
+                </div>
+
+                <div class="col">
+                    <button class="btn btn-info">Generar Reporte de Tiquetes</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="button text-center">
-        <a href="/Home/Index" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Volver al inicio</a>
+    
+
+
+    <div class="card">
+        <div class="card-body">
+            <table id="reportContainer" class="table"></table>
+        </div>
     </div>
-</body>
-</html>
+</div>
+
+<script>
+
+    class ReportGenerator {
+        constructor(inputDateIds, tableId, reportType) {
+            this.startInput = document.querySelector(inputDateIds[0]);
+            this.endInput = document.querySelector(inputDateIds[1]);
+            console.log(this.startInput);
+            this.table = document.querySelector(tableId);
+            this.reportType = reportType;
+        }
+
+        async generateSimpleItemReport(fetchUrl) {
+            fetchUrl += "?startDate=" + this.startInput.value + "&endDate=" + this.endInput.value;
+            let items = await this.fetchModelsFromDatabase(fetchUrl);
+            this.loadSimpleItemTable(items);
+        }
+
+        loadSimpleItemTable(data) {
+            this.table.innerText = "";
+            let tableHeaderNames = ["ID", "Nombre", "Cantidad Vendida", "Ultima Fecha de Compra", "Precio del Producto", "Ingreso"];
+            let modelAttributes = ["ID", "Name", "QuantitySold", "LastBoughtDate", "Category", "Income"]
+            //Loading the header columns
+            this.loadTableHeader(tableHeaderNames);
+
+            //Loading the table content
+            this.loadTableContent(data, modelAttributes);
+
+        }
+
+        loadTableHeader(tableHeaderNames) {
+            let tableHead = this.table.createTHead();
+            tableHead.classList.add("thead-dark")
+            let row = tableHead.insertRow(0);
+            let attributeCounter = 0;
+            
+            tableHeaderNames.forEach(name => {
+                let cell = row.insertCell(attributeCounter);
+                let text = document.createTextNode(name);
+                cell.appendChild(text);
+                cell.style.textAlign = "center";
+                attributeCounter++;
+            });
+        }
+
+        loadTableContent(data, modelAttributes) {
+            let tbody = this.table.createTBody();
+            data.forEach(element => {
+                let tr = document.createElement("tr");
+
+                for (const [key, value] of Object.entries(element)) {
+                    let td = document.createElement("td");
+                    let result = value;
+                    if (key == "Income") {
+                        result = '₡' + result;
+                    }
+                    let text = document.createTextNode(result);
+                    
+                    td.appendChild(text);
+                    td.style.textAlign = "center";
+                    tr.appendChild(td);
+                    
+                }
+                tbody.appendChild(tr);
+            })
+        }
+
+        generateComplexItemReport(fetchUrl) {
+
+        }
+
+        generateSimpleTicketReport(fetchUrl) {
+
+        }
+
+        generateComplexTicketReport(fetchUrl) {
+
+        }
+
+
+        async fetchModelsFromDatabase(fetchUrl) {
+            const response = await fetch(fetchUrl);
+            const data = await response.json();
+            console.log(data);
+            return data;
+        }
+
+    }
+
+    let inputIds = ["#startDate", "#endDate"];
+    let fetchUrl = "@dbContentUrl";
+    let tableId = "#reportContainer";
+    let reportGenerator = new ReportGenerator(inputIds, tableId, "simple");
+
+
+    function generateItemsReport() {
+        console.log("Se está generando el reporte de articulos");
+        reportGenerator.generateSimpleItemReport(fetchUrl);
+    }
+</script>
