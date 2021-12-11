@@ -5,11 +5,12 @@
 
 <body>
     <div class="container" style="height: 100%">
+        @{ Html.RenderPartial("~/Views/Coupon/Coupons.cshtml"); }
         @if (Convert.ToBoolean(TempData["Error"]) == true) {
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
-            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
-        </div>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+            </div>
         }
         <div class="card-body">
             <p class="card-text">
@@ -25,11 +26,11 @@
                             </div>
                             <div class="card-body">
                                 @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
-                                <h6><strong>@souvenir.Name</strong></h6>
-                                <h6>@souvenir.Description</h6>
-                                <h6><strong>Precio:</strong> ₡@souvenir.Price.ToString("#,###,###.#")</h6>
-                                <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
-                                <hr />
+                                    <h6><strong>@souvenir.Name</strong></h6>
+                                    <h6>@souvenir.Description</h6>
+                                    <h6><strong>Precio unitario:</strong> ₡@souvenir.Price.ToString("#,###,###.#")</h6>
+                                    <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
+                                    <hr />
                                 }
                                 <hr />
                                 <h6> <b>Fecha:</b> @ViewBag.Date </h6>
@@ -43,7 +44,16 @@
                         </div>
                     </fieldset>
                 </div>
+
                 <div class="col-6">
+                    <div class="form-group">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-ticket-alt"></i> Aplicar cupón</span>
+                        <div class="col-md-8">
+                            <input id="coupon" name="coupon" type="text" value="" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.Price)">
+                            <p id="couponError" class="text-danger"></p>
+                        </div>
+                    </div>
+
                     <div class="card rounded-3 bg-light">
                         <div class="card-body">
                             <form action="#" class="credit-card-div">
@@ -100,7 +110,7 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-md-12 pad-adjust">
-                                                <div class="checkbox" >
+                                                <div class="checkbox">
                                                     <label>
                                                         <input id="privacy" type="checkbox" class="text-muted" required />
                                                         He leído y acepto las politicas de privacidad
@@ -108,16 +118,25 @@
                                                             Ver politicas de privacidad
                                                         </a>
                                                     </label>
-                                                    <p id="privacyError" class="text-danger" ></p>
+                                                    <p id="privacyError" class="text-danger"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="text-align:right; margin-top: 5px;">
-                                    <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">
-                                        @Html.ActionLink("Pagar", "Invoice", "Souvenir", new {}, new { @id = "submit", @class = "btn btn-success", @style = "display: none" })
-                                        <input type="button" class="btn btn-success btn-block" value="Pagar" onclick="checkData()" />
+
+                                <div class="row mt-4 mb-3">
+                                    <div class="col text-center">
+                                        <h6>Precio: ₡@ViewBag.Price</h6>
+                                        <h6 id="discount" style="color:green;"></h6>
+                                        <h5 id="totalPrice"></h5>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="text-align:center; margin-top: 5px;">
+                                    <div class="col pad-adjust w-100">
+                                        @Html.ActionLink("Pagar", "Invoice", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success", @style = "display: none" })
+                                        <input type="button" class="btn btn-success btn-block w-50" value="Pagar" onclick="checkData()" style="font-size: 15pt;" />
                                         <input type="button" id="showModal" data-toggle="modal" data-target="#takeoutModal" style="display:none" />
                                     </div>
                                 </div>
@@ -180,8 +199,43 @@
 
 <script>
 
-    function checkData() {
+    function discountApplied(price) {
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+        if (coupon) {
+            let discount = price * coupon.Discount;
+            var totalPrice = price - discount;
+            document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
+            document.getElementById("totalPrice").innerHTML = "Total a pagar: ₡ " + totalPrice;
+        } else {
+            document.getElementById("discount").innerHTML = " ";
+            document.getElementById("totalPrice").innerHTML = " ";
+        }
+    }
 
+    function getFinalPrice(price) {
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+        if (coupon){
+            let discount = price * coupon.Discount;
+            return price - discount;
+        }
+
+        return 0;
+    }
+
+    function getCouponByCode(code) {
+        let allCoupons = @Html.Raw(Json.Encode(@ViewBag.Coupons));
+        for (let coupon of allCoupons) {
+            if (code == coupon.Code) {
+                return coupon;
+            }
+        }
+
+        return null;
+    }
+
+    function checkData() {
         let cardNumber = document.getElementById("creditCardNumber").value;
         let cardName = document.getElementById("creditCardName").value;
         let month = document.getElementById("monthInput").value;
@@ -237,6 +291,18 @@
         document.cookie = "checkoutCookie=" + cookieValue;
         document.cookie = "itemsCart=;";
         document.getElementById(idButtonChoice).click();
+
+        let discount = document.getElementById("discount").innerHTML;
+        let discountValue = 0;
+        if (discount != "" && discount != " ") {
+            discount = discount.split('₡')[1];
+            discountValue = parseInt(discount);
+        }
+
+        document.cookie = "discount=" + discountValue;
+
+        let coupon = document.getElementById("coupon").value;
+        document.cookie = "couponCode=" + coupon;
     }
 </script>
 

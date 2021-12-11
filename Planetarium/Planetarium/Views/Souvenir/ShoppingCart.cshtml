@@ -4,10 +4,17 @@
 </head>
 
 <body>
-    <div class="container" style="height: auto">
-        <p class="card-text">
-            <h2>Carrito de compras</h2>
-        </p>
+    <div class="container" style="height: auto; margin-bottom: 10rem;">
+        <div class="row mt-4">
+            <div class="col-6">
+                <h2>Carrito de compras</h2>
+            </div>
+            @if (ViewBag.SelectedSouvenirs != null) {
+                <div class="col-6 text-end">
+                    @Html.ActionLink("Comprar", "PayMethod", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success w-25", @style = "font-size: 17pt" })
+                </div>
+             }
+        </div>
         <hr />
         @if (ViewBag.SelectedSouvenirs != null) {
             <div class="row d-flex">
@@ -18,7 +25,7 @@
                             <div class="row">
                                 <div class="col text-end align-content-center">
                                     @{string modalId = "showModal" + souvenir.SouvenirId;}
-                                    <a id="@souvenir.SouvenirId" class="align-self-end align-self-right link" style="font-size:large;"  data-toggle="modal" data-target="#confimationModal" onclick="changeModal(this.id)">[Eliminar]</a>
+                                    <a id="@souvenir.SouvenirId" class="align-self-end align-self-right link-secondary eliminate" style="font-size:large;"  data-toggle="modal" data-target="#confimationModal" onclick="changeModal(this.id)">[Eliminar]</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -36,11 +43,6 @@
                         </div>
                     </div>
                 }
-            </div>
-            <div class="row">
-                <div class="col-md-6 pad-adjust w-100 text-center mt-4">
-                    @Html.ActionLink("Comprar", "PayMethod", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success w-25" })
-                </div>
             </div>
 
             <div class="modal fade" id="confimationModal" tabindex="-1" aria-labelledby="confimationModalLabel" aria-hidden="true">
@@ -134,8 +136,9 @@
 
 </script>
 <style>
-    .link:hover{
+    .eliminate:hover {
         cursor: pointer;
         text-decoration: underline;
+        color: red;
     }
 </style>

@@ -8,49 +8,51 @@
     <title>Coupons</title>
 </head>
 <body>
-    @if (@ViewBag.Coupons!= null) { 
-    <div class="icons">
-        <div class="notification">
-            <a href="#">
-                <div class="notBtn" href="#">
-                    <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
-                    <div class="number">@ViewBag.Coupons.Count</div>
-                    <i class="fasNotificationBell fas fa-bell"></i>
-                    <div class="box">
-                        <div class="display">
-                            <div class="nothing">
-                                <i class="fas fa-child stick"></i>
-                                <div class="cent">Looks Like your all caught up!</div>
-                            </div>
-                            <div class="cont">
-                                <!-- Fold this div and try deleting evrything inbetween -->   
-                                @foreach (var coupon in @ViewBag.Coupons)
-                                {
-                                    <div class="sec">
-                                        <a href="#">
-                                            <div class="profCont">
-                                                <img class="profile"
-                                                     src="~/images/logotipo.jpeg" />
-                                            </div>
-                                            <div class="txt">
-                                                @coupon.Description
-                                            </div>
-                                            <div class="txt">
-                                                <input class="w-75" type="text" value="@coupon.Code" id="@coupon.Code" style="font-size:small;">
-                                                <i onclick="couponCodeCopiedToClipboard('@coupon.Code')" class="far fa-copy" style="color:gray"></i>
-                                            </div>
-                                            <div class="txt sub">Antes de @coupon.Date</div>
-                                        </a>
+    <div class="float-end" style="margin-top: 15px;">
+        @if (@ViewBag.Coupons != null) {
+            <div class="icons">
+                <div class="notification">
+                    <a href="#">
+                        <div class="notBtn" href="#">
+                            <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+                            <div class="number">@ViewBag.Coupons.Count</div>
+                            <i class="fasNotificationBell fas fa-bell"></i>
+                            <div class="box">
+                                <div class="display">
+                                    <div class="nothing">
+                                        <i class="fas fa-child stick"></i>
+                                        <div class="cent">Looks Like your all caught up!</div>
                                     </div>
-                                }
+                                    <div class="cont">
+                                        <!-- Fold this div and try deleting evrything inbetween -->
+                                        @foreach (var coupon in @ViewBag.Coupons) {
+                                            <div class="sec">
+                                                <a href="#">
+                                                    <div class="profCont">
+                                                        <img class="profile"
+                                                             src="~/images/logotipo.jpeg" />
+                                                    </div>
+                                                    <div class="txt">
+                                                        @coupon.Description
+                                                    </div>
+                                                    <div class="txt">
+                                                        <input class="w-75" type="text" value="@coupon.Code" id="@coupon.Code" style="font-size:small;">
+                                                        <i onclick="couponCodeCopiedToClipboard('@coupon.Code')" class="far fa-copy" style="color:gray"></i>
+                                                    </div>
+                                                    <div class="txt sub">Antes de @coupon.Date</div>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-            </a>
-        </div>
+            </div>
+        }
     </div>
-    }
+    
 </body>
 </html>
 <script>

@@ -12,12 +12,14 @@ namespace Planetarium.Controllers {
         public VisitorHandler VisitorDataAccess { get; set; }
         public AuthHandler AuthDataAccess { get; set; }
         public AuthorizationController AuthController { get; set; }
+        public CouponHandler CouponDataAccess { get; set; }
 
         public SouvenirController() {
             SouvenirHandler = new SouvenirHandler();
             VisitorDataAccess = new VisitorHandler();
             AuthDataAccess = new AuthHandler();
             AuthController = new AuthorizationController();
+            CouponDataAccess = new CouponHandler();
         }
 
         public ActionResult Catalog() {
@@ -71,8 +73,9 @@ namespace Planetarium.Controllers {
         public ActionResult PayMethod() {
             UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
             ViewBag.VisitorDni = VisitorDataAccess.GetVisitorByDni(user.Dni, true).Dni;
-
+            ViewBag.Coupons = CouponDataAccess.GetAllCoupons(user.Dni);
             SetViewBagValues("itemsCart");
+            ViewBag.Tax = 0.13 * ViewBag.Price;
 
             return View();
         }
@@ -83,9 +86,8 @@ namespace Planetarium.Controllers {
             if (cartCookieValue != null && cartCookieValue != "") {
                 List<SouvenirModel> selectedSouvenirs = GetAllSelectedSouvenir(cartCookieValue);
                 ViewBag.SelectedSouvenirs = selectedSouvenirs;
-                ViewBag.Price = CalculateTotal(selectedSouvenirs);
                 ViewBag.Date = DateTime.Now;
-                ViewBag.Tax = 0.13 * ViewBag.Price;
+                ViewBag.Price = CalculateTotal(ViewBag.SelectedSouvenirs);
             }
         }
 
@@ -104,10 +106,19 @@ namespace Planetarium.Controllers {
 
             UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
             SetViewBagValues("checkoutCookie");
+                ViewBag.Tax = 0.13 * ViewBag.Price;
+                ViewBag.Discount = Convert.ToInt32(Request.Cookies["discount"].Value);
+                ViewBag.FinalPrice = ViewBag.Price - ViewBag.Discount;
 
             try { 
                 ViewBag.InvoiceNumber = SouvenirHandler.RegisterSale(ViewBag.SelectedSouvenirs as List<SouvenirModel>, ViewBag.Price, ViewBag.Date, user.Dni);
                 ViewBag.SuccessOnCreation = SouvenirHandler.UpdateSelectedItemsStock(ViewBag.SelectedSouvenirs as List<SouvenirModel>);
+                string couponCode = Request.Cookies["couponCode"].Value;
+
+                if (ViewBag.Discount > 0 && CouponDataAccess.CheckCoupon(couponCode)) {
+                    CouponDataAccess.DeleteCoupon(couponCode);
+                }
+
                 if(ViewBag.SuccessOnCreation) {
                     view = View();
                 }

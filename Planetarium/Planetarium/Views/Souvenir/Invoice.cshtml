@@ -23,6 +23,7 @@
                 <div class="card-body">
                     
                     <h5><strong>Número de orden:</strong> #@ViewBag.InvoiceNumber</h5>
+                    <p>  Cualquier consulta, contáctenos a <a href="mailto:actividades.planetarioucr@gmail.com">actividades.planetarioucr@gmail.com</a> indicando su número de orden. </p>
                     <hr />
                     <div class="row">
                         <div class="col">
@@ -41,11 +42,13 @@
                     @{double subtotal = @ViewBag.Price - @ViewBag.Tax;}
                     <h5> <b>Subtotal:</b> ₡@subtotal.ToString("#,###,###.#") </h5>
                     <h5> <b>Impuesto:</b> ₡@ViewBag.Tax.ToString("#,###,###.#")  </h5>
-                    <h5> <b>Descuento:</b> ₡0 </h5>
+                    @if(@ViewBag.Discount > 0) { 
+                        <h5> <b>Descuento:</b> - ₡@ViewBag.Discount.ToString("#,###,###.#") </h5>
+                    }
                     <hr />
                     <div class="row">
                         <div class="col text-center">
-                            <h4> <b>Total:</b> ₡@ViewBag.Price.ToString("#,###,###.#") </h4>
+                            <h4> <b>Total:</b> ₡@ViewBag.FinalPrice.ToString("#,###,###.#") </h4>
                             @Html.ActionLink("Finalizar", "Catalog", "Souvenir", new { @class = "btn btn-success", @style = "width: 40%" })
                         </div>
                     </div>
