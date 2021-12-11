@@ -10,9 +10,9 @@ namespace Plenetarium.UITesting {
         [TestMethod]
         public void TestLoginCredentialsSuccess() {
             ///Arrange
-            int waitingTime = 2000;
+            int waitingTime = 1000;
             driver = new ChromeDriver();
-            string URL = "https://localhost:44363/";
+            string URL = "https://localhost:44363";
 
             driver.Manage().Window.Maximize();
             ///Act
@@ -20,34 +20,85 @@ namespace Plenetarium.UITesting {
 
             ///Assert
             IWebElement loginLink = driver.FindElement(By.Id("login"));
+            
+            Thread.Sleep(waitingTime);
+
+            loginLink.Click();
+
+            Thread.Sleep(waitingTime);
+
             IWebElement loginUsername = driver.FindElement(By.Id("Username"));
             IWebElement loginPassword = driver.FindElement(By.Id("Password"));
             IWebElement startSession = driver.FindElement(By.Id("signIn"));
 
             Thread.Sleep(waitingTime);
 
-            //loginLink.Click();
-            //loginLink.Click();
-            driver.FindElement(By.Id("login")).Click();
+            loginUsername.SendKeys("solvalle");
 
-            //Thread.Sleep(waitingTime);
+            Thread.Sleep(waitingTime);
 
-            //loginUsername.SendKeys("solvalle");
+            loginPassword.SendKeys("Max");
 
-            //Thread.Sleep(waitingTime);
+            Thread.Sleep(waitingTime);
 
-            //loginPassword.SendKeys("Max");
+            startSession.Click();
 
-            //Thread.Sleep(waitingTime);
+            string userIdentity = driver.Manage().Cookies.GetCookieNamed("userIdentity").Value;
 
-            //startSession.Click();
+            Assert.AreEqual(userIdentity, "solvalle");
 
-            //string userIdentity = Request.Cookies["userIdentity"].Value;
-            //Assert.AreEqual(userIdentity, "solvalle");
-
-            Assert.AreEqual("Hola", "Hola");
             driver.Quit();
         }
+
+        [TestMethod]
+        public void TestLoginCredentialsSuccess() {
+            ///Arrange
+            int waitingTime = 1000;
+            driver = new ChromeDriver();
+            string URL = "https://localhost:44363";
+
+            driver.Manage().Window.Maximize();
+            ///Act
+            driver.Url = URL;
+
+            ///Assert
+            IWebElement loginLink = driver.FindElement(By.Id("login"));
+
+            Thread.Sleep(waitingTime);
+
+            loginLink.Click();
+
+            Thread.Sleep(waitingTime);
+
+            IWebElement loginUsername = driver.FindElement(By.Id("Username"));
+            IWebElement loginPassword = driver.FindElement(By.Id("Password"));
+            IWebElement startSession = driver.FindElement(By.Id("signIn"));
+
+            Thread.Sleep(waitingTime);
+
+            loginUsername.SendKeys("solvalle");
+
+            Thread.Sleep(waitingTime);
+
+            loginPassword.SendKeys("Max");
+
+            Thread.Sleep(waitingTime);
+
+            startSession.Click();
+
+            IWebElement souvenirs 
+            
+            Assert.AreEqual(userIdentity, "solvalle");
+
+            driver.Quit();
+        }
+
+        private void LogIntoSolValle() {
+
+        }
+
+
+
 
         [TestMethod]
         public void TestSearchStreetFighterVThenVerifyStreetFighterVIsDisplayed() {
