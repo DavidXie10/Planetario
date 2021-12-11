@@ -4,6 +4,7 @@
     List<SelectListItem> Countries = ViewBag.Countries;
     List<SelectListItem> EducationalLevels = ViewBag.EducationalLevels;
     List<SelectListItem> GenderOptions = ViewBag.GenderOptions;
+    string urlToUsernames = Url.Content("~/Account/GetAllUserNames");
 }
 
 <html>
@@ -21,6 +22,9 @@
             </div>
         }
 
+
+
+
         @using (Html.BeginForm("SubmitActivityInscriptionForm", "EducationalActivity", FormMethod.Post, new { enctype = "multipart/form-data" })) {
             @Html.AntiForgeryToken()
             <h2 style="margin: 20px 0 30px 0;"><strong>@ViewBag.ActivityTitle</strong></h2>
@@ -29,6 +33,20 @@
                     <h4 class="text-success text-center">Formulario de Inscripción</h4>
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            @Html.LabelFor(model => model.Username)
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @placeholder = "JohnDoe", @onkeyup= "checkUsername(this.value)" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                            <p id="badUsername" class="text-danger" style="display: none;">Nombre de usuario inválido o se encuentra ocupado</p>
+                            <p id="goodUsername" class="text-success" style="display: none;">Usuario válido</p>
+                        </div>
+                        <div class="col">
+                            @Html.LabelFor(model => model.Password)
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @placeholder = "************", @type="password" })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col">
                             @Html.LabelFor(model => model.FullName)
@@ -78,15 +96,63 @@
                 </div>
                 <div class="text-center">
                     @Html.ActionLink("Cancelar", "../EducationalActivity/ActivityInscription", new { activityTitle = @ViewBag.ActivityTitle, activityDate = @ViewBag.ActivityDate }, new { @class = "btn btn-secondary inputButton" })
-
+                    
                     <input type="submit" class="btn btn-success inputButton" value="Inscribirme" />
                 </div>
                 <input type="text" id="title" name="title" style="display:none" value="@ViewBag.ActivityTitle" />
                 <input type="text" id="date" name="date" style="display:none" value="@ViewBag.ActivityDate" />
+                <input type="text" id="route" name="mainRoute" style="display:none" value="@ViewBag.Route" />
             </div>
         }
     </div>
     <script type="text/javascript" src="~/Scripts/inscriptionForm.js"></script>
+    <script>
+        let usernames = [];
+        async function getAllUsernames(url){
+            let usernames = [];
+            let response = await fetch(url);
+            let data = await response.json();
+            data.forEach(element => {
+                usernames.push(element);
+            });
+            return usernames;
+        }
+
+        async function checkUsername(value) {
+            let usernames = await getAllUsernames("@urlToUsernames");
+            let badUsername = document.getElementById("badUsername");
+            let goodUsername = document.getElementById("goodUsername");
+            badUsername.removeAttribute("style");
+            goodUsername.removeAttribute("style");
+
+            console.log(usernames);
+            console.log(value);
+            if (usernames.includes(value) || value == '') {
+                invalidField();
+            } else {
+                validField();
+            }
+        }
+
+
+        function invalidField() {
+            let badUsername = document.getElementById("badUsername");
+            let goodUsername = document.getElementById("goodUsername");
+
+            badUsername.style.display = "block";
+            goodUsername.style.display = "none";
+
+        }
+
+        function validField() {
+            let badUsername = document.getElementById("badUsername");
+            let goodUsername = document.getElementById("goodUsername");
+
+            badUsername.style.display = "none";
+            goodUsername.style.display = "block";
+        }
+
+    </script>
 </body>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

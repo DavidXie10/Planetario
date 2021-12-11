@@ -1,4 +1,24 @@
-﻿<!DOCTYPE html>
+﻿@using Planetarium.Controllers
+@{ 
+    AuthorizationController authController = new AuthorizationController();
+    string userIdentityCookie = null;
+    int rolCookie = 0;
+    try {
+
+        if (Request.Cookies.Get("userIdentity") != null) {
+            userIdentityCookie = Request.Cookies["userIdentity"].Value;
+        }
+        if (Request.Cookies.Get("authCookie") != null) {
+            rolCookie = Convert.ToInt32(Request.Cookies["authCookie"].Value);
+        }
+
+    } catch {
+        userIdentityCookie = null;
+    }
+}
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -41,7 +61,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/Employees/ListEmployees"><i class="fas fa-user-astronaut"></i> Funcionarios</a>
-                        <a class="dropdown-item" href="/Employees/CreateEmployee"><i class="fas fa-user-plus"></i> Agregar funcionario</a>
+                        @if (rolCookie >= 5) {
+                            <a class="dropdown-item" href="/Employees/CreateEmployee"><i class="fas fa-user-plus"></i> Agregar funcionario</a>
+                        }
                         <a class="dropdown-item" href="/Home/FindUs"><i class="fas fa-map-marked-alt"></i> Encuéntrenos</a>
                         <a class="dropdown-item" href="/Home/WhoWeAre"><i class="fas fa-users"></i> ¿Quienes Somos?</a>
                     </div>
@@ -53,19 +75,50 @@
                     <a class="nav-link" href="/FrequentlyQuestion/FrequentlyAskQuestions" tabindex="-1" aria-disabled="true"><i class="fas fa-question-circle"></i> FAQ</a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-poll"></i> Estadísticas
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/EducationalActivity/ShowStatistics"><i class="fas fa-meteor"></i> En actividades educativas</a>
-                        <a class="dropdown-item" href="/EducationalActivity/ShowStatisticsInvolvement"><i class="fas fa-poll-h"></i> Por temas</a>
-                        <a class="dropdown-item" href="/Employees/ShowEmployeesIdiomsStatistics"><i class="far fa-comments"></i> De idiomas de colaboradores</a>
-                    </div>
+                @if (rolCookie >= 5) {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-poll"></i> Estadísticas
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/EducationalActivity/ShowStatistics"><i class="fas fa-meteor"></i> En actividades educativas</a>
+                            <a class="dropdown-item" href="/EducationalActivity/ShowStatisticsInvolvement"><i class="fas fa-poll-h"></i> Por temas</a>
+                            <a class="dropdown-item" href="/Employees/ShowEmployeesIdiomsStatistics"><i class="far fa-comments"></i> De idiomas de colaboradores</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/DataAnalytics/StoreReports" class="nav-link">Reportes</a>
+                    </li>
+                }
+                @if (rolCookie != 0) {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true"> <i class="fas fa-gift"></i> Souvenirs</a>
+                    </li>
+                }
 
+                <li class="nav-item">
+                    <a class="nav-link" href="/Games/HangManGame" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
                 </li>
+            </ul>
+            <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
+                @if (userIdentityCookie == null) {
+                    <li class="nav-item">
+                        <a href="/Account/Login" class="nav-link">Ingresar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Registrarme</a>
+                    </li>
+                } else {
+                    <li class="nav-item">
+                        <a href="/Account/Login" class="nav-link">@userIdentityCookie</a>
+                    </li>
+                     <li class="nav-item">
+                        <a href="/Home/Index" class="nav-link" onclick="deleteCookie()">Salir</a>
+                    </li>
+                }
 
             </ul>
+
         </div>
     </nav>
 
@@ -75,7 +128,7 @@
     </div>
 
     <footer>
-        <div class="card-footer bg-primary" style="padding:20px; margin-top: 45px;">
+        <div class="card-footer bg-primary" style="padding:20px;">
             <div class="d-flex align-items-center" href="/">
                 <a href="https://www.ucr.ac.cr/">
                     <img src="~/images/firma-ucr-ico.png" width="190" height="100" class="d-inline-block" alt="" style="margin-right: 10px;">
@@ -139,14 +192,10 @@
 
                 <div class="col-3">
                     <div class="card-body">
-                        <a class="nav-link" href="/Home/WhoWeAre">
-                            <i class="fas fa-space-shuttle"></i>
-                            <strong> Nosotros</strong> <br />
-                        </a>
-
                         <a class="nav-link" href="/Employees/ListEmployees">
-                            <i class="fas fa-users"></i>
-                            <strong> Nuestros colaboradores</strong> <br />
+                            <strong style="color:white"> Compártenos en tus redes</strong> <br />
+                            <br />
+                            <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwww.facebook.com%2Fplanetariodesanjose&layout=button&size=large&width=103&height=28&appId" width="103" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                         </a>
                     </div>
                 </div>
@@ -158,6 +207,16 @@
     @*@Scripts.Render("~/bundles/jquery")*@
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     @RenderSection("scripts", required: false)
+
+    <script>
+    
+        function deleteCookie() {
+            document.cookie = "userIdentity=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = "authCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        }
+
+    </script>
+
     
 </body>
 </html>

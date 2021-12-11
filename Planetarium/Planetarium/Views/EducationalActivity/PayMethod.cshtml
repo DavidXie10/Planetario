@@ -20,13 +20,15 @@
                                     <h6>@ViewBag.date</h6>
                                     <h6>@ViewBag.seat</h6>
                                     <h6>Precio: ₡@ViewBag.price</h6>
+                                    <h6 id="discount" style="color:green"></h6>
+                                    <h6 id="totalPrice" style="font-size:larger"></h6>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-8">
                             <hr />
                         </div>
-                        
+
                         <form action="/" method="post">
                             <div class="form-group">
                                 <div class="col-md-8">
@@ -50,8 +52,15 @@
                                     <p id="emailError" class="text-danger"></p>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-ticket-alt"></i> Aplicar cupón</span>
+                                <div class="col-md-8">
+                                    <input id="coupon" name="coupon" type="text" value="" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.price)">
+                                    <p id="couponError" class="text-danger"></p>
+                                </div>
+                            </div>
                         </form>
-                        
+
                     </fieldset>
                 </div>
                 <div class="col-6">
@@ -118,6 +127,8 @@
                                     </div>
                                 </div>
                                 <div class="row" style="text-align:right; margin-top: 5px;">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">                                    
+                                        <input data-toggle="modal" data-target="#invoiceModal" value="Pagar" type="button" class="btn btn-success btn-block" style="color:white" onclick="checkData()" />
                                     <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">
                                         @Html.ActionLink("Pagar", "Invoice", "EducationalActivity", new { dni = ViewBag.visitor.Dni, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seatInfo, price = ViewBag.price}, new { @id ="submit", @class = "btn btn-success", @style = "display: none" })
                                         <input type="button" class="btn btn-success btn-block" value="Pagar" onclick="checkData()" />
@@ -152,12 +163,65 @@
                     </div>
                 </div>
             </div>
+            <div>
+                
+                <div class="modal-dialog modal-dialog-centered " id="InvoiceModal">
+                    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            
+                            <div class="modal-content"  style="padding: 0;margin: 0;">
+                                @{ Html.RenderPartial("~/Views/EducationalActivity/Invoice.cshtml"); }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+
+           
         </div>
     </div>
 
 </body>
 
 <script>
+
+    function discountApplied(price) {
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+        if (coupon) {
+            let discount = price * coupon.Discount;
+            var totalPrice = price - discount;
+            document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
+            document.getElementById("totalPrice").innerHTML = "Total a pagar ₡ " + totalPrice;
+        } else {
+            document.getElementById("discount").innerHTML = " ";
+            document.getElementById("totalPrice").innerHTML = " ";
+        }
+    }
+
+    function getFinalPrice(price) {
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+        if (coupon){
+            let discount = price * coupon.Discount;
+            return price - discount;
+        }
+
+        return 0;
+    }
+
+    function getCouponByCode(code) {
+        let allCoupons = @Html.Raw(Json.Encode(@ViewBag.Coupons));
+        for (let coupon of allCoupons) {
+            if (code == coupon.Code) {
+                return coupon;
+            }
+        }
+
+        return null;
+    }
 
     function checkData() {
 
@@ -189,6 +253,7 @@
         if (containerValue == '') {
             document.querySelector(errorContainerId).innerHTML = errorMsg;
             valid = false;
+            document.getElementById("InvoiceModal").innerHTML = "";
         }
         return valid;
     }

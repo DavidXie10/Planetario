@@ -1,0 +1,63 @@
+﻿@model Planetarium.Models.LoginModel
+@{ 
+    ViewBag.Title = "Login";
+
+    ViewBag.PathToOperation = Url.Action("LoginUser", "Account");
+}
+
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container align-content-center" style="height: 70vh;">
+        @if (Convert.ToBoolean(TempData["Error"]) == true) {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+        </div>
+        }
+        @using (Html.BeginForm("CheckCredentials", "Account", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+        @Html.AntiForgeryToken()
+
+
+        <div class="row" style="margin-top:20%">
+            <div class="col-6" style="margin:auto;">
+                <div class="card">
+                    <div class="card-header text-center">
+                        Ingrese sus datos
+                    </div>
+                    <div class="card-body">
+                        @Html.LabelFor(model => model.Username)
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @rows = "5" })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+
+                        @Html.LabelFor(model => model.Password)
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @rows = "5" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+                        <hr />
+                        <div class="text-center">
+                            <a href="/EducationalActivity/ActivityInscriptionForm" class="btn btn-secondary" style="margin-right: 1rem">¿No estás registrado? Crea una cuenta aquí</a>
+                            <input type="submit" name="name" value="Iniciar Sesión" class="btn btn-success w-25"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+            
+        }
+    </div>
+
+    <script src="~/Scripts/Authorization.js"></script>
+    <script>
+        let containers = ["username", "password"]
+        let authController = new AuthController("/Account/LoginUser/", containers)
+    </script>
+
+</body>
+
+
+

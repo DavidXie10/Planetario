@@ -1,0 +1,308 @@
+﻿
+<head>
+    <title>Pay Method</title>
+</head>
+
+<body>
+    <div class="container" style="height: 100%">
+        @{ Html.RenderPartial("~/Views/Coupon/Coupons.cshtml"); }
+        @if (Convert.ToBoolean(TempData["Error"]) == true) {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                <strong>¡Oh no!</strong> @TempData["WarningMessage"]
+            </div>
+        }
+        <div class="card-body">
+            <p class="card-text">
+                <h2>Sistema de pago</h2>
+            </p>
+            <hr />
+            <div class="row no-gutters">
+                <div class="col-6">
+                    <fieldset>
+                        <div class="card bg-light col-10">
+                            <div class="card-header text-center">
+                                <h4>Mi Carrito</h4>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
+                                    <h6><strong>@souvenir.Name</strong></h6>
+                                    <h6>@souvenir.Description</h6>
+                                    <h6><strong>Precio unitario:</strong> ₡@souvenir.Price.ToString("#,###,###.#")</h6>
+                                    <h6><strong>Cantidad:</strong> @souvenir.SelectedCount</h6>
+                                    <hr />
+                                }
+                                <hr />
+                                <h6> <b>Fecha:</b> @ViewBag.Date </h6>
+                                @{double subtotal = @ViewBag.Price - @ViewBag.Tax;}
+                                <h6> <b>Subtotal:</b> ₡@subtotal.ToString("#,###,###.#")</h6>
+                                <h6> <b>Impuesto:</b> ₡@ViewBag.Tax.ToString("#,###,###.#") </h6>
+                                <h6> <b>Descuento:</b> ₡0 </h6>
+                                <hr />
+                                <h5><b>Precio Total:</b> ₡@ViewBag.Price.ToString("#,###,###.#")</h5>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-ticket-alt"></i> Aplicar cupón</span>
+                        <div class="col-md-8">
+                            <input id="coupon" name="coupon" type="text" value="" placeholder="#Planetario_00000" class="form-control" oninput="discountApplied(@ViewBag.Price)">
+                            <p id="couponError" class="text-danger"></p>
+                        </div>
+                    </div>
+
+                    <div class="card rounded-3 bg-light">
+                        <div class="card-body">
+                            <form action="#" class="credit-card-div">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <span class="help-block text-muted small-font"> Tarjeta habiente</span>
+                                                <input id="creditCardName" type="text" class="form-control" placeholder="John Doe" required autocomplete="off" />
+                                                <p id="creditCardNameError" class="text-danger"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <span class="help-block text-muted small-font"> Número de tarjeta</span>
+                                                <input id="creditCardNumber" value="" type="number" class="form-control" placeholder="0000 0000 0000 0000" data-maxlength="16" oninput="this.value=this.value.slice(0,this.dataset.maxlength)" required autocomplete="off" />
+                                                <p id="cardNumberError" class="text-danger"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <span class="help-block text-muted small-font"> Mes</span>
+                                                <input id="monthInput" value="" type="number" class="form-control" placeholder="MM" maxlength="2" onchange="monthLimiter(this);" required />
+                                                <p id="monthError" class="text-danger"></p>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <span class="help-block text-muted small-font">Año</span>
+                                                <input id="yearInput" type="number" class="form-control" placeholder="YY" min="21" maxlength="2" onchange="yearLimiter(this)" required />
+                                                <p id="yearError" class="text-danger"></p>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <span class="help-block text-muted small-font"> CVC</span>
+                                                <input id="cvcInput" type="text" class="form-control" placeholder="CVC" maxlength="3" required />
+                                                <p id="cvcError" class="text-danger"></p>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                                <i class="fas fa-credit-card"></i>
+                                                <i class="fab fa-cc-mastercard"></i>
+                                                <i class="fab fa-cc-visa"></i>
+                                                <i class="fab fa-cc-paypal"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 pad-adjust">
+                                                <span class="help-block text-muted small-font"> Nombre de la tarjeta</span>
+                                                <select id="typeCard" class="form-select" aria-label="Default select example" style="color:gray" required>
+                                                    <option selected>-Seleccionar-</option>
+                                                    <option value="Visa">Visa</option>
+                                                    <option value="Mastercard">Mastercard</option>
+                                                    <option value="American Express">American Express</option>
+                                                </select>
+                                                <p id="typeCardError" class="text-danger"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12 pad-adjust">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input id="privacy" type="checkbox" class="text-muted" required />
+                                                        He leído y acepto las politicas de privacidad
+                                                        <a data-toggle="modal" data-target="#exampleModalLong" style="color:#18bc9c">
+                                                            Ver politicas de privacidad
+                                                        </a>
+                                                    </label>
+                                                    <p id="privacyError" class="text-danger"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4 mb-3">
+                                    <div class="col text-center">
+                                        <h6>Precio: ₡@ViewBag.Price</h6>
+                                        <h6 id="discount" style="color:green;"></h6>
+                                        <h5 id="totalPrice"></h5>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="text-align:center; margin-top: 5px;">
+                                    <div class="col pad-adjust w-100">
+                                        @Html.ActionLink("Pagar", "Invoice", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success", @style = "display: none" })
+                                        <input type="button" class="btn btn-success btn-block w-50" value="Pagar" onclick="checkData()" style="font-size: 15pt;" />
+                                        <input type="button" id="showModal" data-toggle="modal" data-target="#takeoutModal" style="display:none" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="takeoutModal" tabindex="-1" aria-labelledby="takeoutModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content text-center">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="takeoutModalLabel">¿Cómo va a escoger su orden?</h5>
+                                <button type="button" class="close btn btn-danger" data-dismiss="modal" id="closeModal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+
+                                    <input type="button" class="btn btn-success btn-block w-50" value="Entrega a domicilio" onclick="setCheckoutCookie('expressOption')" />
+                                    <button class="btn btn-success w-50" id="expressOption" onclick="location.href='/Souvenir/HomeDelivery'" type="button" style="display: none;">Express</button>
+                                </div>
+                                <br />
+                                <div>
+                                    <input type="button" class="btn btn-primary btn-block w-50" value="Recoger en el planetario" onclick="setCheckoutCookie('pickUpOption')" />
+                                    <button class="btn btn-primary w-50" id="pickUpOption" onclick="location.href='/Souvenir/Invoice'" type="button" style="display: none;">Para Llevar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Políticas de privacidad del Planetario</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    Puedes utilizar nuestros servicios de diferentes formas para gestionar tu privacidad. Por ejemplo, si quieres crear y gestionar contenido, como correos electrónicos y fotos, o consultar resultados de búsqueda más relevantes, puedes registrarte para obtener una cuenta del Planetario. Asimismo, puedes utilizar diversos servicios de Planetario una vez que hayas cerrado sesión en tu cuenta o sin que hayas siquiera creado una como, por ejemplo, realizando una búsqueda en Google o visualizando vídeos en YouTube. Además, puedes ajustar la configuración de privacidad en todos nuestros servicios para controlar la información que recogemos y cómo la utilizamos.
+                                </p>
+                                <p>
+                                    Recogemos información para proporcionar los mejores servicios a todos nuestros usuarios: desde determinar información básica, como el idioma que hablas, hasta datos más complejos, como los anuncios que te resultarán más útiles, las personas que más te interesan online o los vídeos de YouTube que te pueden gustar. El tipo de información que recoge Google y cómo se utiliza esa información depende del uso que hagas de nuestros servicios y de cómo administres los controles de privacidad.
+                                </p>
+                                <p>
+                                    Si no has iniciado sesión en una cuenta del Planetario, almacenamos la información que recogemos con identificadores únicos vinculados al navegador, la aplicación o el dispositivo que utilices. Esto nos permite, por ejemplo, mantener tus preferencias de idioma en todas las sesiones de navegación.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+
+    function discountApplied(price) {
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+        if (coupon) {
+            let discount = price * coupon.Discount;
+            var totalPrice = price - discount;
+            document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
+            document.getElementById("totalPrice").innerHTML = "Total a pagar: ₡ " + totalPrice;
+        } else {
+            document.getElementById("discount").innerHTML = " ";
+            document.getElementById("totalPrice").innerHTML = " ";
+        }
+    }
+
+    function getFinalPrice(price) {
+        let userDiscountInput = document.getElementById("coupon").value;
+        let coupon = getCouponByCode(userDiscountInput);
+        if (coupon){
+            let discount = price * coupon.Discount;
+            return price - discount;
+        }
+
+        return 0;
+    }
+
+    function getCouponByCode(code) {
+        let allCoupons = @Html.Raw(Json.Encode(@ViewBag.Coupons));
+        for (let coupon of allCoupons) {
+            if (code == coupon.Code) {
+                return coupon;
+            }
+        }
+
+        return null;
+    }
+
+    function checkData() {
+        let cardNumber = document.getElementById("creditCardNumber").value;
+        let cardName = document.getElementById("creditCardName").value;
+        let month = document.getElementById("monthInput").value;
+        let year = document.getElementById("yearInput").value;
+        let cvc = document.getElementById("cvcInput").value;
+        let typeCard = document.getElementById("typeCard");
+        let privacy = document.getElementById("privacy").checked;
+
+        let selectedTypeCard = typeCard.options[typeCard.selectedIndex].text;
+
+        let cardNumberValid = checkValidInput(cardNumber, "#cardNumberError", "Ingrese un número de tarjeta");
+        let cardNameValid = checkValidInput(cardName, "#creditCardNameError", "Ingrese el nombre del tarjeta habiente");
+        let monthValid = checkValidInput(month, "#monthError", "Ingrese un mes válido");
+        let yearValid = checkValidInput(year, "#yearError", "Ingrese un año");
+        let cvcValid = checkValidInput(cvc, "#cvcError", "Ingrese el cvc");
+        let selectedTypeCardValid = checkValidInput(selectedTypeCard, "#typeCardError", "Seleccione el tipo de tarjeta");
+        let privacyValid = checkValidInput(privacy, "#privacyError", "Acepte las políticas de privacidad");
+
+        if (cardNumberValid && cardNameValid && monthValid && yearValid && cvcValid && selectedTypeCardValid && privacyValid) {
+            document.getElementById("showModal").click();
+        }
+    }
+
+    function checkValidInput(containerValue, errorContainerId, errorMsg) {
+        let valid = true;
+        if (containerValue == '' || containerValue == '-Seleccionar-' ) {
+            document.querySelector(errorContainerId).innerHTML = errorMsg;
+            valid = false;
+        } else {
+            document.querySelector(errorContainerId).innerHTML = '';
+        }
+        return valid;
+    }
+
+
+    function monthLimiter(input) {
+        if (input.value < 1) input.value = '';
+        if (input.value > 12) input.value = '';
+    }
+
+    function yearLimiter(input) {
+        if (input.value < 21) input.value = '';
+    }
+
+
+    function getCookieValue(name) {
+        let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
+        return result ? result.pop() : ""
+    }
+
+    function setCheckoutCookie(idButtonChoice) {
+        let cookieValue = getCookieValue("itemsCart");
+        document.cookie = "checkoutCookie=" + cookieValue;
+        document.cookie = "itemsCart=;";
+        document.getElementById(idButtonChoice).click();
+
+        let discount = document.getElementById("discount").innerHTML;
+        let discountValue = 0;
+        if (discount != "" && discount != " ") {
+            discount = discount.split('₡')[1];
+            discountValue = parseInt(discount);
+        }
+
+        document.cookie = "discount=" + discountValue;
+
+        let coupon = document.getElementById("coupon").value;
+        document.cookie = "couponCode=" + coupon;
+    }
+</script>
+
