@@ -148,6 +148,7 @@
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\RateUSController.cs" />
     <Compile Include="Controllers\SouvenirController.cs" />
     <Compile Include="Controllers\StreamingController.cs" />
     <Compile Include="Controllers\QuizController.cs" />
@@ -197,6 +198,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\SolarSystem3DModel.css" />
     <Content Include="Content\souvenirs.css" />
+    <Content Include="Content\FaceRateUsStyle.css" />
     <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
@@ -358,6 +360,7 @@
     <Content Include="Views\Souvenir\ShoppingCart.cshtml" />
     <Content Include="Views\Souvenir\PayMethod.cshtml" />
     <Content Include="Views\Souvenir\Invoice.cshtml" />
+    <Content Include="Views\RateUs\SuccessProcessRate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

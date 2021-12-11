@@ -6,17 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="margin-bottom:5%">
         <br />
         <div class="card mb-3">
-            <h1 class="text-center border border-success ">@ViewBag.Message</h1>
+            <h1 class="text-center border border-success "><i class="fas fa-check-circle" style="color:#18bc9c"></i> @ViewBag.Message</h1>
+            <br />
+            <div class="text-center">
+                <h2>Porfavor no olvide calificarnos </h2>
+                <h5>Su calificación nos motiva a seguir mejorando</h5>
+                <div class="align-content-center offset-4" style="margin-top:3%; text-align:center">
+                    @{ Html.RenderPartial("~/Views/RateUs/SuccessProcessRate.cshtml"); }
+                </div>
+            </div>
+            <div class="button text-center" style="margin-top:5%; margin-bottom:5%">
+                <a href="/Home/Index" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Volver al inicio</a>
+            </div>
         </div>
-    </div>
-    <div class="button text-center">
-        <a href="/Home/Index" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Volver al inicio</a>
-    </div>
-    <div class="text-center">
-        <img src="~/images/astronaut.png" class="rounded" width="300" height="300" alt="an astronaut">
     </div>
 </body>
 </html>
