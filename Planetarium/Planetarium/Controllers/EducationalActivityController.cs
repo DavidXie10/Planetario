@@ -188,7 +188,8 @@ namespace Planetarium.Controllers {
             ViewBag.date = date;
             ViewBag.seatInfo = seat;
             ViewBag.seat = seat.Split('|')[0];
-            ViewBag.Price = ActivityDataAccess.GetPrice(ViewBag.title, ViewBag.date);
+
+            ViewBag.Price = ActivityDataAccess.GetPrice(ViewBag.title, ViewBag.date) * (seat.Split('|')[0].Split(',').Count() - 1);
 
             return View();
         }
@@ -198,7 +199,7 @@ namespace Planetarium.Controllers {
             ViewBag.Visitor = visitor;
             ViewBag.Title = title;
             ViewBag.Date = date;
-            ViewBag.Seat = seat.Split('|')[0]; 
+            ViewBag.Seat = seat.Split('|')[0];
             ViewBag.Price = price;
 
             ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = visitor.Dni, title = title, date = date, seat = seat });

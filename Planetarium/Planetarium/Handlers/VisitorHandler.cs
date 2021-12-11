@@ -110,6 +110,8 @@ namespace Planetarium.Handlers {
             int adultSeats = Convert.ToInt32(seatTypes.Split(',')[1]);
             int seniorSeats = Convert.ToInt32(seatTypes.Split(',')[2]);
             List<string> selectedSeats = CheckListValue(seats.Split(',').ToList());
+            int totalSeats = selectedSeats.Count();
+            price = price / totalSeats;
             while (selectedSeats.Count > 0) {
                 if (childSeats > 0) {
                     InsertVisitor(visitorDni, activityTitle, activityDate, selectedSeats[0], price, "Infantil");
