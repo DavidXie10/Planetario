@@ -14,7 +14,7 @@ namespace Planetarium.Handlers {
             connection = new SqlConnection(connectionRoute);
         }
 
-        public List<ItemModel> GetItemReport(DateTime begin, DateTime end) {
+        public List<ItemModel> GetSimpleItemReport(DateTime begin, DateTime end) {
             List<ItemModel> items = new List<ItemModel>();
             string query = "EXEC USP_obtenerVentasArticulos '" + begin + "','" + end + "'";
             DataTable resultingTable = CreateTableFromQuery(query);
@@ -32,21 +32,62 @@ namespace Planetarium.Handlers {
             return items;
         }
 
-        public List<TicketModel> GetTicketReport(DateTime begin, DateTime end) {
-            List<TicketModel> items = new List<TicketModel>();
+        public List<ItemAdvanceModel> GetAdvanceItemReport(DateTime begin, DateTime end) {
+            List<ItemAdvanceModel> itemsAdvanced = new List<ItemAdvanceModel>();
+            string query = "EXEC USP_obtenerVentasArticulosAvanzado '" + begin + "','" + end + "'";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow column in resultingTable.Rows) {
+                itemsAdvanced.Add(
+                    new ItemAdvanceModel {
+                        ID = Convert.ToInt32(column["ID"]),
+                        Name = Convert.ToString(column["Nombre"]),
+                        Children = Convert.ToInt32(column["Infantil"]),
+                        Juvenile = Convert.ToInt32(column["Juvenil"]),
+                        Adult = Convert.ToInt32(column["Adulto"]),
+                        Senior = Convert.ToInt32(column["Adulto Mayor"]),
+                        Income = Convert.ToDouble(column["Ingresos"])
+                    });
+            }
+            return itemsAdvanced;
+        }
+
+
+        public List<TicketModel> GetSimpleTicketReport(DateTime begin, DateTime end) {
+            List<TicketModel> tickets = new List<TicketModel>();
             string query = "EXEC USP_obtenerVentasEntradas '" + begin + "','" + end + "'";
 
             DataTable resultingTable = CreateTableFromQuery(query);
             foreach (DataRow column in resultingTable.Rows) {
-                items.Add(
+                tickets.Add(
                     new TicketModel {
-                        ActivityTitle = Convert.ToString(column["Nombre"]),
-                        QuantitySold = Convert.ToInt32(column["Cantidad Vendida"]),
-                        StartActivityDay = Convert.ToDateTime(column["Ultima fecha de compra"]),
-                        Income = Convert.ToDouble(column["Ingresos"])
+                        ActivityTitle = Convert.ToString(column["Titulo de la actividad"]),
+                        StartActivityDay = Convert.ToDateTime(column["Fecha de inicio de la actividad"]),
+                        QuantitySold = Convert.ToInt32(column["Cantidad de entradas vendidas"]),
+                        Income = Convert.ToDouble(column["Ingreso"])
                     });
             }
-            return items;
+            return tickets;
+        }
+
+        public List<TicketAdvanceModel> GetAdvanceTicketReport(DateTime begin, DateTime end) {
+            List<TicketAdvanceModel> ticketsAdvanced = new List<TicketAdvanceModel>();
+            string query = "EXEC USP_obtenerVentasEntradasAvanzado '" + begin + "','" + end + "'";
+
+            DataTable resultingTable = CreateTableFromQuery(query);
+            foreach (DataRow column in resultingTable.Rows) {
+                ticketsAdvanced.Add(
+                    new TicketAdvanceModel {
+                        ActivityTitle = Convert.ToString(column["tituloPKFK"]),
+                        StartActivityDay = Convert.ToDateTime(column["fechaInicioPK"]),
+                        Children = Convert.ToInt32(column["Infantil"]),
+                        Juvenile = Convert.ToInt32(column["Juvenil"]),
+                        Adult = Convert.ToInt32(column["Adulto"]),
+                        Senior = Convert.ToInt32(column["Adulto Mayor"]),
+                        Income = Convert.ToDouble(column["Ingreso"])
+                    });
+            }
+            return ticketsAdvanced;
         }
 
     }

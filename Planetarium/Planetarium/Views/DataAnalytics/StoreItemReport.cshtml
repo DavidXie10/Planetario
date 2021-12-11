@@ -1,5 +1,8 @@
 ﻿@{
-    string dbContentUrl = Url.Content("~/DataAnalytics/GetSimpleReport");
+    string simpleItemReportUrl = Url.Content("~/DataAnalytics/GetSimpleItemReport");
+    string simpleTicketReportUrl = Url.Content("~/DataAnalytics/GetSimpleTicketReport");
+    string advancedTicketReportUrl = Url.Content("~/DataAnalytics/GetAdvanceTicketReport");
+    string advancedItemReportUrl = Url.Content("~/DataAnalytics/GetAdvanceItemReport");
 }
 
 <div class="container">
@@ -24,7 +27,7 @@
                     <input type="radio" name="name" value="" class="form-check-input" />
                     <label class="form-check-label">General</label>
                     <span style="margin: 0 10px 0 10px;"></span>
-                    <input type="radio" name="name" value="" class="form-check-input" />
+                    <input type="radio" name="name" value="" class="form-check-input"  id="advancedSelector"/>
                     <label class="form-check-label">Avanzado</label>
                 </div>
             </div>
@@ -36,7 +39,7 @@
                 </div>
 
                 <div class="col">
-                    <button class="btn btn-info">Generar Reporte de Tiquetes</button>
+                    <button class="btn btn-info" onclick="generateTicketsReport()">Generar Reporte de Tiquetes</button>
                 </div>
             </div>
         </div>
@@ -62,30 +65,36 @@
             this.reportType = reportType;
         }
 
-        async generateSimpleItemReport(fetchUrl) {
+        async generateItemReport(fetchUrl, tableHeaderNames) {
             fetchUrl += "?startDate=" + this.startInput.value + "&endDate=" + this.endInput.value;
             let items = await this.fetchModelsFromDatabase(fetchUrl);
-            this.loadSimpleItemTable(items);
+            
+            this.loadTableTable(items, tableHeaderNames);
         }
 
-        loadSimpleItemTable(data) {
+        async generateTicketReport(fetchUrl, tableHeaderNames) {
+            fetchUrl += "?startDate=" + this.startInput.value + "&endDate=" + this.endInput.value;
+            let items = await this.fetchModelsFromDatabase(fetchUrl);
+            
+            this.loadTableTable(items, tableHeaderNames);
+        }
+
+        loadTableTable(data, tableHeaderNames) {
             this.table.innerText = "";
-            let tableHeaderNames = ["ID", "Nombre", "Cantidad Vendida", "Ultima Fecha de Compra", "Precio del Producto", "Ingreso"];
-            let modelAttributes = ["ID", "Name", "QuantitySold", "LastBoughtDate", "Category", "Income"]
+
             //Loading the header columns
             this.loadTableHeader(tableHeaderNames);
 
             //Loading the table content
-            this.loadTableContent(data, modelAttributes);
+            this.loadTableContent(data);
 
         }
 
         loadTableHeader(tableHeaderNames) {
             let tableHead = this.table.createTHead();
-            tableHead.classList.add("thead-dark")
             let row = tableHead.insertRow(0);
             let attributeCounter = 0;
-            
+
             tableHeaderNames.forEach(name => {
                 let cell = row.insertCell(attributeCounter);
                 let text = document.createTextNode(name);
@@ -95,7 +104,7 @@
             });
         }
 
-        loadTableContent(data, modelAttributes) {
+        loadTableContent(data) {
             let tbody = this.table.createTBody();
             data.forEach(element => {
                 let tr = document.createElement("tr");
@@ -107,26 +116,14 @@
                         result = '₡' + result;
                     }
                     let text = document.createTextNode(result);
-                    
+
                     td.appendChild(text);
                     td.style.textAlign = "center";
                     tr.appendChild(td);
-                    
+
                 }
                 tbody.appendChild(tr);
             })
-        }
-
-        generateComplexItemReport(fetchUrl) {
-
-        }
-
-        generateSimpleTicketReport(fetchUrl) {
-
-        }
-
-        generateComplexTicketReport(fetchUrl) {
-
         }
 
 
@@ -140,13 +137,31 @@
     }
 
     let inputIds = ["#startDate", "#endDate"];
-    let fetchUrl = "@dbContentUrl";
     let tableId = "#reportContainer";
     let reportGenerator = new ReportGenerator(inputIds, tableId, "simple");
 
 
     function generateItemsReport() {
-        console.log("Se está generando el reporte de articulos");
-        reportGenerator.generateSimpleItemReport(fetchUrl);
+        let advancedActive = document.querySelector("#advancedSelector").checked;
+        if (!advancedActive) {
+            let tableHeaderNames = ["ID", "Nombre", "Cantidad Vendida", "Ultima Fecha de Compra", "Precio del Producto", "Ingreso"];
+            reportGenerator.generateItemReport("@simpleItemReportUrl", tableHeaderNames);
+        } else {
+            let tableHeaderNames = ["ID", "Nombre", "Infantil", "Juvenil", "Adulto", "Adulto Mayor", "Ingreso"];
+            reportGenerator.generateItemReport("@advancedItemReportUrl", tableHeaderNames);
+        }
+
+    }
+
+    function generateTicketsReport() {
+        let advancedActive = document.querySelector("#advancedSelector").checked;
+        if (!advancedActive) {
+            let tableHeaderNames = ["Nombre de la Actividad", "Fecha de Inicio", "Cantidad Vendida", "Ingreso"];
+            reportGenerator.generateTicketReport("@simpleTicketReportUrl", tableHeaderNames);
+        } else {
+            let tableHeaderNames = ["Nombre de la Actividad", "Fecha de Inicio", "Infantil", "Juvenil", "Adulto", "Adulto Mayor", "Ingreso"];
+            reportGenerator.generateTicketReport("@advancedTicketReportUrl", tableHeaderNames);
+        }
+
     }
 </script>

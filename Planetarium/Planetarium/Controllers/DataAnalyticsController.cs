@@ -19,7 +19,7 @@ namespace Planetarium.Controllers
         public ActionResult StoreItemReport() {
             DateTime end = new DateTime(2100,12,31);
             DateTime begin = new DateTime(2000, 1, 1);
-            ViewBag.ItemReport = AnalyticsAccess.GetItemReport(begin, end);
+            ViewBag.ItemReport = AnalyticsAccess.GetSimpleItemReport(begin, end);
             return View();
         }
 
@@ -27,14 +27,14 @@ namespace Planetarium.Controllers
         public ActionResult ItemReportByDate(DateTime begin, DateTime end) {
             ActionResult view = RedirectToAction("DataAnalytics", "StoreReports");
 
-            ViewBag.ItemReport = AnalyticsAccess.GetItemReport(begin, end);
+            ViewBag.ItemReport = AnalyticsAccess.GetSimpleItemReport(begin, end);
             return view;
         }
 
         public ActionResult StoreTicketReport() {
             DateTime end = new DateTime(2100, 12, 31);
             DateTime begin = new DateTime(2000, 1, 1);
-            ViewBag.ItemReport = AnalyticsAccess.GetTicketReport(begin, end);
+            ViewBag.ItemReport = AnalyticsAccess.GetSimpleTicketReport(begin, end);
             return View();
         }
 
@@ -42,12 +42,27 @@ namespace Planetarium.Controllers
         public ActionResult TicketReportByDateEvent(DateTime begin, DateTime end) {
             ActionResult view = RedirectToAction("DataAnalytics", "StoreReports");
 
-            ViewBag.ItemReport = AnalyticsAccess.GetTicketReport(begin, end);
+            ViewBag.ItemReport = AnalyticsAccess.GetSimpleTicketReport(begin, end);
             return view;
         }
 
-        public JsonResult GetSimpleReport(DateTime startDate, DateTime endDate) {
-            List<ItemModel> items = AnalyticsAccess.GetItemReport(startDate, endDate);
+        public JsonResult GetSimpleItemReport(DateTime startDate, DateTime endDate) {
+            List<ItemModel> items = AnalyticsAccess.GetSimpleItemReport(startDate, endDate);
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSimpleTicketReport(DateTime startDate, DateTime endDate) {
+            List<TicketModel> items = AnalyticsAccess.GetSimpleTicketReport(startDate, endDate);
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAdvanceItemReport(DateTime startDate, DateTime endDate) {
+            List<ItemAdvanceModel> items = AnalyticsAccess.GetAdvanceItemReport(startDate, endDate);
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetAdvanceTicketReport(DateTime startDate, DateTime endDate) {
+            List<TicketAdvanceModel> items = AnalyticsAccess.GetAdvanceTicketReport(startDate, endDate);
             return Json(items, JsonRequestBehavior.AllowGet);
         }
     }
