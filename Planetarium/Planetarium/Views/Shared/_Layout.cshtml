@@ -88,8 +88,16 @@
 
                     </li>
                 }
+                @if (rolCookie != 0) {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true"> <i class="fas fa-gift"></i> Souvenirs</a>
+                    </li>
+                }
 
-                </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Games/HangManGame" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
+                </li>
+            </ul>
             <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
                 @if (userIdentityCookie == null) {
                     <li class="nav-item">
@@ -108,6 +116,7 @@
                 }
 
             </ul>
+
         </div>
     </nav>
 
@@ -181,14 +190,10 @@
 
                 <div class="col-3">
                     <div class="card-body">
-                        <a class="nav-link" href="/Home/WhoWeAre">
-                            <i class="fas fa-space-shuttle"></i>
-                            <strong> Nosotros</strong> <br />
-                        </a>
-
                         <a class="nav-link" href="/Employees/ListEmployees">
-                            <i class="fas fa-users"></i>
-                            <strong> Nuestros colaboradores</strong> <br />
+                            <strong style="color:white"> Compártenos en tus redes</strong> <br />
+                            <br />
+                            <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fwww.facebook.com%2Fplanetariodesanjose&layout=button&size=large&width=103&height=28&appId" width="103" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                         </a>
                     </div>
                 </div>
