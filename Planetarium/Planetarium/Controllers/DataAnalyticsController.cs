@@ -16,34 +16,8 @@ namespace Planetarium.Controllers
             AnalyticsAccess = new DataAnalyticsHandler();
         }
 
-        public ActionResult StoreItemReport() {
-            DateTime end = new DateTime(2100,12,31);
-            DateTime begin = new DateTime(2000, 1, 1);
-            ViewBag.ItemReport = AnalyticsAccess.GetSimpleItemReport(begin, end);
+        public ActionResult StoreReports() {
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult ItemReportByDate(DateTime begin, DateTime end) {
-            ActionResult view = RedirectToAction("DataAnalytics", "StoreReports");
-
-            ViewBag.ItemReport = AnalyticsAccess.GetSimpleItemReport(begin, end);
-            return view;
-        }
-
-        public ActionResult StoreTicketReport() {
-            DateTime end = new DateTime(2100, 12, 31);
-            DateTime begin = new DateTime(2000, 1, 1);
-            ViewBag.ItemReport = AnalyticsAccess.GetSimpleTicketReport(begin, end);
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult TicketReportByDateEvent(DateTime begin, DateTime end) {
-            ActionResult view = RedirectToAction("DataAnalytics", "StoreReports");
-
-            ViewBag.ItemReport = AnalyticsAccess.GetSimpleTicketReport(begin, end);
-            return view;
         }
 
         public JsonResult GetSimpleItemReport(DateTime startDate, DateTime endDate) {

@@ -272,6 +272,7 @@
     <Content Include="Scripts\idiomsStatistics.js" />
     <Content Include="Scripts\inscriptionForm.js" />
     <Content Include="Scripts\listActivities.js" />
+    <Content Include="Scripts\ReportGenerator.js" />
     <Content Include="Scripts\Seats.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
@@ -335,7 +336,7 @@
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\DataAnalytics\StoreItemReport.cshtml" />
+    <Content Include="Views\DataAnalytics\StoreReports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

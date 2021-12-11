@@ -89,7 +89,7 @@
                     </li>
                 }
 
-                </ul>
+            </ul>
             <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
                 @if (userIdentityCookie == null) {
                     <li class="nav-item">
@@ -102,7 +102,7 @@
                     <li class="nav-item">
                         <a href="/Account/Login" class="nav-link">@userIdentityCookie</a>
                     </li>
-                     <li class="nav-item">
+                    <li class="nav-item">
                         <a href="/Home/Index" class="nav-link" onclick="deleteCookie()">Salir</a>
                     </li>
                 }
@@ -202,7 +202,7 @@
     @RenderSection("scripts", required: false)
 
     <script>
-    
+
         function deleteCookie() {
             document.cookie = "userIdentity=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
             document.cookie = "authCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
@@ -210,6 +210,6 @@
 
     </script>
 
-    
+
 </body>
 </html>
