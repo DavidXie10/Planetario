@@ -1,0 +1,27 @@
+﻿
+
+<div class="container" style="padding:200px;">
+
+    <h2>Typing Legends</h2>
+
+    <div class="card">
+        <p id="textContainer" class="card-body" style="font-size: 25px;"></p>
+    </div>
+    
+    <hr />
+
+    <div id="status" class="card text-center rounded-3" style="margin: 15px;">
+    </div>
+    <textarea id="userEntryContainer" class="w-100" onkeyup="checkChar()" style="padding:10px;"></textarea>
+</div>
+
+<script src="~/Scripts/TypingLegends.js"></script>
+<script>
+    let inputIds = ["#textContainer", "#userEntryContainer", "#status"];
+    let game = new TypingLegends(inputIds);
+
+    function checkChar() {
+        game.checkChar();
+    }
+
+</script>

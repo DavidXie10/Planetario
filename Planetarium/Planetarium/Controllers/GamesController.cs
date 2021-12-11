@@ -13,6 +13,10 @@ namespace Planetarium.Controllers
         {
             return View();
         }
+
+        public ActionResult TypingGame() {
+            return View();
+        }
         public ActionResult ListOfGames()
         {
             return View();
