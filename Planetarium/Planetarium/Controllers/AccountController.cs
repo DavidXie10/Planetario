@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Planetarium.Models;
 using Planetarium.Handlers;
 
-namespace Planetarium.Controllers
-{
-    public class AccountController : Controller
-    {
+namespace Planetarium.Controllers {
+    public class AccountController : Controller {
         public AuthHandler AuthDataAccess { get; set; }
         public AuthorizationController AuthController { get; set; }
 
