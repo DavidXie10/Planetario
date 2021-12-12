@@ -14,7 +14,6 @@
                 <div class="notification">
                     <a href="#">
                         <div class="notBtn" href="#">
-                            <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
                             <div class="number">@ViewBag.Coupons.Count</div>
                             <i class="fasNotificationBell fas fa-bell"></i>
                             <div class="box">
@@ -24,7 +23,6 @@
                                         <div class="cent">Looks Like your all caught up!</div>
                                     </div>
                                     <div class="cont">
-                                        <!-- Fold this div and try deleting evrything inbetween -->
                                         @foreach (var coupon in @ViewBag.Coupons) {
                                             <div class="sec">
                                                 <a href="#">
@@ -57,15 +55,9 @@
 </html>
 <script>
     function couponCodeCopiedToClipboard(id) {
-        /* Get the text field */
         var copyText = document.getElementById(id);
-
-        /* Select the text field */
         copyText.select();
-
-        /* Copy the text inside the text field */
         navigator.clipboard.writeText(copyText.value);
-
     }
 </script>
 
