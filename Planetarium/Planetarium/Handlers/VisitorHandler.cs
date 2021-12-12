@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using Planetarium.Models;
-using static Planetarium.Handlers.DatabaseHandler;
 using System.Linq;
 
 namespace Planetarium.Handlers {
