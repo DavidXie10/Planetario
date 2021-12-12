@@ -12,7 +12,6 @@ class AuthController {
 
         let loadedPath = this.pathToOperation + "?username=" + username;
         const response = await fetch(loadedPath);
-        //const data = await response.json();
     }
 
 }

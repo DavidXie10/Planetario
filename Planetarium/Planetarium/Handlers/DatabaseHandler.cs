@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 
 namespace Planetarium.Handlers {
     public class DatabaseHandler {
