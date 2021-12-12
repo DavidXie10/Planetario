@@ -1,6 +1,4 @@
-﻿
-
-class SeatGenerator {
+﻿class SeatGenerator {
     constructor(seatTableContainerId, maxParticipants, url, inputIds) {
         this.seatTableContainerId = seatTableContainerId;
         this.maxParticipants = parseInt(maxParticipants);
@@ -150,13 +148,11 @@ class SeatGenerator {
             for (let j = 0; j < cols && reviewedButtons < this.maxParticipants; j++) {
                 let button = table.rows[i].cells[j].childNodes[0];
                 if (this.isSelected(button)) {
-                    console.log(button)
                     selectedSeats.push(button.textContent);
                 }
                 reviewedButtons++;
             }
         }
-        console.log(selectedSeats);
         return selectedSeats;
     }
 
@@ -219,13 +215,8 @@ function checkData() {
     stringInput.value = parsedSeats;
 
     if (stringInput.value != '') {
-
         document.querySelector("#selectedSeatType").value = seatsGen.getSeatTypes();
-        console.log(document.querySelector("#selectedSeatType").value);
         document.getElementById("Reservar").click();
-        
-
     }
-    console.log(stringInput.value);
 }
 
