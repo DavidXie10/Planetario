@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="row" style="text-align:right; margin-top: 5px;">
                                         @Html.ActionLink("Pagar", "Invoice", "EducationalActivity", new { dni = ViewBag.visitor.Dni, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seatInfo, price = ViewBag.price}, new { @id ="submit", @class = "btn btn-success", @style = "display: none" })
-                                        <input type="button" class="btn btn-success btn-block" value="Pagar" onclick="checkData()" />
+                                        <input type="button" class="btn btn-success btn-block" value="Pagar" onclick="checkDataEducationalActivity()" />
                                     </div>
                                 </div>
                             </form>
