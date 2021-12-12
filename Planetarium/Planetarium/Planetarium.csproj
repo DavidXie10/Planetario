@@ -290,8 +290,10 @@
     <Content Include="Scripts\idiomsStatistics.js" />
     <Content Include="Scripts\inscriptionForm.js" />
     <Content Include="Scripts\listActivities.js" />
+    <Content Include="Scripts\payMethod.js" />
     <Content Include="Scripts\ReportGenerator.js" />
     <Content Include="Scripts\Seats.js" />
+    <Content Include="Scripts\shoppingCart.js" />
     <Content Include="Scripts\SolarSystem3DModel.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
