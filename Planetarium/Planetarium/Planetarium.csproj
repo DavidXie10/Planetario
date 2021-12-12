@@ -178,6 +178,7 @@
     <Compile Include="Models\SouvenirModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\StreamingModel.cs" />
+    <Compile Include="Models\TxtContentParser.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
     <Compile Include="Models\QuizModel.cs" />
@@ -203,6 +204,7 @@
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
     <Content Include="Content\msjIcons.css" />
+    <Content Include="Data_Files\WebsiteRate.txt" />
     <Content Include="Educational_Material\Black-Panther-amu.png" />
     <Content Include="Educational_Material\Calentamiento-%2816%29.jpg" />
     <Content Include="Educational_Material\CreacionTablasPlanetario3.3.sql" />

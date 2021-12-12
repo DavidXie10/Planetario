@@ -125,7 +125,7 @@
         </div>
         @{ Html.RenderPartial("~/Views/Streaming/InternetStreaming.cshtml"); }
     </div>
-    <input type="hidden" class="btn btn-info btn-lg" data-toggle="modal" data-target="#RateUs" id="rateUsModal"></input>
+    <input type="hidden" class="btn btn-info btn-lg" data-toggle="modal" data-target="#RateUs" id="rateUsModal" />
     <!-- Modal for Rate Us -->
     <div class="modal fade" id="RateUs" role="dialog">
         <div class="modal-dialog modal modal-dialog-centered">
@@ -142,7 +142,14 @@
                 </div>
                 <div class="modal-footer align-content-center" style="text-align:center">
                     <button type="button" class="btn btn-light" style="font-size:small; color:gray" data-dismiss="modal">Ahora no</button>
-                    <button type="button" class="btn btn-primary" style="font-size:small" data-dismiss="modal">Enviar</button>
+
+                    @using (Html.BeginForm("SubmitRate", "RateUs", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                        @Html.AntiForgeryToken()
+                        <input style="display:none" value="5" id="rateChoice" />
+                        <!--<button type="button" class="btn btn-primary" style="font-size:small" data-dismiss="modal">Enviar</button>-->
+                        <input type="submit" class="btn btn-primary" style="font-size:small" value="Enviar" />
+                    }
+
                 </div>
             </div>
         </div>
@@ -151,11 +158,22 @@
     <script>
         window.onload = function () {
             window.scrollTo(0, 0);
-            setTimeout(showRateUsModal, 5000);
+            setTimeout(showRateUsModal, 3000);
         }
+
         function showRateUsModal() {
             document.getElementById("rateUsModal").click();
         }
+
+        function updateRating(choice){
+            console.log("Entrando a update rate");
+            document.getElementById("rateChoice").value = choice;
+            console.log(document.getElementById("rateChoice").value);
+            document.cookie = "rateStar=" + choice;
+        }
+
+        document.cookie = "rateStar=" + 5;
+
     </script>
 
 </body>
