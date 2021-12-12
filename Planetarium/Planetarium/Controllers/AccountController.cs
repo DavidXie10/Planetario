@@ -51,7 +51,7 @@ namespace Planetarium.Controllers
         }
 
         public ActionResult Login(){
-            return View();
+            return View("Login");
         }
 
         public ActionResult Register() {
