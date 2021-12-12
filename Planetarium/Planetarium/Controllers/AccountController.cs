@@ -43,9 +43,8 @@ namespace Planetarium.Controllers
                 view = RedirectToAction("Index", "Home");
                 
             } else {
-                TempData["WarningMessage"] = "Algo salió mal";
+                TempData["WarningMessage"] = "Algo salió mal. El usuario o la contraseña está incorrecto";
             }
-
 
             return view;
         }
@@ -57,7 +56,6 @@ namespace Planetarium.Controllers
         public ActionResult Register() {
             return View();
         }
-
 
         public ActionResult LoginUser(string username) {
             ActionResult view = RedirectToAction("Index", "Home");

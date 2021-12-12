@@ -31,7 +31,10 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult ShoppingCart() {
-            string cartCookieValue = Request.Cookies["itemsCart"].Value;
+            string cartCookieValue = "";
+            if (Request.Cookies["itemsCart"] != null) {
+                cartCookieValue = Request.Cookies["itemsCart"].Value;
+            }
 
             if (cartCookieValue != null && cartCookieValue != "") {
                 UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
