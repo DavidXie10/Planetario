@@ -14,8 +14,13 @@ namespace Planetarium.Controllers
             return View();
         }
 
-        public ActionResult indexRate()
+        public ActionResult IndexRate()
         {
+            return View();
+        }
+
+        public ActionResult UXEvaluation() {
+            ViewBag.Link= "https://docs.google.com/forms/d/e/1FAIpQLScpghh7KECEEjpnpJHqG1l9Zr2a4gcnDCpcKVpN1C2xt1ZMHw/viewform?embedded=true";
             return View();
         }
     }

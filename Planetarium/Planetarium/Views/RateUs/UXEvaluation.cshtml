@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Cuestionario";
+}
+
+<head>
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="margin: 15px 0 15px 0;">Llene el siguiente cuestionario</h1>
+        <div class="card text-center">
+            <iframe src="@ViewBag.Link" height="1000" frameborder="10" marginheight="10" marginwidth="10">
+                Loading…
+            </iframe>
+        </div>
+        <div class="button  align-content-center" style="margin-top:2%; margin-bottom:5%;text-align:center">
+            <a href="/Home/Index" class="btn btn-primary btn-lg active" style="text-align:center; font-size:xx-large" role="button" aria-pressed="true">Volver al inicio</a>
+        </div>
+    </div>
+</body>

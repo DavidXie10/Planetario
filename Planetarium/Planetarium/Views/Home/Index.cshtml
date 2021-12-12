@@ -128,14 +128,17 @@
     <input type="hidden" class="btn btn-info btn-lg" data-toggle="modal" data-target="#RateUs" id="rateUsModal"></input>
     <!-- Modal for Rate Us -->
     <div class="modal fade" id="RateUs" role="dialog">
-        <div class="modal-dialog modal-sm">
+        <div class="modal-dialog modal modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#2c3e50;display: block;">
-                    <h4 class="modal-title" style="text-align:center;color:white">Califica nuestra página</h4>
+                    <h4 class="modal-title" style="text-align:center;color:white">Califica nuestro sitio web</h4>
                 </div>
                 <div class="modal-body">
                     <h2 style="font-size:larger; text-align:center; ">¿Cuántas estrellas le da al sitio?</h2>
-                    @{ Html.RenderPartial("~/Views/RateUs/indexRate.cshtml"); }
+                    @{ Html.RenderPartial("~/Views/RateUs/indexRate.cshtml"); }   
+                    <div class="align-content-center" style="text-align:center">
+                        @Html.ActionLink("[Califícanos también en el cuestionario estandarizado aquí]", "UXEvaluation", "RateUS", null, new { @class = "", @style = "color:#0ACF83; text-align:center" })
+                    </div>
                 </div>
                 <div class="modal-footer align-content-center" style="text-align:center">
                     <button type="button" class="btn btn-light" style="font-size:small; color:gray" data-dismiss="modal">Ahora no</button>

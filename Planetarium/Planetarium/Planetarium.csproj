@@ -361,7 +361,8 @@
     <Content Include="Views\Souvenir\PayMethod.cshtml" />
     <Content Include="Views\Souvenir\Invoice.cshtml" />
     <Content Include="Views\RateUs\SuccessProcessRate.cshtml" />
-    <Content Include="Views\RateUs\indexRate.cshtml" />
+    <Content Include="Views\RateUs\IndexRate.cshtml" />
+    <Content Include="Views\RateUs\UXEvaluation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
