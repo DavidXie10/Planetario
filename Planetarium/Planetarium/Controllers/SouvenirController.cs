@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
@@ -122,12 +120,11 @@ namespace Planetarium.Controllers {
                 if(ViewBag.SuccessOnCreation) {
                     view = View();
                 }
-            } catch(Exception e) {
+            } catch {
                 TempData["Error"] = true;
-                TempData["WarningMessage"] = "Algo salió mal:" + e;
+                TempData["WarningMessage"] = "Algo salió mal y no se pudo generar el comprobante";
             }
             return view;
         }
     }
-
 }
