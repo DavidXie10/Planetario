@@ -17,8 +17,11 @@
                 <div class="align-content-center offset-4" style="margin-top:3%; text-align:center">
                     @{ Html.RenderPartial("~/Views/RateUs/SuccessProcessRate.cshtml"); }
                 </div>
+                <div class="align-content-center" style="text-align:center; margin-top:5%">
+                    @Html.ActionLink("[Califícanos también en el cuestionario estandarizado aquí]", "UXEvaluation", "RateUS", null, new { @class = "", @style = "color:#0ACF83; text-align:center" })
+                </div>
             </div>
-            <div class="button text-center" style="margin-top:5%; margin-bottom:5%">
+            <div class="button text-center" style="margin-top:2%; margin-bottom:5%">
                 <a href="/Home/Index" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Volver al inicio</a>
             </div>
         </div>

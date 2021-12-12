@@ -202,6 +202,7 @@
     <Content Include="Content\streaming.css" />
     <Content Include="Content\styles.css" />
     <Content Include="Content\summernote-bs4.css" />
+    <Content Include="Content\msjIcons.css" />
     <Content Include="Educational_Material\Black-Panther-amu.png" />
     <Content Include="Educational_Material\Calentamiento-%2816%29.jpg" />
     <Content Include="Educational_Material\CreacionTablasPlanetario3.3.sql" />
