@@ -92,7 +92,7 @@
                 }
                 @if (rolCookie != 0) {
                     <li class="nav-item">
-                        <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true"> <i class="fas fa-gift"></i> Souvenirs</a>
+                        <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true" id="souvenirNavbar"> <i class="fas fa-gift"></i> Souvenirs</a>
                     </li>
                 }
 
@@ -103,7 +103,7 @@
             <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
                 @if (userIdentityCookie == null) {
                     <li class="nav-item">
-                        <a href="/Account/Login" class="nav-link">Ingresar</a>
+                        <a href="/Account/Login" class="nav-link" id="login">Ingresar</a>
                     </li>
                     <li class="nav-item">
                         <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Registrarme</a>

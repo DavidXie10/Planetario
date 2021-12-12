@@ -20,7 +20,7 @@
                 <div class="icons">
                     <div class="notification">
                         <a href="#">
-                            <div class="notBtn" href="#">
+                            <div class="notBtn" href="#" id="cartImage">
                                 <div class="number" style="width: 25%; height: 45%" id="cartCounter" onclick="clickActionLink()">0</div>
                                 <i class="fasNotificationBell fas fa-shopping-cart" id="cartImage" onclick="clickActionLink()" style="font-size: 30pt; padding-top: 1rem; color: black"></i>
                             </div>
@@ -37,7 +37,8 @@
                     @foreach (var souvenir in ViewBag.Catalog) {
                         if(souvenir.Stock > 0) {
                             <div class="col-4 d-flex">
-                                <div class="card rounded-3  w-100 " style="margin:15px;">
+                                @{string cardId = @souvenir.SouvenirId + "-card"; }
+                                <div class="card rounded-3  w-100 " style="margin:15px;" id="@cardId">
                                     <div class="card-header text-center">
                                         <h4><strong>@souvenir.Name </strong>  </h4>
                                     </div>

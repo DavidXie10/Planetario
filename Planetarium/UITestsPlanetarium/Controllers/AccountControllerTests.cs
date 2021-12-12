@@ -13,45 +13,21 @@ namespace Plenetarium.UITesting {
             int waitingTime = 1000;
             driver = new ChromeDriver();
             string URL = "https://localhost:44363";
-
             driver.Manage().Window.Maximize();
-            ///Act
             driver.Url = URL;
 
-            ///Assert
-            IWebElement loginLink = driver.FindElement(By.Id("login"));
-            
-            Thread.Sleep(waitingTime);
+            ///Act
+            LogIntoSolValle(waitingTime);
 
-            loginLink.Click();
-
-            Thread.Sleep(waitingTime);
-
-            IWebElement loginUsername = driver.FindElement(By.Id("Username"));
-            IWebElement loginPassword = driver.FindElement(By.Id("Password"));
-            IWebElement startSession = driver.FindElement(By.Id("signIn"));
-
-            Thread.Sleep(waitingTime);
-
-            loginUsername.SendKeys("solvalle");
-
-            Thread.Sleep(waitingTime);
-
-            loginPassword.SendKeys("Max");
-
-            Thread.Sleep(waitingTime);
-
-            startSession.Click();
-
+            //Assert
             string userIdentity = driver.Manage().Cookies.GetCookieNamed("userIdentity").Value;
-
             Assert.AreEqual(userIdentity, "solvalle");
 
             driver.Quit();
         }
 
         [TestMethod]
-        public void TestLoginCredentialsSuccess() {
+        public void TestEliminateSouvenirWithIdOne() {
             ///Arrange
             int waitingTime = 1000;
             driver = new ChromeDriver();
@@ -62,6 +38,40 @@ namespace Plenetarium.UITesting {
             driver.Url = URL;
 
             ///Assert
+            LogIntoSolValle(waitingTime);
+
+            IWebElement souvenirNavbarOption = driver.FindElement(By.Id("souvenirNavbar"));
+            souvenirNavbarOption.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement cartItem = driver.FindElement(By.Id("1-card"));
+            cartItem.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement addToCartItem = driver.FindElement(By.Id("button-1"));
+            addToCartItem.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement shoppingCart = driver.FindElement(By.Id("cartImage"));
+            shoppingCart.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement eliminateCartItem = driver.FindElement(By.Id("1"));
+            eliminateCartItem.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement yesButton = driver.FindElement(By.Id("yesButton"));
+            yesButton.Click();
+            Thread.Sleep(waitingTime);
+
+            string selectedCartItems = driver.Manage().Cookies.GetCookieNamed("itemsCart").Value;
+            Assert.AreEqual(selectedCartItems, "");
+            
+            driver.Quit();
+        }
+
+        [TestMethod]
+        private void LogIntoSolValle(int waitingTime) {
             IWebElement loginLink = driver.FindElement(By.Id("login"));
 
             Thread.Sleep(waitingTime);
@@ -85,16 +95,6 @@ namespace Plenetarium.UITesting {
             Thread.Sleep(waitingTime);
 
             startSession.Click();
-
-            IWebElement souvenirs 
-            
-            Assert.AreEqual(userIdentity, "solvalle");
-
-            driver.Quit();
-        }
-
-        private void LogIntoSolValle() {
-
         }
 
 
