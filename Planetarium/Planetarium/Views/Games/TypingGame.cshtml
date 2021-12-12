@@ -1,8 +1,8 @@
 ﻿
 
-<div class="container" style="padding:200px;">
+<div class="container" style="padding:200px; height:100vh;">
 
-    <h2>Typing Legends</h2>
+    <h2>Teclea hasta el espacio</h2>
 
     <div class="card">
         <p id="textContainer" class="card-body" style="font-size: 25px;"></p>
@@ -12,16 +12,28 @@
 
     <div id="status" class="card text-center rounded-3" style="margin: 15px;">
     </div>
-    <textarea id="userEntryContainer" class="w-100" onkeyup="checkChar()" style="padding:10px;"></textarea>
+
+    <input type="range" name="name" value="" class="form-range" id="progressBar" min="0" max="100" value="0"/>
+
+    <textarea id="userEntryContainer" class="w-100" onkeyup="checkChar()" style="padding:10px; min-height: 150px;"></textarea>
+    
+    <div class="card">
+        <button class="btn btn-info" onclick="changeText()">Cambiar de Misión</button>
+    </div>
 </div>
 
 <script src="~/Scripts/TypingLegends.js"></script>
 <script>
     let inputIds = ["#textContainer", "#userEntryContainer", "#status"];
     let game = new TypingLegends(inputIds);
-
+    document.querySelector("#progressBar").value = "0";
     function checkChar() {
-        game.checkChar();
+        let progress = game.checkChar();
+        document.querySelector("#progressBar").value = progress;
+    }
+
+    function changeText() {
+        game.changeText();
     }
 
 </script>
