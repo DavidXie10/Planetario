@@ -414,5 +414,13 @@ namespace Planetarium.Handlers {
 
             return categoriesRank;
         }
+
+        public bool InsertStreaming(StreamingModel streaming) {
+            string query = "UPDATE EventoActividadEducativa " +
+                           "SET enlace = '" + streaming.Link + "' " +
+                           "WHERE tituloPKFK = '" + streaming.EducationalActivityTitle + "';";
+
+            return DatabaseQuery(query);
+        }
     }
 }

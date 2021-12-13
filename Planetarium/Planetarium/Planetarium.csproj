@@ -410,6 +410,7 @@
     <Content Include="Views\Games\OuterSpaceGame.cshtml" />
     <Content Include="Views\Games\MemoryGame.cshtml" />
     <Content Include="Views\Games\TypingGame.cshtml" />
+    <Content Include="Views\Streaming\ActivityStreaming.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
