@@ -1,0 +1,122 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="/Content/HangaManGameStyles.css">
+    <script src="https://kit.fontawesome.com/9ca089ca02.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="gameBody">
+                    <div class="wrapper">
+                        <h1 class="card-header">Juego de Ahorcado</h1>
+                        <br />
+                        <div id="buttons"></div>
+                        <br />
+                        <h3 id="catagoryName" style="margin-top:8%"></h3>
+                        <div id="hold"></div>
+                        <div  id="modalImage"></div>
+                        <p id="mylives"> </p>
+                        <h5 class="clue" id="clue"></h5>
+                        <div class="container">
+                            <button id="hint" class="btn btn-info">
+                                <i class="fas fa-lightbulb" style="color:yellow"></i>
+                                Pista
+                            </button>
+                            <button id="reset" class="btn btn-secondary">
+                                <i class="fas fa-redo-alt"></i>
+                                Otra
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+        <input type="hidden" data-toggle="modal" data-target="#instructionsModalLong" id="instructionsModal"></input>
+        <input type="hidden" data-toggle="modal" data-target="#resultModalLong" id="resutModal"></input>
+
+        <!-- Instructions Modal -->
+        <div class="modal-dialog modal-dialog-centered " id="InvoiceModal">
+            <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+
+                    <div class="modal-content" style="padding: 0;margin: 0;">
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal fade" role="document"  id="instructionsModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" style="padding: 0;margin: 0;">
+
+                        <div class="modal-header" style="background-color:#3498db;border-color: #3498db;">
+                            <h5 class="modal-title" style="color:white" id="exampleModalLongTitle"><i class="fas fa-puzzle-piece"></i> Instrucciones del juego</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                El juego de Ahorcado es un juego de adivinanzas, en el que tienes que intantar adivinar la palabra sugerida.
+                                Observará una fila de guiones para cada una de las letras que se representa la palabra a adivinar.
+                                Las palabras pueden pertenecer a 3 categoría.
+                            <p />
+
+                            <p>
+                                1- Planetas del Sistema Solar
+                            <p />
+                            <p>
+                                2- Conceptos de Astronomía
+                            <p />
+                            <p>
+                                3- Científicos Famosos
+                            <p />
+
+                            <p>
+                                Si adivina una letra de la palabra, esta aparece en las posiciones que corresponden. Si la letra no es parte de la palabra se le restará el número de  los intentos.
+                            <p />
+                            <p>
+                                Si una letra ya ha sido elegida no va a poder seleccionarla de nuevo.
+                            <p />
+                            <p>
+                                Puede elegir alguna de los 3 niveles de dificultad:
+                            <p />
+
+                        </div>
+                        <div class="modal-footer text-center" style="display:initial">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="startGame(10)">
+                                <i class="fas fa-medal"></i><br />
+                                Principiante<br />
+                                <small style="text-align:center; color:white" class="form-text">10 intentos</small>
+                            </button>
+                            <button type="button" class="btn btn-info" data-dismiss="modal" onclick="startGame(5)">
+                                <i class="fas fa-medal"></i>
+                                <i class="fas fa-medal"></i> <br />
+                                Avanzado<br />
+                                <small style="text-align:center; color:white" class="form-text">5 intentos</small>
+                            </button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="startGame(3)">
+                                <i class="fas fa-medal"></i>
+                                <i class="fas fa-medal"></i>
+                                <i class="fas fa-medal"></i><br />
+                                Experto<br />
+                                <small style="text-align:center; color:white" class="form-text">3 intentos</small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+    </script>
+    <script type="text/javascript" src="/Scripts/HangManScript.js"></script>
+</body>
+</html>

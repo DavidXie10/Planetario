@@ -141,6 +141,7 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\CelestialBodiesController.cs" />
     <Compile Include="Controllers\CouponController.cs" />
+    <Compile Include="Controllers\DataAnalyticsController.cs" />
     <Compile Include="Controllers\EducationalActivityController.cs" />
     <Compile Include="Controllers\EducationalMaterialController.cs" />
     <Compile Include="Controllers\FrequentlyQuestionController.cs" />
@@ -156,6 +157,7 @@
     </Compile>
     <Compile Include="Handlers\CouponHandler.cs" />
     <Compile Include="Handlers\AuthHandler.cs" />
+    <Compile Include="Handlers\DataAnalyticsHandler.cs" />
     <Compile Include="Handlers\DatabaseClassificationsHandler.cs" />
     <Compile Include="Handlers\DatabaseHandler.cs" />
     <Compile Include="Handlers\EducationalActivityHandler.cs" />
@@ -172,12 +174,16 @@
     <Compile Include="Models\EducationalActivityModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\FrequentlyQuestionModel.cs" />
+    <Compile Include="Models\ItemAdvanceModel.cs" />
+    <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\NewsModel.cs" />
     <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\SouvenirModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\StreamingModel.cs" />
+    <Compile Include="Models\TicketAdvanceModel.cs" />
+    <Compile Include="Models\TicketModel.cs" />
     <Compile Include="Models\TxtContentParser.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VisitorModel.cs" />
@@ -185,6 +191,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\activitiesHomePageAccess.css" />
+    <Content Include="Content\couponNotification%27sBell.css" />
+    <Content Include="Content\HangaManGameStyles.css" />
     <Content Include="Content\couponNotification%27sBell.css" />
     <Content Include="Content\homePageAccess.css" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -195,6 +204,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\indexRate.css" />
     <Content Include="Content\liveButton.css" />
+    <Content Include="Content\memoryGameStyle.css" />
     <Content Include="Content\rateResultView.css" />
     <Content Include="Content\showStatistics.css" />
     <Content Include="Content\Site.css" />
@@ -215,6 +225,16 @@
     <Content Include="Educational_Material\rover.png" />
     <Content Include="Educational_Material\saturn-54999-640.jpg" />
     <Content Include="images\astronaut.png" />
+    <Content Include="images\CuerposCelestes\earth.png" />
+    <Content Include="images\CuerposCelestes\jupiter.png" />
+    <Content Include="images\CuerposCelestes\mars.png" />
+    <Content Include="images\CuerposCelestes\mercury.png" />
+    <Content Include="images\CuerposCelestes\moon.png" />
+    <Content Include="images\CuerposCelestes\shadow.png" />
+    <Content Include="images\CuerposCelestes\sun.png" />
+    <Content Include="images\CuerposCelestes\suturn.png" />
+    <Content Include="images\CuerposCelestes\UrAnus.png" />
+    <Content Include="images\CuerposCelestes\venus.png" />
     <Content Include="images\earth.jpg" />
     <Content Include="images\eclipse.jpg" />
     <Content Include="images\EmployeesProfilePhotos\foto1.png" />
@@ -223,6 +243,22 @@
     <Content Include="images\EmployeesProfilePhotos\foto4.png" />
     <Content Include="images\EmployeesProfilePhotos\foto5.png" />
     <Content Include="images\firma-ucr-ico.png" />
+    <Content Include="images\GamesImages\Ahorcado.jpg" />
+    <Content Include="images\GamesImages\hangman.jpeg" />
+    <Content Include="images\GamesImages\memoryGameImages\Albert.png" />
+    <Content Include="images\GamesImages\memoryGameImages\backface.jpg" />
+    <Content Include="images\GamesImages\memoryGameImages\Edison.png" />
+    <Content Include="images\GamesImages\memoryGameImages\marie.jpg" />
+    <Content Include="images\GamesImages\memoryGameImages\nicolas.jpg" />
+    <Content Include="images\GamesImages\memoryGameImages\rene.png" />
+    <Content Include="images\GamesImages\memoryGameImages\spaceImgForMemoryGame.png" />
+    <Content Include="images\GamesImages\memoryGameImages\tesla.png" />
+    <Content Include="images\GamesImages\outerspacearkanoic300200.jpg" />
+    <Content Include="images\GamesImages\space300200.jpg" />
+    <Content Include="images\GamesImages\spaceinvadors.jpg" />
+    <Content Include="images\GamesImages\astronaut drives t-rex.png" />
+    <Content Include="images\GamesImages\TypingGame.jpg" />
+    <Content Include="images\GamesImages\—Pngtree—spaceship outer space astronaut_6222644.png" />
     <Content Include="images\hurricane.jpg" />
     <Content Include="images\iss.jpg" />
     <Content Include="images\logo.jpg" />
@@ -250,6 +286,8 @@
     <Content Include="Educational_Material\ResumenEventosEruptivos.pdf" />
     <Content Include="Data_Files\Quizzes.json" />
     <Content Include="Data_Files\CategoriesAndTopics.json" />
+    <Content Include="Data_Files\Coupons.json" />
+    <Content Include="Data_Files\MemoryGame.json" />
     <Content Include="Data_Files\CelestialBodies.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
@@ -288,11 +326,17 @@
     <Content Include="Scripts\categoriesAndTopicsMultiselectCascade.js" />
     <Content Include="Scripts\categoriesAndTopics.js" />
     <Content Include="Scripts\filterFuture.js" />
+    <Content Include="Scripts\HangManScript.js" />
     <Content Include="Scripts\homeDelivery.js" />
     <Content Include="Scripts\idiomsStatistics.js" />
     <Content Include="Scripts\inscriptionForm.js" />
     <Content Include="Scripts\listActivities.js" />
+    <Content Include="Scripts\payMethod.js" />
+    <Content Include="Scripts\payMethodEducationalActivity.js" />
+    <Content Include="Scripts\ReportGenerator.js" />
+    <Content Include="Scripts\memoryGameScript.js" />
     <Content Include="Scripts\Seats.js" />
+    <Content Include="Scripts\shoppingCart.js" />
     <Content Include="Scripts\SolarSystem3DModel.js" />
     <Content Include="Scripts\Statistics.js" />
     <Content Include="Scripts\GenericMultiselect.js" />
@@ -311,6 +355,7 @@
     <Content Include="Scripts\statisticsInvolvement.js" />
     <Content Include="Scripts\streaming.js" />
     <Content Include="Scripts\summernote-bs4.js" />
+    <Content Include="Scripts\TypingLegends.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -355,6 +400,7 @@
     <Content Include="Views\EducationalActivity\AssignSeat.cshtml" />
     <Content Include="Views\EducationalActivity\PayMethod.cshtml" />
     <Content Include="Views\EducationalActivity\Invoice.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Coupon\Coupons.cshtml" />
     <Content Include="Views\EducationalActivity\InsertVisitorWithTicket.cshtml" />
     <Content Include="Views\Souvenir\Catalog.cshtml" />
@@ -365,6 +411,12 @@
     <Content Include="Views\Souvenir\ShoppingCart.cshtml" />
     <Content Include="Views\Souvenir\PayMethod.cshtml" />
     <Content Include="Views\Souvenir\Invoice.cshtml" />
+    <Content Include="Views\DataAnalytics\StoreReports.cshtml" />
+    <Content Include="Views\Games\ListOfGames.cshtml" />
+    <Content Include="Views\Games\SpaceGame.cshtml" />
+    <Content Include="Views\Games\OuterSpaceGame.cshtml" />
+    <Content Include="Views\Games\MemoryGame.cshtml" />
+    <Content Include="Views\Games\TypingGame.cshtml" />
     <Content Include="Views\RateUs\SuccessProcessRate.cshtml" />
     <Content Include="Views\RateUs\IndexRate.cshtml" />
     <Content Include="Views\RateUs\UXEvaluation.cshtml" />

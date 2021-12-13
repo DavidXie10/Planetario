@@ -1,7 +1,6 @@
 ﻿using Planetarium.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using System;
 
 namespace Planetarium.Controllers{
     public class QuizController : Controller{
@@ -28,7 +27,6 @@ namespace Planetarium.Controllers{
             quiz.Difficulty = Request.Form["dificulty"];
             ViewBag.SuccessOnCreation = false;
             try {
-                //ViewBag.SuccessOnCreation = parser.WriteToJsonFile("Quizzes.json", quiz);
                 ViewBag.SuccessOnCreation = parser.WriteToJsonFile<QuizModel>("Quizzes.json", quiz, parser.GetQuizzesFromJson);
                 if (ViewBag.SuccessOnCreation) {
                     view = RedirectToAction("Success", "Home");
@@ -40,6 +38,5 @@ namespace Planetarium.Controllers{
             }
             return view;
         }
-
     }
 }

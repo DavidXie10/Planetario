@@ -35,9 +35,9 @@ namespace Planetarium.Handlers {
             AddParametersToQueryCommandEvent(queryCommand, educationalActivity);
             success = DatabaseQuery(queryCommand);
 
-            //TODO: hacer validaciones
             return success;
         }
+
         public bool CreateEducationalActivity(EducationalActivityEventModel educationalActivity) {
             bool success = false;
             string query = "INSERT INTO ActividadEducativa (tituloPK, duracion, descripcion, nivelComplejidad,cedulaFK,tipo) " +
@@ -45,12 +45,10 @@ namespace Planetarium.Handlers {
 
             SqlCommand queryCommand = new SqlCommand(query, connection);
 
-            //TO-DO: Cambiar cedula quemada
             AddParametersToQueryCommand(queryCommand, educationalActivity);
 
             success = DatabaseQuery(queryCommand);
 
-            //TODO: hacer validaciones
             if(educationalActivity.ActivityType == "Charla" || educationalActivity.ActivityType == "Taller") {
                 success = InsertActivitiesTopics(educationalActivity);
                 success = InsertActivitiesAudiences(educationalActivity);
@@ -194,7 +192,6 @@ namespace Planetarium.Handlers {
             }
             return false;
         }
-            
 
         private bool IsArticle(string word) {
             return (word == "de" || word == "en" || word == "la" || word == "y" || word == "el" || word == "del");

@@ -27,19 +27,21 @@ namespace Planetarium.Handlers {
             List<SouvenirModel> souvenirs = new List<SouvenirModel>();
 
             foreach (DataRow column in resultingTable.Rows) {
-                souvenirs.Add(
-                    new SouvenirModel {
-                        SouvenirId = Convert.ToInt32(column["idPK"]),
-                        Name = Convert.ToString(column["nombre"]),
-                        Price = Convert.ToDouble(column["precio"]),
-                        Stock = Convert.ToInt32(column["cantidad"]), 
-                        Category = Convert.ToString(column["categoria"]),
-                        Description = Convert.ToString(column["descripcion"])
-                    }
-                );
+                souvenirs.Add(CreateSouvenir(column));
             }
 
             return souvenirs;
+        }
+
+        private SouvenirModel CreateSouvenir(DataRow column) {
+            return new SouvenirModel {
+                SouvenirId = Convert.ToInt32(column["idPK"]),
+                Name = Convert.ToString(column["nombre"]),
+                Price = Convert.ToDouble(column["precio"]),
+                Stock = Convert.ToInt32(column["cantidad"]),
+                Category = Convert.ToString(column["categoria"]),
+                Description = Convert.ToString(column["descripcion"])
+            };
         }
 
         private void LinkAllSouvenirsWithImages(List<SouvenirModel> souvenirs) {
