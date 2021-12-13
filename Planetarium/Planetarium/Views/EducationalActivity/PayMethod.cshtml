@@ -71,6 +71,13 @@
                                     <div class="panel-heading">
                                         <div class="row">
                                             <div class="col-md-8">
+                                                <span class="help-block text-muted small-font"> Tarjeta habiente</span>
+                                                <input id="creditCardName" type="text" class="form-control" placeholder="John Doe" required autocomplete="off" />
+                                                <p id="creditCardNameError" class="text-danger"></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-8">
                                                 <span class="help-block text-muted small-font"> Número de tarjeta</span>
                                                 <input id="creditCardNumber" value="" type="number" class="form-control" placeholder="0000 0000 0000 0000" data-maxlength="16" oninput="this.value=this.value.slice(0,this.dataset.maxlength)" required autocomplete="off" />
                                                 <p id="cardNumberError" class="text-danger"></p>
@@ -102,27 +109,29 @@
                                         <div class="row">
                                             <div class="col-md-12 pad-adjust">
                                                 <span class="help-block text-muted small-font"> Nombre de la tarjeta</span>
-                                                <select class="form-select" aria-label="Default select example" style="color:gray" required>
+                                                <select id="typeCard" class="form-select" aria-label="Default select example" style="color:gray" required>
                                                     <option selected>-Seleccionar-</option>
                                                     <option value="Visa">Visa</option>
                                                     <option value="Mastercard">Mastercard</option>
                                                     <option value="American Express">American Express</option>
                                                 </select>
+                                                <p id="typeCardError" class="text-danger"></p>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 pad-adjust">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" class="text-muted" required />
+                                                        <input id="privacy" type="checkbox" class="text-muted" required />
                                                         He leído y acepto las politicas de privacidad
                                                         <a data-toggle="modal" data-target="#exampleModalLong" style="color:#18bc9c">
                                                             Ver politicas de privacidad
                                                         </a>
                                                     </label>
-                                                    <p class="errorPrivacy"></p>
+                                                    <p id="privacyError" class="text-danger"></p>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
