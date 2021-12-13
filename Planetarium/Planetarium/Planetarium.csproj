@@ -257,6 +257,7 @@
     <Content Include="Data_Files\Quizzes.json" />
     <Content Include="Data_Files\CategoriesAndTopics.json" />
     <Content Include="Data_Files\Coupons.json" />
+    <Content Include="Data_Files\MemoryGame.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
@@ -364,7 +365,6 @@
     <Content Include="Views\Games\ListOfGames.cshtml" />
     <Content Include="Views\Games\SpaceGame.cshtml" />
     <Content Include="Views\Games\OuterSpaceGame.cshtml" />
-    <Content Include="Views\Games\Crossword.cshtml" />
     <Content Include="Views\Games\MemoryGame.cshtml" />
     <Content Include="Views\Games\TypingGame.cshtml" />
   </ItemGroup>

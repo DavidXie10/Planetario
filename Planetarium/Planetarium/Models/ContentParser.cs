@@ -52,6 +52,17 @@ namespace Planetarium.Models {
             return content;
         }
 
+        public Dictionary<string, string[]> GetScientistsFromJson() {
+            dynamic jsonCollection = ParseFromJSON("MemoryGame.json");
+            Dictionary<string, string[]> scientists = new Dictionary<string, string[]>();
+
+            foreach (var element in jsonCollection) {
+                scientists.Add(element.Id.ToString(), new string[]{ element.Name, element.Description, element.ImageRef });
+            }
+
+            return scientists;
+        }
+
         public List<QuizModel> GetQuizzesFromJson(dynamic jsonCollection) {
             List<QuizModel> quizzes = new List<QuizModel>();
             foreach(var element in jsonCollection) {
