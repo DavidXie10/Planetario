@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Planetarium.Models;
 
 namespace Planetarium.Controllers
 {
@@ -17,6 +18,23 @@ namespace Planetarium.Controllers
         public ActionResult IndexRate()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult SubmitRate() {
+            ActionResult view = RedirectToAction("Index", "Home");
+            string starChoice = "";
+            string filename = "WebsiteRate.txt";
+            if (Request.Cookies["rateStar"] != null) {
+                starChoice = Request.Cookies["rateStar"].Value;
+            }
+
+            TxtContentParser txtParser = new TxtContentParser();
+            string fileContent = txtParser.ExtractRawContent(filename);
+            fileContent += starChoice + ",";
+            txtParser.WriteToFile(fileContent, filename);
+
+            return view;
         }
 
         public ActionResult UXEvaluation() {
