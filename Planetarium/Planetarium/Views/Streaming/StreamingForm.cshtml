@@ -1,6 +1,7 @@
 ﻿@model Planetarium.Models.StreamingModel
 @{
     ViewBag.Title = "Agregar Streaming";
+    List<SelectListItem> educationalDropDownNamesList = ViewBag.DropDownActivitiesNames;
 }
 
 <head>
@@ -25,6 +26,14 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
+                                @Html.LabelFor(model => model.EducationalActivityTitle)
+                                @Html.DropDownListFor(model => model.EducationalActivityTitle, educationalDropDownNamesList, "- Sin selección -", new { @class = "form-select" })
+                                @Html.ValidationMessageFor(model => model.EducationalActivityTitle, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
                                 @Html.LabelFor(model => model.Link)
                                 @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @onkeyup = "checkValidLink(this)" })
                                 @Html.ValidationMessageFor(model => model.Link, "", new { @class = "text-danger" })
@@ -34,7 +43,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col text-end">
+                            <div class="col text-center">
                                 <input type="button" class="btn btn-success" style="margin-top: 15px; padding: 5px 55px 5px 55px;" onclick="checkData(this)" value="Agregar streaming" />
                                 <input id="buttonSubmit" type="submit" class="btn btn-success" style="margin-top: 15px; padding: 5px 55px 5px 55px; display: none" value="Agregar streaming" />
                             </div>

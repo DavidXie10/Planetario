@@ -24,6 +24,8 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult StreamingForm() {
+            ViewBag.DropDownActivitiesNames = ActivityDataAccess.GetAllActivitiesNames();
+
             return View();
         }
 
@@ -34,6 +36,7 @@ namespace Planetarium.Controllers {
             ViewBag.SuccessOnCreation = false;
             try {
                 ViewBag.SuccessOnCreation = ContentParser.WriteToJsonFile<StreamingModel>("Streamings.json", streaming, ContentParser.GetStreamingsFromJson);
+                ViewBag.SuccessOnCreation = ActivityDataAccess.InsertStreaming(streaming);
                 if (ViewBag.SuccessOnCreation) {
                     view = RedirectToAction("Success", "Home");
                     ViewBag.Message = "El streaming fue agregado con éxito";
@@ -43,6 +46,13 @@ namespace Planetarium.Controllers {
                 ViewBag.Message = "Algo salió mal y no fue posible crear el streaming";
             }
             return view;
+        }
+
+        public ActionResult ActivityStreaming(string title, string link) {
+            ViewBag.Title = title;
+            ViewBag.Link = link;
+
+            return View();
         }
     }
 }
