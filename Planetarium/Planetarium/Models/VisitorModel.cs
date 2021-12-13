@@ -22,6 +22,7 @@ namespace Planetarium.Models {
         [Required(ErrorMessage = "Es necesario que ingrese el número de cédula")]
         [Display(Name = "Número de cédula")]
         [MaxLength(15, ErrorMessage = "La cédula debe tener un máximo de 15 caracteres")]
+        [RegularExpression("^[a-zA-Z0-9]*", ErrorMessage = "Por favor, solo ingrese letras o números")]
         public string Dni { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese el país de origen")]
