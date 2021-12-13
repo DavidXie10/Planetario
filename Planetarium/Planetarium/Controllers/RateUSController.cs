@@ -18,7 +18,6 @@ namespace Planetarium.Controllers
             string starChoice = Request.Form["rateChoice"];
             string filename = "WebsiteRate.txt";
             UpdateRating(starChoice, filename);
-
             return view;
         }
 
