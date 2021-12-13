@@ -25,16 +25,26 @@ class TypingLegends {
         //Initialize Game
         this.startGame();
 
+        //Game Stat
+        this.mistakes = 0;
     }
 
     startGame() {
         this.changeText();
+        this.seconds = 0;
+        this.minutes = 0;
+        this.mistakes = 0;
     }
 
     changeText() {
         let randomOption = Math.floor(Math.random() * this.textOptions.length);
         this.textContainer.textContent = this.textOptions[randomOption];
         this.userEntryContainer.placeholder = this.textOptions[randomOption];
+        this.userEntryContainer.value = "";
+        if (this.timerInterval != "") {
+            this.stopTimer();
+            console.log("Se tiene que parar el timer");
+        }
     }
 
 
@@ -42,7 +52,7 @@ class TypingLegends {
 
         if (!this.timerActive) {
             this.startTimer();
-            this.timerActive = false;
+            this.timerActive = true;
         }
 
         let value = this.userEntryContainer.value;
@@ -53,6 +63,7 @@ class TypingLegends {
         } else {
             console.log("Se las pelo");
             this.changeToBadText();
+            this.mistakes += 1;
         }
 
         let progress = (value.length * 100 / textValue.length);
@@ -82,14 +93,27 @@ class TypingLegends {
 
     startTimer() {
         this.timerInterval = setInterval(() => {
-            let returnTime = this.timer(this.minutes, this.seconds);
-            this.minutes = returnTime[0];
-            this.seconds = returnTime[1];
+            console.log(this.timerActive);
+            if (this.timerActive) {
+                if (this.seconds + 1 == 60) {
+                    this.minutes += 1;
+                    this.seconds = 0;
+                } else {
+                    this.seconds++;
+                }
+            }
+            
+            console.log(this.minutes + ":" + this.seconds);
         }, 1000);
     }
 
     stopTimer() {
+        
+        console.log(this.timerInterval);
         clearInterval(this.timerInterval);
+        this.seconds = 0;
+        this.minutes = 0;
+        this.timerActive = false;
     }
 
     timer(minutes, seconds) {
@@ -101,6 +125,12 @@ class TypingLegends {
         }
 
         return [minutes, seconds];
+    }
+
+    getStats() {
+        let timeStat = this.minutes + ":" + this.seconds;
+        let damage = Math.round(this.mistakes * 100 / this.textContainer.textContent.length);
+        return [damage, timeStat];
     }
 }
 
