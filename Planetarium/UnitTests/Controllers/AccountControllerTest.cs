@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Web.Mvc;
 using Planetarium.Controllers;
 using Planetarium.Models;
+using System;
+using System.Web.Mvc;
 
 namespace UnitTests.Controllers {
     [TestClass]
@@ -21,17 +22,12 @@ namespace UnitTests.Controllers {
         }
 
         [TestMethod]
-        public void TestCorrectLoginCredentials() {
+        public void TestIncorrectLoginCredentials() {
             AccountController accountController = new AccountController();
-            LoginModel loginCredentials = new LoginModel { Password = "Mau", Username = "solvalle" };
+            LoginModel loginCredentials = new LoginModel { Password = "Contraseña", Username = "lionelMessi" };
             RedirectToRouteResult view = accountController.CheckCredentials(loginCredentials) as RedirectToRouteResult;
 
-            Assert.AreEqual("Index", view.RouteValues["action"]);
-        }
-
-        [TestMethod]
-        public void TestIncorrectLoginCredentials() {
-
+            Assert.AreEqual("Login", view);
         }
     }
 }
