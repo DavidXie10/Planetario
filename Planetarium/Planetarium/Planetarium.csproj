@@ -218,6 +218,16 @@
     <Content Include="Educational_Material\rover.png" />
     <Content Include="Educational_Material\saturn-54999-640.jpg" />
     <Content Include="images\astronaut.png" />
+    <Content Include="images\CuerposCelestes\earth.png" />
+    <Content Include="images\CuerposCelestes\jupiter.png" />
+    <Content Include="images\CuerposCelestes\mars.png" />
+    <Content Include="images\CuerposCelestes\mercury.png" />
+    <Content Include="images\CuerposCelestes\moon.png" />
+    <Content Include="images\CuerposCelestes\shadow.png" />
+    <Content Include="images\CuerposCelestes\sun.png" />
+    <Content Include="images\CuerposCelestes\suturn.png" />
+    <Content Include="images\CuerposCelestes\UrAnus.png" />
+    <Content Include="images\CuerposCelestes\venus.png" />
     <Content Include="images\earth.jpg" />
     <Content Include="images\eclipse.jpg" />
     <Content Include="images\EmployeesProfilePhotos\foto1.png" />
