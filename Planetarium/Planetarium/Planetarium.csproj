@@ -194,6 +194,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\indexRate.css" />
     <Content Include="Content\liveButton.css" />
+    <Content Include="Content\rateResultView.css" />
     <Content Include="Content\showStatistics.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\SolarSystem3DModel.css" />
@@ -364,6 +365,7 @@
     <Content Include="Views\RateUs\SuccessProcessRate.cshtml" />
     <Content Include="Views\RateUs\IndexRate.cshtml" />
     <Content Include="Views\RateUs\UXEvaluation.cshtml" />
+    <Content Include="Views\RateUs\RateResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

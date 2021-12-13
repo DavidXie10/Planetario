@@ -23,5 +23,10 @@ namespace Planetarium.Controllers
             ViewBag.Link= "https://docs.google.com/forms/d/e/1FAIpQLScpghh7KECEEjpnpJHqG1l9Zr2a4gcnDCpcKVpN1C2xt1ZMHw/viewform?embedded=true";
             return View();
         }
+
+        public ActionResult RateResults()
+        {
+            return View();
+        }
     }
 }
