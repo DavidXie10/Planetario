@@ -12,13 +12,14 @@
             <h1 class="text-center border border-success "><i class="fas fa-check-circle" style="color:#18bc9c"></i> @ViewBag.Message</h1>
             <br />
             <div class="text-center">
-                <h2>Porfavor no olvide calificarnos </h2>
+                <h2>Por favor no olvide calificarnos </h2>
                 <h5>Su calificación nos motiva a seguir mejorando</h5>
                 <div class="align-content-center offset-4" style="margin-top:3%; text-align:center">
                     @{ Html.RenderPartial("~/Views/RateUs/SuccessProcessRate.cshtml"); }
                 </div>
-                <div class="align-content-center" style="text-align:center; margin-top:5%">
+                <div class="align-content-center" style="text-align:center; margin-top:1%">
                     @Html.ActionLink("[Califícanos también en el cuestionario estandarizado aquí]", "UXEvaluation", "RateUS", null, new { @class = "", @style = "color:#0ACF83; text-align:center" })
+                    
                 </div>
             </div>
             <div class="button text-center" style="margin-top:2%; margin-bottom:5%">

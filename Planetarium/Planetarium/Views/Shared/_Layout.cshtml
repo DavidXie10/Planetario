@@ -62,7 +62,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/Employees/ListEmployees"><i class="fas fa-user-astronaut"></i> Funcionarios</a>
                         @if (rolCookie >= 5) {
-                            <a class="dropdown-item" href="/Employees/CreateEmployee"><i class="fas fa-user-plus"></i> Agregar funcionario</a>
+                        <a class="dropdown-item" href="/Employees/CreateEmployee"><i class="fas fa-user-plus"></i> Agregar funcionario</a>
                         }
                         <a class="dropdown-item" href="/Home/FindUs"><i class="fas fa-map-marked-alt"></i> Encuéntrenos</a>
                         <a class="dropdown-item" href="/Home/WhoWeAre"><i class="fas fa-users"></i> ¿Quienes Somos?</a>
@@ -76,49 +76,88 @@
                 </li>
 
                 @if (rolCookie >= 5) {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-poll"></i> Estadísticas
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/EducationalActivity/ShowStatistics"><i class="fas fa-meteor"></i> En actividades educativas</a>
-                            <a class="dropdown-item" href="/EducationalActivity/ShowStatisticsInvolvement"><i class="fas fa-poll-h"></i> Por temas</a>
-                            <a class="dropdown-item" href="/Employees/ShowEmployeesIdiomsStatistics"><i class="far fa-comments"></i> De idiomas de colaboradores</a>
-                        </div>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-poll"></i> Estadísticas
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/EducationalActivity/ShowStatistics"><i class="fas fa-meteor"></i> En actividades educativas</a>
+                        <a class="dropdown-item" href="/EducationalActivity/ShowStatisticsInvolvement"><i class="fas fa-poll-h"></i> Por temas</a>
+                        <a class="dropdown-item" href="/Employees/ShowEmployeesIdiomsStatistics"><i class="far fa-comments"></i> De idiomas de colaboradores</a>
+                    </div>
 
-                    </li>
+                </li>
                 }
                 @if (rolCookie != 0) {
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true"> <i class="fas fa-gift"></i> Souvenirs</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Souvenir/Catalog" tabindex="-1" aria-disabled="true"> <i class="fas fa-gift"></i> Souvenirs</a>
+                </li>
                 }
 
                 <li class="nav-item">
                     <a class="nav-link" href="/Games/HangManGame" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-poll-h"></i> Evalúenos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" onclick="displayModal()"><i class="fas fa-poll-h"></i> Cuéntanos tu experiencia en la página</a>
+                        <a class="dropdown-item" href="/RateUs/UXEvaluation"><i class="fas fa-tasks"></i> Realice nuestra encuesta estandarizada del sitio</a>
+                    </div>
+
+                </li>
             </ul>
             <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
                 @if (userIdentityCookie == null) {
-                    <li class="nav-item">
-                        <a href="/Account/Login" class="nav-link">Ingresar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Registrarme</a>
-                    </li>
+                <li class="nav-item">
+                    <a href="/Account/Login" class="nav-link">Ingresar</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/EducationalActivity/ActivityInscriptionForm" class="nav-link">Registrarme</a>
+                </li>
                 } else {
-                    <li class="nav-item">
-                        <a href="/Account/Login" class="nav-link">@userIdentityCookie</a>
-                    </li>
-                     <li class="nav-item">
-                        <a href="/Home/Index" class="nav-link" onclick="deleteCookie()">Salir</a>
-                    </li>
+                <li class="nav-item">
+                    <a href="/Account/Login" class="nav-link">@userIdentityCookie</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Home/Index" class="nav-link" onclick="deleteCookie()">Salir</a>
+                </li>
                 }
 
             </ul>
 
         </div>
     </nav>
+    <input type="hidden" class="btn btn-info btn-lg" data-toggle="modal" data-target="#RateUs" id="rateUsModal" />
+    <!-- Modal for Rate Us -->
+    <div class="modal fade" id="RateUs" role="dialog">
+        <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#2c3e50;display: block;">
+                    <h4 class="modal-title" style="text-align:center;color:white">Califica nuestro sitio web</h4>
+                </div>
+                <div class="modal-body">
+                    <h2 style="font-size:larger; text-align:center; ">¿Cuántas estrellas le da al sitio?</h2>
+                    @{ Html.RenderPartial("~/Views/RateUs/indexRate.cshtml"); }
+                    <div class="align-content-center" style="text-align:center">
+                        @Html.ActionLink("[Califícanos también en el cuestionario estandarizado aquí]", "UXEvaluation", "RateUS", null, new { @class = "", @style = "color:#0ACF83; text-align:center" })
+                    </div>
+                </div>
+                <div class="modal-footer align-content-center" style="text-align:center">
+                    <button type="button" class="btn btn-light" style="font-size:small; color:gray" data-dismiss="modal">Ahora no</button>
+
+                    @using (Html.BeginForm("SubmitRate", "RateUs", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                    @Html.AntiForgeryToken()
+                    <input style="display:none" value="5" id="rateChoice" />
+                    <input type="submit" class="btn btn-primary" style="font-size:small" value="Enviar" />
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="rounded">
         @RenderBody()
@@ -207,14 +246,19 @@
     @RenderSection("scripts", required: false)
 
     <script>
-    
+
         function deleteCookie() {
             document.cookie = "userIdentity=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
             document.cookie = "authCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         }
 
+        function displayModal() {
+            console.log("Entrando a display modal");
+            document.getElementById("rateUsModal").click();
+            console.log("Saliendo de display modal");
+        }
     </script>
 
-    
+
 </body>
 </html>
