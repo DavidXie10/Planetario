@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Planetarium.Models;
+﻿using System.Web.Mvc;
 using Planetarium.Handlers;
 
 namespace Planetarium.Controllers {
     public class CouponController : Controller {
-        public CouponHandler couponHandler { get; set; }
+        public CouponHandler CouponHandler { get; set; }
 
         public CouponController() {
-            couponHandler = new CouponHandler();
+            CouponHandler = new CouponHandler();
         }
 
         public ActionResult Coupons() {
-            ViewBag.Coupons = couponHandler.GetAllCoupons("402540855"); //TODO: cambiar por la persona del rol
+            ViewBag.Coupons = CouponHandler.GetAllCoupons("402540855"); //TODO: cambiar por la persona del rol
             return View();
         }
     }

@@ -26,7 +26,7 @@ header {
 
 
 .icons {
-    display: inline;
+    display: contents;
     float: right;
     z-index: 9;
     margin: -35px;
@@ -64,7 +64,7 @@ header {
 .fasNotificationBell {
     font-size: 20pt;
     padding-bottom: 10px;
-    color: white;
+    color: #2C3E50;
     margin-right: 40px;
     margin-left: 40px;
 }
@@ -84,6 +84,7 @@ header {
     -moz-box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 10px 10px 23px 0px rgba(0, 0, 0, 0.1);
     cursor: context-menu;
+    z-index: 10;
 }
 
 .fas:hover {

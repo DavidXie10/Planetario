@@ -9,7 +9,6 @@
                 data: { category: $("#Category").val() },
 
                 success: function (topics) {
-                    //$("#topicSelect").append('<option value="" >' + "---Seleccione un topico---" + '</option>');
                     $.each(topics, function (i, topic) {
                         $("#topicSelect").append('<option value=' + topic.Value.replace(" ", "_") + '>' + topic.Text + '</option>');
                     });

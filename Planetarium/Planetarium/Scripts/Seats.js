@@ -1,9 +1,21 @@
 ﻿class SeatGenerator {
-    constructor(seatTableContainerId, maxParticipants, url) {
+    constructor(seatTableContainerId, maxParticipants, url, inputIds) {
         this.seatTableContainerId = seatTableContainerId;
         this.maxParticipants = parseInt(maxParticipants);
+        this.inputIds = inputIds;
+        
+        this.askedSeats = parseInt(this.childSeats) + parseInt(this.adultSeats) + parseInt(this.seniorSeats);
         this.url = url;
         this.generateSeatArray();
+        this.seatCounter = 0;
+    }
+
+    countAskedSeats(inputIds) {
+        let totalValue = 0;
+        for (let i = 0; i < 3; i++) {
+            totalValue += document.querySelector(inputIds[i]).value;
+        }
+        return totalValue;
     }
 
     async generateSeatArray() {
@@ -37,6 +49,15 @@
         }
     }
 
+
+    updateAskedSeats() {
+        this.childSeats = document.querySelector(this.inputIds[0]).value;
+        this.adultSeats = document.querySelector(this.inputIds[1]).value;
+        this.seniorSeats = document.querySelector(this.inputIds[2]).value;
+        this.askedSeats = parseInt(this.childSeats) + parseInt(this.adultSeats) + parseInt(this.seniorSeats);
+        this.clearSelection();
+    }
+
     async fetchReservedSeats() {
         const response = await fetch(this.url);
         const seatsFromDB = await response.json();
@@ -58,7 +79,11 @@
         //Setting the event listener
         if (type != "btn-danger") {
             seat.addEventListener("click", event => {
-                this.buttonClicked(event.target);
+                if (this.seatCounter < this.askedSeats) {
+                    this.buttonClicked(event.target);
+                    this.seatCounter++;
+                }
+                
             })
         }
         
@@ -67,11 +92,10 @@
     }
 
     buttonClicked(target) {
-        this.clearSelection();
+        //this.clearSelection();
         this.selectButton(target);
         this.enableButton();
     }
-
 
     selectButton(button) {
         button.classList.remove("btn-success");
@@ -111,6 +135,38 @@
                 reviewedButtons++;
             }
         }
+        this.seatCounter = 0;
+    }
+
+    getSeats() {
+        let selectedSeats = [];
+        let table = document.getElementById(this.seatTableContainerId);
+        let rows = table.rows.length;
+        let cols = table.rows[0].cells.length;
+        let reviewedButtons = 0;
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols && reviewedButtons < this.maxParticipants; j++) {
+                let button = table.rows[i].cells[j].childNodes[0];
+                if (this.isSelected(button)) {
+                    selectedSeats.push(button.textContent);
+                }
+                reviewedButtons++;
+            }
+        }
+        return selectedSeats;
+    }
+
+    getSeatTypes() {
+        let seatTypes = this.childSeats + "," + this.adultSeats + "," + this.seniorSeats;
+        return seatTypes;
+    }
+
+    isSelected(button) {
+        let isSelected = false;
+        if (button.classList.contains("btn-success")) {
+            isSelected = true;
+        }
+        return isSelected;
     }
 
     enableButton() {
@@ -150,10 +206,17 @@ function isSelected(button) {
 
 function checkData() {
     let stringInput = document.getElementById("selectedSeat");
+    let seats = seatsGen.getSeats();
+    let parsedSeats = "";
+    seats.forEach(element => {
+        parsedSeats += element + ",";
+    });
+
+    stringInput.value = parsedSeats;
 
     if (stringInput.value != '') {
+        document.querySelector("#selectedSeatType").value = seatsGen.getSeatTypes();
         document.getElementById("Reservar").click();
     }
-    console.log(stringInput.value);
 }
 

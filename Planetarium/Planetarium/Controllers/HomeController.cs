@@ -1,22 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
 using Planetarium.Handlers;
 using Planetarium.Models;
 
 namespace Planetarium.Controllers {
     public class HomeController : Controller {
-        ContentParser contentParser = new ContentParser();
+        public ContentParser ContentParser = new ContentParser();
+        public AuthHandler AuthDataAccess = new AuthHandler();
+        public CouponHandler CouponDataAccess = new CouponHandler();
+        public VisitorHandler VisitorDataAccess = new VisitorHandler();
+
         public ActionResult Index() {
-
-            //Testing Cookies
-
-            //HttpCookie cookie = new HttpCookie("userIdentity");
-            //cookie.Value = "Carlos Espinoza";
-            //cookie.Expires = System.DateTime.Now.AddMinutes(2);
-            //Response.Cookies.Add(cookie);
-
-            //End of Testing Cookies
 
             NewsHandler dataAccess = new NewsHandler();
             EducationalActivityHandler educationalActivityHandler = new EducationalActivityHandler();
@@ -29,9 +23,15 @@ namespace Planetarium.Controllers {
             ViewBag.Events = feed;
             ViewBag.EventsToCal = eventFeed;
 
-            List<StreamingModel> streamings = contentParser.GetContentsFromJson<StreamingModel>("Streamings.json", contentParser.GetStreamingsFromJson);
+            List<StreamingModel> streamings = ContentParser.GetContentsFromJson<StreamingModel>("Streamings.json", ContentParser.GetStreamingsFromJson);
             ViewBag.Streamings = streamings;
-            ViewBag.Coupons = couponHandler.GetAllCoupons("402540855");
+
+            if (Request.Cookies["userIdentity"] != null) {
+                UserModel user = AuthDataAccess.GetUserByUsername(Request.Cookies["userIdentity"].Value);
+                ViewBag.VisitorDni = VisitorDataAccess.GetVisitorByDni(user.Dni, true).Dni;
+                ViewBag.Coupons = CouponDataAccess.GetAllCoupons(user.Dni);
+            } 
+
             ViewBag.Us = WhoWeAre();
             ViewBag.Activities = educationalActivityHandler.GetAllApprovedActivities();
             ViewBag.News = dataAccess.GetAllNews();
@@ -40,7 +40,7 @@ namespace Planetarium.Controllers {
         }
         
         public ActionResult FindUs() {
-            dynamic jsonContent = contentParser.ParseFromJSON("Services.json");
+            dynamic jsonContent = ContentParser.ParseFromJSON("Services.json");
             string[] schedule = jsonContent.Horarios.ToObject<string[]>();
             string[] transportBuses = jsonContent.Buses.ToObject<string[]>();
             string[] transportTrains = jsonContent.Trenes.ToObject<string[]>();

@@ -127,8 +127,8 @@
                                     </div>
                                 </div>
                                 <div class="row" style="text-align:right; margin-top: 5px;">
-                                    <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust w-100">                                    
-                                        <input data-toggle="modal" data-target="#invoiceModal" value="Pagar" type="button" class="btn btn-success btn-block" style="color:white" onclick="checkData()" />
+                                        @Html.ActionLink("Pagar", "Invoice", "EducationalActivity", new { dni = ViewBag.visitor.Dni, title = ViewBag.title, date = ViewBag.date, seat = ViewBag.seatInfo, price = ViewBag.price}, new { @id ="submit", @class = "btn btn-success", @style = "display: none" })
+                                        <input type="button" class="btn btn-success btn-block" value="Pagar" onclick="checkDataEducationalActivity()" />
                                     </div>
                                 </div>
                             </form>
@@ -183,34 +183,6 @@
 </body>
 
 <script>
-
-    function discountApplied(price) {
-        let userDiscountInput = document.getElementById("coupon").value;
-        let coupon = getCouponByCode(userDiscountInput);
-        if (coupon) {
-            let discount = price * coupon.Discount;
-            var totalPrice = price - discount;
-            document.getElementById("discount").innerHTML = "Descuento: - ₡" + discount;
-            document.getElementById("totalPrice").innerHTML = "Total a pagar ₡ " + totalPrice;
-            document.getElementById("InvoiceDiscount").innerHTML = "Descuento aplicado: - ₡ " + discount + " colones";
-            document.getElementById("InvoiceTotalPrice").innerHTML = "Monto cancelado ₡ " + totalPrice +" colones";
-        } else {
-            document.getElementById("discount").innerHTML = " ";
-            document.getElementById("totalPrice").innerHTML = " ";
-        }
-    }
-
-    function getFinalPrice(price) {
-        let userDiscountInput = document.getElementById("coupon").value;
-        let coupon = getCouponByCode(userDiscountInput);
-        if (coupon){
-            let discount = price * coupon.Discount;
-            return price - discount;
-        }
-
-        return 0;
-    }
-
     function getCouponByCode(code) {
         let allCoupons = @Html.Raw(Json.Encode(@ViewBag.Coupons));
         for (let coupon of allCoupons) {
@@ -221,49 +193,6 @@
 
         return null;
     }
-
-    function checkData() {
-
-        let valid = true;
-
-        let userName = document.getElementById("fname").value;
-        let userLastName = document.getElementById("lname").value;
-        let userMailName = document.getElementById("email").value;
-        let cardNumber = document.getElementById("creditCardNumber").value;
-        let month = document.getElementById("monthInput").value;
-        let year = document.getElementById("yearInput").value;
-        let cvc = document.getElementById("cvcInput").value;
-
-        valid = checkValidInput(userName, "#nameEror", "Por favor ingrese un nombre");
-        valid = checkValidInput(userLastName, "#lastNameError", "Ingrese un DNI");
-        valid = checkValidInput(userMailName, "#emailError", "Ingrese un correo");
-        valid = checkValidInput(cardNumber, "#cardNumberError", "Ingrese un número de tarjeta");
-        valid = checkValidInput(month, "#monthError", "Ingrese un mes válido");
-        valid = checkValidInput(year, "#yearError", "Ingrese un año");
-        valid = checkValidInput(cvc, "#cvcError", "Ingrese el cvc al que se encuentra al reverso de su tarjeta");
-
-        if (valid) {
-            document.getElementById("submit").click();
-        }
-    }
-
-    function checkValidInput(containerValue, errorContainerId, errorMsg) {
-        let valid = true;
-        if (containerValue == '') {
-            document.querySelector(errorContainerId).innerHTML = errorMsg;
-            valid = false;
-            document.getElementById("InvoiceModal").innerHTML = "";
-        }
-        return valid;
-    }
-
-
-    function monthLimiter(input) {
-        if (input.value < 1) input.value = '';
-        if (input.value > 12) input.value = '';
-    }
-
-    function yearLimiter(input) {
-        if (input.value < 21) input.value = '';
-    }
 </script>
+<script src="~/Scripts/payMethod.js" type="text/javascript"></script>
+<script src="~/Scripts/payMethodEducationalActivity.js" type="text/javascript"></script>

@@ -175,7 +175,7 @@ namespace Planetarium.Controllers {
             string id = Request.Form["dni"];
             string title = Request.Form["title"];
             string date = Request.Form["date"];
-            string seat = Request.Form["selectedSeatString"];
+            string seat = Request.Form["selectedSeatString"] + "|" + Request.Form["selectedSeatTypeString"];
             double price = ActivityDataAccess.GetPrice(title, date);
 
             if (price > 0) {
@@ -187,8 +187,7 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult PayMethod(string dni = "0", string title = "", string date = "", string seat = "0-0") {
-            VisitorModel visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
-            ViewBag.Visitor = visitor;
+            ViewBag.visitor = VisitorDataAccess.GetVisitorByDni(dni, true);
             ViewBag.title = title;
             ViewBag.date = date;
             ViewBag.seat = seat;
@@ -196,6 +195,12 @@ namespace Planetarium.Controllers {
             ViewBag.Coupons = CouponDataAccess.GetAllCoupons(dni);
             
             //ViewBag.Coupons = CouponDataAccess.DeleteCoupon("#Planetario_50");
+            ViewBag.seatInfo = seat;
+            ViewBag.seat = seat.Split('|')[0];
+
+            ViewBag.Price = ActivityDataAccess.GetPrice(ViewBag.title, ViewBag.date) * (seat.Split('|')[0].Split(',').Count() - 1);
+
+            //MODIFICAAR
             return View();
         }
         
@@ -233,17 +238,18 @@ namespace Planetarium.Controllers {
             ViewBag.Visitor = visitor;
             ViewBag.Title = title;
             ViewBag.Date = date;
-            ViewBag.Seat = seat;
+            ViewBag.Seat = seat.Split('|')[0];
             ViewBag.Price = price;
             
             ActionResult view = RedirectToAction("PayMethod", "EducationalActivity", new { dni = visitor.Dni, title = title, date = date, seat = seat });
             try {
-                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVisitor(visitor.Dni, title, date, seat, price, "Infantil");
+                ViewBag.SuccessOnCreation = VisitorDataAccess.InsertVariousVisitors(visitor.Dni, title, date, price, seat.Split('|')[0], seat.Split('|')[1]);
                 if (ViewBag.SuccessOnCreation) {
                     view = View();
                 }
-            } catch {
-                TempData["WarningMessage"] = "Algo salió mal";
+            } catch(Exception e) {
+                TempData["WarningMessage"] = e.ToString();
+
             }
 
             return view;

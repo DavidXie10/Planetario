@@ -1,0 +1,101 @@
+﻿
+<head>
+    <title>Carrito de compras</title>    
+</head>
+
+<body>
+    <div class="container" style="height: auto; margin-bottom: 10rem;">
+        <div class="row mt-4">
+            <div class="col-6">
+                <h2>Carrito de compras</h2>
+            </div>
+            @if (ViewBag.SelectedSouvenirs != null) {
+                <div class="col-6 text-end">
+                    @Html.ActionLink("Comprar", "PayMethod", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success w-25", @style = "font-size: 17pt" })
+                </div>
+             }
+        </div>
+        <hr />
+        @if (ViewBag.SelectedSouvenirs != null) {
+            <div class="row d-flex">
+                @foreach (var souvenir in ViewBag.SelectedSouvenirs) {
+                    string id = @souvenir.SouvenirId + "-container";
+                    <div class="col-6 d-flex justify-content-evenly" style="margin: 15px 0 15px 0;" id=@id>
+                        <div class="card rounded-3 bg-light w-100 p-3">
+                            <div class="row">
+                                <div class="col text-end align-content-center">
+                                    @{string modalId = "showModal" + souvenir.SouvenirId;}
+                                    <a id="@souvenir.SouvenirId" class="align-self-end align-self-right link-secondary eliminate" style="font-size:large;"  data-toggle="modal" data-target="#confimationModal" onclick="changeModal(this.id)">[Eliminar]</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="~/images/Souvenirs/@souvenir.ImagesRef[0]" width="165" height="200" class="img_squareImg" alt="Responsive image">
+                                </div>
+                                <div class="col">
+                                    <p><strong>Nombre de producto:</strong>@souvenir.Name</p>
+                                    <p>@souvenir.Description</p>
+                                    <p><strong>Precio: </strong>@souvenir.Price</p>
+                                    <p><strong>Cantidad: </strong>@souvenir.SelectedCount</p>
+                                    <p><strong>Categoría: </strong>@souvenir.Category</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="modal fade" id="confimationModal" tabindex="-1" aria-labelledby="confimationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confimationModalLabel">¿Desea eliminar este producto del carrito?</h5>
+                            <button type="button" class="close btn btn-danger" data-dismiss="modal" id="closeModal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-6 text-end">
+                                    <input type="button" class="btn btn-danger btn-block w-50" value="No" onclick="closeModal()" />
+                                </div>
+                                <br />
+                                <div class="col-6 text-start">
+                                    <input id="yesButton" type="button" class="btn btn-secondary btn-block w-50" value="Sí" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    <div class="row" id="emptyCartMessage" style="display:none; height: 50vh">
+        <div class="col-md-6 pad-adjust w-100 text-center" style="margin-top: 10%;">
+            <h2 class="fw-bold">Su carrito se encuentra vacío</h2>
+        </div>
+
+        <div class="col-md-6 pad-adjust w-100 text-center" style="margin-top: 8%;">
+            @Html.ActionLink("Ver catálogo", "Catalog", "Souvenir", new { }, new { @id = "submit", @class = "btn btn-success w-25", @style = "font-size: 17pt"  })
+        </div>
+    </div>
+
+    </div>
+</body>
+
+<script>
+    function checkCartContent() {
+        let selectedSouvenirs = @Html.Raw(Json.Encode(ViewBag.SelectedSouvenirs));
+
+        if (selectedSouvenirs == null || getCookieValue("itemsCart") == "") {
+            document.getElementById("emptyCartMessage").style.display = "block";
+        }
+    }
+</script>
+<script src="~/Scripts/shoppingCart.js" type="text/javascript"></script>
+<style>
+    .eliminate:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: red;
+    }
+</style>

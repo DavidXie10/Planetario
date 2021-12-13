@@ -1,0 +1,93 @@
+﻿@{
+    string simpleItemReportUrl = Url.Content("~/DataAnalytics/GetSimpleItemReport");
+    string simpleTicketReportUrl = Url.Content("~/DataAnalytics/GetSimpleTicketReport");
+    string advancedTicketReportUrl = Url.Content("~/DataAnalytics/GetAdvanceTicketReport");
+    string advancedItemReportUrl = Url.Content("~/DataAnalytics/GetAdvanceItemReport");
+}
+
+<head>
+    <title>Reporte de compras</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>Reporte de Compra</h1>
+
+
+        <div class="card border-0">
+            <div class="card-body">
+                <div class="row d-flex align-items-center">
+                    <div class="col-3">
+                        <label>Desde:</label>
+                        <input class="form-control" type="date" name="name" value="" id="startDate" />
+                    </div>
+
+                    <div class="col-3">
+                        <label>Hasta:</label>
+                        <input class="form-control" type="date" name="name" value="" id="endDate" />
+                    </div>
+                    <hr style="margin-top: 20px" />
+                    <div class="col">
+                        <input type="radio" name="name" value="" class="form-check-input" />
+                        <label class="form-check-label">General</label>
+                        <span style="margin: 0 10px 0 10px;"></span>
+                        <input type="radio" name="name" value="" class="form-check-input" id="advancedSelector" />
+                        <label class="form-check-label">Avanzado</label>
+                    </div>
+                </div>
+
+                <div class="row d-flex align-items-center text-center">
+                    <hr style="margin-top: 20px" />
+                    <div class="col">
+                        <button class="btn btn-info" onclick="generateItemsReport()">Generar Reporte de Artículos</button>
+                    </div>
+
+                    <div class="col">
+                        <button class="btn btn-info" onclick="generateTicketsReport()">Generar Reporte de Tiquetes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="card">
+            <div class="card-body">
+                <table id="reportContainer" class="table"></table>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/ReportGenerator.js"></script>
+    <script>
+        let inputIds = ["#startDate", "#endDate"];
+        let tableId = "#reportContainer";
+        let reportGenerator = new ReportGenerator(inputIds, tableId, "simple");
+        let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+        function generateItemsReport() {
+            let advancedActive = document.querySelector("#advancedSelector").checked;
+            if (!advancedActive) {
+                let tableHeaderNames = ["ID", "Nombre", "Cantidad Vendida", "Ultima Fecha de Compra", "Precio del Producto", "Ingreso"];
+                reportGenerator.generateItemReport("@simpleItemReportUrl", tableHeaderNames);
+            } else {
+                let tableHeaderNames = ["ID", "Nombre", "Infantil", "Juvenil", "Adulto", "Adulto Mayor", "Ingreso"];
+                reportGenerator.generateItemReport("@advancedItemReportUrl", tableHeaderNames);
+            }
+
+        }
+
+        function generateTicketsReport() {
+            let advancedActive = document.querySelector("#advancedSelector").checked;
+            if (!advancedActive) {
+                let tableHeaderNames = ["Nombre de la Actividad", "Fecha de Inicio", "Cantidad Vendida", "Ingreso"];
+                reportGenerator.generateTicketReport("@simpleTicketReportUrl", tableHeaderNames);
+            } else {
+                let tableHeaderNames = ["Nombre de la Actividad", "Fecha de Inicio", "Infantil", "Juvenil", "Adulto", "Adulto Mayor", "Ingreso"];
+                reportGenerator.generateTicketReport("@advancedTicketReportUrl", tableHeaderNames);
+            }
+        }
+    </script>
+
+</body>

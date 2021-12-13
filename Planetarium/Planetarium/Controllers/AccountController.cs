@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Planetarium.Models;
 using Planetarium.Handlers;
 
-namespace Planetarium.Controllers
-{
-    public class AccountController : Controller
-    {
+namespace Planetarium.Controllers {
+    public class AccountController : Controller {
         public AuthHandler AuthDataAccess { get; set; }
         public AuthorizationController AuthController { get; set; }
 
@@ -43,9 +39,8 @@ namespace Planetarium.Controllers
                 view = RedirectToAction("Index", "Home");
                 
             } else {
-                TempData["WarningMessage"] = "Algo salió mal";
+                TempData["WarningMessage"] = "Algo salió mal. El usuario o la contraseña está incorrecto";
             }
-
 
             return view;
         }
@@ -58,12 +53,9 @@ namespace Planetarium.Controllers
             return View();
         }
 
-
         public ActionResult LoginUser(string username) {
             ActionResult view = RedirectToAction("Index", "Home");
             return view;
-            //bool loginSuccessful = false;
-            //return Json(loginSuccessful, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -77,8 +69,5 @@ namespace Planetarium.Controllers
             List<string> userNames = AuthDataAccess.GetAllVisitorsUserNames();
             return Json(userNames, JsonRequestBehavior.AllowGet);
         }
-
-        
-
     }
 }
