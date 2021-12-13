@@ -34,8 +34,8 @@
                         @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
 
                         @Html.LabelFor(model => model.Password)
-                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @rows = "5" })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @rows = "5", @type = "password", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger"})
 
                         <hr />
                         <div class="text-center">

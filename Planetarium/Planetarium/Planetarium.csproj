@@ -423,6 +423,7 @@
     <Content Include="Views\RateUs\UXEvaluation.cshtml" />
     <Content Include="Views\RateUs\RateResults.cshtml" />
     <Content Include="Views\Streaming\ActivityStreaming.cshtml" />
+    <Content Include="Views\Games\HangManGame.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
