@@ -15,7 +15,14 @@ namespace Planetarium.Controllers
         [HttpPost]
         public ActionResult SubmitRate() {
             ActionResult view = RedirectToAction("Index", "Home");
-            string starChoice = Request.Form["rateChoice"];
+            string starChoice = "";
+
+            if (Request.Cookies["rateStar"] != null) {
+                starChoice = Request.Cookies["rateStar"].Value;
+            } else {
+                starChoice = "5";
+            }
+
             string filename = "WebsiteRate.txt";
             UpdateRating(starChoice, filename);
             return view;
