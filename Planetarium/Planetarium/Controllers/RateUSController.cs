@@ -1,37 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Planetarium.Models;
 
 namespace Planetarium.Controllers
 {
-    public class RateUSController : Controller
-    {
-        public ActionResult SuccessProcessRate()
-        {
+    public class RateUSController : Controller{
+        public ActionResult SuccessProcessRate() {
             return View();
         }
 
-        public ActionResult IndexRate()
-        {
+        public ActionResult IndexRate() {
             return View();
         }
 
         [HttpPost]
         public ActionResult SubmitRate() {
             ActionResult view = RedirectToAction("Index", "Home");
-            string starChoice = "";
+            string starChoice = Request.Form["rateChoice"];
             string filename = "WebsiteRate.txt";
-            if (Request.Cookies["rateStar"] != null) {
-                starChoice = Request.Cookies["rateStar"].Value;
-            }
-
-            TxtContentParser txtParser = new TxtContentParser();
-            string fileContent = txtParser.ExtractRawContent(filename);
-            fileContent += starChoice + ",";
-            txtParser.WriteToFile(fileContent, filename);
+            UpdateRating(starChoice, filename);
 
             return view;
         }
@@ -39,47 +25,52 @@ namespace Planetarium.Controllers
         [HttpPost]
         public ActionResult SubmitProcessesRate() {
             ActionResult view = RedirectToAction("Index", "Home");
-            string emojiChoice = Request.Form["rateChoice"];
+            string emojiChoice = Request.Form["rateProcessChoice"];
+            string filename = "Processes.txt";
+            UpdateRating(emojiChoice, filename);
             
-            /*
-            TxtContentParser txtParser = new TxtContentParser();
-            string fileContent = txtParser.ExtractRawContent(filename);
-            fileContent += emojiChoice + ",";
-            txtParser.WriteToFile(fileContent, filename);
-            */
             return view;
         }
 
-        public ActionResult UXEvaluation() {
-            ViewBag.Link= "https://docs.google.com/forms/d/e/1FAIpQLScpghh7KECEEjpnpJHqG1l9Zr2a4gcnDCpcKVpN1C2xt1ZMHw/viewform?embedded=true";
-            return View();
+        private void UpdateRating(string content, string filename) {
+            TxtContentParser txtParser = new TxtContentParser();
+            string fileContent = txtParser.ExtractRawContent(filename);
+            fileContent += content + ",";
+            txtParser.WriteToFile(fileContent, filename);
         }
 
         public ActionResult RateResults() {
-            string filename = "WebsiteRate.txt";
-            TxtContentParser txtParser = new TxtContentParser();
-            string fileContent = txtParser.ExtractRawContent(filename);
-            string[] evaluations = fileContent.Split(',');
+            SetStarsChartData();
+            SetProcessesChartData();
 
-            //star survey
+            return View();
+        }
+
+        private void SetStarsChartData() {
+            string[] evaluations = GetEvaluations("WebsiteRate.txt");
             ViewBag.StarTotalResult = CountTotalElements(evaluations);
             SetResultsOfStars(evaluations);
             SetStarPercentages();
+        }
 
-            //faces survey
-            ViewBag.ExcelentResult = 0;
-            ViewBag.VeryGoodResult = 0;
-            ViewBag.GoodResult = 0;
-            ViewBag.FineResult = 0;
-            ViewBag.BadResult = 0;
-            ViewBag.ReallyBadResult = 0;
-            return View();
+        private void SetProcessesChartData() {
+            string[] evaluations = GetEvaluations("Processes.txt");
+            ViewBag.ProcessesTotalResult = CountTotalElements(evaluations);
+            SetResultsOfProcesses(evaluations);
+            SetProcessesPercentages();
+        }
+
+        private string[] GetEvaluations(string filename) {
+            TxtContentParser txtParser = new TxtContentParser();
+            string fileContent = txtParser.ExtractRawContent(filename);
+            string[] evaluations = fileContent.Split(',');
+            return evaluations;
         }
 
         private int CountEvaluation(string value, string[] choices) {
             int counter = 0;
-            foreach(string choice in choices) {
-                if(choice == value) {
+            foreach (string choice in choices) {
+                if (choice == value) {
                     ++counter;
                 }
             }
@@ -110,6 +101,14 @@ namespace Planetarium.Controllers
             ViewBag.OneStarResult = CountEvaluation("1", evaluations);
         }
 
+        private void SetResultsOfProcesses(string[] evaluations) {
+            ViewBag.ExcelentResult = CountEvaluation("5", evaluations);
+            ViewBag.GoodResult = CountEvaluation("4", evaluations);
+            ViewBag.FineResult = CountEvaluation("3", evaluations);
+            ViewBag.BadResult = CountEvaluation("2", evaluations);
+            ViewBag.ReallyBadResult = CountEvaluation("1", evaluations);
+        }
+
         private void SetStarPercentages() {
             ViewBag.FiveStarPercentage = GetPercentage(ViewBag.FiveStarResult, ViewBag.StarTotalResult);
             ViewBag.FourStarPercentage = GetPercentage(ViewBag.FourStarResult, ViewBag.StarTotalResult);
@@ -118,5 +117,17 @@ namespace Planetarium.Controllers
             ViewBag.OneStarPercentage = GetPercentage(ViewBag.OneStarResult, ViewBag.StarTotalResult);
         }
 
+        private void SetProcessesPercentages() {
+            ViewBag.ExcelentResultPercentage = GetPercentage(ViewBag.ExcelentResult, ViewBag.StarTotalResult);
+            ViewBag.GoodResultPercentage = GetPercentage(ViewBag.GoodResult, ViewBag.StarTotalResult);
+            ViewBag.FineResultPercentage = GetPercentage(ViewBag.FineResult, ViewBag.StarTotalResult);
+            ViewBag.BadResultPercentage = GetPercentage(ViewBag.BadResult, ViewBag.StarTotalResult);
+            ViewBag.ReallyBadResultPercentage = GetPercentage(ViewBag.ReallyBadResult, ViewBag.StarTotalResult);
+        }
+
+        public ActionResult UXEvaluation() {
+            ViewBag.Link= "https://docs.google.com/forms/d/e/1FAIpQLScpghh7KECEEjpnpJHqG1l9Zr2a4gcnDCpcKVpN1C2xt1ZMHw/viewform?embedded=true";
+            return View();
+        }
     }
 }

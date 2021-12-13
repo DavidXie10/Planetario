@@ -59,7 +59,7 @@
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                            <div class="bar-2"style="width: @ViewBag.TwoStarPercentage%; height: 18px;background-color: #ff9800;"></div>
+                            <div class="bar-2" style="width: @ViewBag.TwoStarPercentage%; height: 18px;background-color: #ff9800;"></div>
                         </div>
                     </div>
                     <div class="side right">
@@ -81,7 +81,7 @@
 
             <div style="margin-top:5%">
                 <span class="heading">Calificación de los servicios del sitio web</span>
-                <p>Basado en un total de (AQUI VA EL COUNT()) evaluaciones.</p>
+                <p>Basado en un total de @ViewBag.ProcessesTotalResult evaluaciones.</p>
                 <hr style="border:3px solid #f1f1f1">
                 <div class="row">
                     <div class="side">
@@ -89,55 +89,55 @@
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                            <div class="bar-5" style="width: 60%; height: 18px;background-color: #04AA6D;"></div>
+                            <div class="bar-5" style="width: @ViewBag.ExcelentResultPercentage%; height: 18px;background-color: #04AA6D;"></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>150</div>
+                        <div>@ViewBag.ExcelentResult</div>
                     </div>
                     <div class="side">
                         <div>Bueno</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                            <div class="bar-4"style="width: 60%; height: 18px;background-color: #2196F3;"></div>
+                            <div class="bar-4"style="width: @ViewBag.GoodResultPercentage%; height: 18px;background-color: #2196F3;"></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>63</div>
+                        <div>@ViewBag.GoodResult</div>
                     </div>
                     <div class="side">
                         <div>Regular</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                            <div class="bar-3"style="width: 60%; height: 18px; background-color: #00bcd4;"></div>
+                            <div class="bar-3"style="width: @ViewBag.FineResultPercentage%; height: 18px; background-color: #00bcd4;"></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>15</div>
+                        <div>@ViewBag.FineResult</div>
                     </div>
                     <div class="side">
                         <div>Malo</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                            <div class="bar-2"style="width: 60%; height: 18px;background-color: #ff9800;"></div>
+                            <div class="bar-2"style="width: @ViewBag.BadResultPercentage%; height: 18px;background-color: #ff9800;"></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>6</div>
+                        <div>@ViewBag.BadResult</div>
                     </div>
                     <div class="side">
                         <div>Pésimo</div>
                     </div>
                     <div class="middle">
                         <div class="bar-container">
-                            <div class="bar-1"style="width: 60%; height: 18px;background-color: #f44336;"></div>
+                            <div class="bar-1"style="width: @ViewBag.ReallyBadResultPercentage%; height: 18px;background-color: #f44336;"></div>
                         </div>
                     </div>
                     <div class="side right">
-                        <div>20</div>
+                        <div>@ViewBag.ReallyBadResult</div>
                     </div>
                 </div>
             </div>

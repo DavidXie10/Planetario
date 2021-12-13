@@ -142,11 +142,13 @@
                 </div>
                 <div class="modal-footer align-content-center" style="text-align:center">
                     <button type="button" class="btn btn-light" style="font-size:small; color:gray" data-dismiss="modal">Ahora no</button>
+
                     @using (Html.BeginForm("SubmitRate", "RateUs", FormMethod.Post, new { enctype = "multipart/form-data" })) {
                         @Html.AntiForgeryToken()
-                        <input style="display:none" value="5" id="rateChoice" />
+                        <input style="display:none" value="5" name="rateChoice" id="rateChoice" />
                         <input type="submit" class="btn btn-primary" style="font-size:small" value="Enviar" />
                     }
+
                 </div>
             </div>
         </div>
@@ -163,11 +165,7 @@
 
         function updateRating(choice){
             document.getElementById("rateChoice").value = choice;
-            document.cookie = "rateStar=" + choice;
         }
-
-        document.cookie = "rateStar=" + 5;
-
     </script>
 
 </body>

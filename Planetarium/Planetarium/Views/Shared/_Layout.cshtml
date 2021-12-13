@@ -97,17 +97,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/Games/HangManGame" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
                 </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-poll-h"></i> Evalúenos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" onclick="displayModal()"><i class="fas fa-poll-h"></i> Cuéntanos tu experiencia en la página</a>
-                        <a class="dropdown-item" href="/RateUs/UXEvaluation"><i class="fas fa-tasks"></i> Realice nuestra encuesta estandarizada del sitio</a>
-                    </div>
-
-                </li>
             </ul>
             <ul class="navbar-nav text-end" style="position: absolute; right: 0;">
                 @if (userIdentityCookie == null) {
@@ -158,6 +147,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="rounded">
         @RenderBody()
@@ -253,10 +243,9 @@
         }
 
         function displayModal() {
-            console.log("Entrando a display modal");
             document.getElementById("rateUsModal").click();
-            console.log("Saliendo de display modal");
         }
+
     </script>
 
 

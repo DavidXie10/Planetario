@@ -13,15 +13,15 @@
         <div class="feedback">
             <div class="rating">
                 <input type="radio" name="rating" id="rating-5" value="5" />
-                <label for="rating-5"></label>
+                <label for="rating-5" onclick="updateRating(5)"></label>
                 <input type="radio" name="rating" id="rating-4" value="4" />
-                <label for="rating-4"></label>
+                <label for="rating-4" onclick="updateRating(4)"></label>
                 <input type="radio" name="rating" id="rating-3" value="3" />
-                <label for="rating-3"></label>
+                <label for="rating-3" onclick="updateRating(3)"></label>
                 <input type="radio" name="rating" id="rating-2" value="2" />
-                <label for="rating-2"></label>
+                <label for="rating-2" onclick="updateRating(2)"></label>
                 <input type="radio" name="rating" id="rating-1" value="1" />
-                <label for="rating-1"></label>
+                <label for="rating-1" onclick="updateRating(1)"></label>
                 <div class="emoji-wrapper">
                     <div class="emoji">
                         <svg class="rating-0"
@@ -215,8 +215,9 @@
             @using (Html.BeginForm("SubmitProcessesRate", "RateUs", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
-                <input style="display:none" value="5" id="rateChoice" />
-                <input type="submit" class="btn btn-light" style="font-size:small" value="Enviar" />
+
+                <input style="display:none" type="text" name="rateProcessChoice" id="rateProcessChoice" />
+                <input type="submit" class="btn btn-light" style="font-size:small;" value="Enviar" />
             }
         </div>
     </div>
@@ -224,6 +225,7 @@
 </html>
 <script>
     function updateRating(choice) {
-        document.getElementById("rateChoice").value = choice;
+        document.getElementById("rateProcessChoice").value = choice;
     }
+
 </script>
