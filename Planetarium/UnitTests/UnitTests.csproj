@@ -75,6 +75,10 @@
     <Compile Include="Controllers\SouvenirControllerTests.cs" />
     <Compile Include="Controllers\CelestialBodiesControllerTests.cs" />
     <Compile Include="Controllers\DataAnalyticsControllerTests.cs" />
+    <Compile Include="Controllers\AccountControllerTests.cs" />
+    <Compile Include="Controllers\EducationalActivityControllerTests.cs" />
+    <Compile Include="Controllers\GamesControllerTests.cs" />
+    <Compile Include="Controllers\RateUsControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
