@@ -46,7 +46,7 @@ namespace Planetarium.Controllers {
             return View();
         }
 
-        private Dictionary<string, int> GetItemsAndCount(string[] items) {
+        public Dictionary<string, int> GetItemsAndCount(string[] items) {
             Dictionary<string, int> selectedItems = new Dictionary<string, int>();
 
             foreach (string item in items) {

@@ -53,5 +53,50 @@ namespace Planetarium.Tests.Controllers {
 
             Assert.AreEqual(expectedTotal, actualTotal);
         }
+
+        [TestMethod]
+        public void TestCatalogContainsSouvenir() {
+            int souvenir = 9;
+            SouvenirController controller = new SouvenirController();
+
+            ViewResult result = controller.Catalog() as ViewResult;
+            List<SouvenirModel> catalog = result.ViewBag.Catalog;
+
+            Assert.IsTrue(catalog.Exists(model => model.SouvenirId == souvenir));
+        }
+
+        [TestMethod]
+        public void TestCatalogSouvenirsCountIsCorrect() {
+            int souvenirsCount = 9;
+            SouvenirController controller = new SouvenirController();
+
+            ViewResult result = controller.Catalog() as ViewResult;
+            List<SouvenirModel> souvenirs = result.ViewBag.Catalog;
+
+            Assert.AreEqual(souvenirs.Count, souvenirsCount);
+        }
+
+        [TestMethod]
+        public void TestGetItemsAndCountSouvenirCountIsCorrect() {
+            string[] items = { "1", "1", "2", "1", "2", "3", "3", "4", "1", "1" };
+            string selectedItem = "1";
+            int expectedCount = 5;
+            SouvenirController controller = new SouvenirController();
+
+            Dictionary<string, int> selectedItems = controller.GetItemsAndCount(items);
+
+            Assert.AreEqual(expectedCount, selectedItems[selectedItem]);
+        }
+
+        [TestMethod]
+        public void TestGetItemsAndCountItemsCountIsCorrect() {
+            string[] items = { "1", "1", "2", "1", "2", "3", "3", "4", "1", "1"};
+            int expectedCount = 4;
+            SouvenirController controller = new SouvenirController();
+
+            Dictionary<string, int> selectedItems = controller.GetItemsAndCount(items);
+
+            Assert.AreEqual(expectedCount, selectedItems.Count);
+        }
     }
 }
