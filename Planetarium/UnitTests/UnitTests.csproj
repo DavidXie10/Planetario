@@ -79,6 +79,7 @@
     <Compile Include="Controllers\EducationalActivityControllerTests.cs" />
     <Compile Include="Controllers\GamesControllerTests.cs" />
     <Compile Include="Controllers\RateUsControllerTests.cs" />
+    <Compile Include="Controllers\StreamingControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
