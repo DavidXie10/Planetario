@@ -198,7 +198,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\activitiesHomePageAccess.css" />
     <Content Include="Content\couponNotification%27sBell.css" />
     <Content Include="Content\HangaManGameStyles.css" />
     <Content Include="Content\couponNotification%27sBell.css" />

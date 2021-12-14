@@ -369,7 +369,7 @@ namespace Planetarium.Controllers {
             bool successOnCreation = false;
             try {
                 successOnCreation = VisitorDataAccess.RegisterVisitor(visitor);
-            }catch (Exception e) {
+            }catch {
                 successOnCreation = false;
             }
             return successOnCreation;
