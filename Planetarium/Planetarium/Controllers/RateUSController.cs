@@ -5,11 +5,11 @@ namespace Planetarium.Controllers
 {
     public class RateUSController : Controller{
         public ActionResult SuccessProcessRate() {
-            return View();
+            return View("SuccessProcessRate");
         }
 
         public ActionResult IndexRate() {
-            return View();
+            return View("IndexRate");
         }
 
         [HttpPost]
@@ -133,7 +133,7 @@ namespace Planetarium.Controllers
 
         public ActionResult UXEvaluation() {
             ViewBag.Link= "https://docs.google.com/forms/d/e/1FAIpQLScpghh7KECEEjpnpJHqG1l9Zr2a4gcnDCpcKVpN1C2xt1ZMHw/viewform?embedded=true";
-            return View();
+            return View("UXEvaluation");
         }
     }
 }

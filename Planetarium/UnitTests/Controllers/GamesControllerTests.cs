@@ -7,7 +7,7 @@ using Planetarium.Models;
 namespace UnitTests.Controllers
 {
     [TestClass]
-    public class GamesControllerTest
+    public class GamesControllerTests
     {
         [TestMethod]
         public void TestHangManGameNotNull()
