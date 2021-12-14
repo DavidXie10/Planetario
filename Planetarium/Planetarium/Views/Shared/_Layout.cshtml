@@ -103,15 +103,15 @@
                     <a class="nav-link" href="/Games/ListOfGames" tabindex="-1" aria-disabled="true"><i class="fas fa-gamepad"></i> Juegos</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownRateUs" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-poll-h"></i> Evalúenos
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" onclick="displayModal()"><i class="fas fa-poll-h"></i> Cuéntanos tu experiencia en la página</a>
+                        <a class="dropdown-item" onclick="displayModal()" id="websiteExperience"><i class="fas fa-poll-h"></i> Cuéntanos tu experiencia en la página</a>
                         <a class="dropdown-item" href="/RateUs/UXEvaluation"><i class="fas fa-tasks"></i> Realice nuestra encuesta estandarizada del sitio</a>
                         @if (rolCookie >= 5) { 
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/RateUs/RateResults" > Ver los resultados de las encuestas</a>
+                            <a class="dropdown-item" href="/RateUs/RateResults" id="rateResults" > Ver los resultados de las encuestas</a>
                         }
                     </div>
 

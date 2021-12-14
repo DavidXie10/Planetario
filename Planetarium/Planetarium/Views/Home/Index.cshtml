@@ -146,7 +146,7 @@
                     @using (Html.BeginForm("SubmitRate", "RateUs", FormMethod.Post, new { enctype = "multipart/form-data" })) {
                         @Html.AntiForgeryToken()
                         <input style="display:none" value="5" name="rateChoice" id="rateChoice" />
-                        <input type="submit" class="btn btn-primary" style="font-size:small" value="Enviar" />
+                        <input id="sendRateButton" type="submit" class="btn btn-primary" style="font-size:small" value="Enviar" />
                     }
 
                 </div>

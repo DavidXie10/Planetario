@@ -21,7 +21,26 @@ namespace Plenetarium.UITesting {
 
             //Assert
             string userIdentity = driver.Manage().Cookies.GetCookieNamed("userIdentity").Value;
-            Assert.AreEqual(userIdentity, "solvalle");
+            Assert.AreEqual("solvalle", userIdentity);
+
+            driver.Quit();
+        }
+
+        [TestMethod]
+        public void TestLoginAuthorizationLevel() {
+            ///Arrange
+            int waitingTime = 1000;
+            driver = new ChromeDriver();
+            string URL = "https://localhost:44363";
+            driver.Manage().Window.Maximize();
+            driver.Url = URL;
+
+            ///Act
+            LogIntoSolValle(waitingTime);
+
+            //Assert
+            string userIdentity = driver.Manage().Cookies.GetCookieNamed("authCookie").Value;
+            Assert.AreEqual("6", userIdentity);
 
             driver.Quit();
         }
@@ -69,6 +88,69 @@ namespace Plenetarium.UITesting {
             
             driver.Quit();
         }
+
+        [TestMethod]
+        public void TestEvaluateSite() {
+            int waitingTime = 500;
+            driver = new ChromeDriver();
+            string URL = "https://localhost:44363";
+
+            driver.Manage().Window.Maximize();
+
+            driver.Url = URL;
+
+            LogIntoSolValle(waitingTime);
+
+            IWebElement rateUsNavbarOption = driver.FindElement(By.Id("navbarDropdownRateUs"));
+            rateUsNavbarOption.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement rateResults = driver.FindElement(By.Id("rateResults"));
+            rateResults.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement threeStarResult = driver.FindElement(By.Id("threeStarResult"));
+            var previousResult = threeStarResult.Text;
+            Thread.Sleep(waitingTime);
+
+            driver.Url = URL;
+            Thread.Sleep(waitingTime);
+
+            rateUsNavbarOption = driver.FindElement(By.Id("navbarDropdownRateUs"));
+            rateUsNavbarOption.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement websiteExpierence = driver.FindElement(By.Id("websiteExperience"));
+            websiteExpierence.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement rating3 = driver.FindElement(By.Id("rating3Test"));
+            rating3.Click();
+            Thread.Sleep(waitingTime);
+
+            IWebElement sendRate = driver.FindElement(By.ClassName("btn-primary"));
+            sendRate.Click();
+            Thread.Sleep(waitingTime);
+
+            rateUsNavbarOption = driver.FindElement(By.Id("navbarDropdownRateUs"));
+            rateUsNavbarOption.Click();
+            Thread.Sleep(waitingTime);
+
+            rateResults = driver.FindElement(By.Id("rateResults"));
+            rateResults.Click();
+            Thread.Sleep(waitingTime);
+
+            threeStarResult = driver.FindElement(By.Id("threeStarResult"));
+            var resultWithAddition = threeStarResult.Text;
+            Thread.Sleep(waitingTime);
+
+            Assert.AreNotEqual(previousResult.ToString(), resultWithAddition.ToString());
+
+            driver.Quit();
+        }
+
+
+
 
         [TestMethod]
         private void LogIntoSolValle(int waitingTime) {
