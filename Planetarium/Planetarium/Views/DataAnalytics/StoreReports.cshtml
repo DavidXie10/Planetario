@@ -69,7 +69,7 @@
         function generateItemsReport() {
             let advancedActive = document.querySelector("#advancedSelector").checked;
             if (!advancedActive) {
-                let tableHeaderNames = ["ID", "Nombre", "Cantidad Vendida", "Ultima Fecha de Compra", "Precio del Producto", "Ingreso"];
+                let tableHeaderNames = ["ID", "Nombre", "Cantidad Vendida", "Ultima Fecha de Compra", "Tipo del Producto", "Ingreso"];
                 reportGenerator.generateItemReport("@simpleItemReportUrl", tableHeaderNames);
             } else {
                 let tableHeaderNames = ["ID", "Nombre", "Infantil", "Juvenil", "Adulto", "Adulto Mayor", "Ingreso"];
