@@ -61,7 +61,7 @@ namespace Planetarium.Controllers {
             return selectedItems;
         }
 
-        private List<SouvenirModel> GetAllSelectedSouvenir(string cartCookieValue) {
+        public List<SouvenirModel> GetAllSelectedSouvenir(string cartCookieValue) {
             cartCookieValue = cartCookieValue.Substring(0, cartCookieValue.LastIndexOf(","));
             string[] items = cartCookieValue.Split(',');
             Dictionary<string, int> selectedItems = GetItemsAndCount(items);
@@ -91,7 +91,7 @@ namespace Planetarium.Controllers {
             }
         }
 
-        private double CalculateTotal(List<SouvenirModel> selectedSouvenirs) {
+        public double CalculateTotal(List<SouvenirModel> selectedSouvenirs) {
             double total = 0;
 
             foreach (SouvenirModel souvenir in selectedSouvenirs) {
