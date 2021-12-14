@@ -248,6 +248,9 @@
     <Content Include="images\EmployeesProfilePhotos\foto3.png" />
     <Content Include="images\EmployeesProfilePhotos\foto4.png" />
     <Content Include="images\EmployeesProfilePhotos\foto5.png" />
+    <Content Include="images\EmployeesProfilePhotos\foto6.png" />
+    <Content Include="images\EmployeesProfilePhotos\mauImg.png" />
+    <Content Include="images\EmployeesProfilePhotos\sinFoto.png" />
     <Content Include="images\firma-ucr-ico.png" />
     <Content Include="images\GamesImages\Ahorcado.jpg" />
     <Content Include="images\GamesImages\hangman.jpeg" />
@@ -297,6 +300,7 @@
     <Content Include="Data_Files\MemoryGame.json" />
     <Content Include="Data_Files\CelestialBodies.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="images\logotipo.jpeg" />
     <Content Include="images\news\anillosDeEinstein.jpg" />
     <Content Include="images\news\eclipse.jpg" />
     <Content Include="images\news\eclipse2.jpg" />
@@ -317,6 +321,15 @@
     <Content Include="images\satellite.jpg" />
     <Content Include="images\shopping-cart.png" />
     <Content Include="images\Souvenirs\camisaDefault.jpeg" />
+    <Content Include="images\Souvenirs\Colaboradores.png" />
+    <Content Include="images\Souvenirs\Jupiter.png" />
+    <Content Include="images\Souvenirs\LaTierra.png" />
+    <Content Include="images\Souvenirs\LosJuanetes.png" />
+    <Content Include="images\Souvenirs\LosJuanetes2.png" />
+    <Content Include="images\Souvenirs\MauSombrero.png" />
+    <Content Include="images\Souvenirs\Mercurio.png" />
+    <Content Include="images\Souvenirs\Planetario1.png" />
+    <Content Include="images\Souvenirs\TasaPLanetario.png" />
     <Content Include="images\space.jpg" />
     <Content Include="images\whoWeAre.jpg" />
     <Content Include="Libs\fontawesome-5.15.4\all.css" />
