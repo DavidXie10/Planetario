@@ -15,29 +15,28 @@ namespace Planetarium.Controllers {
         }
 
         public ActionResult HangManGame() {
-            return View();
+            return View("HangManGame");
         }
 
         public ActionResult TypingGame() {
-            return View();
+            return View("TypingGame");
         }
 
         public ActionResult ListOfGames() {
-            return View();
+            return View("ListOfGames");
         }
 
         public ActionResult SpaceGame()  {
-            return View();
+            return View("SpaceGame");
         }
 
         public ActionResult OuterSpaceGame() {
-            return View();
+            return View("OuterSpaceGame");
         }
 
         public ActionResult MemoryGame() {
             @ViewBag.Scientists = contentParser.GetScientistsFromJson();
-
-            return View();
+            return View("MemoryGame");
         }
     }
 }
