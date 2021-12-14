@@ -25,8 +25,8 @@
 <body>
 
     <div class="container">
-        @if(rolCookie > 0){
-            Html.RenderPartial("~/Views/Coupon/Coupons.cshtml"); 
+        @if (rolCookie > 0) {
+            Html.RenderPartial("~/Views/Coupon/Coupons.cshtml");
         }
         <div>
             @{ Html.RenderPartial("~/Views/Home/WhoWeAre.cshtml"); }
@@ -74,13 +74,13 @@
                 </div>
             </div>
             <hr />
-            <br/>
+            <br />
             <div class="col">
                 <div class="imageHomePage">
                     <div class="card-header">
                         <h3 style="text-align:center">¿Querés conocer más sobre nuestro Sistema Solar?</h3>
                     </div>
-                    
+
                     <img src="~/images/PlanetariumUCR/SolarSystem.png" class="img_squareImg" alt="Responsive image">
                     <div class="image__overlay image__overlay--light" style="top: 64px;">
                         <div class="image__title">@Html.ActionLink("Modelo 3D", "../CelestialBodies/CelestialBodyComparator")</div>
@@ -98,38 +98,67 @@
             </h3>
             <div class="card-body">
                 <div class="row">
-                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index)
-                    {
-                    <div class="col-sm">
-                        <div class="card h-100 bg-light">
-                            <div class="embed-responsive embed-responsive-4by3">
-                                <div class="embed-responsive-item">
-                                    @if (ViewBag.News[index].ImagesRef.Count > 0)
-                                        {
-                                    <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
+                    @for (int index = 0; index < ViewBag.News.Count && index < ViewBag.length; ++index) {
+                        <div class="col-sm">
+                            <div class="card h-100 bg-light">
+                                <div class="embed-responsive embed-responsive-4by3">
+                                    <div class="embed-responsive-item">
+                                        @if (ViewBag.News[index].ImagesRef.Count > 0) {
+                                            <img src="~/images/news/@(ViewBag.News[index].ImagesRef[0])" alt="Alternate Text" class="img-fluid w-100" style="max-height: 180px;" />
                                         }
+
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <p class="card-text">
+                                        @ViewBag.News[index].Title
+                                    </p>
+                                    @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
 
                                 </div>
                             </div>
-                            <div class="card-body d-flex flex-column">
-                                <p class="card-text">
-                                    @ViewBag.News[index].Title
-                                </p>
-                                @Html.ActionLink("Ver más", "../News/News", new { title = ViewBag.News[index].Title }, new { @class = "align-self-end align-self-right btn btn-info", @style = "margin-top: auto; " })
-
-                            </div>
                         </div>
-                    </div>
                     }
                 </div>
             </div>
 
         </div>
         @{ Html.RenderPartial("~/Views/Streaming/InternetStreaming.cshtml"); }
-
-
-
     </div>
+    <input type="hidden" class="btn btn-info btn-lg" data-toggle="modal" data-target="#RateUs" id="rateUsModal" />
+    <!-- Modal for Rate Us -->
+    <div class="modal fade" id="RateUs" role="dialog">
+        <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#2c3e50;display: block;">
+                    <h4 class="modal-title" style="text-align:center;color:white">Califica nuestro sitio web</h4>
+                </div>
+                <div class="modal-body">
+                    <h2 style="font-size:larger; text-align:center; ">¿Cuántas estrellas le da al sitio?</h2>
+                    @{ Html.RenderPartial("~/Views/RateUs/indexRate.cshtml"); }   
+                    <div class="align-content-center" style="text-align:center">
+                        @Html.ActionLink("[Califícanos también en el cuestionario estandarizado aquí]", "UXEvaluation", "RateUS", null, new { @class = "", @style = "color:#0ACF83; text-align:center" })
+                    </div>
+                </div>
+                <div class="modal-footer align-content-center" style="text-align:center">
+                    <button type="button" class="btn btn-light" style="font-size:small; color:gray" data-dismiss="modal">Ahora no</button>
 
+                    @using (Html.BeginForm("SubmitRate", "RateUs", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                        @Html.AntiForgeryToken()
+                        <input style="display:none" value="5" name="rateChoice" id="rateChoice" />
+                        <input type="submit" class="btn btn-primary" style="font-size:small" value="Enviar" />
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        function showRateUsModal() {
+            document.getElementById("rateUsModal").click();
+        }
+
+    </script>
 
 </body>

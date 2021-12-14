@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Required meta tags -->
+    <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Resultados de la evaluación</title>
+    <script src="https://kit.fontawesome.com/33782c52ea.js"
+            crossorigin="anonymous"></script>
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
+            rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/rateResultView.css">
+</head>
+<body>
+    <div class="container" style="margin-bottom:10%">
+        <div class="card-body">
+            <div style="margin-top:5%">
+                <span class="heading">Calificación de experiencia de usuario del sitio web</span>
+                <p>Basado en un total de @ViewBag.StarTotalResult evaluaciones.</p>
+                <hr style="border:3px solid #f1f1f1">
+                <div class="row">
+                    <div class="side">
+                        <div>5 estrellas</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-5" style="width: @ViewBag.FiveStarPercentage%; height: 18px;background-color: #04AA6D;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.FiveStarResult</div>
+                    </div>
+                    <div class="side">
+                        <div>4 estrellas</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-4"style="width: @ViewBag.FourStarPercentage%; height: 18px;background-color: #2196F3;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.FourStarResult</div>
+                    </div>
+                    <div class="side">
+                        <div>3 estrellas</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-3"style="width: @ViewBag.ThreeStarPercentage%; height: 18px;background-color: #00bcd4;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.ThreeStarResult</div>
+                    </div>
+                    <div class="side">
+                        <div>2 estrellas</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-2" style="width: @ViewBag.TwoStarPercentage%; height: 18px;background-color: #ff9800;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.TwoStarResult</div>
+                    </div>
+                    <div class="side">
+                        <div>1 estrellas</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-1"style="width: @ViewBag.OneStarPercentage%; height: 18px;background-color: #f44336;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.OneStarResult</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:5%">
+                <span class="heading">Calificación de los servicios del sitio web</span>
+                <p>Basado en un total de @ViewBag.ProcessesTotalResult evaluaciones.</p>
+                <hr style="border:3px solid #f1f1f1">
+                <div class="row">
+                    <div class="side">
+                        <div>Excelente</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-5" style="width: @ViewBag.ExcelentResultPercentage%; height: 18px;background-color: #04AA6D;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.ExcelentResult</div>
+                    </div>
+                    <div class="side">
+                        <div>Bueno</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-4"style="width: @ViewBag.GoodResultPercentage%; height: 18px;background-color: #2196F3;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.GoodResult</div>
+                    </div>
+                    <div class="side">
+                        <div>Regular</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-3"style="width: @ViewBag.FineResultPercentage%; height: 18px; background-color: #00bcd4;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.FineResult</div>
+                    </div>
+                    <div class="side">
+                        <div>Malo</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-2"style="width: @ViewBag.BadResultPercentage%; height: 18px;background-color: #ff9800;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.BadResult</div>
+                    </div>
+                    <div class="side">
+                        <div>Pésimo</div>
+                    </div>
+                    <div class="middle">
+                        <div class="bar-container">
+                            <div class="bar-1"style="width: @ViewBag.ReallyBadResultPercentage%; height: 18px;background-color: #f44336;"></div>
+                        </div>
+                    </div>
+                    <div class="side right">
+                        <div>@ViewBag.ReallyBadResult</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

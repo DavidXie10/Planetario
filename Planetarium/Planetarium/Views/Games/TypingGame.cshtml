@@ -1,0 +1,138 @@
+﻿
+
+<div class="container" style="height:auto;padding-top: 10px; padding-left: 100px; padding-right: 100px;">
+        
+    <h2><i class="fas fa-rocket"></i>   Teclea hasta el espacio</h2>
+    <div class="card">
+        <p id="textContainer" class="card-body" style="font-size: 25px;"></p>
+    </div>
+
+    <hr />
+
+    <div id="status" class="card text-center rounded-3" style="margin: 15px;">
+    </div>
+
+    <input type="range" name="name" value="" class="form-range" id="progressBar" min="0" max="100" value="0" />
+
+    <textarea id="userEntryContainer" class="w-100" onkeyup="checkChar()" style="padding:10px; min-height: 150px;"></textarea>
+
+    <div class="card">
+        <button class="btn btn-info" onclick="changeText()">Cambiar de Misión</button>
+    </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<input type="hidden" data-toggle="modal" data-target="#instructionsModalLong" id="instructionsModal"/>
+<input type="hidden" data-toggle="modal" data-target="#winnerModal" id="winnerModalToggle"/>
+<input type="hidden" data-toggle="modal" data-target="#resultModalLong" id="resutModal"/>
+
+<!-- Instructions Modal -->
+<div class="modal-dialog modal-dialog-centered " id="InvoiceModal">
+    <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="invoiceModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+            <div class="modal-content" style="padding: 0;margin: 0;">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-dialog modal-dialog-centered ">
+    <div class="modal fade" role="document" id="instructionsModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding: 0;margin: 0;">
+
+                <div class="modal-header" style="background-color:#3498db;border-color: #3498db;">
+                    <h5 class="modal-title" style="color:white" id="exampleModalLongTitle"><i class="fas fa-puzzle-piece"></i> Instrucciones del juego</h5>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Teclea al espacio es un juego en el que puedes aprender sobre cuerpos celestes mientras
+                        desarrollas tus habilidades de mecanografía,
+                    <p />
+
+                    <p>
+                        1- Para iniciar el juego debes empezar a escribir el texto se que te presenta en pantalla
+                    <p />
+                    <p>
+                        2- Una vez completado el texto se te mostrarán los resultados de la misión
+                    <p />
+
+                </div>
+                <div class="modal-footer text-center" style="display:initial">
+                    <button class="btn btn-info" onclick="toggleModalInstructions()">Ir al Juego</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal-dialog modal-dialog-centered ">
+    <div class="modal fade" role="document" id="winnerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="padding: 0;margin: 0;">
+
+                <div class="modal-header" style="background-color:#3498db;border-color: #3498db;">
+                    <h5 class="modal-title" style="color:white" id="exampleModalLongTitle"><i class="fas fa-puzzle-piece"></i> Juego Finalizado</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">
+                            Acabas de completar la mision
+                        </div>
+                        <div class="card-body">
+                            <p id="timeSpan"></p>
+                            <hr />
+                            <p id="mistakesSpan"></p>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+                <div class="modal-footer text-center" style="display:initial">
+                    <button class="btn btn-info" onclick="toggleWinnerModal()">Seguir Jugando</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/TypingLegends.js"></script>
+<script>
+
+    window.onload = function () {
+        toggleModalInstructions();
+    }
+
+    let inputIds = ["#textContainer", "#userEntryContainer", "#status"];
+    let game = new TypingLegends(inputIds);
+    document.querySelector("#progressBar").value = "0";
+    function checkChar() {
+        let progress = game.checkChar();
+        if (progress == 100) {
+            toggleWinnerModal();
+            document.querySelector("#timeSpan").textContent = "El tiempo de la misión fue de: " + game.getStats()[1];
+            document.querySelector("#mistakesSpan").textContent = "La nave tuvo un " + game.getStats()[0] + "% de daño";
+
+        }
+        document.querySelector("#progressBar").value = progress;
+    }
+
+    function toggleModalInstructions() {
+        document.querySelector("#instructionsModal").click();
+    }
+
+    function toggleWinnerModal() {
+        document.querySelector("#winnerModalToggle").click();
+    }
+
+    function changeText() {
+        game.changeText();
+    }
+
+</script>
