@@ -2,7 +2,6 @@
     constructor(inputDateIds, tableId, reportType) {
         this.startInput = document.querySelector(inputDateIds[0]);
         this.endInput = document.querySelector(inputDateIds[1]);
-        console.log(this.startInput);
         this.table = document.querySelector(tableId);
         this.reportType = reportType;
     }
@@ -10,7 +9,6 @@
     async generateItemReport(fetchUrl, tableHeaderNames) {
         fetchUrl += "?startDate=" + this.startInput.value + "&endDate=" + this.endInput.value;
         let items = await this.fetchModelsFromDatabase(fetchUrl);
-
         this.loadTableTable(items, tableHeaderNames);
     }
 
@@ -23,13 +21,8 @@
 
     loadTableTable(data, tableHeaderNames) {
         this.table.innerText = "";
-
-        //Loading the header columns
         this.loadTableHeader(tableHeaderNames);
-
-        //Loading the table content
         this.loadTableContent(data);
-
     }
 
     loadTableHeader(tableHeaderNames) {
@@ -70,12 +63,9 @@
         })
     }
 
-
-
     async fetchModelsFromDatabase(fetchUrl) {
         const response = await fetch(fetchUrl);
         const data = await response.json();
-        console.log(data);
         return data;
     }
 

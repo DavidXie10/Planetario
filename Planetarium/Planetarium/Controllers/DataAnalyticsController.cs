@@ -2,14 +2,10 @@
 using Planetarium.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
-namespace Planetarium.Controllers
-{
-    public class DataAnalyticsController : Controller
-    {
+namespace Planetarium.Controllers {
+    public class DataAnalyticsController : Controller {
         public DataAnalyticsHandler AnalyticsAccess { get; set; }
 
         public DataAnalyticsController() {

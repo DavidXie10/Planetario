@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using Planetarium.Models;
-using System.Linq;
 
 namespace Planetarium.Handlers {
     public class NewsHandler : DatabaseClassificationsHandler {
@@ -64,6 +60,7 @@ namespace Planetarium.Handlers {
                     LinkScoopWithImages(scoop, newsImages);
             }
         }
+
         private DataTable GetNewsWithImagesTable(string scoopTitle) {
             string query = "SELECT rutasImagenes FROM Noticia " +
                         "WHERE tituloPK = '" + scoopTitle + "' ";

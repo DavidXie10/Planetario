@@ -29,7 +29,8 @@ header {
     display: contents;
     float: right;
     z-index: 9;
-    margin: 20px; 
+    margin: -35px;
+    margin-bottom: 0px;
 }
 
 .notification {

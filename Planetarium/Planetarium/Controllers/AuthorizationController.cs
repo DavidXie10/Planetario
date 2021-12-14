@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -38,7 +36,7 @@ namespace Planetarium.Controllers
 
             try {
                 value = Request.Cookies[cookieName].Value;
-            } catch (Exception e) {
+            } catch {
                 value = "0";
             }
             return value;

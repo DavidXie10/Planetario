@@ -1,0 +1,38 @@
+﻿[
+  {
+    "Id": "aurelia",
+    "Name": "Albert Einstein",
+    "Description": "Albert Einstein es quizá el científico mundialmente más conocido por el desarrollo de la Teoría de la Relatividad que revolucionó la ciencia conocida hasta el siglo XX. En 1921  obtuvo el Nobel de Física por sus explicaciones sobre el efecto fotoeléctrico e importante también fue el descubrimiento del movimiento browniano, auspiciado por Robert Brown en 1820 pero que había quedado sin explicación hasta entonces.",
+    "ImageRef": "Albert.png"
+  },
+  {
+    "Id": "vue",
+    "Name": "Thomas Alva Edison",
+    "Description": "Inventor y empresario norteamericano. Destacó por ser uno de los inventores más prolíficos de la historia, acumuló 1093 patentes en Estados Unidos. Sus inventos e innovaciones se desarrollaron en distintos ámbitos de las ciencias. Abordó las telecomunicaciones, la energía eléctrica, el sonido, el cine y la minería, entre otras.",
+    "ImageRef": "Edison.png"
+  },
+  {
+    "Id": "angular",
+    "Name": "Nikola Tesla",
+    "Description": "Conocido como “el hombre que iluminó el mundo”, este ingeniero e inventor fue un fiel representante del espíritu decimonónico que postulaba una fe inquebrantable en el progreso. A él le debemos el descubrimiento de la corriente alterna, el desarrollo de los modernos sistemas de potencia eléctrica por corriente alterna y de distribución de potencia polifásica que constituyeron parte esencial de la llamada “Segunda Revolución Industrial”.",
+    "ImageRef": "tesla.png"
+  },
+  {
+    "Id": "ember",
+    "Name": "Marie Curie",
+    "Description": "Marie Curie fue una física, matemática y química pionera en el campo de la radiactividad. Fue la primera persona en recibir dos premios Nobel en distintas especialidades. En 1903 les concedieron el Premio Nobel de Física por el descubrimiento de los elementos radiactivos. Años después, en 1911 le otorgaron un segundo Nobel, el de Química, por sus investigaciones sobre el radio y sus compuestos.",
+    "ImageRef": "marie.jpg"
+  },
+  {
+    "Id": "backbone",
+    "Name": "René Descartes",
+    "Description": "René Descartes fue un filósofo, físico y matemático francés. Autor de la frase: «Pienso, por lo tanto existo». Es considerado el creador del pensamiento cartesiano, el sistema filosófico que dio origen a la Filosofía Moderna. Su preocupación era el orden y la claridad. Propuso hacer una filosofía que nunca creyó en lo falso, que se basaba única y exclusivamente en la verdad.",
+    "ImageRef": "rene.png"
+  },
+  {
+    "Id": "react",
+    "Name": "Nicolás Copérnico",
+    "Description": "Nicolás Copérnico fue un astrónomo polaco del siglo XV y XVI (1473-1543) conocido principalmente por desarrollar la teoría heliocéntrica descubrió que la Tierra giraba alrededor del Sol y no al revés como en su época se creía.",
+    "ImageRef": "nicolas.jpg"
+  }
+]
