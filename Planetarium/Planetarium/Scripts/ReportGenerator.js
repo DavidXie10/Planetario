@@ -1,25 +1,17 @@
 ﻿class ReportGenerator {
-    constructor(inputDateIds, tableId, reportType) {
+    constructor(inputDateIds, tableId) {
         this.startInput = document.querySelector(inputDateIds[0]);
         this.endInput = document.querySelector(inputDateIds[1]);
         this.table = document.querySelector(tableId);
-        this.reportType = reportType;
     }
 
-    async generateItemReport(fetchUrl, tableHeaderNames) {
+    async generateReport(fetchUrl, tableHeaderNames) {
         fetchUrl += "?startDate=" + this.startInput.value + "&endDate=" + this.endInput.value;
         let items = await this.fetchModelsFromDatabase(fetchUrl);
-        this.loadTableTable(items, tableHeaderNames);
+        this.loadTable(items, tableHeaderNames);
     }
 
-    async generateTicketReport(fetchUrl, tableHeaderNames) {
-        fetchUrl += "?startDate=" + this.startInput.value + "&endDate=" + this.endInput.value;
-        let items = await this.fetchModelsFromDatabase(fetchUrl);
-
-        this.loadTableTable(items, tableHeaderNames);
-    }
-
-    loadTableTable(data, tableHeaderNames) {
+    loadTable(data, tableHeaderNames) {
         this.table.innerText = "";
         this.loadTableHeader(tableHeaderNames);
         this.loadTableContent(data);
@@ -68,5 +60,4 @@
         const data = await response.json();
         return data;
     }
-
 }

@@ -60,17 +60,17 @@
     <script>
         let inputIds = ["#startDate", "#endDate"];
         let tableId = "#reportContainer";
-        let reportGenerator = new ReportGenerator(inputIds, tableId, "simple");
+        let reportGenerator = new ReportGenerator(inputIds, tableId);
         let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
         function generateItemsReport() {
             let advancedActive = document.querySelector("#advancedSelector").checked;
             if (!advancedActive) {
                 let tableHeaderNames = ["ID", "Nombre", "Cantidad Vendida", "Ultima Fecha de Compra", "Tipo del Producto", "Ingreso"];
-                reportGenerator.generateItemReport("@simpleItemReportUrl", tableHeaderNames);
+                reportGenerator.generateReport("@simpleItemReportUrl", tableHeaderNames);
             } else {
                 let tableHeaderNames = ["ID", "Nombre", "Infantil", "Juvenil", "Adulto", "Adulto Mayor", "Ingreso"];
-                reportGenerator.generateItemReport("@advancedItemReportUrl", tableHeaderNames);
+                reportGenerator.generateReport("@advancedItemReportUrl", tableHeaderNames);
             }
 
         }
@@ -79,10 +79,10 @@
             let advancedActive = document.querySelector("#advancedSelector").checked;
             if (!advancedActive) {
                 let tableHeaderNames = ["Nombre de la Actividad", "Fecha de Inicio", "Cantidad Vendida", "Ingreso"];
-                reportGenerator.generateTicketReport("@simpleTicketReportUrl", tableHeaderNames);
+                reportGenerator.generateReport("@simpleTicketReportUrl", tableHeaderNames);
             } else {
                 let tableHeaderNames = ["Nombre de la Actividad", "Fecha de Inicio", "Infantil", "Juvenil", "Adulto", "Adulto Mayor", "Ingreso"];
-                reportGenerator.generateTicketReport("@advancedTicketReportUrl", tableHeaderNames);
+                reportGenerator.generateReport("@advancedTicketReportUrl", tableHeaderNames);
             }
         }
     </script>

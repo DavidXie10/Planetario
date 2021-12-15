@@ -178,45 +178,5 @@ namespace Plenetarium.UITesting {
 
             startSession.Click();
         }
-
-
-
-
-        [TestMethod]
-        public void TestSearchStreetFighterVThenVerifyStreetFighterVIsDisplayed() {
-            int waitingTime = 2000;
-            By googleSearchBar = By.Name("q");
-            By googleSearchButton = By.Name("btnK");
-            By googleLuckyButton = By.Name("btnI");
-            By googleResultText = By.XPath(".//h2//span[text()='Street Fighter V']");
-            By googleLogo = By.TagName("img");
-
-            IWebDriver webDriver = new ChromeDriver();
-
-            webDriver.Navigate().GoToUrl("https://www.google.co.uk");
-
-            webDriver.FindElement(googleSearchBar).SendKeys("Street Fighter V");
-
-            webDriver.Manage().Window.Maximize();
-
-            //Thread.Sleep(waitingTime);
-
-            //webDriver.FindElement(googleLogo).Click();
-
-            Thread.Sleep(waitingTime);
-
-            webDriver.FindElement(googleSearchBar).Submit();
-
-            Thread.Sleep(waitingTime);
-
-            var actualResultText = webDriver.FindElement(googleResultText);
-
-            Assert.IsTrue(actualResultText.Text.Equals("Street Fighter V"));
-
-            webDriver.Quit();
-        }
-
-
-
     }
 }
