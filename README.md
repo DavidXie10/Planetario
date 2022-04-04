@@ -9,5 +9,3 @@ Desarrollo del "SITIO WEB DEL PLANETARIO" para que las personas (sin importar su
 * **Mauricio Rojas Segnini**
 * **Sol Valle Vega**
 * **David Xie Li**
-
-Prueba 1
